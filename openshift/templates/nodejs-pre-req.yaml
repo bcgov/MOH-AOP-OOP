@@ -1,0 +1,107 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  annotations:
+    description: |-
+      spa-env-server (prerequisites)
+    iconClass: icon-node
+    openshift.io/display-name: spa-env-server prerequisites
+    openshift.io/long-description: This template deploys the spa-env-server prerequisites (secret, service account, role)
+    tags: nodejs
+  name: spa-env-server-requisite
+labels:
+  app.kubernetes.io/component: server
+  app.kubernetes.io/name: spa-env-server
+  app.kubernetes.io/managed-by: template
+objects:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      labels:
+        app: spa-env-server
+      name: ${NAME}-creds
+    stringData:
+      SERVICE_AUTH_TOKEN: ${SPA_SERVICE_AUTH_TOKEN}
+  - apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app: spa-env-server
+      name: ${NAME}
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      labels:
+        app: spa-env-server
+      name: ${NAME}
+    rules:
+      - apiGroups:
+          - ""
+        resources:
+          - services
+        verbs:
+          - create
+          - get
+          - list
+          - patch
+          - update
+          - watch
+          - delete
+      - apiGroups:
+          - ""
+        resources:
+          - configmaps
+        verbs:
+          - create
+          - get
+          - list
+          - patch
+          - update
+          - watch
+          - delete
+      - apiGroups:
+          - ""
+        resources:
+          - endpoints
+        verbs:
+          - get
+          - patch
+          - update
+          - create
+          - list
+          - watch
+          - delete
+      - apiGroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+  - apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      labels:
+        app: spa-env-server
+      name: ${NAME}
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: Role
+      name: ${NAME}
+    subjects:
+      - kind: ServiceAccount
+        name: ${NAME}
+parameters:
+  - name: NAME
+    description: | 
+      The name of the application for labelling all artifacts.
+    displayName: Application Name
+    value: registry-patroni
+  - name: SPA_SERVICE_AUTH_TOKEN
+    description: |
+      Service Authorization Token that is needed to use spa-env-server service.
+    displayName: SERVICE_AUTH_TOKEN
+    value: 

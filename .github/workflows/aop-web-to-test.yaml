@@ -1,0 +1,28 @@
+name: aop-web deploy to test
+on: 
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: 'Source Image Tag'     
+        required: true
+        default: 'latest'
+defaults:
+  run:
+    working-directory: ./
+jobs:
+  ocp-integration:
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Test
+        env:
+          NAMESPACE: f0463d-tools
+          TARGET_IMAGE_TAG: test
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          version: "latest"
+          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
+          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
+          cmd: |
+            'version'
+            'tag -n ${NAMESPACE} ${NAMESPACE}/aop-web:${{github.event.inputs.source_tag}} ${NAMESPACE}/aop-web:${TARGET_IMAGE_TAG}'

@@ -1,0 +1,43 @@
+{
+  "name": "spa-env-server",
+  "version": "0.9.0",
+  "description": "Serve environment variables of server to remote SPAs (no secrets! only public info)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcgov/MOH-MSP-Enrolment.git"
+  },
+  "homepage": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production gulp",
+    "start": "node $NODE_DEBUG_OPTION build/index.js server",
+    "dev": "nodemon --watch src --inspect=0.0.0.0:9229 --exec node ./src/index.js server",
+    "test": "echo \"WARNING: No test specified\" && exit 0",
+    "test:coverage": "echo \"WARNING: No test specified\" && exit 0",
+    "test:lint": "echo \"WARNING: No LINTer specified\" && exit 0",
+    "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "express-basic-auth": "^1.1.5",
+    "json-stringify-safe": "^5.0.1",
+    "jsonwebtoken": "^8.3.0",
+    "moment-timezone": "^0.5.21",
+    "request": "^2.88.0",
+    "serve-index": "^1.9.1",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.3.3"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "nodemon": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}

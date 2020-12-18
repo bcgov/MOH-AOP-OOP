@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader component button version matches the snapshot 1`] = `
+<div>
+  <div class="bcgov-btn-loader"></div>
+  <!---->
+</div>
+`;
+
+exports[`Loader component page version matches the snapshot 1`] = `
+<div>
+  <div class="bcgov-page-loader"></div>
+  <div>
+    Loading... Please Wait
+  </div>
+</div>
+`;

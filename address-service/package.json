@@ -1,0 +1,44 @@
+{
+  "name": "address-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production gulp",
+    "start": "node $NODE_DEBUG_OPTION build/index.js server",
+    "dev": "nodemon --watch src --inspect=0.0.0.0:9229 --exec node ./src/index.js server",
+    "test:coverage": "echo \"WARNING: No test specified\" && exit 0",
+    "test:lint": "echo \"WARNING: No LINTer specified\" && exit 0",
+    "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcgov/MOH-MSP-Enrolment.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/bcgov/MOH-MSP-Enrolment/issues"
+  },
+  "homepage": "https://github.com/bcgov/MOH-MSP-Enrolment/address-service/#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "easy-soap-request": "^3.2.0",
+    "express": "^4.15.0",
+    "http-proxy-middleware": "^0.20.0",
+    "json-stringify-safe": "^5.0.1",
+    "jsonwebtoken": "^7.3.0",
+    "winston": "^2.3.1",
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "nodemon": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}

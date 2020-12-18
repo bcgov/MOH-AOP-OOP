@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: spa-env-server
+labels:
+  app: ${NAME}${SUFFIX}
+  phase: build
+  app.kubernetes.io/component: server
+  app.kubernetes.io/name: spa-env-server
+  app.kubernetes.io/managed-by: template
+  app.kubernetes.io/version: "${PG_VERSION}"
+parameters:
+  - name: NAME
+    value: spa-env-server
+  - name: SUFFIX
+  - name: OUT_VERSION
+    description: Ouput version
+    value: "v10-latest"
+  - name: GIT_URI
+    value: https://github.com/bcgov/MOH-MSP-Enrolment.git
+  - name: GIT_REF
+    value: master
+  - name: PG_VERSION
+    value: "10"
+objects:
+  #ImageStream is created if it doesn't already exist
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    metadata:
+      name: nodejs 
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: v1
+    kind: ImageStreamTag
+    lookupPolicy:
+      local: false
+    metadata:
+      name: nodejs
+    tag:
+      annotations: null
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: nodejs:10
+      importPolicy:
+        scheduled: true
+      name: "${PG_VERSION}"
+      referencePolicy:
+        type: Source
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      creationTimestamp: null
+      name: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+    status:
+      dockerImageRepository: ""
+  - apiVersion: v1
+    kind: BuildConfig
+    metadata:
+      creationTimestamp: null
+      name: ${NAME}${SUFFIX}
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: "${NAME}:${OUT_VERSION}"
+      postCommit: {}
+      resources: {}
+      source:
+        contextDir: apps/pgsql/patroni/docker
+        git:
+          ref: ${GIT_REF}
+          uri: ${GIT_URI}
+        type: Git
+      strategy:
+        dockerStrategy:
+          from:
+            kind: ImageStreamTag
+            name: nodejs:${PG_VERSION}
+        type: Docker
+      triggers:
+        - type: ConfigChange
+        - imageChange: {}
+          type: ImageChange
+    status:
+      lastVersion: 0

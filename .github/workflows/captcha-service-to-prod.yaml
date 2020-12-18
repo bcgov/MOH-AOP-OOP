@@ -1,0 +1,28 @@
+name: captcha-service deploy to prod
+on: 
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: 'Source Image Tag'     
+        required: true
+        default: 'latest'
+defaults:
+  run:
+    working-directory: ./
+jobs:
+  ocp-integration:
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Prod
+        env:
+          NAMESPACE: f0463d-tools
+          TARGET_IMAGE_TAG: prod
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          version: "latest"
+          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
+          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
+          cmd: |
+            'version'
+            'tag -n ${NAMESPACE} ${NAMESPACE}/captcha-service:${{github.event.inputs.source_tag}} ${NAMESPACE}/captcha-service:${TARGET_IMAGE_TAG}'
