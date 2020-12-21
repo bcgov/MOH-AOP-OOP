@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProgressBar component matches the primary snapshot 1`] = `
+<div class="component-container">
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width: 50%;"></div>
+  </div>
+  <div class="step-container"><a href="javascript:void(0);">
+      <div class="step">
+        <div class="step-text">My Path</div>
+      </div>
+    </a></div>
+  <div class="mobile-step p-3 border-bottom">Step 1/1 - My Path</div>
+</div>
+`;
+
+exports[`ProgressBar component matches the primary snapshot 2`] = `
+<div class="component-container">
+  <div class="progress-bar-container">
+    <div class="progress-bar" style="width: 50%;"></div>
+  </div>
+  <div class="step-container"><a href="javascript:void(0);">
+      <div class="step">
+        <div class="step-text">My Path</div>
+      </div>
+    </a></div>
+  <div class="mobile-step p-3 border-bottom">Step 1/1 - My Path</div>
+</div>
+`;

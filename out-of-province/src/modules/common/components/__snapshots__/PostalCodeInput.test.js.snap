@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostalCodeInput component matches the edited snapshot 1`] = `<div><label>:</label><br> <input type="text" name="postalCode" class="form-control"></div>`;
+
+exports[`PostalCodeInput component matches the primary snapshot 1`] = `<div><label>:</label><br> <input type="text" name="postalCode" class="form-control"></div>`;

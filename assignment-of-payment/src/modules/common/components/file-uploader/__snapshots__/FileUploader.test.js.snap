@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FileUploader component matches the success snapshot 1`] = `
+<div>
+  <div class="dropzone">
+    <div class="instruction-zone d-flex align-items-center flex-wrap flex-sm-nowrap flex-column flex-sm-row"><img src="[object Object]" class="svg-icon d-inline-block mb-3 ml-3"> <input type="file" id="" accept="image/*,application/pdf" tabindex="0" multiple="multiple" name="" autocomplete="off" style="display: none;"> <label for="" tabindex="0" class="file-upload-label d-inline-block ml-3"><span class="h2 color-body">Select a file</span> <span class="d-block description">Please upload your documents.</span></label></div>
+    <div class="preview-zone"> <a href="javascript: void(0);" class="common-thumbnail ml-3">
+        <div class="thumbnail-container">
+          <div class="image-thumbnail demo-thumbnail"><img src="[object Object]" class="svg-icon"></div>
+          <div class="action-strip text-primary text-center">
+            Add
+          </div>
+        </div>
+      </a></div>
+  </div>
+  <div class="text-danger"></div> <canvas style="display: none;"></canvas>
+</div>
+`;

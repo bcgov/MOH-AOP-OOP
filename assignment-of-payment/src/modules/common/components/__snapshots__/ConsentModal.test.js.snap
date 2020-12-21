@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConsentModal component matches the accepted state snapshot 1`] = `
+<div>
+  <div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade show">
+    <div role="document" class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="exampleModalLabel" class="modal-title">Test</h2>
+        </div>
+        <div class="modal-body">
+          <p><strong>Keep your personal information secure – especially when using a shared device like a computer at a library, school or café.</strong> To delete any information that was entered, either complete the request and submit it or, if you don't finish, close the web browser.</p>
+          <p>Personal information is collected under the authority of the Medicare Protection Act and section 26 (a), (c) and (e) of the Freedom of Information and Protection of Privacy Act for the purposes of administration of the Medical Services Plan. If you have any questions about the collection and use of your personal information, please contact <a href="">Health Insurance BC<i aria-hidden="true" class="fa fa-external-link"></i></a>.</p> <label><input type="checkbox"> &nbsp;
+            <strong>I have read and understand this information</strong></label>
+          <div>
+            <div></div>
+            <!---->
+          </div>
+        </div>
+        <div class="modal-footer"><button type="button" disabled="disabled" class="bcgov-button bcgov-normal-blue btn">
+            Continue
+            <!---->
+          </button></div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ConsentModal component matches the primary snapshot 1`] = `
+<div>
+  <div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade show">
+    <div role="document" class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="exampleModalLabel" class="modal-title">Test</h2>
+        </div>
+        <div class="modal-body">
+          <p><strong>Keep your personal information secure – especially when using a shared device like a computer at a library, school or café.</strong> To delete any information that was entered, either complete the request and submit it or, if you don't finish, close the web browser.</p>
+          <p>Personal information is collected under the authority of the Medicare Protection Act and section 26 (a), (c) and (e) of the Freedom of Information and Protection of Privacy Act for the purposes of administration of the Medical Services Plan. If you have any questions about the collection and use of your personal information, please contact <a href="">Health Insurance BC<i aria-hidden="true" class="fa fa-external-link"></i></a>.</p> <label><input type="checkbox"> &nbsp;
+            <strong>I have read and understand this information</strong></label>
+          <div>
+            <div></div>
+            <!---->
+          </div>
+        </div>
+        <div class="modal-footer"><button type="button" disabled="disabled" class="bcgov-button bcgov-normal-blue btn">
+            Continue
+            <!---->
+          </button></div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

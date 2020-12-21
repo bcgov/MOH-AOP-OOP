@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Thumbnail component large scalled width 1`] = `
+<div class="thumbnail-container"><img alt="Image Thumbnail" tabindex="0" class="image-thumbnail">
+  <div class="action-strip text-center"><a href="javascript:void(0)" tabindex="0" class="text-danger">Remove</a></div>
+</div>
+`;
+
+exports[`Thumbnail component matches the success snapshot 1`] = `
+<div class="thumbnail-container"><img alt="Image Thumbnail" tabindex="0" class="image-thumbnail">
+  <div class="action-strip text-center"><a href="javascript:void(0)" tabindex="0" class="text-danger">Remove</a></div>
+</div>
+`;

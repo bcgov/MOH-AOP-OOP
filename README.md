@@ -1,2 +1,2 @@
-# MOH-AOP-OOP
-Ministry of Health Assignment of Payment and Out of Province Applications
+# MOH Assignment of Payment and Out of Province applications
+OpenShift4 MOH Assignment of Payment and Out of Province applications
