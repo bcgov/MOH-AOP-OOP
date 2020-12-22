@@ -13,7 +13,7 @@ oc process -f openshift/templates/nsp-tools.yaml \
 
 2. Next, create a service account that GitHub can use to run `oc` commands on the cluster. This service account has very limited access to trigger builds, list images, and create tags:
 
-```console
+```consoleoc 
 oc process -f openshift/templates/cicd.yaml \
   -p NAMESPACE=$(oc project --short) | \
   oc create -f -
@@ -40,9 +40,13 @@ oc get secret/github-cicd-token-hzq6t -o json | \
 
 ![Add Token as Secret](./add_token.gif)
 
+OPENSHIFTTOKEN
+
 4. Next, add the OCP4 URL as another git hub secret (you can find the url when you copy the logon command):
 
 ![Add URL as Secret](./add_ocp_url.gif)
+
+OPENSHIFTSERVERURL: https://silver.devops.gov.bc.ca:6443
 
 **Pro Tip**: 
 
@@ -51,18 +55,18 @@ oc get secret/github-cicd-token-hzq6t -o json | \
 5. * You probably need to grant permission for the image puller to pull images from your `*-tools` namespace. The following commands will do this; update the command and run them in each each of dev, test and prod.
 
 ```console
-oc policy add-role-to-user edit system:serviceaccount:f0463d-tools:default \
+oc policy add-role-to-user edit system:serviceaccount:a3c641-tools:default \
   -n $(oc project --short)
 ```
 
 ```console
 oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default \
-  -n f0463d-tools
+  -n a3c641-tools
 ```
 
 run in dev/test/prod:
 ```
-oc policy add-role-to-user system:image-puller system:serviceaccount:f0463d-dev:default --namespace=f0463d-tools
+oc policy add-role-to-user system:image-puller system:serviceaccount:a3c641-dev:default --namespace=a3c641-tools
 ```
 
 ## `spa-env-server` Component
@@ -94,7 +98,7 @@ oc process -f spa-env-server/openshift/templates/build.yaml | \
 To build:
 
 ```start the build
-oc start-build spa-env-server --follow
+oc start-build spa-env-server-main-build --follow
 ```
 
 
@@ -168,7 +172,7 @@ Once created deploy the web application:
 ```console
 oc process -f msp/openshift/templates/deploy.yaml \
   -p NAMESPACE=$(oc project --short) \
-  -p SOURCE_IMAGE_NAMESPACE=f0463d-tools \
+  -p SOURCE_IMAGE_NAMESPACE=a3c641-tools \
   -p SOURCE_IMAGE_TAG=dev | \
   oc create -f -
 ```
