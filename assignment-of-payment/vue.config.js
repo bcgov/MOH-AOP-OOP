@@ -12,7 +12,7 @@ module.exports = {
   pages: {
     index: {
       entry: 'src/main.js',
-      title: 'Vue Demo'
+      title: 'Ministry of Health | Assignment of Payment (AOP)'
     }
   }
-};
+}
