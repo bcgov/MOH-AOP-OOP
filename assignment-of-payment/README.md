@@ -1,4 +1,4 @@
-# vue-demo
+# Ministry of Health Assignment of Payment Application (AOP)
 
 ## Project setup
 ```

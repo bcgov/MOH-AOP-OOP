@@ -1,10 +1,11 @@
 {
-  "name": "vue-demo",
+  "name": "aop",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
+    "preinstall": "rm -rf node_modules/",
     "lint": "vue-cli-service lint",
     "test": "jest",
     "coverage": "jest --coverage"
