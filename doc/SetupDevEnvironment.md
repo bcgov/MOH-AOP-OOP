@@ -8,25 +8,33 @@
 oc project ...-dev
 ```
 
-2. create ./openshift/templates/nsp-msp-to-maximus-dev.yaml  (copy from -dev.yaml)
+2. create ./openshift/templates/nsp-aop-to-maximus-dev.yaml  (copy from -dev.yaml)
    change the IP of proxy to dev proxy
    the apply using:
 ```console
-oc process -f nsp-msp-to-maximus-dev.yaml \
+oc process -f nsp-aop-to-maximus-dev.yaml \
   -p NAMESPACE=$(oc project --short) | \
   oc apply -f -
 ```
 
 3. apply the internal NSPs:
 ```console
-oc process -f nsp-mspweb-to-all.yaml \
+oc process -f nsp-aopfrontend-to-all.yaml \
   -p NAMESPACE=$(oc project --short) | \
   oc apply -f -
 ```
-4. allow the dev project to pull from tools:
-   Go to the dev project (oc project f0463d-dev).
+
+4. apply the internal NSPs:
 ```console
-oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default -n f0463d-tools
+oc process -f nsp-oopfrontend-to-all.yaml \
+  -p NAMESPACE=$(oc project --short) | \
+  oc apply -f -
+```
+
+5. allow the dev project to pull from tools:
+   Go to the dev project (oc project a3c641-dev).
+```console
+oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default -n a3c641-tools
 ```
 
 ## For each of the nodeJS apps, ie. splunk-forwarder, msp-service, captcha-service, spa-env-server
