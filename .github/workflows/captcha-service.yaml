@@ -57,7 +57,7 @@ jobs:
     steps:
       - name: S2I Build
         env:
-          NAMESPACE: f0463d-tools
+          NAMESPACE: a3c641-tools
           BUILD_NAME: captcha-service-main-build
           IMAGE_NAME: captcha-service
         uses: redhat-developer/openshift-actions@v1.1
