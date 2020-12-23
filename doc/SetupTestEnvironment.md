@@ -24,9 +24,9 @@ oc process -f nsp-mspweb-to-all.yaml \
   oc apply -f -
 ```
 4. allow the test project to pull from tools:
-   Go to the test project (oc project f0463d-test).
+   Go to the test project (oc project a3c641-test).
 ```console
-oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default -n f0463d-tools
+oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default -n a3c641-tools
 ```
 
 ## For each of the nodeJS apps, ie. splunk-forwarder, msp-service, captcha-service, spa-env-server

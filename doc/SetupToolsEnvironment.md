@@ -69,6 +69,8 @@ run in dev/test/prod:
 oc policy add-role-to-user system:image-puller system:serviceaccount:a3c641-dev:default --namespace=a3c641-tools
 ```
 
+Switch back to tools
+
 ## `spa-env-server` Component
 
 6. The following instructions are for the build and deployment of the `spa-env-server` component.

@@ -57,7 +57,7 @@ jobs:
     steps:
       - name: Image Build 
         env:
-          NAMESPACE: f0463d-tools
+          NAMESPACE: a3c641-tools
           BUILD_NAME: splunk-forwarder-main-build
           IMAGE_NAME: splunk-forwarder
         uses: redhat-developer/openshift-actions@v1.1

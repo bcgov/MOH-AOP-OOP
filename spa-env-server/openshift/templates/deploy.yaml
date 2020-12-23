@@ -267,7 +267,7 @@ parameters:
     required: false
     value: System will be done from time A to time B
   - name: SERVICE_PORT
-    description: The port this service will sisten on.
+    description: The port this service will listen on.
     displayName: SERVICE_PORT
     value: "8080"
   - name: SERVICE_IP
