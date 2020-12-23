@@ -15,13 +15,11 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
-          node-version: "12"
+          node-version: "10"
       - name: Install dependencies
         run: npm ci
       - name: Unit tests w/ coverage
         run: npm run test:coverage
-      - name: LINTing
-        run: npm run test:lint
       - name: OpenAPI Schema
         run: npm run test:schema
   build:
@@ -29,7 +27,7 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [10.x]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
