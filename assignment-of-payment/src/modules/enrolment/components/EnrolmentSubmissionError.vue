@@ -24,7 +24,7 @@ export default {
       history: {},
     };
   },
-  created: () => {
+  created() {
     console.log('Error: ', this.$store.state.enrolment.apiError);
   }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "preinstall": "rm -rf node_modules",
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e",
@@ -12,7 +13,7 @@
   },
   "dependencies": {
     "@bcgov/bootstrap-theme": "github:bcgov/bootstrap-theme",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "blueimp-load-image": "^5.14.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
