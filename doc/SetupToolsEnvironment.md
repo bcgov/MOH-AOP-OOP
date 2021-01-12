@@ -46,7 +46,7 @@ OPENSHIFTTOKEN
 
 ![Add URL as Secret](./add_ocp_url.gif)
 
-OPENSHIFTSERVERURL: https://silver.devops.gov.bc.ca:6443
+OPENSHIFTSERVERURL: https://api.silver.devops.gov.bc.ca:6443
 
 **Pro Tip**: 
 
