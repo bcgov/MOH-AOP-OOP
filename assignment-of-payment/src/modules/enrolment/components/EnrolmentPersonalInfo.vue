@@ -9,7 +9,7 @@
       v-model.trim.lazy="$v.firstName.$model"
     />
     <div class="text-danger" v-if="$v.firstName.$dirty && !$v.firstName.required" aria-live="assertive">Field is required</div>
-    <div class="text-danger" v-if="$v.firstName.$dirty && !$v.firstName.minLength" aria-live="assertive">Name must have at least {{$v.firstName.$params.minLength.min}} letters.</div>
+    <div class="text-danger" v-if="$v.firstName.$dirty && !$v.firstName.alpha" aria-live="assertive">Name must not contain numbers or symbols.</div>
 
     <Input
       :label="'Last Name'"
@@ -17,7 +17,7 @@
       v-model="$v.lastName.$model"
     />
     <div class="text-danger" v-if="$v.lastName.$dirty && !$v.lastName.required" aria-live="assertive">Field is required</div>
-    <div class="text-danger" v-if="$v.lastName.$dirty && !$v.lastName.minLength" aria-live="assertive">Name must have at least {{$v.lastName.$params.minLength.min}} letters.</div>
+    <div class="text-danger" v-if="$v.lastName.$dirty && !$v.lastName.alpha" aria-live="assertive">Name must not contain numbers or symbols.</div>
 
     <AddressValidator
       :id="'address-input'"
@@ -67,7 +67,7 @@ import DateInput, {
   distantPastValidator,
   beforeDateValidator
 } from '../../common/components/DateInput.vue';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength, alpha } from 'vuelidate/lib/validators';
 import pageStateService from '../../common/services/page-state-service';
 import routes from '../../../routes';
 import moduleNames from '../../../module-names';
@@ -109,11 +109,11 @@ export default {
   validations: {
     firstName: {
       required,
-      minLength: minLength(4)
+      alpha
     },
     lastName: {
       required,
-      minLength: minLength(4)
+      alpha
     },
     postalCode: {
       required,

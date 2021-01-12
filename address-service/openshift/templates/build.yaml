@@ -65,7 +65,7 @@ parameters:
   displayName: Git Repo URL
   name: GIT_REPO_URL
   required: true
-  value: https://github.com/bcgov/MOH-MSP-Enrolment.git
+  value: https://github.com/bcgov/MOH-AOP-OOP.git
 - description: The git reference or branch.
   displayName: Git Reference
   name: GIT_REF

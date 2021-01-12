@@ -10,7 +10,7 @@
               tabindex="0" multiple :name='id'
               :required='required'
               autocomplete="off"/>
-      <label :for="id" class="file-upload-label d-inline-block ml-3" ref="selectFileLabel" tabindex="0">
+      <label :for="id" class="file-upload-label d-inline-block ml-3" ref="selectFileLabel">
         <span class='h2 color-body'>Select a file</span>
         <span class='d-block description'>{{ instructionText }}</span>
       </label>
@@ -301,7 +301,6 @@ export default {
 
           () => {},
           () => {
-              console.log('completed loading image');
           }
       );
   },
@@ -359,7 +358,6 @@ export default {
 
             for (let fileIndex = 0; fileIndex < fileList.length; fileIndex++) {
                 const file = fileList[fileIndex];
-                // console.log('Start processing file ' + fileIndex + ' of ' + fileList.length + ' %s of size %s bytes %s type', file.name, file.size, file.type);
 
                 const pdfScaleFactor = 2.0;
 
@@ -378,7 +376,6 @@ export default {
                             pageNumber = pageNumber + 1  ;
                         });
                     }, (error) => {
-                        console.log('error' + JSON.stringify(error));
                         const imageReadError =  new CommonImageProcessingError(CommonImageError.CannotOpenPDF);
                         self.filterError(imageReadError);
                     });
@@ -391,7 +388,6 @@ export default {
 
                         // can be ignored for bug, the log line is never called
                         (error) => {
-                            console.log('error' + JSON.stringify(error));
                             self.filterError(error);
                         });
                     pageNumber = pageNumber + 1;
@@ -419,15 +415,10 @@ export default {
         imageModel.naturalWidth = image.naturalWidth;
         imageModel.naturalHeight = image.naturalHeight;
 
-        console.log(`image file natural height and width:
-            ${imageModel.naturalHeight} x ${imageModel.naturalWidth}`);
-
         // Canvas will force the change to a JPEG
         imageModel.contentType = 'image/jpeg'; // previously in appConstants
 
         // Scale the image by loading into a canvas
-
-        console.log('Start scaling down the image using blueimp-load-image lib: ');
         loadImage(
             image.src, // NOTE: we pass the File ref here again even though its already read because we need the XIFF metadata
             function (canvas) {
@@ -457,8 +448,7 @@ export default {
                             fileSizeUnit = aMultiples[nMultiple];
                             imageModel.sizeUnit = fileSizeUnit;
                         }
-
-                        console.log(`File ${fileName} is scaled down to: ${sOutput}`);
+                        
                         imageModel.sizeTxt = sOutput;
 
                         // call reader with new transformed image
@@ -473,9 +463,6 @@ export default {
                             /** previously in appConstants */
                             const maxSizeBytes = 1048576;
                             if (imageModel.size > maxSizeBytes) {
-
-                                console.log('File size after scaling down: %d, max file size allowed: %d',
-                                    imageModel.size, maxSizeBytes);
 
                                 const imageTooBigError = new CommonImageProcessingError(CommonImageError.TooBig);
 
@@ -517,7 +504,6 @@ export default {
                      * yet, theyt keep going to scaling down.
                      */
                     if (acc < maxRetry && error.errorCode === CommonImageError.TooBig) {
-                        // console.log('Progressively scaling down the image, step %d.', index);
                         return acc + 1;
                     } else {
                         /**
@@ -529,7 +515,6 @@ export default {
                          * 2. Exceeded maxRetry
                          *
                          */
-                        console.log('Re-throw this image process error: %o', error);
                         throw error;
                     }
                 }, 0
@@ -541,19 +526,16 @@ export default {
         const reader = new FileReader();
 
         reader.onload = function () {
-            console.log("Read Image: ", imageFile);
             // Load into an image element
             const imgEl = document.createElement('img');
 
             // Wait for onload so all properties are populated
             imgEl.onload = (args) => {
-                console.log('Completed image loading into an img tag: %o', args);
                 return callback(imgEl, imageFile, nextPageNumber);
             };
 
             imgEl.onerror = (args) => {
                 // log it to the console
-                console.log('This image cannot be opened/read, it is probably an invalid image. %o', args);
 
                 const imageReadError = new CommonImageProcessingError(CommonImageError.CannotOpen);
                 imageReadError.rawImageFile = imageFile;
@@ -661,7 +643,6 @@ export default {
         // overwrite original image
         context.putImageData(imageData, 0, 0);
     },
-
 
     handleImageFile: function(imageModel) {
         // Max images is 50.
