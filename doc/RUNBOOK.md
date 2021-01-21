@@ -42,6 +42,8 @@ oc get secret/github-cicd-token-hzq6t -o json | \
 
 Next, add the OCP4 URL as another git hub secret (you can find the url when you copy the logon command):
 
+OPENSHIFTSERVERURL: https://api.silver.devops.gov.bc.ca:6443
+
 ![Add URL as Secret](./add_ocp_url.gif)
 
 **Pro Tip**: 
