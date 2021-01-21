@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>See if you qualify for public health care in B.C.</h1>
+    <h1>Authentication Step Goes Here</h1>
     <p>If you already have Medical Services Plan (MSP) coverage and received a letter notifying you to renew your BC Services Card, you do not have to submit a new Application for MSP Enrolment; you only need to renew your BC Services Card. Follow the instructions on the letter to renew your card.</p>
     <hr/>
     <p><label>Do you currently live in British Columbia (i.e. Do you have an address here)?</label></p>
@@ -18,7 +18,7 @@
             styling="bcgov-normal-blue btn"
             v-on:button-click='nextPage' />
             
-    <ConsentModal v-if="!$store.state.enrolment.hasAcceptedTerms"
+    <ConsentModal v-if="!$store.state.aop.hasAcceptedTerms"
             v-on:accept="acceptConsentModal"
             :heading="'Information Collection Notice'"/>
   </div>
@@ -31,14 +31,13 @@ import pageStateService from '../../common/services/page-state-service';
 import routes from '../../../routes';
 import { scrollTo, scrollToError } from '../../common/helpers/scroll';
 import { required } from 'vuelidate/lib/validators';
-import moduleNames from '../../../module-names';
 import {
   SET_HAS_ACCEPTED_TERMS,
   SET_LIVES_IN_BC
-} from '../../../store/modules/enrolment';
+} from '../../../store/modules/aop';
 
 export default {
-  name: 'EnrolmentHome',
+  name: 'Home',
   components: {
     Button,
     ConsentModal
@@ -54,8 +53,8 @@ export default {
     }
   },
   created() {
-    this.livesInBC = this.$store.state.enrolment.livesInBC;
-    pageStateService.setPageComplete(routes.ENROLMENT_HOME.path);
+    this.livesInBC = this.$store.state.aop.livesInBC;
+    pageStateService.setPageComplete(routes.HOME.path);
   },
   methods: {
     nextPage() {
@@ -65,16 +64,14 @@ export default {
         return;
       }
 
-      this.$store.dispatch(moduleNames.ENROLMENT + '/' + SET_LIVES_IN_BC, this.livesInBC);
-
-      pageStateService.setPageIncomplete(routes.ENROLMENT_HOME.path);
-      const path = routes.ENROLMENT_PERSONAL_INFO.path;
+      pageStateService.setPageIncomplete(routes.HOME.path);
+      const path = routes.SUBMISSION_INFO.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },
     acceptConsentModal() {
-      this.$store.dispatch(moduleNames.ENROLMENT + '/' + SET_HAS_ACCEPTED_TERMS, true);
+      this.$store.dispatch('aop/' + SET_HAS_ACCEPTED_TERMS, true);
     }
   }
 }

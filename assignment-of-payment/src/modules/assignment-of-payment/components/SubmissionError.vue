@@ -1,8 +1,9 @@
 <template>
   <main>
-    <Header name="Landing Page" :history="history" />
+    <Header name="Enrolment" :history="history" />
     <div class="container py-5">
-      <a href="/msp/enrolment">Enrolment</a>
+      <h1>Submission Error.</h1>
+      <p>See console for details.</p>
     </div>
     <Footer />
   </main>
@@ -13,7 +14,7 @@ import Footer from 'vue-shared-components/src/components/footer/Footer';
 import Header from 'vue-shared-components/src/components/header/Header';
 
 export default {
-  name: 'LandingPage',
+  name: 'SubmissionError',
   components: {
     Footer,
     Header,
@@ -22,6 +23,9 @@ export default {
     return {
       history: {},
     };
+  },
+  created() {
+    console.log('Error: ', this.$store.state.aop.apiError);
   }
 }
 </script>

@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import enrolment from './modules/enrolment';
+import aop from './modules/aop';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    enrolment
+    aop
   }
 });

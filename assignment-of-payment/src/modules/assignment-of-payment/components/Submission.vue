@@ -16,7 +16,7 @@ import Header from 'vue-shared-components/src/components/header/Header';
 import strings from '../../../locale/strings.en';
 
 export default {
-  name: 'EnrolmentSubmission',
+  name: 'Submission',
   components: {
     Footer,
     Header,
@@ -29,7 +29,7 @@ export default {
     };
   },
   created() {
-    this.ipAddress = this.$store.state.enrolment.apiResponse ? this.$store.state.enrolment.apiResponse.data.ip : ''
+    this.ipAddress = this.$store.state.aop.apiResponse ? this.$store.state.aop.apiResponse.data.ip : ''
   },
   beforeRouteLeave(to, from, next) {
     // Check for `hasConfirmedPageLeave` because of double navigation to home page.

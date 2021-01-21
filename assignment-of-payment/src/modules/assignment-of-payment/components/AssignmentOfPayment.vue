@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header name="Enrolment" :history="history" />
+    <Header name="Diagnostic Facilities Services - Upload Tool for:<br/> Assignment of Payment & Outpatient Operator Payment Administration Forms" :history="history" />
     <ProgressBar :routes='stepRoutes' :currentPath='$route.path' />
     <div class="container py-5">
       <router-view></router-view>
@@ -16,7 +16,7 @@ import ProgressBar from '../../common/components/ProgressBar';
 import stepRoutes from '../step-routes';
 
 export default {
-  name: 'Enrolment',
+  name: 'AssignmentOfPayment',
   components: {
     Footer,
     Header,

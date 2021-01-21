@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Review Application</h1>
+    <h1>Review Submission</h1>
     <hr/>
 
     <div class="row mt-5">
       <div class="col-10">
-        <h2>Eligibility</h2>
+        <h2>Authorization</h2>
       </div>
       <div class="col-2 text-right">
         <a href="javascript:void(0)" @click="navigateToHomePage()">Edit</a>
@@ -15,13 +15,13 @@
 
     <div class="row mt-5">
       <div class="col-10">
-        <h2>Personal Information</h2>
+        <h2>Submission Information</h2>
       </div>
       <div class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToPersonalInfoPage()">Edit</a>
+        <a href="javascript:void(0)" @click="navigateToSubmissionInfoPage()">Edit</a>
       </div>
     </div>
-    <Table :elements='personalReviewData' />
+    <Table :elements='submissionReviewData' />
 
     <h2 class="mt-5">Signature</h2>
     <div class="form-group">
@@ -43,8 +43,7 @@ import routes from '../../../routes';
 import pageStateService from '../../common/services/page-state-service';
 import { required } from 'vuelidate/lib/validators';
 import { CommonImage } from '../../common/models/images';
-import moduleNames from '../../../module-names';
-import { SET_SIGNATURE } from '../../../store/modules/enrolment';
+import { SET_SIGNATURE } from '../../../store/modules/aop';
 import strings from '../../../locale/strings.en';
 import { scrollTo } from '../../common/helpers/scroll';
 
@@ -53,7 +52,7 @@ const requiredCommonImageContent = (data) => {
 } 
 
 export default {
-  name: 'EnrolmentReview',
+  name: 'Review',
   components: {
     Button,
     SignaturePad,
@@ -62,18 +61,18 @@ export default {
   data: () => {
     return {
       hasConfirmedPageLeave: false,
-      personalReviewData: [],
+      submissionReviewData: [],
       otherReviewData: [],
       signature: new CommonImage()
     };
   },
   created() {
-    this.personalReviewData = [
-      { name: 'First Name', value: this.$store.state.enrolment.firstName },
-      { name: 'Last Name', value: this.$store.state.enrolment.lastName }
+    this.submissionReviewData = [
+      { name: 'First Name', value: this.$store.state.aop.firstName },
+      { name: 'Last Name', value: this.$store.state.aop.lastName }
     ];
     this.otherReviewData = [
-      { name: 'Lives in BC', value: this.$store.state.enrolment.livesInBC }
+      { name: 'Lives in BC', value: this.$store.state.aop.livesInBC }
     ];
   },
   validations: {
@@ -88,32 +87,32 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.$store.dispatch(moduleNames.ENROLMENT + '/' + SET_SIGNATURE, this.signature);
+      this.$store.dispatch('aop/' + SET_SIGNATURE, this.signature);
 
-      pageStateService.setPageIncomplete(routes.ENROLMENT_REVIEW.path);
-      const path = routes.ENROLMENT_SENDING.path;
+      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      const path = routes.SENDING.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
     navigateToHomePage() {
-      pageStateService.setPageIncomplete(routes.ENROLMENT_REVIEW.path);
-      const path = routes.ENROLMENT_HOME.path;
+      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      const path = routes.HOME.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },
-    navigateToPersonalInfoPage() {
-      pageStateService.setPageIncomplete(routes.ENROLMENT_REVIEW.path);
-      const path = routes.ENROLMENT_PERSONAL_INFO.path;
+    navigateToSubmissionInfoPage() {
+      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      const path = routes.SUBMISSION_INFO.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     }
   },
   beforeRouteLeave(to, from, next) {
-    if (to.path === routes.ENROLMENT_SENDING.path
-    || (to.path === routes.ENROLMENT_HOME.path && pageStateService.isPageComplete(to.path))
-    || (to.path === routes.ENROLMENT_PERSONAL_INFO.path && pageStateService.isPageComplete(to.path))) {
+    if (to.path === routes.SENDING.path
+    || (to.path === routes.HOME.path && pageStateService.isPageComplete(to.path))
+    || (to.path === routes.SUBMISSION_INFO.path && pageStateService.isPageComplete(to.path))) {
       next();
     } else {
       // Check for `hasConfirmedPageLeave` because of double navigation to home page.

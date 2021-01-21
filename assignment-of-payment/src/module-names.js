@@ -1,3 +1,3 @@
 export default {
-  ENROLMENT: 'enrolment'
+  AOP: 'assignment-of-payment'
 }

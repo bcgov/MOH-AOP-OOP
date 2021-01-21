@@ -1,56 +1,46 @@
-import moduleNames from './module-names';
-import EnrolmentHome from './modules/enrolment/components/EnrolmentHome.vue';
-import EnrolmentPersonalInfo from './modules/enrolment/components/EnrolmentPersonalInfo.vue';
-import EnrolmentReview from './modules/enrolment/components/EnrolmentReview.vue';
-import EnrolmentSending from './modules/enrolment/components/EnrolmentSending.vue';
-import EnrolmentSubmission from './modules/enrolment/components/EnrolmentSubmission.vue';
-import EnrolmentSubmissionError from './modules/enrolment/components/EnrolmentSubmissionError.vue';
-import LandingPage from './modules/LandingPage.vue';
-
-const BASE_URL = '/msp/';
+import Home from './modules/assignment-of-payment/components/Home.vue';
+import SubmissionInfo from './modules/assignment-of-payment/components/SubmissionInfo.vue';
+import Review from './modules/assignment-of-payment/components/Review.vue';
+import Sending from './modules/assignment-of-payment/components/Sending.vue';
+import Submission from './modules/assignment-of-payment/components/Submission.vue';
+import SubmissionError from './modules/assignment-of-payment/components/SubmissionError.vue';
 
 export const routes = {
-  LANDING_PAGE: {
-    path: BASE_URL + 'landing',
-    title: 'Landing Page',
-    name: 'LandingPage',
-    component: LandingPage
+  HOME: {
+    path: '/home',
+    title: 'Authorization',
+    name: 'Home',
+    component: Home
   },
-  ENROLMENT_HOME: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/home',
-    title: 'Check Eligibility',
-    name: moduleNames.ENROLMENT + 'Home',
-    component: EnrolmentHome
+  SUBMISSION_INFO: {
+    path: '/submission-info',
+    title: 'Submission Info',
+    name: 'SubmissionInfo',
+    component: SubmissionInfo
   },
-  ENROLMENT_PERSONAL_INFO: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/personal-info',
-    title: 'Personal Info',
-    name: moduleNames.ENROLMENT + 'PersonalInfo',
-    component: EnrolmentPersonalInfo
-  },
-  ENROLMENT_REVIEW: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/review',
+  REVIEW: {
+    path: '/review',
     title: 'Review',
-    name: moduleNames.ENROLMENT + 'Review',
-    component: EnrolmentReview
+    name: 'Review',
+    component: Review
   },
-  ENROLMENT_SENDING: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/sending',
+  SENDING: {
+    path: '/sending',
     title: 'Sending Application',
-    name: moduleNames.ENROLMENT + 'Sending',
-    component: EnrolmentSending
+    name: 'Sending',
+    component: Sending
   },
-  ENROLMENT_SUBMISSION: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/submission',
+  SUBMISSION: {
+    path: '/submission',
     title: 'Submission',
-    name: moduleNames.ENROLMENT + 'Submission',
-    component: EnrolmentSubmission
+    name: 'Submission',
+    component: Submission
   },
-  ENROLMENT_SUBMISSION_ERROR: {
-    path: BASE_URL + moduleNames.ENROLMENT + '/submission-error',
+  SUBMISSION_ERROR: {
+    path: '/submission-error',
     title: 'Submission Error',
-    name: moduleNames.ENROLMENT + 'SubmissionError',
-    component: EnrolmentSubmissionError
+    name: 'SubmissionError',
+    component: SubmissionError
   }
 }
 export default routes;

@@ -38,13 +38,13 @@ export default {
     },
     currentStepNumber() {
       const index = this.routes.findIndex((element) => {
-        return element.path === this.currentPath;
+        return element.path.includes(this.currentPath);
       });
       return index + 1;
     },
     currentStepTitle() {
       const index = this.routes.findIndex((element) => {
-        return element.path === this.currentPath;
+        return element.path.includes(this.currentPath);
       });
       return this.routes[index].title;
     }

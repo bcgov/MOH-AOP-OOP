@@ -16,16 +16,15 @@ import Footer from 'vue-shared-components/src/components/footer/Footer';
 import Header from 'vue-shared-components/src/components/header/Header';
 import routes from '../../../routes';
 import pageStateService from '../../common/services/page-state-service';
-import moduleNames from '../../../module-names';
 import axios from 'axios';
 import {
   SET_API_RESPONSE,
   SET_API_ERROR
-} from '../../../store/modules/enrolment';
+} from '../../../store/modules/aop';
 import strings from '../../../locale/strings.en';
 
 export default {
-  name: 'EnrolmentSending',
+  name: 'Sending',
   components: {
     Footer,
     Header,
@@ -39,30 +38,30 @@ export default {
   created: function() {
     // Error URL: https://run.mocky.io/v3/379961d9-61a0-4b9e-a3d7-a32b00937f8f
     axios.get('https://api.ipify.org?format=json').then((response) => {
-      this.$store.dispatch(moduleNames.ENROLMENT + '/' + SET_API_RESPONSE, response);
+      this.$store.dispatch('aop/' + SET_API_RESPONSE, response);
       this.nextPage();
     }).catch((error) => {
-      this.$store.dispatch(moduleNames.ENROLMENT + '/' + SET_API_ERROR, error);
+      this.$store.dispatch('aop/' + SET_API_ERROR, error);
       this.navigateToErrorPage();
     });
   },
   methods: {
     nextPage: function() {
-      pageStateService.setPageIncomplete(routes.ENROLMENT_SENDING.path);
-      const path = routes.ENROLMENT_SUBMISSION.path;
+      pageStateService.setPageIncomplete(routes.SENDING.path);
+      const path = routes.SUBMISSION.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
     navigateToErrorPage: function() {
-      pageStateService.setPageIncomplete(routes.ENROLMENT_SENDING.path);
-      const path = routes.ENROLMENT_SUBMISSION_ERROR.path;
+      pageStateService.setPageIncomplete(routes.SENDING.path);
+      const path = routes.SUBMISSION_ERROR.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     }
   },
   beforeRouteLeave(to, from, next) {
-    if (to.path === routes.ENROLMENT_SUBMISSION.path
-     || to.path === routes.ENROLMENT_SUBMISSION_ERROR.path) {
+    if (to.path === routes.SUBMISSION.path
+     || to.path === routes.SUBMISSION_ERROR.path) {
       next();
     } else {
       // Check for `hasConfirmedPageLeave` because of double navigation to home page.

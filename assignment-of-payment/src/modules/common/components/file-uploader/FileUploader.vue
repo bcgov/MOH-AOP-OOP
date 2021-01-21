@@ -757,6 +757,7 @@ export default {
   margin-bottom: 10px;
   border-radius: 8px;
   padding: 2em 4em;
+  height: 100%;
 }
 
 .preview-zone {
