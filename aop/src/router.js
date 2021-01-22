@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import AssignmentOfPayment from './modules/assignment-of-payment/components/AssignmentOfPayment.vue';
+import AssignmentOfPayment from './modules/aop/components/AssignmentOfPayment.vue';
 import routes from './routes';
 import pageStateService from './modules/common/services/page-state-service';
 import store from './store/store';

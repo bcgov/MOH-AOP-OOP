@@ -1,9 +1,9 @@
-import Home from './modules/assignment-of-payment/components/Home.vue';
-import SubmissionInfo from './modules/assignment-of-payment/components/SubmissionInfo.vue';
-import Review from './modules/assignment-of-payment/components/Review.vue';
-import Sending from './modules/assignment-of-payment/components/Sending.vue';
-import Submission from './modules/assignment-of-payment/components/Submission.vue';
-import SubmissionError from './modules/assignment-of-payment/components/SubmissionError.vue';
+import Home from './modules/aop/components/Home.vue';
+import SubmissionInfo from './modules/aop/components/SubmissionInfo.vue';
+import Review from './modules/aop/components/Review.vue';
+import Sending from './modules/aop/components/Sending.vue';
+import Submission from './modules/aop/components/Submission.vue';
+import SubmissionError from './modules/aop/components/SubmissionError.vue';
 
 export const routes = {
   HOME: {

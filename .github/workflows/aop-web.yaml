@@ -2,15 +2,15 @@ name: aop-web build
 on:
   push:
     paths:
-      - "assignment-of-payment/src/**/*.html"
-      - "assignment-of-payment/src/**/*.ts"
-      - "assignment-of-payment/src/**/*.js"
-      - "assignment-of-payment/src/**/*.scss"
-      - "assignment-of-payment/package*.json"
+      - "aop/src/**/*.html"
+      - "aop/src/**/*.ts"
+      - "aop/src/**/*.js"
+      - "aop/src/**/*.scss"
+      - "aop/package*.json"
   workflow_dispatch:
 defaults:
   run:
-    working-directory: ./assignment-of-payment
+    working-directory: ./aop
 jobs:
   test:
     runs-on: ubuntu-latest
