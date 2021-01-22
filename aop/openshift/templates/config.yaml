@@ -113,24 +113,6 @@ objects:
               gzip_types *;
             }
 
-            # redirects
-            location /application/prepare {
-              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/aop/bc-residents;
-              # return 301 https://my.gov.bc.ca/aop/enrolment/check-eligibility;
-            }
-            location /assistance/prepare {
-              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/aop/bc-residents;
-              # return 301 https://my.gov.bc.ca/aop/assistance/home;
-            }
-            location /account-letter/personal-info {
-              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/aop/bc-residents;
-              # return 301 https://my.gov.bc.ca/aop/account-letter/request-acl;
-            }
-            location /deam-interim/aop/account/prepare {
-              return https://aop-deam-${AOP_ENV}.pathfinder.gov.bc.ca;
-              # return 301 https://my.gov.bc.ca/aop/deam-interim/;
-            }
-
             location /api {
               proxy_pass http://msp-service:8080/;
               proxy_read_timeout 300;

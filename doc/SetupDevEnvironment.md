@@ -60,9 +60,9 @@ oc process -f openshift/templates/deploy.yaml --param-file=params-dev.txt | oc a
 4. go to github, then actions, then try it.
 
 
-## For the MSP application
+## For the AOP application
 
-1. go to the msp directory
+1. go to the aop directory
 
 2. go to openshift/templates
 

@@ -8,18 +8,18 @@
 oc project ...-test
 ```
 
-2. create ./openshift/templates/nsp-msp-to-maximus-test.yaml  (copy from -dev.yaml)
+2. create ./openshift/templates/nsp-aop-to-maximus-test.yaml  (copy from -dev.yaml)
    change the IP of proxy to test proxy
    the apply using:
 ```console
-oc process -f nsp-msp-to-maximus-test.yaml \
+oc process -f nsp-aop-to-maximus-test.yaml \
   -p NAMESPACE=$(oc project --short) | \
   oc apply -f -
 ```
 
 3. apply the internal NSPs:
 ```console
-oc process -f nsp-mspweb-to-all.yaml \
+oc process -f nsp-aopfrontend-to-all.yaml \
   -p NAMESPACE=$(oc project --short) | \
   oc apply -f -
 ```
@@ -52,9 +52,9 @@ oc process -f openshift/templates/deploy.yaml --param-file=params-test.txt | oc 
 4. go to github, then actions, then try it.
 
 
-## For the MSP application
+## For the AOP application
 
-1. go to the msp directory
+1. go to the aop directory
 
 2. go to openshift/templates
 
