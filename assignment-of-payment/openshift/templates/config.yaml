@@ -233,6 +233,9 @@ parameters:
   - description: AOP_ENV
     name: AOP_ENV
     required: true
+  - description: AOP_VERSION
+    name: AOP_VERSION
+    required: true
   - description: SOURCE_IMAGE_TAG
     name: SOURCE_IMAGE_TAG
     required: true
