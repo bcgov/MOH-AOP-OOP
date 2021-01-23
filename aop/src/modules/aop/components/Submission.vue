@@ -29,7 +29,7 @@ export default {
     };
   },
   created() {
-    this.ipAddress = this.$store.state.aop.apiResponse ? this.$store.state.aop.apiResponse.data.ip : ''
+    this.ipAddress = this.$store.state.apiResponse ? this.$store.state.apiResponse.data.ip : ''
   },
   beforeRouteLeave(to, from, next) {
     // Check for `hasConfirmedPageLeave` because of double navigation to home page.

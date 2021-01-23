@@ -25,7 +25,7 @@ export default {
     };
   },
   created() {
-    console.log('Error: ', this.$store.state.aop.apiError);
+    console.log('Error: ', this.$store.state.apiError);
   }
 }
 </script>

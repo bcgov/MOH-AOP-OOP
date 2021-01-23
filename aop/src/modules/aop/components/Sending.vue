@@ -20,7 +20,7 @@ import axios from 'axios';
 import {
   SET_API_RESPONSE,
   SET_API_ERROR
-} from '../../../store/modules/aop';
+} from '../../../store';
 import strings from '../../../locale/strings.en';
 
 export default {
@@ -38,10 +38,10 @@ export default {
   created: function() {
     // Error URL: https://run.mocky.io/v3/379961d9-61a0-4b9e-a3d7-a32b00937f8f
     axios.get('https://api.ipify.org?format=json').then((response) => {
-      this.$store.dispatch('aop/' + SET_API_RESPONSE, response);
+      this.$store.dispatch(SET_API_RESPONSE, response);
       this.nextPage();
     }).catch((error) => {
-      this.$store.dispatch('aop/' + SET_API_ERROR, error);
+      this.$store.dispatch(SET_API_ERROR, error);
       this.navigateToErrorPage();
     });
   },

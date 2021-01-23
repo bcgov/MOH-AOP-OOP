@@ -3,7 +3,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import router from './router';
-import store from './store/store';
+import store from './store';
 
 Vue.config.productionTip = false;
 

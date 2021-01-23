@@ -18,7 +18,7 @@
             styling="bcgov-normal-blue btn"
             v-on:button-click='nextPage' />
             
-    <ConsentModal v-if="!$store.state.aop.hasAcceptedTerms"
+    <ConsentModal v-if="!$store.state.hasAcceptedTerms"
             v-on:accept="acceptConsentModal"
             :heading="'Information Collection Notice'"/>
   </div>
@@ -34,7 +34,7 @@ import { required } from 'vuelidate/lib/validators';
 import {
   SET_HAS_ACCEPTED_TERMS,
   SET_LIVES_IN_BC
-} from '../../../store/modules/aop';
+} from '../../../store/index';
 
 export default {
   name: 'Home',
@@ -53,7 +53,7 @@ export default {
     }
   },
   created() {
-    this.livesInBC = this.$store.state.aop.livesInBC;
+    this.livesInBC = this.$store.state.livesInBC;
     pageStateService.setPageComplete(routes.HOME.path);
   },
   methods: {
@@ -71,7 +71,7 @@ export default {
       scrollTo(0);
     },
     acceptConsentModal() {
-      this.$store.dispatch('aop/' + SET_HAS_ACCEPTED_TERMS, true);
+      this.$store.dispatch(SET_HAS_ACCEPTED_TERMS, true);
     }
   }
 }

@@ -43,7 +43,7 @@ import routes from '../../../routes';
 import pageStateService from '../../common/services/page-state-service';
 import { required } from 'vuelidate/lib/validators';
 import { CommonImage } from '../../common/models/images';
-import { SET_SIGNATURE } from '../../../store/modules/aop';
+import { SET_SIGNATURE } from '../../../store';
 import strings from '../../../locale/strings.en';
 import { scrollTo } from '../../common/helpers/scroll';
 
@@ -68,11 +68,11 @@ export default {
   },
   created() {
     this.submissionReviewData = [
-      { name: 'First Name', value: this.$store.state.aop.firstName },
-      { name: 'Last Name', value: this.$store.state.aop.lastName }
+      { name: 'First Name', value: this.$store.state.firstName },
+      { name: 'Last Name', value: this.$store.state.lastName }
     ];
     this.otherReviewData = [
-      { name: 'Lives in BC', value: this.$store.state.aop.livesInBC }
+      { name: 'Lives in BC', value: this.$store.state.livesInBC }
     ];
   },
   validations: {
@@ -87,7 +87,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.$store.dispatch('aop/' + SET_SIGNATURE, this.signature);
+      this.$store.dispatch(SET_SIGNATURE, this.signature);
 
       pageStateService.setPageIncomplete(routes.REVIEW.path);
       const path = routes.SENDING.path;

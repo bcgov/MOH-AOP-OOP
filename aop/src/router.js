@@ -2,8 +2,8 @@ import VueRouter from 'vue-router';
 import AssignmentOfPayment from './modules/aop/components/AssignmentOfPayment.vue';
 import routes from './routes';
 import pageStateService from './modules/common/services/page-state-service';
-import store from './store/store';
-import { RESET_FORM } from './store/modules/aop';
+import store from './store';
+import { RESET_FORM } from './store';
 
 const router = new VueRouter({
   mode: 'history',
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
   if (to.path === routes.HOME.path && !pageStateService.isPageComplete(to.path)) {
-    store.dispatch('aop/' + RESET_FORM);
+    store.dispatch(RESET_FORM);
   }
 });
 

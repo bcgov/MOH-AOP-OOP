@@ -268,7 +268,7 @@ import {
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION
-} from '../../../store/modules/aop';
+} from '../../../store';
 import strings from '../../../locale/strings.en';
 import { bcPostalCodeValidator } from '../../common/helpers/validators';
 import { scrollTo, scrollToError } from '../../common/helpers/scroll';
@@ -358,22 +358,22 @@ export default {
     }
   },
   created() {
-    this.uploadType = this.$store.state.aop.uploadType;
-    this.credentialsRequired = this.$store.state.aop.credentialsRequired;
-    this.firstName = this.$store.state.aop.firstName;
-    this.lastName = this.$store.state.aop.lastName;
-    this.emailAddress = this.$store.state.aop.emailAddress;
-    this.phoneNumber = this.$store.state.aop.phoneNumber;
-    this.organization = this.$store.state.aop.organization;
-    this.facility = this.$store.state.aop.facilityName;
-    this.submissionType = this.$store.state.aop.submissionType;
-    this.primaryNumber = this.$store.state.aop.primaryNumber;
-    this.primaryLastName = this.$store.state.aop.primaryLastName;
-    this.secondaryNumber = this.$store.state.aop.secondaryNumber;
-    this.secondaryLastName = this.$store.state.aop.secondaryLastName;
-    this.comments = this.$store.state.aop.comments;
-    this.files = this.$store.state.aop.uploadedForms;
-    this.credentials = this.$store.state.aop.uploadedCredentials;
+    this.uploadType = this.$store.state.uploadType;
+    this.credentialsRequired = this.$store.state.credentialsRequired;
+    this.firstName = this.$store.state.firstName;
+    this.lastName = this.$store.state.lastName;
+    this.emailAddress = this.$store.state.emailAddress;
+    this.phoneNumber = this.$store.state.phoneNumber;
+    this.organization = this.$store.state.organization;
+    this.facility = this.$store.state.facilityName;
+    this.submissionType = this.$store.state.submissionType;
+    this.primaryNumber = this.$store.state.primaryNumber;
+    this.primaryLastName = this.$store.state.primaryLastName;
+    this.secondaryNumber = this.$store.state.secondaryNumber;
+    this.secondaryLastName = this.$store.state.secondaryLastName;
+    this.comments = this.$store.state.comments;
+    this.files = this.$store.state.uploadedForms;
+    this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
     nextPage: function () {
@@ -382,22 +382,22 @@ export default {
         scrollToError();
         return;
       }
-      this.$store.dispatch('aop/' + SET_UPLOAD_TYPE, this.uploadType);
-      this.$store.dispatch('aop/' + SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
-      this.$store.dispatch('aop/' + SET_FIRST_NAME, this.firstName);
-      this.$store.dispatch('aop/' + SET_LAST_NAME, this.lastName);
-      this.$store.dispatch('aop/' + SET_EMAIL_ADDRESS, this.emailAddress);
-      this.$store.dispatch('aop/' + SET_PHONE_NUMBER, this.phoneNumber);
-      this.$store.dispatch('aop/' + SET_ORGANIZATION, this.organization);
-      this.$store.dispatch('aop/' + SET_FACILITY_NAME, this.facility);
-      this.$store.dispatch('aop/' + SET_SUBMISSION_TYPE, this.submissionType);
-      this.$store.dispatch('aop/' + SET_PRIMARY_NUMBER, this.primaryNumber);
-      this.$store.dispatch('aop/' + SET_PRIMARY_LAST_NAME, this.primaryLastName);
-      this.$store.dispatch('aop/' + SET_SECONDARY_NUMBER, this.secondaryNumber);
-      this.$store.dispatch('aop/' + SET_SECONDARY_LAST_NAME, this.secondaryLastName);
-      this.$store.dispatch('aop/' + SET_COMMENTS, this.comments);
-      this.$store.dispatch('aop/' + SET_UPLOADED_FORMS, this.uploadedForms);
-      this.$store.dispatch('aop/' + SET_UPLOADED_CREDENTIALS, this.uploadedCredentials);
+      this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
+      this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
+      this.$store.dispatch(SET_FIRST_NAME, this.firstName);
+      this.$store.dispatch(SET_LAST_NAME, this.lastName);
+      this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
+      this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
+      this.$store.dispatch(SET_ORGANIZATION, this.organization);
+      this.$store.dispatch(SET_FACILITY_NAME, this.facility);
+      this.$store.dispatch(SET_SUBMISSION_TYPE, this.submissionType);
+      this.$store.dispatch(SET_PRIMARY_NUMBER, this.primaryNumber);
+      this.$store.dispatch(SET_PRIMARY_LAST_NAME, this.primaryLastName);
+      this.$store.dispatch(SET_SECONDARY_NUMBER, this.secondaryNumber);
+      this.$store.dispatch(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
+      this.$store.dispatch(SET_COMMENTS, this.comments);
+      this.$store.dispatch(SET_UPLOADED_FORMS, this.uploadedForms);
+      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.uploadedCredentials);
 
       pageStateService.setPageIncomplete(routes.SUBMISSION_INFO.path);
       const path = routes.REVIEW.path;

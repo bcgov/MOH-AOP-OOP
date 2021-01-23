@@ -1,9 +1,8 @@
+import Vue from 'vue';
+import Vuex from 'vuex';
+
 export const RESET_FORM = 'resetForm';
-
-// Home page:
 export const SET_HAS_ACCEPTED_TERMS = 'setHasAcceptedTerms';
-
-// Info page:
 export const SET_UPLOAD_TYPE = 'setUploadType';
 export const SET_CREDENTIALS_REQUIRED = 'setCredentialsRequired';
 export const SET_FIRST_NAME = 'setFirstName';
@@ -20,39 +19,34 @@ export const SET_SECONDARY_LAST_NAME = 'setSecondaryLastName';
 export const SET_COMMENTS = 'setComments';
 export const SET_UPLOADED_FORMS = 'setUploadedForms';
 export const SET_UPLOADED_CREDENTIALS = 'setUploadedCredentials';
-
-// Review page:
 export const SET_SIGNATURE = 'setSignature';
-
-// Sending page:
 export const SET_API_RESPONSE = 'setApiResponse';
 export const SET_API_ERROR = 'setApiError';
 
-export default {
-  namespaced: true,
-  state: () => {
-    return {
-      hasAcceptedTerms: false,
-      uploadType: null,
-      credentialsRequired: null,
-      firstName: null,
-      lastName: null,
-      emailAddress: null,
-      phoneNumber: null,
-      organization: null,
-      facilityName: null,
-      submissionType: null,
-      primaryNumber: null,
-      primaryLastName: null,
-      secondaryNumber: null,
-      secondaryLastName: null,
-      comments: null,
-      uploadedForms: [],
-      uploadedCredentials: [],
-      signature: null,
-      apiResponse: null,
-      apiError: null
-    };
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {
+    hasAcceptedTerms: false,
+    uploadType: null,
+    credentialsRequired: null,
+    firstName: null,
+    lastName: null,
+    emailAddress: null,
+    phoneNumber: null,
+    organization: null,
+    facilityName: null,
+    submissionType: null,
+    primaryNumber: null,
+    primaryLastName: null,
+    secondaryNumber: null,
+    secondaryLastName: null,
+    comments: null,
+    uploadedForms: [],
+    uploadedCredentials: [],
+    signature: null,
+    apiResponse: null,
+    apiError: null
   },
   mutations: {
     setHasAcceptedTerms(state, payload) {
@@ -201,4 +195,4 @@ export default {
     }
   },
   getters: {}
-};
+});
