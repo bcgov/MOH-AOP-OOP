@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header name="Diagnostic Facilities Services - Upload Tool for:<br/> Assignment of Payment & Outpatient Operator Payment Administration Forms" :history="history" />
+    <Header :heading="'Diagnostic Facilities Services - Upload Tool for:'" :subheading="'Assignment of Payment & Outpatient Operator Payment Administration Forms'"/>
     <ProgressBar :routes='stepRoutes' :currentPath='$route.path' />
     <div class="container py-5">
       <router-view></router-view>
@@ -11,7 +11,7 @@
 
 <script>
 import Footer from 'vue-shared-components/src/components/footer/Footer';
-import Header from 'vue-shared-components/src/components/header/Header';
+import Header from '../../common/components/Header';
 import ProgressBar from '../../common/components/ProgressBar';
 import stepRoutes from '../step-routes';
 
