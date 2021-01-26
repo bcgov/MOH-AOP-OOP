@@ -1,0 +1,54 @@
+.bcgov-display-box {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+}
+
+.bcgov-no-padding-bottom {
+  padding: 10px;
+  padding-bottom: 0px !important;
+}
+
+.bcgov-display-icon {
+  padding-right: 15px;
+}
+
+.bcgov-display-file {
+  padding: 0px !important;
+  padding-left: 5px !important;
+  min-height: 75px;
+}
+
+.bcgov-display-file .bcgov-display-icon {
+  display: flex;
+  align-self: center;
+}
+
+.bcgov-display-right-element {
+  width: 100%;
+  padding-top: 3px;
+  display: flex;
+  align-self: center;
+}
+
+.bcgov-display-left-element {
+  padding-left: 0px !important;
+}
+
+.bcgov-grey-background {
+  background-color: lightgrey;
+}
+
+.bcgov-blue-background {
+  background-color: rgba(225, 232, 242, 1);
+}
+
+.bcgov-border-background {
+  border-width: thin;
+  border-style: solid;
+  border-color: lightgrey;
+}
+
+.bcgov-vue-icons {
+  vertical-align: middle;
+}

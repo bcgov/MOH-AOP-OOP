@@ -1,0 +1,83 @@
+.bcgov-table {
+  width: 100%;
+}
+
+.bcgov-table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.bcgov-row,
+.bcgov-row-fees {
+  display: flex;
+  flex-direction: row;
+  vertical-align: top;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  padding-right: 3px;
+  white-space: pre-wrap;
+}
+
+.bcgov-table-value {
+  width: 100%;
+}
+
+.bcgov-blue-stripe .bcgov-table-body .bcgov-row:nth-child(even) {
+  background: rgba(241, 244, 250, 1);
+}
+
+.bcgov-blue-stripe .bcgov-table-body .bcgov-row:nth-child(odd) {
+  background: rgba(225, 232, 242, 1);
+}
+
+.bcgov-side-by-side {
+  width: 60%;
+}
+
+.bcgov-fill-width {
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill-available;
+}
+
+.display-file .bcgov-fill-width {
+  width: 35%;
+}
+
+@media (max-width: 576px) {
+  .display-file .bcgov-fill-width {
+    width: 100%;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+  }
+}
+
+.bcgov-vertical-middle {
+  align-self: center;
+}
+
+.bcgov-reduce-width {
+  width: 20%;
+}
+
+.bcgov-empty-row div {
+  border-bottom: 1px solid black;
+}
+
+.bcgov-right-align {
+  text-align: right;
+}
+
+@media (max-width: 576px) {
+  .bcgov-row {
+    flex-direction: column;
+  }
+
+  .bcgov-side-by-side,
+  .bcgov-vertical-middle,
+  .bcgov-reduce-width {
+    width: 100% !important;
+  }
+}

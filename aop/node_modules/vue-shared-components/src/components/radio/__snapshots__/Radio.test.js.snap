@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radio component matches the snapshot 1`] = `
+<label for="yes" class="bcgov-radio">
+  Yes
+  <input type="radio" name="yes" id="yes"> <span class="bcgov-dot"></span></label>
+`;

@@ -1,0 +1,125 @@
+import { Meta, Story } from "@storybook/addon-docs/blocks";
+import Input from "./Input.vue";
+
+<Meta title="Input" component={Input} />
+
+# Input
+
+Text inputs allow users to enter a single line of text.
+
+## When to Use
+
+- Input text is no longer than a single line
+- Users have to input an answer that cannot be easily predicted
+
+## When not to Use
+
+- A user needs to input multiple lines of text
+- Users can only choose from a selected list of responses
+
+## API
+
+| Prop        | Type    | Required | Description                                                                                    | Default |
+| ----------- | ------- | -------- | ---------------------------------------------------------------------------------------------- | ------- |
+| label       | string  | false    | value of the heading label for the input field                                                 | ""      |
+| id          | string  | true     | value of the unique identifier for the input field                                             |         |
+| value       | string  | false    | actual value present in the input field                                                        | ""      |
+| placeholder | string  | false    | placeholder string present in the input field                                                  | ""      |
+| isRequired  | boolean | true     | value representing whether the input field is mandatory or not                                 |         |
+| errorMsg    | string  | false    | value to be displayed as an error message if the value entered in the input field is incorrect | ""      |
+| styling     | string  | true     | css classes to apply styling to the input field                                                |         |
+| note        | string  | false    | note for the label of the input field                                                          | ""      |
+| isReadOnly  | boolean | false    | if true, the input field is non-editable                                                       | false   |
+
+<br />
+
+## Editable White With Label
+
+The most commonly used input field with a label heading.
+
+<Story
+  name="Editable White With Label"
+  id="input--editable-white-with-label"
+></Story>
+
+```bash
+<Input
+  v-bind:label="Label Heading"
+  v-bind:id="textInputId"
+  v-bind:placeholder="Enter value"
+  v-bind:isRequired="false"
+  v-bind:styling="bcgov-editable-white"
+/>
+```
+
+## Editable White Mandatory
+
+This is a mandatory field.
+
+<Story
+  name="Editable White Mandatory"
+  id="input--editable-white-mandatory"
+></Story>
+
+```bash
+<Input
+  v-bind:label="Label Heading"
+  v-bind:id="textInputId"
+  v-bind:placeholder="Enter value"
+  v-bind:styling="bcgov-editable-white"
+  v-bind:isRequired="true"
+/>
+```
+
+## Editable White No Label
+
+Input field with no label heading.
+
+<Story
+  name="Editable White No Label"
+  id="input--editable-white-no-label"
+></Story>
+
+```bash
+<Input
+  v-bind:label=""
+  v-bind:id="textInputId"
+  v-bind:placeholder="Enter value"
+  v-bind:isRequired="false"
+  v-bind:styling="bcgov-editable-white"
+/>
+```
+
+## Non Editable Grey
+
+Input field that is non-editable. Used for values that are constant.
+
+<Story name="Non Editable Grey" id="input--non-editable-grey"></Story>
+
+```bash
+<Input
+  v-bind:label="Label Heading"
+  v-bind:id="textInputId"
+  v-bind:placeholder="Enter value"
+  v-bind:isReadOnly="true"
+  v-bind:isRequired="false"
+  v-bind:styling="bcgov-non-editable-grey"
+/>
+```
+
+## With Error Message
+
+Input field with an error message, meaning that the value in the input field is incorrect.
+
+<Story name="With Error Message" id="input--with-error-message"></Story>
+
+```bash
+<Input
+  v-bind:label="Label Heading"
+  v-bind:id="textInputId"
+  v-bind:value="some wrong value"
+  v-bind:isRequired="false"
+  v-bind:styling="bcgov-editable-white"
+  v-bind:errorMsg="There is an error."
+/>
+```

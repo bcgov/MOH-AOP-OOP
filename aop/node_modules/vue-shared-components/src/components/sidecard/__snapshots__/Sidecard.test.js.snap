@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sidecard component matches the blue card snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <!---->
+    <section id="blue-section" class="bcgov-submit-container">
+      <h2 class="bcgov-heading-style">header</h2>
+      <div class="bcgov-submit-content"><span>content</span>
+        <!---->
+      </div>
+    </section>
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`Sidecard component matches the blue card with an image snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <!---->
+    <section id="blue-section" class="bcgov-submit-container">
+      <h2 class="bcgov-heading-style">header</h2>
+      <div class="bcgov-submit-content"><span>content</span> <a href="imageLink" target="_blank" rel="noopener noreferrer"><img src="image" alt="imagelink" height="65px" width="310px"></a></div>
+    </section>
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`Sidecard component matches the bluegrey card snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <!---->
+    <!---->
+    <section id="bluegrey-section" class="bcgov-bluegrey-container">
+      <div class="bcgov-container-background bcgov-bluegrey-heading">
+        <h2 class="bcgov-heading-style">header</h2>
+        <!---->
+      </div>
+      <div class="bcgov-bluegrey-content"><span class="bcgov-content-style">content</span></div>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`Sidecard component matches the grey card snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <section id="grey-section" class="bcgov-submit-container bcgov-grey-custom">
+      <h2 class="bcgov-color-heading">header</h2>
+      <div class="bcgov-submit-content"><span>content</span></div>
+    </section>
+    <!---->
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`Sidecard component matches the isWide snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-wide-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <section id="grey-section" class="bcgov-submit-container bcgov-grey-custom">
+      <h2 class="bcgov-color-heading">header</h2>
+      <div class="bcgov-submit-content"><span>content</span></div>
+    </section>
+    <!---->
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`Sidecard component matches the long heading snapshot 1`] = `
+<div class="bcgov-pos-relative bcgov-dashboard-spacing">
+  <div class="col-12 pt-2 bcgov-pos-relative">
+    <p></p>
+    <section id="grey-section" class="bcgov-submit-container bcgov-grey-custom">
+      <h2 class="bcgov-color-heading">heading is quite long so we can use custom styling to see it render</h2>
+      <div class="bcgov-submit-content"><span>content</span></div>
+    </section>
+    <!---->
+    <!---->
+  </div>
+</div>
+`;

@@ -109,3 +109,4 @@ params-*.txt
 lib
 build/
 dist/
+!aop/node_modules/

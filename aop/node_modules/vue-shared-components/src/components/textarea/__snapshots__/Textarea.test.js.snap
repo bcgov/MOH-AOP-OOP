@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Textarea component when is required matches the snapshot 1`] = `
+<div>
+  <div class="bcgov-input-label"><label for="1">Textarea label</label> <span id="asterisk" class="bcgov-mandatory">*</span>&nbsp;
+  </div> <textarea id="1" rows="8" cols="60" class="bcgov-text-input"></textarea>
+</div>
+`;
+
+exports[`Textarea component with label matches the snapshot 1`] = `
+<div>
+  <div class="bcgov-input-label"><label for="1">Textarea label</label>
+    <!---->&nbsp;
+  </div> <textarea id="1" rows="8" cols="60" class="bcgov-text-input"></textarea>
+</div>
+`;
+
+exports[`Textarea component without label matches the snapshot 1`] = `
+<div>
+  <!----> <textarea id="1" rows="8" cols="60" class="bcgov-text-input"></textarea>
+</div>
+`;

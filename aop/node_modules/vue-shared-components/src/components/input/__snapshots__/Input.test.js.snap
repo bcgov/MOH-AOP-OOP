@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input component matches the snapshot (non-editable-grey) 1`] = `
+<div>
+  <!----> <input type="text" id="textInputId" placeholder="Enter id" readonly="true" class="bcgov-non-editable-grey"> <br> <span class="bcgov-error"></span>
+</div>
+`;
+
+exports[`Input component when mandatory and no label matches the snapshot (editable white) 1`] = `
+<div>
+  <!----> <input type="text" id="textInputId" placeholder="Enter id" class="bcgov-editable-white"> <br> <span class="bcgov-error"></span>
+</div>
+`;
+
+exports[`Input component when mandatory and with label matches the snapshot (editable white) 1`] = `
+<div><label for="textInputId" class="bcgov-label">
+    <div class="bcgov-input-label">Submission ID</div> <span id="asterisk" class="bcgov-mandatory">*</span>&nbsp;
+    <span class="bcgov-note"></span>
+  </label> <input type="text" id="textInputId" placeholder="Enter id" class="bcgov-editable-white"> <br> <span class="bcgov-error"></span></div>
+`;
+
+exports[`Input component when not mandatory and no label matches the snapshot (editable white) 1`] = `
+<div>
+  <!----> <input type="text" id="textInputId" placeholder="Enter id" class="bcgov-editable-white"> <br> <span class="bcgov-error"></span>
+</div>
+`;
+
+exports[`Input component when not mandatory and with label matches the snapshot (editable white) 1`] = `
+<div><label for="textInputId" class="bcgov-label">
+    <div class="bcgov-input-label">Submission ID</div>
+    <!---->&nbsp;
+    <span class="bcgov-note"></span>
+  </label> <input type="text" id="textInputId" placeholder="Enter id" class="bcgov-editable-white"> <br> <span class="bcgov-error"></span></div>
+`;

@@ -1,0 +1,35 @@
+.margin-left-small {
+  margin-left: 10px;
+}
+
+.bcgov-scroll-box {
+  overflow: auto;
+  width: 100%;
+  height: 500px;
+  border: 1px solid;
+  padding: 15px;
+  margin-bottom: 30px;
+}
+
+.bcgov-full-width {
+  width: 100%;
+}
+
+.bcgov-print-page {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1a5a96;
+  float: right;
+  margin-top: 10px;
+}
+
+@media print {
+  .bcgov-printable {
+    overflow: visible;
+    height: auto;
+  }
+
+  .bcgov-non-printable {
+    display: none;
+  }
+}

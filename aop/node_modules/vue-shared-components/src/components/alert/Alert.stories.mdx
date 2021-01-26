@@ -1,0 +1,84 @@
+import { Meta, Story } from "@storybook/addon-docs/blocks";
+import Alert from "./Alert.vue";
+
+<Meta title="Alert" component={Alert} />
+
+# Alert
+
+Alert banners notify users of important information or changes on a page.
+Typically, they appear at the top of a page.
+
+## When to Use
+
+Telling users important and typically time sensitive information. This includes:
+
+- Success messages
+- Error messages
+- Warnings
+- System statuses
+- Important pieces of information
+
+## When not to Use
+
+- In-line error validation on form inputs
+- Popular content on your website
+- Highlighting content
+
+## API
+
+| Prop        | Type          | Required | Description                                                         | Default |
+| ----------- | ------------- | -------- | ------------------------------------------------------------------- | ------- |
+| alertType   | string        | true     | indicates whether the alert is a warning, error, or success message |         |
+| element     | string/object | true     | message to be displayed within the alert                            |         |
+| icon        | element       | true     | jsx rendering the icon element                                      |         |
+| styling     | string        | true     | css class name representing the style for your alert dialog         |         |
+
+<br />
+
+## Success Alert
+
+Used for success messages, typically for after an action is successfully performed.
+
+<Story name="Success" id="alert--success"></Story>
+
+```bash
+import Checkbox from "./Checkbox.vue";
+
+<Alert v-bind:icon="Checkbox" v-bind:alertType="success" v-bind:styling="bcgov-success-background" v-bind:element="This is a success message!" />
+```
+
+## Warning Alert
+
+Used for warning messages, typically for explicitly informing a user of something important that must be considered.
+
+<Story name="Warning" id="alert--warning"></Story>
+
+```bash
+import Error from "./Error.vue";
+
+<Alert v-bind:icon="Error" v-bind:alertType="warning" v-bind:styling="bcgov-warning-background" v-bind:element="This is a warning message!" />
+```
+
+## Error Alert
+
+Used for error messages, when something has gone wrong unexpectedly and the user needs to be aware of it.
+
+<Story name="Error" id="alert--error"></Story>
+
+```bash
+import CloseCircle from "./CloseCircle.vue";
+
+<Alert v-bind:icon="CloseCircle" v-bind:alertType="error" v-bind:styling="bcgov-error-background" v-bind:element="This is an error message!" />
+```
+
+## Info Alert
+
+Used for informative messages.
+
+<Story name="Info" id="alert--info"></Story>
+
+```bash
+import Information from "./Information.vue";
+
+<Alert v-bind:icon="Information" v-bind:alertType="info" v-bind:styling="bcgov-info-background" v-bind:element="This is an info message!" />
+```

@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert component matches the error snapshot 1`] = `
+<div class="bcgov-display-box bcgov-error-background">
+  <div class="bcgov-display-icon">
+    <div>
+      <!---->
+      <!---->
+      <!---->
+      <div class="bcgov-error-color"><span role="img" aria-label="CloseCircle icon" class="mdi mdi-close-circle"><svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><!----> <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"></path></svg></span></div>
+    </div>
+  </div>
+  <div class="bcgov-display-right-element">
+    This is an error message!
+  </div>
+</div>
+`;
+
+exports[`Alert component matches the info snapshot 1`] = `
+<div class="bcgov-display-box bcgov-info-background">
+  <div class="bcgov-display-icon">
+    <div>
+      <!---->
+      <!---->
+      <div><span role="img" aria-label="Information icon" class="mdi mdi-information"><svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><!----> <path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg></span></div>
+      <!---->
+    </div>
+  </div>
+  <div class="bcgov-display-right-element">
+    This is an info message!
+  </div>
+</div>
+`;
+
+exports[`Alert component matches the success snapshot 1`] = `
+<div class="bcgov-display-box bcgov-success-background">
+  <div class="bcgov-display-icon">
+    <div>
+      <div class="bcgov-success-color"><span role="img" aria-label="CheckboxMarked icon" class="mdi mdi-checkbox-marked"><svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><!----> <path d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"></path></svg></span></div>
+      <!---->
+      <!---->
+      <!---->
+    </div>
+  </div>
+  <div class="bcgov-display-right-element">
+    This is a success message!
+  </div>
+</div>
+`;
+
+exports[`Alert component matches the warning snapshot 1`] = `
+<div class="bcgov-display-box bcgov-warning-background">
+  <div class="bcgov-display-icon">
+    <div>
+      <!---->
+      <div class="bcgov-warning-color"><span role="img" aria-label="AlertCircle icon" class="mdi mdi-alert-circle"><svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><!----> <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg></span></div>
+      <!---->
+      <!---->
+    </div>
+  </div>
+  <div class="bcgov-display-right-element">
+    This is a warning message!
+  </div>
+</div>
+`;

@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table component matches the blue-striped snapshot 1`] = `
+<div class="bcgov-table bcgov-blue-stripe"><b>Table heading</b>
+  <div class="bcgov-table-body">
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">BCeID</div>
+      <!---->
+      <div class="bcgov-table-value">bobross42</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">Last Name</div>
+      <!---->
+      <div class="bcgov-table-value">Ross</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">First Name</div>
+      <!---->
+      <div class="bcgov-table-value">Bob</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">Email Address</div>
+      <!---->
+      <div class="bcgov-table-value">bob.ross@example.com</div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Table component matches the default snapshot 1`] = `
+<div class="bcgov-table"><b>Table heading</b>
+  <div class="bcgov-table-body">
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">BCeID</div>
+      <!---->
+      <div class="bcgov-table-value">bobross42</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">Last Name</div>
+      <!---->
+      <div class="bcgov-table-value">Ross</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">First Name</div>
+      <!---->
+      <div class="bcgov-table-value">Bob</div>
+    </div>
+    <div class="bcgov-row ">
+      <!---->
+      <div class="bcgov-fill-width">Email Address</div>
+      <!---->
+      <div class="bcgov-table-value">bob.ross@example.com</div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Table component matches the empty elements snapshot 1`] = `
+<div class="bcgov-table"><b>Table heading</b>
+  <div class="bcgov-table-body"></div>
+</div>
+`;

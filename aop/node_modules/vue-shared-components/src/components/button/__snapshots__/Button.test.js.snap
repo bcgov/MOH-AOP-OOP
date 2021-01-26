@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component matches the disabled snapshot 1`] = `
+<button type="button" disabled="disabled" class="bcgov-button bcgov-normal-blue btn">
+  Button label
+  <!---->
+</button>
+`;
+
+exports[`Button component matches the has loader snapshot 1`] = `
+<button type="button" disabled="disabled" class="bcgov-button bcgov-normal-blue btn">
+  Button label
+  <div class="bcgov-loader-show">
+    <div>
+      <div class="bcgov-btn-loader"></div>
+      <!---->
+    </div>
+  </div>
+</button>
+`;
+
+exports[`Button component matches the primary snapshot 1`] = `
+<button type="button" class="bcgov-button bcgov-normal-blue btn">
+  Button label
+  <!---->
+</button>
+`;
+
+exports[`Button component matches the secondary snapshot 1`] = `
+<button type="button" class="bcgov-button bcgov-normal-white btn">
+  Button label
+  <!---->
+</button>
+`;

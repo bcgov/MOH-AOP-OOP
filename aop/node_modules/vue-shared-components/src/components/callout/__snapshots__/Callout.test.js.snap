@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Callout component with checkbox matches the snapshot 1`] = `
+<div class="bcgov-callout-checkbox">
+  <p>Callout text</p> <label for="agreeCallout" class="float-right"><input id="agreeCallout" type="checkbox">
+    &nbsp;
+    <b>I agree</b> <span id="asterisk" class="bcgov-mandatory">
+      *
+    </span></label>
+</div>
+`;
+
+exports[`Callout component with text matches the snapshot 1`] = `
+<div class="bcgov-callout">
+  <p>Callout text</p>
+  <!---->
+</div>
+`;
