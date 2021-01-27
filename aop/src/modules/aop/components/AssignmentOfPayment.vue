@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header :heading="'Diagnostic Facilities Services - Upload Tool for:'" :subheading="'Assignment of Payment & Outpatient Operator Payment Administration Forms'"/>
+    <Header :heading="'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'"/>
     <ProgressBar :routes='stepRoutes' :currentPath='$route.path' />
     <div class="container py-5">
       <router-view></router-view>

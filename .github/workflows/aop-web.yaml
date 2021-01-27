@@ -68,7 +68,7 @@ jobs:
           cmd: |
             'version'
             'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
+            'tag --source=docker -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
       - name: Image Build
         env:
           NAMESPACE: a3c641-tools
@@ -82,4 +82,4 @@ jobs:
           cmd: |
             'version'
             'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
+            'tag --source=docker -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'

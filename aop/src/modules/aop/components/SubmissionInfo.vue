@@ -23,7 +23,7 @@
       <br>
       <input type="radio" id="yes" value="true" v-model="credentialsRequired" />&nbsp;
       <label for="yes">Yes</label>
-      <div class="text-danger" v-if="$v.credentialsRequired.$dirty && !$v.credentialsRequired.required">Field is required</div>
+      <div class="text-danger" v-if="$v.credentialsRequired.$dirty && uploadType === 'aop' && !$v.credentialsRequired.required">Field is required</div>
     </div>
     <br/>
     <div v-if="uploadType === 'aop' && credentialsRequired !== null">
@@ -96,7 +96,7 @@
           :className="'mt-3 mb-3'"
           v-model="$v.organization.$model"
         />
-        <div class="text-danger" v-if="$v.organization.$dirty && !$v.organization.required" aria-live="assertive">Field is required</div>
+        <div class="text-danger" v-if="$v.organization.$dirty && (uploadType === 'aop' || uploadType === 'coaop') && !$v.organization.required" aria-live="assertive">Field is required</div>
         <div class="text-danger" v-if="$v.organization.$dirty && !$v.organization.alpha" aria-live="assertive">Organization name must not contain numbers or symbols</div>
       </div>
       <div v-if="uploadType === 'oopa'">
@@ -105,7 +105,7 @@
           :className="'mt-3 mb-3'"
           v-model="$v.facility.$model"
         />
-        <div class="text-danger" v-if="$v.facility.$dirty && !$v.facility.required" aria-live="assertive">Field is required</div>
+        <div class="text-danger" v-if="$v.facility.$dirty && uploadType === 'oopa' && !$v.facility.required" aria-live="assertive">Field is required</div>
         <div class="text-danger" v-if="$v.facility.$dirty && !$v.facility.alpha" aria-live="assertive">Facility name must not contain numbers or symbols</div>
       </div>
 
@@ -212,7 +212,7 @@
           <div class="row">
             <div class="col-md upload-container">
               <FileUploader v-model="credentials" />
-              <div class="text-danger" v-if="$v.credentials.$dirty && !$v.credentials.required" aria-live="assertive">Upload is required</div>
+              <div class="text-danger" v-if="$v.credentials.$dirty && credentialsRequired && !$v.credentials.required" aria-live="assertive">Upload is required</div>
             </div>
             <div class="col-md notice">
               <strong>Note:</strong>
@@ -240,18 +240,11 @@ import Button from 'vue-shared-components/src/components/button/Button';
 import Input from '../../common/components/Input';
 import PhoneInput from '../../common/components/PhoneInput';
 import FileUploader from '../../common/components/file-uploader/FileUploader.vue';
-import AddressValidator from '../../common/components/AddressValidator.vue';
 import TextArea from '../../common/components/TextArea.vue';
-import DateInput, {
-  distantFutureValidator,
-  distantPastValidator,
-  beforeDateValidator
-} from '../../common/components/DateInput.vue';
 import { required, minLength, alpha, alphaNum, email } from 'vuelidate/lib/validators';
 import pageStateService from '../../common/services/page-state-service';
 import routes from '../../../routes';
 import {
-  RESET_FORM,
   SET_FIRST_NAME,
   SET_LAST_NAME,
   SET_EMAIL_ADDRESS,
@@ -270,7 +263,6 @@ import {
   SET_ORGANIZATION
 } from '../../../store';
 import strings from '../../../locale/strings.en';
-import { bcPostalCodeValidator } from '../../common/helpers/validators';
 import { scrollTo, scrollToError } from '../../common/helpers/scroll';
 
 export default {
@@ -302,59 +294,61 @@ export default {
       comments: null,
     };
   },
-  validations: {
-    uploadType: {
-      required
-    },
-    credentialsRequired: {
-      required
-    },
-    firstName: {
-      required,
-      alpha
-    },
-    lastName: {
-      required,
-      alpha
-    },
-    emailAddress: {
-      required,
-      email
-    },
-    phoneNumber: {
-      required,
-      minLength: minLength(10)
-    },
-    organization: {
-      required,
-      alpha
-    },
-    facility: {
-      required,
-      alpha
-    },
-    files: {
-      required
-    },
-    credentials: {
-      required
-    },
-    submissionType: {
-      required
-    },
-    primaryNumber: {
-      required,
-      alphaNum
-    },
-    primaryLastName: {
-      required,
-      alpha
-    },
-    secondaryNumber: {
-      alphaNum
-    },
-    secondaryLastName: {
-      alpha
+  validations() {
+    return {
+      uploadType: {
+        required
+      },
+      credentialsRequired: {
+        required: this.uploadType === 'aop'
+      },
+      firstName: {
+        required,
+        alpha
+      },
+      lastName: {
+        required,
+        alpha
+      },
+      emailAddress: {
+        required,
+        email
+      },
+      phoneNumber: {
+        required,
+        minLength: minLength(10)
+      },
+      organization: {
+        required: this.uploadType === 'aop' || this.uploadType === 'coaop',
+        alpha
+      },
+      facility: {
+        required: this.uploadType === 'oopa',
+        alpha
+      },
+      files: {
+        required
+      },
+      credentials: {
+        required: this.credentialsRequired === 'true'
+      },
+      submissionType: {
+        required
+      },
+      primaryNumber: {
+        required,
+        alphaNum
+      },
+      primaryLastName: {
+        required,
+        alpha
+      },
+      secondaryNumber: {
+        alphaNum
+      },
+      secondaryLastName: {
+        alpha
+      }
     }
   },
   created() {
@@ -379,6 +373,7 @@ export default {
     nextPage: function () {
       this.$v.$touch()
       if (this.$v.$invalid) { 
+        console.log('$v:', this.$v);
         scrollToError();
         return;
       }

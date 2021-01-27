@@ -6,8 +6,6 @@
       <img classNames="img-fluid d-none d-md-block pointer" :width="181" :src="bcidLogoRev" />
       <div id="title" class="navbar-brand">
         {{ heading }}
-        <br>
-        {{subheading}}
       </div>
     </nav>
   </header>
@@ -19,10 +17,6 @@ export default {
   name: "Header",
   props: {
     heading: {
-      type: String,
-      required: true,
-    },
-    subheading: {
       type: String,
       required: true,
     }
@@ -41,6 +35,10 @@ export default {
 .navbar > .container-fluid {
   width: 95%;
   justify-content: inherit;
+}
+
+#title {
+  white-space: normal;
 }
 
 .pointer {
