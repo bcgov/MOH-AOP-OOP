@@ -395,7 +395,7 @@ export default {
       this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.uploadedCredentials);
 
       pageStateService.setPageIncomplete(routes.SUBMISSION_INFO.path);
-      const path = routes.REVIEW.path;
+      const path = routes.CONFIRMATION.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
@@ -406,7 +406,7 @@ export default {
   },
   // Required in order to block back navigation on second page.
   beforeRouteLeave(to, from, next) {
-    if (to.path === routes.REVIEW.path) {
+    if (to.path === routes.CONFIRMATION.path) {
       next();
     } else if (to.path === routes.HOME.path) {
       if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {

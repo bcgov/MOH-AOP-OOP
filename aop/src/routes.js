@@ -1,6 +1,6 @@
 import Home from './modules/aop/components/Home.vue';
 import SubmissionInfo from './modules/aop/components/SubmissionInfo.vue';
-import Review from './modules/aop/components/Review.vue';
+import Confirmation from './modules/aop/components/Confirmation.vue';
 import Sending from './modules/aop/components/Sending.vue';
 import Submission from './modules/aop/components/Submission.vue';
 import SubmissionError from './modules/aop/components/SubmissionError.vue';
@@ -18,11 +18,11 @@ export const routes = {
     name: 'SubmissionInfo',
     component: SubmissionInfo
   },
-  REVIEW: {
-    path: '/review',
-    title: 'Review',
-    name: 'Review',
-    component: Review
+  Confirmation: {
+    path: '/confirmation  ',
+    title: 'Confirmation',
+    name: 'Confirmation',
+    component: Confirmation
   },
   SENDING: {
     path: '/sending',

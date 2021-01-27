@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Review Submission</h1>
+    <h1>Confirmation</h1>
     <hr/>
 
     <div class="row mt-5">
@@ -89,20 +89,20 @@ export default {
       }
       this.$store.dispatch(SET_SIGNATURE, this.signature);
 
-      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      pageStateService.setPageIncomplete(routes.CONFIRMATION.path);
       const path = routes.SENDING.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
     navigateToHomePage() {
-      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      pageStateService.setPageIncomplete(routes.CONFIRMATION.path);
       const path = routes.HOME.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },
     navigateToSubmissionInfoPage() {
-      pageStateService.setPageIncomplete(routes.REVIEW.path);
+      pageStateService.setPageIncomplete(routes.CONFIRMATION.path);
       const path = routes.SUBMISSION_INFO.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);

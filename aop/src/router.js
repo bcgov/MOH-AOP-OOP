@@ -24,9 +24,9 @@ const router = new VueRouter({
           component: routes.SUBMISSION_INFO.component
         },
         {
-          path: routes.REVIEW.path,
-          name: routes.REVIEW.name,
-          component: routes.REVIEW.component
+          path: routes.CONFIRMATION.path,
+          name: routes.CONFIRMATION.name,
+          component: routes.CONFIRMATION.component
         },
       ]
     },
