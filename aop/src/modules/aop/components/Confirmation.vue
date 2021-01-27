@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Confirmation</h1>
+    <!-- <h1>Confirmation</h1>
     <hr/>
 
     <div class="row mt-5">
@@ -31,7 +31,7 @@
 
     <Button label="Submit"
             styling="bcgov-normal-blue btn"
-            v-on:button-click='nextPage' />
+            v-on:button-click='nextPage' /> -->
   </div>
 </template>
 
@@ -54,22 +54,24 @@ const requiredCommonImageContent = (data) => {
 export default {
   name: 'Confirmation',
   components: {
-    Button,
-    SignaturePad,
-    Table
+    // Button,
+    // SignaturePad,
+    // Table
   },
   data: () => {
     return {
-      hasConfirmedPageLeave: false,
-      submissionReviewData: [],
-      otherReviewData: [],
-      signature: new CommonImage()
+      selectedForm: null,
+      submitterData: [],
+      submissionData: [],
+      documents: []
     };
   },
   created() {
     this.submissionReviewData = [
       { name: 'First Name', value: this.$store.state.firstName },
-      { name: 'Last Name', value: this.$store.state.lastName }
+      { name: 'Last Name', value: this.$store.state.lastName },
+      { name: 'Email Address', value: this.$store.state.emailAddress },
+      { name: 'Phone NUmber', value: this.$store.state.phoneNumber }
     ];
     this.otherReviewData = [
       { name: 'Lives in BC', value: this.$store.state.livesInBC }

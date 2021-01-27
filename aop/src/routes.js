@@ -18,8 +18,8 @@ export const routes = {
     name: 'SubmissionInfo',
     component: SubmissionInfo
   },
-  Confirmation: {
-    path: '/confirmation  ',
+  CONFIRMATION: {
+    path: '/confirmation',
     title: 'Confirmation',
     name: 'Confirmation',
     component: Confirmation
