@@ -47,8 +47,7 @@ jobs:
             ${{ runner.OS }}-
       - name: npm install and build
         run: |
-          npm install --global yarn
-          yarn install
+          npm i
           npm run build --if-present
         env:
           CI: "true"
