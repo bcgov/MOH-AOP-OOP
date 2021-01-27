@@ -52,7 +52,7 @@ const requiredCommonImageContent = (data) => {
 } 
 
 export default {
-  name: 'Review',
+  name: 'Confirmation',
   components: {
     Button,
     SignaturePad,

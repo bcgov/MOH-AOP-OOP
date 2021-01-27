@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "rm -rf node_modules",
+    "preinstall": "rm -rf node_modules; npm install --save-dev fork-ts-checker-webpack-plugin",
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "start": "vue-cli-service serve --open",

@@ -380,17 +380,7 @@ export default {
                         self.filterError(imageReadError);
                     });
                 } else {
-                    // Load image into img element to read natural height and width
-                    this.readImage(file, pageNumber , (image , imageFile , nextPageNumber)  => {
-                            image.id = imageFile.name; // .name deprecated, changed image.name to image.id
-                            this.resizeImage(image, self, scaleFactors, observer , nextPageNumber );
-                        },
-
-                        // can be ignored for bug, the log line is never called
-                        (error) => {
-                            self.filterError(error);
-                        });
-                    pageNumber = pageNumber + 1;
+                  self.handleError(CommonImageError.WrongType, new CommonImage());
                 }
             }
 

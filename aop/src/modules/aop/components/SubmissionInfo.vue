@@ -6,13 +6,13 @@
     <p>After submitting your first form, you can submit additional forms from the "Submission Confirmation" screen. The submitter information will populate automatically for the second and subsequent submissions.</p>
     <div class="form-group">
       <input type="radio" id="aop" value="aop" v-model="uploadType" @change="resetCredentialsRequired"/>&nbsp;
-      <label for="aop">Assignment of Payment and Medical Director Authorization (HLTH 1908)</label>
+      <label for="aop">Diagnostic Facility Services Assignment of Payment and Medical Director Authorization (HLTH 1908)</label>
       <br>
       <input type="radio" id="coaop" value="coaop" v-model="uploadType" @change="resetCredentialsRequired"/>&nbsp;
-      <label for="coaop">Cancellation of Assignment of Payment (HLTH 1926)</label>
+      <label for="coaop">Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)</label>
       <br>
       <input type="radio" id="oopa" value="oopa" v-model="uploadType" @change="resetCredentialsRequired"/>&nbsp;
-      <label for="oopa">Outpatient Operator Payment Administration (HLTH 2999)</label>
+      <label for="oopa">Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)</label>
       <div class="text-danger" v-if="$v.uploadType.$dirty && !$v.uploadType.required">Field is required</div>
     </div>
     <div v-if="uploadType === 'aop'">
@@ -177,7 +177,7 @@
         v-model="comments"
       />
 
-      <div class="mt-3">
+      <div class="mt-3 mb-5">
         <h3><em>Attach Completed {{ uploadTitle }} Form</em></h3>
         <hr/>
         <div class="container">
@@ -205,7 +205,7 @@
         </div>
       </div>
       
-      <div v-if="credentialsRequired === 'true'" class="mt-3">
+      <div v-if="credentialsRequired === 'true'" class="mb-5">
         <h3><em>Attach Confirmation of Practitioner Credentials Documents</em></h3>
         <hr/>
         <div class="container">
