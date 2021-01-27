@@ -72,6 +72,7 @@ oc process -f openshift/templates/deploy.yaml --param-file=params-dev.txt | oc a
 ```console
 oc process -f openshift/templates/config.yaml --param-file=params-dev.txt | oc apply -f -
 ```
+
 5. create the trio of dc, service, routes using the deploy.yaml file:
 ```console
 oc process -f openshift/templates/deploy.yaml --param-file=params-dev.txt | oc apply -f -

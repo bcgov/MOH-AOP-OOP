@@ -93,6 +93,7 @@ Create the OCP image `BuildConfig` using the provided OCP template:
 oc process -f spa-env-server/openshift/templates/build.yaml | \
   oc create -f -
 ```
+
 To build:
 
 ```start the build
