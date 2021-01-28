@@ -114,10 +114,10 @@
 
       <div class="form-group" v-if="uploadType === 'aop' || uploadType === 'oopa'">
         <p>Submission Type</p>
-        <input type="radio" id="new" value="new" v-model="submissionType" />&nbsp;
+        <input type="radio" id="new" value="New Submission" v-model="submissionType" />&nbsp;
         <label for="new">New Submission</label>
         <br>
-        <input type="radio" id="revised" value="revised" v-model="submissionType" />&nbsp;
+        <input type="radio" id="revised" value="Revised Submission" v-model="submissionType" />&nbsp;
         <label for="revised">Revised Submission</label>
       </div>
  
@@ -204,7 +204,6 @@
           </div>
         </div>
       </div>
-      
       <div v-if="credentialsRequired === 'true'" class="mb-5">
         <h3><em>Attach Confirmation of Practitioner Credentials Documents</em></h3>
         <hr/>
@@ -391,11 +390,11 @@ export default {
       this.$store.dispatch(SET_SECONDARY_NUMBER, this.secondaryNumber);
       this.$store.dispatch(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
       this.$store.dispatch(SET_COMMENTS, this.comments);
-      this.$store.dispatch(SET_UPLOADED_FORMS, this.uploadedForms);
-      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.uploadedCredentials);
+      this.$store.dispatch(SET_UPLOADED_FORMS, this.files);
+      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.credentials);
 
       pageStateService.setPageIncomplete(routes.SUBMISSION_INFO.path);
-      const path = routes.CONFIRMATION.path;
+      const path = routes.REVIEW.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
@@ -406,7 +405,7 @@ export default {
   },
   // Required in order to block back navigation on second page.
   beforeRouteLeave(to, from, next) {
-    if (to.path === routes.CONFIRMATION.path) {
+    if (to.path === routes.REVIEW.path) {
       next();
     } else if (to.path === routes.HOME.path) {
       if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {

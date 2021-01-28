@@ -24,9 +24,14 @@ const router = new VueRouter({
           component: routes.SUBMISSION_INFO.component
         },
         {
-          path: routes.CONFIRMATION.path,
-          name: routes.CONFIRMATION.name,
-          component: routes.CONFIRMATION.component
+          path: routes.REVIEW.path,
+          name: routes.REVIEW.name,
+          component: routes.REVIEW.component
+        },
+        {
+          path: routes.SUBMISSION.path,
+          name: routes.SUBMISSION.name,
+          component: routes.SUBMISSION.component
         },
       ]
     },
@@ -34,11 +39,6 @@ const router = new VueRouter({
       path: routes.SENDING.path,
       name: routes.SENDING.name,
       component: routes.SENDING.component
-    },
-    {
-      path: routes.SUBMISSION.path,
-      name: routes.SUBMISSION.name,
-      component: routes.SUBMISSION.component
     },
     {
       path: routes.SUBMISSION_ERROR.path,

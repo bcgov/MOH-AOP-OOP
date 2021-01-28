@@ -36,14 +36,19 @@ export default {
     };
   },
   created: function() {
-    // Error URL: https://run.mocky.io/v3/379961d9-61a0-4b9e-a3d7-a32b00937f8f
-    axios.get('https://api.ipify.org?format=json').then((response) => {
-      this.$store.dispatch(SET_API_RESPONSE, response);
-      this.nextPage();
-    }).catch((error) => {
-      this.$store.dispatch(SET_API_ERROR, error);
-      this.navigateToErrorPage();
-    });
+    const testSuccess = true;
+    
+    if (testSuccess === true) {
+      setTimeout(() => {
+        this.$store.dispatch(SET_API_RESPONSE, { message: 'API Message' });
+        this.nextPage();
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        this.$store.dispatch(SET_API_ERROR, 'Error message placeholder');
+        this.navigateToErrorPage();
+      }, 2000);
+    }
   },
   methods: {
     nextPage: function() {
