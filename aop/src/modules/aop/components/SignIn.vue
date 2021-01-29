@@ -59,6 +59,7 @@ export default {
   background-color: #DDD;
   border-bottom: 1px solid #444;
   padding: 8px 16px;
+  border-radius: 5px 5px 0 0;
 }
 
 .card .btn {

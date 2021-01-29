@@ -97,7 +97,6 @@
           v-model="$v.organization.$model"
         />
         <div class="text-danger" v-if="$v.organization.$dirty && (uploadType === 'aop' || uploadType === 'coaop') && !$v.organization.required" aria-live="assertive">Field is required</div>
-        <div class="text-danger" v-if="$v.organization.$dirty && !$v.organization.alpha" aria-live="assertive">Organization name must not contain numbers or symbols</div>
       </div>
       <div v-if="uploadType === 'oopa'">
         <Input
@@ -106,7 +105,6 @@
           v-model="$v.facility.$model"
         />
         <div class="text-danger" v-if="$v.facility.$dirty && uploadType === 'oopa' && !$v.facility.required" aria-live="assertive">Field is required</div>
-        <div class="text-danger" v-if="$v.facility.$dirty && !$v.facility.alpha" aria-live="assertive">Facility name must not contain numbers or symbols</div>
       </div>
 
       <h3><em>Information About This Submission</em></h3>
@@ -319,11 +317,9 @@ export default {
       },
       organization: {
         required: this.uploadType === 'aop' || this.uploadType === 'coaop',
-        alpha
       },
       facility: {
         required: this.uploadType === 'oopa',
-        alpha
       },
       files: {
         required
