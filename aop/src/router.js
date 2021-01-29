@@ -11,12 +11,12 @@ const router = new VueRouter({
     { 
       path: '/',
       component: AssignmentOfPayment,
-      redirect: routes.HOME.path,
+      redirect: routes.SIGN_IN.path,
       children: [
         {
-          path: routes.HOME.path,
-          name: routes.HOME.name,
-          component: routes.HOME.component
+          path: routes.SIGN_IN.path,
+          name: routes.SIGN_IN.name,
+          component: routes.SIGN_IN.component
         },
         {
           path: routes.SUBMISSION_INFO.path,
@@ -57,8 +57,8 @@ const shouldNavigateHome = (homeRouteName, to) => {
 
 router.beforeEach((to, from, next) => {
   // Home redirect
-  if (shouldNavigateHome(routes.HOME.name, to)) {
-    next({ name: routes.HOME.name });
+  if (shouldNavigateHome(routes.SIGN_IN.name, to)) {
+    next({ name: routes.SIGN_IN.name });
   }
   
   // Catch-all (navigation)
@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to, from) => {
-  if (to.path === routes.HOME.path && !pageStateService.isPageComplete(to.path)) {
+  if (to.path === routes.SIGN_IN.path && !pageStateService.isPageComplete(to.path)) {
     store.dispatch(RESET_FORM);
   }
 });

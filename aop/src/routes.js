@@ -1,4 +1,4 @@
-import Home from './modules/aop/components/Home.vue';
+import SignIn from './modules/aop/components/SignIn.vue';
 import SubmissionInfo from './modules/aop/components/SubmissionInfo.vue';
 import Review from './modules/aop/components/Review.vue';
 import Sending from './modules/aop/components/Sending.vue';
@@ -6,11 +6,11 @@ import Submission from './modules/aop/components/Submission.vue';
 import SubmissionError from './modules/aop/components/SubmissionError.vue';
 
 export const routes = {
-  HOME: {
-    path: '/home',
-    title: 'Authorization',
-    name: 'Home',
-    component: Home
+  SIGN_IN: {
+    path: '/sign-in',
+    title: 'Sign In',
+    name: 'SignIn',
+    component: SignIn
   },
   SUBMISSION_INFO: {
     path: '/submission-info',

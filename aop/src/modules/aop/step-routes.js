@@ -1,7 +1,7 @@
 import routes from '../../routes';
 
 const steps = [
-  {...routes.HOME},
+  {...routes.SIGN_IN},
   {...routes.SUBMISSION_INFO},
   {...routes.REVIEW},
   {...routes.SUBMISSION}

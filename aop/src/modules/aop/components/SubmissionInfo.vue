@@ -229,7 +229,7 @@
     </div>
 
     <Button label="Continue"
-            styling="bcgov-normal-blue btn mt-3"
+            styling="bcgov-normal-blue btn"
             v-on:button-click='nextPage' />
   </div>
 </template>
