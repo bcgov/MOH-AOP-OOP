@@ -1,6 +1,6 @@
 <template>
   <main>
-    <Header name="Enrolment" :history="history" />
+    <Header :heading="'Enrolment'" />
     <div class="container py-5">
       <h1>Submission Error.</h1>
       <p>See console for details.</p>
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Footer from "vue-shared-components/src/components/footer/Footer";
-import Header from "vue-shared-components/src/components/header/Header";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 export default {
   name: "SubmissionError",

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import Button from "vue-shared-components/src/components/button/Button";
+import Button from "../components/Button";
 import Table from "../components/Table";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";

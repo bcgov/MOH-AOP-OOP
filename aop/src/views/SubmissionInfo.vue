@@ -524,7 +524,7 @@
 </template>
 
 <script>
-import Button from "vue-shared-components/src/components/button/Button";
+import Button from "../components/Button";
 import Input from "../components/Input";
 import PhoneInput from "../components/PhoneInput";
 import FileUploader from "../components/file-uploader/FileUploader.vue";

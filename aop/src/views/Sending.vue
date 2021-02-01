@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Footer from "vue-shared-components/src/components/footer/Footer";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";

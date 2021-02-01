@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Footer from "vue-shared-components/src/components/footer/Footer";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
 import stepRoutes from "../router/step-routes";

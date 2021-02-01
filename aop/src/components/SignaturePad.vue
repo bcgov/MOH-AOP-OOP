@@ -20,7 +20,7 @@
 <script>
 import Vue from "vue";
 import VueSignaturePad from "vue-signature-pad";
-import Button from "vue-shared-components/src/components/button/Button";
+import Button from "../components/Button";
 import { isMobile } from "../helpers/user-agent";
 
 Vue.use(VueSignaturePad);
