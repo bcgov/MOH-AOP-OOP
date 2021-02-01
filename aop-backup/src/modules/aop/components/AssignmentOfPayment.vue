@@ -36,4 +36,10 @@ export default {
 main {
   padding: 0;
 }
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
 </style>

@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import './modules/common/services/page-state-service';
+import "./services/page-state-service";
 
 export default {
-  name: 'App',
-}
+  name: "App"
+};
 </script>

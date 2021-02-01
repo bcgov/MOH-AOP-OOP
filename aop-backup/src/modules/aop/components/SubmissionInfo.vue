@@ -227,7 +227,7 @@
     </div>
 
     <Button label="Continue"
-            styling="bcgov-normal-blue btn"
+            styling="bcgov-normal-blue btn mb"
             v-on:button-click='nextPage' />
   </div>
 </template>
@@ -457,5 +457,9 @@ h1, h2, h3, h4, h5, h6 {
   > * {
     height: 100%;
   }
+}
+
+.mb {
+  margin-bottom: 80px;
 }
 </style>
