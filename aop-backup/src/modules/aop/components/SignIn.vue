@@ -4,7 +4,7 @@
     <div class="card">
       <h3>Sign in with a BC Services Card enabled Diagnostic Facilities Services User ID</h3>
       <Button label="Log in with a BC Services Card"
-              styling="bcgov-normal-blue btn"
+              styling="bcgov-normal-blue btn mb-5"
               v-on:button-click='nextPage' />
     </div>
 
