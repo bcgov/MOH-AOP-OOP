@@ -12,28 +12,19 @@
         v-on:button-click="nextPage"
       />
     </div>
-
-    <ConsentModal
-      v-if="!$store.state.hasAcceptedTerms"
-      v-on:accept="acceptConsentModal"
-      :heading="'Information Collection Notice'"
-    />
   </div>
 </template>
 
 <script>
 import Button from "../components/Button";
-import ConsentModal from "../components/ConsentModal";
 import pageStateService from "../services/page-state-service";
 import routes from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
-import { SET_HAS_ACCEPTED_TERMS } from "../store/index";
 
 export default {
   name: "SignIn",
   components: {
-    Button,
-    ConsentModal
+    Button
   },
   created() {
     pageStateService.setPageComplete(routes.SIGN_IN.path);
@@ -45,9 +36,6 @@ export default {
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
-    },
-    acceptConsentModal() {
-      this.$store.dispatch(SET_HAS_ACCEPTED_TERMS, true);
     }
   }
 };
