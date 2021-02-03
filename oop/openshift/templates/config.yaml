@@ -1,0 +1,257 @@
+# Copyright 2020 The Province of British Columbia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  annotations:
+    description: |
+      This configmap is used internally by NGINX
+      to store config.
+  name: oop-web-config
+objects:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: oop-web-config
+      labels:
+        app: oop-web
+    data:
+      nginx.conf: |
+        worker_processes auto;
+
+        error_log /var/log/nginx/error.log;
+        pid /var/run/nginx.pid;
+
+        events {
+          worker_connections 4096;
+        }
+
+        http {
+          include /etc/nginx/mime.types;
+          default_type application/octet-stream;
+          server_tokens off;
+          underscores_in_headers on;
+
+          # ip filtering
+          ${IpFilterRules}
+
+          # logging rules
+          geo $loggable {
+            default 1;
+            ${RealIpFrom} 0;
+          }
+
+          # Use a w3c standard log format
+          log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+            '$status $body_bytes_sent "$http_referer" '
+            '"$http_user_agent" "$http_x_forwarded_for"';
+
+          access_log /var/log/nginx/access.log main if=$loggable;
+
+          sendfile on;
+
+          keepalive_timeout 65;
+
+          #real_ip module
+          set_real_ip_from ${RealIpFrom};
+          real_ip_recursive on;
+          real_ip_header X-Forwarded-For;
+
+          #throttle zones
+          limit_req_zone $binary_remote_addr zone=bra1:10m rate=1r/s;
+          limit_req_zone $binary_remote_addr zone=bra3:10m rate=3r/s;
+          limit_req_zone $binary_remote_addr zone=bra5:10m rate=5r/s;
+          limit_req_zone $binary_remote_addr zone=bra25:10m rate=25r/s;
+
+          # default throttle; not inherited if set in nested level
+          # limit_req_zone $binary_remote_addr zone=bra5:10m rate=100r/s;
+          # limit_req zone=bra5 burst=100;
+          limit_req_zone $binary_remote_addr zone=bra100:10m rate=1400r/s;
+          # limit_req zone=bra100 burst=1400;
+
+          client_max_body_size 100m;
+
+          server {
+            listen 8080;
+            server_name localhost;
+
+            # add in most common security headers
+            add_header Content-Security-Policy "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'";
+            add_header Strict-Transport-Security "max-age=86400; includeSubDomains";
+            add_header X-Content-Type-Options "nosniff";
+            add_header X-XSS-Protection 1;
+            add_header X-Frame-Options DENY;
+
+            # uncomment for test2
+            # index index.html index.htm;
+
+            # serve our angular app here
+            location / {
+              rewrite ^/oop(/.*)$ $1;
+
+              root /opt/app-root/src;
+
+              # comment for test2
+              index index.html index.htm;
+
+              try_files $uri /index.html;
+              gzip on;
+              gzip_min_length 1000;
+              gzip_types *;
+            }
+
+            # redirects
+            location /application/prepare {
+              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/oop/bc-residents;
+              # return 301 https://my.gov.bc.ca/oop/enrolment/check-eligibility;
+            }
+            location /assistance/prepare {
+              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/oop/bc-residents;
+              # return 301 https://my.gov.bc.ca/oop/assistance/home;
+            }
+            location /account-letter/personal-info {
+              return https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/oop/bc-residents;
+              # return 301 https://my.gov.bc.ca/oop/account-letter/request-acl;
+            }
+            location /deam-interim/oop/account/prepare {
+              return https://oop-deam-${OOP_ENV}.pathfinder.gov.bc.ca;
+              # return 301 https://my.gov.bc.ca/oop/deam-interim/;
+            }
+
+            location /api {
+              proxy_pass http://msp-service:8080/;
+              proxy_read_timeout 300;
+              proxy_connect_timeout 300;
+              proxy_send_timeout 300;
+
+              location /api/logging {
+                if ( $request_method !~ ^(POST|HEAD|OPTIONS)$ ) {
+                  return 405;
+                }
+                if ( $request_method ~ ^(HEAD|OPTIONS)$ ) {
+                  return 200;
+                }
+                proxy_set_header Authorization "Splunk ${SPLUNK_AUTH_TOKEN}";
+                proxy_set_header http_host ${HOSTNAME};
+                proxy_pass_header Authorization;
+                proxy_pass_header http_host;
+                proxy_pass_header request_method;
+                proxy_pass_header http_x_forwarded_host;
+                proxy_pass http://splunk-forwarder:8080/log;
+              }
+
+              location /api/env {
+                if ( $request_method !~ ^(POST|HEAD|OPTIONS)$ ) {
+                  return 405;
+                }
+                if ( $request_method ~ ^(HEAD|OPTIONS)$ ) {
+                  return 200;
+                }
+                proxy_set_header Authorization "spaenv ${SPA_ENV_AUTH_TOKEN}";
+                proxy_set_header http_host ${HOSTNAME};
+                proxy_pass_header Authorization;
+                proxy_pass_header http_host;
+                proxy_pass_header request_method;
+                proxy_pass_header http_x_forwarded_host;
+                proxy_pass_header SPA_ENV_NAME;
+                proxy_pass http://spa-env-server:8080/env;
+              }
+
+              location /api/address {
+                if ( $request_method !~ ^(GET|HEAD|OPTIONS)$ ) {
+                  return 405;
+                }
+                if ( $request_method ~ ^(HEAD|OPTIONS)$ ) {
+                  return 200;
+                }
+                proxy_set_header http_host ${HOSTNAME};
+                proxy_pass_header Authorization;
+                proxy_pass_header http_host;
+                proxy_pass_header request_method;
+                proxy_pass_header http_x_forwarded_host;
+                proxy_pass http://address-service:8080/address;
+              }
+
+              location /api/captcha/ {
+                proxy_pass http://captcha-service:8080/;
+              }
+            }
+
+            # redirect server error pages to the static page /50x.html
+            error_page   500 502 503 504  /50x.html;
+            location = /50x.html {
+              root /usr/share/nginx/html;
+            }
+
+            # no serving Dockerfile
+            location = /Dockerfile {
+              root   /usr/share/nginx/html;
+            }
+
+            # For status of ngnix service, OpenShift is configured to call this
+            location /nginx_status {
+              # Enable Nginx stats
+              stub_status on;
+
+              # Only allow access from within OpenShift
+              allow ${RealIpFrom};
+
+              # Other request should be denied
+              deny all;
+
+              # No need to log this request, its just noise
+              access_log off;
+            }
+          }
+        }
+parameters:
+  - description: RealIpFrom
+    name: RealIpFrom
+    required: true
+  - description: IpFilterRules
+    name: IpFilterRules
+    required: true
+  - description: SPLUNK_AUTH_TOKEN
+    name: SPLUNK_AUTH_TOKEN
+    required: true
+  - description: SPA_ENV_AUTH_TOKEN
+    name: SPA_ENV_AUTH_TOKEN
+    required: true
+  - description: OOP_ENV
+    name: OOP_ENV
+    required: true
+  - description: SOURCE_IMAGE_TAG
+    name: SOURCE_IMAGE_TAG
+    required: true
+  - description: SOURCE_IMAGE_NAMESPACE
+    name: SOURCE_IMAGE_NAMESPACE
+    required: true
+  - description: ROUTER_DEFAULT_CLIENT_TIMEOUT
+    name: ROUTER_DEFAULT_CLIENT_TIMEOUT
+    value: "60s"
+    required: false
+  - description: ROUTER_DEFAULT_SERVER_TIMEOUT
+    name: ROUTER_DEFAULT_SERVER_TIMEOUT
+    value: "60s"
+    required: false
+  - description: LOG_LEVEL
+    name: LOG_LEVEL
+    value: "info"
+    required: true
+  - description: USE_SPLUNK_FORWARDER
+    name: USE_SPLUNK_FORWARDER
+    value: "true"
+    required: false
