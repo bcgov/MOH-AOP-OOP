@@ -8,6 +8,18 @@
   </div>
 </template>
 
+<script>
+import project from '../package.json';
+
+export default {
+  name: 'App',
+  created: () => {
+    // Log frontend version to the console.
+    console.log('Frontend version: ', project.version);
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
