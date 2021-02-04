@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
+    <div>Version: {{version}}</div>
   </div>
 </template>
 
@@ -13,9 +14,14 @@ import project from '../package.json';
 
 export default {
   name: 'App',
+  data: () => {
+    return {
+      version: project.version
+    };
+  },
   created: () => {
     // Log frontend version to the console.
-    console.log('Frontend version: ', project.version);
+    // console.log('Frontend version: ', project.version);
   }
 }
 </script>
