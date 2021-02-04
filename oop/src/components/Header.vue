@@ -18,7 +18,7 @@
         role="img"
       />
       <div id="title" class="navbar-brand">
-        {{ name }}
+        {{ title }}
       </div>
     </nav>
   </header>
@@ -30,7 +30,7 @@
   export default {
     name: "Header",
     props: {
-      name: {
+      title: {
         type: String,
         required: true,
       },
@@ -43,6 +43,7 @@
     }
   }
 </script>
+
 <style scoped>
 .navbar > .container-fluid {
   width: 95%;
