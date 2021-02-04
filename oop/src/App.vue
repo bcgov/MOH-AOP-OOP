@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <Header name='Out-of-Province Move' />
     <router-view/>
     <div>Version: {{version}}</div>
   </div>
@@ -11,17 +8,17 @@
 
 <script>
 import project from '../package.json';
+import Header from '@/components/Header.vue';
 
 export default {
   name: 'App',
+  components: {
+    Header: Header
+  },
   data: () => {
     return {
       version: project.version
     };
-  },
-  created: () => {
-    // Log frontend version to the console.
-    // console.log('Frontend version: ', project.version);
   }
 }
 </script>
