@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
 import project from '../package.json';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
