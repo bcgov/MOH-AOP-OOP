@@ -1,0 +1,19 @@
+{
+  "uuid": "string",
+  "uploadType": "string",
+  "credentialsRequired": "boolean",
+  "firstName": "string",
+  "lastName": "string",
+  "emailAddress": "string",
+  "phoneNumber": "string",
+  "organization": "string",
+  "facility": "string",
+  "submissionType": "string",
+  "primaryNumber": "string",
+  "primaryLastName": "string",
+  "secondaryNumber": "string",
+  "secondaryLastName": "string",
+  "comments": "string",
+  "uploadedForms": "array of attachment uuids",
+  "uploadedCredentials": "array of attachment uuids"
+}

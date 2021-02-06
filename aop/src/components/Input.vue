@@ -5,6 +5,9 @@
       :id="'input' + label"
       class="form-control"
       :value="value"
+      :disabled="disabled"
+      :maxlength="maxlength"
+      :minlength="minlength"
       @input="emitInput($event)"
     />
   </div>
@@ -17,7 +20,10 @@ export default {
   props: {
     value: String,
     label: String,
-    className: String
+    className: String,
+    disabled: Boolean,
+    maxlength: Number,
+    minlength: Number
   },
   methods: {
     emitInput(event) {

@@ -174,53 +174,26 @@
         Provide details below about the person submitting the form (clerk,
         administrator, etc.)
       </p>
-      <Input :label="'First Name'" v-model.trim.lazy="$v.firstName.$model" />
-      <div
-        class="text-danger"
-        v-if="$v.firstName.$dirty && !$v.firstName.required"
-        aria-live="assertive"
-      >
-        Field is required
-      </div>
-      <div
-        class="text-danger"
-        v-if="$v.firstName.$dirty && !$v.firstName.alpha"
-        aria-live="assertive"
-      >
-        Name must not contain numbers or symbols
-      </div>
-
+      <Input :label="'First Name'" v-model="firstName" :disabled="true"/>
       <Input
         :label="'Last Name'"
         :className="'mt-3'"
-        v-model="$v.lastName.$model"
+        v-model="lastName"
+        :disabled="true"
       />
-      <div
-        class="text-danger"
-        v-if="$v.lastName.$dirty && !$v.lastName.required"
-        aria-live="assertive"
-      >
-        Field is required
-      </div>
-      <div
-        class="text-danger"
-        v-if="$v.lastName.$dirty && !$v.lastName.alpha"
-        aria-live="assertive"
-      >
-        Name must not contain numbers or symbols
-      </div>
 
       <Input
         :label="'Email Address'"
         :className="'mt-3'"
         v-model="$v.emailAddress.$model"
+        :maxlength="100"
       />
       <div
         class="text-danger"
         v-if="$v.emailAddress.$dirty && !$v.emailAddress.required"
         aria-live="assertive"
       >
-        Field is required
+        Email address is required
       </div>
       <div
         class="text-danger"
@@ -238,50 +211,41 @@
       />
       <div
         class="text-danger"
-        v-if="$v.phoneNumber.$touched && !$v.phoneNumber.required"
+        v-if="phoneNumber !== null && !$v.phoneNumber.isValidPhone"
         aria-live="assertive"
       >
-        Field is required
+        Valid phone number required
       </div>
-      <div
-        class="text-danger"
-        v-if="$v.phoneNumber.$touched && !$v.phoneNumber.minLength"
-        aria-live="assertive"
-      >
-        Must be a complete phone number
-      </div>
-      <div v-if="uploadType === 'aop' || uploadType === 'coaop'">
+
+      <div class="mb-3" v-if="uploadType === 'aop' || uploadType === 'coaop'">
         <Input
           :label="'Organization'"
-          :className="'mt-3 mb-3'"
+          :className="'mt-3'"
           v-model="$v.organization.$model"
+          :maxlength="70"
         />
         <div
           class="text-danger"
-          v-if="
-            $v.organization.$dirty &&
-              (uploadType === 'aop' || uploadType === 'coaop') &&
-              !$v.organization.required
-          "
+          v-if="$v.organization.$dirty && !$v.organization.required"
           aria-live="assertive"
         >
-          Field is required
+          Organization is required
         </div>
       </div>
-      <div v-if="uploadType === 'oopa'">
+
+      <div class="mb-3" v-if="uploadType === 'oopa'">
         <Input
           :label="'Facility Name'"
-          :className="'mt-3 mb-3'"
+          :className="'mt-3'"
           v-model="$v.facility.$model"
+          :maxlength="70"
         />
         <div
           class="text-danger"
-          v-if="
-            $v.facility.$dirty && uploadType === 'oopa' && !$v.facility.required
-          "
+          v-if="$v.facility.$dirty && !$v.facility.required"
           aria-live="assertive"
         >
-          Field is required
+          Facility name is required
         </div>
       </div>
 
@@ -297,7 +261,7 @@
           type="radio"
           id="new"
           value="New Submission"
-          v-model="submissionType"
+          v-model="$v.submissionType.$model"
         />&nbsp;
         <label for="new">New Submission</label>
         <br />
@@ -305,9 +269,16 @@
           type="radio"
           id="revised"
           value="Revised Submission"
-          v-model="submissionType"
+          v-model="$v.submissionType.$model"
         />&nbsp;
         <label for="revised">Revised Submission</label>
+        <div
+          class="text-danger"
+          v-if="$v.submissionType.$dirty && !$v.submissionType.required"
+          aria-live="assertive"
+        >
+          Please indicate if this is a new or revised submission
+        </div>
       </div>
 
       <div v-if="uploadType === 'aop' || uploadType === 'coaop'">
@@ -315,40 +286,49 @@
           :label="'Practitioner Number'"
           :className="'mt-3'"
           v-model="$v.primaryNumber.$model"
+          :maxlength="5"
         />
         <div
           class="text-danger"
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.required"
           aria-live="assertive"
         >
-          Field is required
+          Practitioner number is required
         </div>
         <div
           class="text-danger"
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.alphaNum"
           aria-live="assertive"
         >
-          Practitioner number must only contain numbers and letters
+          Invalid practitioner number
+        </div>
+        <div
+          class="text-danger"
+          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
         </div>
 
         <Input
           :label="'Practitioner Last Name'"
           :className="'mt-3'"
           v-model="$v.primaryLastName.$model"
+          :maxlength="35"
         />
         <div
           class="text-danger"
           v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.required"
           aria-live="assertive"
         >
-          Field is required
+          Practitioner last name is required
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.alpha"
+          v-if="$v.primaryLastName.$dirty && $v.primaryLastName.required && !$v.primaryLastName.isValidLastName"
           aria-live="assertive"
         >
-          Practitioner last name must not contain numbers or symbols
+          Invalid practitioner last name
         </div>
       </div>
 
@@ -357,40 +337,49 @@
           :label="'Primary Practitioner Number'"
           :className="'mt-3'"
           v-model="$v.primaryNumber.$model"
+          :maxlength="5"
         />
         <div
           class="text-danger"
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.required"
           aria-live="assertive"
         >
-          Field is required
+          Primary practitioner number is required
         </div>
         <div
           class="text-danger"
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.alphaNum"
           aria-live="assertive"
         >
-          Practitioner number must only contain contain numbers and letters
+          Invalid practitioner number
+        </div>
+        <div
+          class="text-danger"
+          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
         </div>
 
         <Input
           :label="'Primary Practitioner Last Name'"
           :className="'mt-3'"
           v-model="$v.primaryLastName.$model"
+          :maxlength="35"
         />
         <div
           class="text-danger"
           v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.required"
           aria-live="assertive"
         >
-          Field is required
+          Primary practitioner last name is required
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.alpha"
+          v-if="$v.primaryLastName.$dirty && $v.primaryLastName.required && !$v.primaryLastName.isValidLastName"
           aria-live="assertive"
         >
-          Practitioner last name must not contain numbers or symbols
+          Invalid practitioner last name
         </div>
 
         <Input
@@ -403,20 +392,28 @@
           v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.alphaNum"
           aria-live="assertive"
         >
-          Practitioner number must only contain numbers and letters
+          Invalid practitioner number
+        </div>
+        <div
+          class="text-danger"
+          v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.minLength"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
         </div>
 
         <Input
           :label="'Secondary Practitioner Last Name (optional)'"
           :className="'mt-3'"
           v-model="$v.secondaryLastName.$model"
+          :maxlength="35"
         />
         <div
           class="text-danger"
-          v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.alpha"
+          v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.isValidLastName"
           aria-live="assertive"
         >
-          Practitioner last name must not contain numbers or symbols
+          Invalid practitioner last name
         </div>
       </div>
 
@@ -424,9 +421,10 @@
         :label="'Comments (optional)'"
         :className="'mt-3'"
         v-model="comments"
+        :maxlength="210"
       />
 
-      <div class="mt-3 mb-5">
+      <div class="mt-3 mb">
         <h3>
           <em>Attach Completed {{ uploadTitle }} Form</em>
         </h3>
@@ -476,7 +474,7 @@
           </div>
         </div>
       </div>
-      <div v-if="credentialsRequired === 'true'" class="mb-5">
+      <div v-if="credentialsRequired === 'true'" class="mb">
         <h3>
           <em>Attach Confirmation of Practitioner Credentials Documents</em>
         </h3>
@@ -514,12 +512,13 @@
         </div>
       </div>
     </div>
-
-    <Button
-      label="Continue"
-      styling="bcgov-normal-blue btn mb"
-      v-on:button-click="nextPage"
-    />
+    <div class="bar">
+      <Button
+        label="Continue"
+        :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
+        v-on:button-click="nextPage"
+      />
+    </div>
   </div>
 </template>
 
@@ -559,6 +558,14 @@ import {
 import strings from "../locale/strings.en";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 
+const isValidPhone = ph => {
+  return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(ph);
+}
+
+const isValidLastName = name => {
+  return /([a-z][a-z,', ,\-,.]{1,})/gi.test(name);
+}
+
 export default {
   name: "SubmissionInfo",
   components: {
@@ -589,65 +596,212 @@ export default {
     };
   },
   validations() {
-    return {
-      uploadType: {
-        required
-      },
-      credentialsRequired: {
-        required: this.uploadType === "aop"
-      },
-      firstName: {
-        required,
-        alpha
-      },
-      lastName: {
-        required,
-        alpha
-      },
-      emailAddress: {
-        required,
-        email
-      },
-      phoneNumber: {
-        required,
-        minLength: minLength(10)
-      },
-      organization: {
-        required: this.uploadType === "aop" || this.uploadType === "coaop"
-      },
-      facility: {
-        required: this.uploadType === "oopa"
-      },
-      files: {
-        required
-      },
-      credentials: {
-        required: this.credentialsRequired === "true"
-      },
-      submissionType: {
-        required
-      },
-      primaryNumber: {
-        required,
-        alphaNum
-      },
-      primaryLastName: {
-        required,
-        alpha
-      },
-      secondaryNumber: {
-        alphaNum
-      },
-      secondaryLastName: {
-        alpha
+    if (this.uploadType === 'aop' && this.credentialsRequired === 'true') {
+      return {
+        uploadType: {
+          required
+        },
+        credentialsRequired: {
+          required
+        },
+        firstName: {
+          required,
+          alpha
+        },
+        lastName: {
+          required,
+          alpha
+        },
+        phoneNumber: {
+          isValidPhone
+        },
+        emailAddress: {
+          required,
+          email
+        },
+        organization: {
+          required
+        },
+        files: {
+          required
+        },
+        credentials: {
+          required
+        },
+        submissionType: {
+          required
+        },
+        primaryNumber: {
+          required,
+          alphaNum,
+          minLength: minLength(5)
+        },
+        primaryLastName: {
+          required,
+          isValidLastName
+        },
+        secondaryNumber: {
+          alphaNum,
+          minLength: minLength(5)
+        },
+        secondaryLastName: {
+          isValidLastName
+        }
+      };
+    } else if (this.uploadType === 'aop') {
+      return {
+        uploadType: {
+          required
+        },
+        credentialsRequired: {
+          required
+        },
+        firstName: {
+          required,
+          alpha
+        },
+        lastName: {
+          required,
+          alpha
+        },
+        phoneNumber: {
+          isValidPhone
+        },
+        emailAddress: {
+          required,
+          email
+        },
+        organization: {
+          required
+        },
+        files: {
+          required
+        },
+        submissionType: {
+          required
+        },
+        primaryNumber: {
+          required,
+          alphaNum,
+          minLength: minLength(5)
+        },
+        primaryLastName: {
+          required,
+          isValidLastName
+        },
+        secondaryNumber: {
+          alphaNum,
+          minLength: minLength(5)
+        },
+        secondaryLastName: {
+          isValidLastName
+        }
+      };
+    } else if (this.uploadType === 'coaop') {
+      return {
+        uploadType: {
+          required
+        },
+        firstName: {
+          required,
+          alpha
+        },
+        lastName: {
+          required,
+          alpha
+        },
+        phoneNumber: {
+          isValidPhone
+        },
+        emailAddress: {
+          required,
+          email
+        },
+        organization: {
+          required
+        },
+        files: {
+          required
+        },
+        submissionType: {
+          required
+        },
+        primaryNumber: {
+          required,
+          alphaNum,
+          minLength: minLength(5)
+        },
+        primaryLastName: {
+          required,
+          isValidLastName
+        },
+        secondaryNumber: {
+          alphaNum,
+          minLength: minLength(5)
+        },
+        secondaryLastName: {
+          isValidLastName
+        }
+      };
+    } else if (this.uploadType === 'oopa') {
+      return {
+        uploadType: {
+          required
+        },
+        firstName: {
+          required,
+          alpha
+        },
+        lastName: {
+          required,
+          alpha
+        },
+        phoneNumber: {
+          isValidPhone
+        },
+        emailAddress: {
+          required,
+          email
+        },
+        facility: {
+          required
+        },
+        files: {
+          required
+        },
+        submissionType: {
+          required
+        },
+        primaryNumber: {
+          required,
+          alphaNum,
+          minLength: minLength(5)
+        },
+        primaryLastName: {
+          required,
+          isValidLastName
+        },
+        secondaryNumber: {
+          alphaNum,
+          minLength: minLength(5)
+        },
+        secondaryLastName: {
+          isValidLastName
+        }
+      };
+    } else {
+      return {
+        uploadType: {
+          required
+        }
       }
-    };
+    }
   },
   created() {
+    this.firstName = "John";
+    this.lastName = "Smith";
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
-    this.firstName = this.$store.state.firstName;
-    this.lastName = this.$store.state.lastName;
     this.emailAddress = this.$store.state.emailAddress;
     this.phoneNumber = this.$store.state.phoneNumber;
     this.organization = this.$store.state.organization;
@@ -664,8 +818,12 @@ export default {
   methods: {
     nextPage: function() {
       this.$v.$touch();
+
+      // Workaround for masked input 
+      if (this.phoneNumber === null) this.phoneNumber = undefined;
+
       if (this.$v.$invalid) {
-        console.log("$v:", this.$v);
+        console.log('this.$v:', this.$v);
         scrollToError();
         return;
       }
@@ -720,6 +878,9 @@ export default {
         default:
           return "";
       }
+    },
+    validPhone: function() {
+      return isValidPhone(this.phoneNumber);
     }
   }
 };
@@ -764,4 +925,21 @@ h6 {
 .mb {
   margin-bottom: 80px;
 }
+
+.bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.bar .btn {
+  margin-right: 48px;
+  margin-top: 48px;
+}
+
+.disabled {
+  background: #f3f3f3;
+}
+
 </style>

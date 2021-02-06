@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 export const RESET_FORM = "resetForm";
-export const SET_HAS_ACCEPTED_TERMS = "setHasAcceptedTerms";
 export const SET_UPLOAD_TYPE = "setUploadType";
 export const SET_CREDENTIALS_REQUIRED = "setCredentialsRequired";
 export const SET_FIRST_NAME = "setFirstName";
@@ -19,7 +18,6 @@ export const SET_SECONDARY_LAST_NAME = "setSecondaryLastName";
 export const SET_COMMENTS = "setComments";
 export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
-export const SET_SIGNATURE = "setSignature";
 export const SET_API_RESPONSE = "setApiResponse";
 export const SET_API_ERROR = "setApiError";
 
@@ -27,7 +25,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    hasAcceptedTerms: false,
     uploadType: null,
     credentialsRequired: null,
     firstName: null,
@@ -44,14 +41,10 @@ export default new Vuex.Store({
     comments: null,
     uploadedForms: [],
     uploadedCredentials: [],
-    signature: null,
     apiResponse: null,
     apiError: null
   },
   mutations: {
-    setHasAcceptedTerms(state, payload) {
-      state.hasAcceptedTerms = payload;
-    },
     setUploadType(state, payload) {
       state.uploadType = payload;
     },
@@ -100,9 +93,6 @@ export default new Vuex.Store({
     setUploadedCredentials(state, payload) {
       state.uploadedCredentials = payload;
     },
-    setSignature(state, payload) {
-      state.signature = payload;
-    },
     setApiResponse(state, payload) {
       state.apiResponse = payload;
     },
@@ -112,7 +102,6 @@ export default new Vuex.Store({
   },
   actions: {
     resetForm({ commit }) {
-      commit(SET_HAS_ACCEPTED_TERMS, false);
       commit(SET_UPLOAD_TYPE, null);
       commit(SET_CREDENTIALS_REQUIRED, null);
       commit(SET_FIRST_NAME, null);
@@ -129,7 +118,6 @@ export default new Vuex.Store({
       commit(SET_COMMENTS, null);
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
-      commit(SET_SIGNATURE, null);
       commit(SET_API_RESPONSE, null);
       commit(SET_API_ERROR, null);
     },
@@ -183,9 +171,6 @@ export default new Vuex.Store({
     },
     setUploadedCredentials({ commit }, credentials) {
       commit(SET_UPLOADED_CREDENTIALS, credentials);
-    },
-    setSignature({ commit }, signature) {
-      commit(SET_SIGNATURE, signature);
     },
     setApiResponse({ commit }, response) {
       commit(SET_API_RESPONSE, response);

@@ -5,6 +5,7 @@
       :id="'textarea' + label"
       class="form-control"
       :value="value"
+      :maxlength="maxlength"
       @input="emitInput($event)"
     />
   </div>
@@ -17,7 +18,8 @@ export default {
   props: {
     value: String,
     label: String,
-    className: String
+    className: String,
+    maxlength: Number
   },
   methods: {
     emitInput(event) {
