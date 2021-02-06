@@ -1,32 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <Header title='Out-of-Province Form' />
     <router-view/>
+    <Footer :version='version' />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+import project from '../package.json';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    Header: Header,
+    Footer: Footer
+  },
+  data: () => {
+    return {
+      version: project.version
+    };
+  }
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
