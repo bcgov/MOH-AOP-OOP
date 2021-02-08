@@ -6,6 +6,7 @@
       class="form-control"
       :value="value"
       :disabled="disabled"
+      :required="required"
       :maxlength="maxlength"
       :minlength="minlength"
       @input="emitInput($event)"
@@ -22,6 +23,7 @@ export default {
     label: String,
     className: String,
     disabled: Boolean,
+    required: Boolean,
     maxlength: Number,
     minlength: Number
   },

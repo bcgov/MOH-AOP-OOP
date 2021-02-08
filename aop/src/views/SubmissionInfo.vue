@@ -13,8 +13,10 @@
         type="radio"
         id="aop"
         value="aop"
+        name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
+        required
       />&nbsp;
       <label for="aop"
         >Diagnostic Facility Services Assignment of Payment and Medical Director
@@ -25,6 +27,7 @@
         type="radio"
         id="coaop"
         value="coaop"
+        name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
       />&nbsp;
@@ -37,6 +40,7 @@
         type="radio"
         id="oopa"
         value="oopa"
+        name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
       />&nbsp;
@@ -61,6 +65,8 @@
         type="radio"
         id="no"
         value="false"
+        required
+        name="credentialsRequired"
         v-model="credentialsRequired"
       />&nbsp;
       <label for="no">No</label>
@@ -69,6 +75,7 @@
         type="radio"
         id="yes"
         value="true"
+        name="credentialsRequired"
         v-model="credentialsRequired"
       />&nbsp;
       <label for="yes">Yes</label>
@@ -187,6 +194,7 @@
         :className="'mt-3'"
         v-model="$v.emailAddress.$model"
         :maxlength="100"
+        :required="true"
       />
       <div
         class="text-danger"
@@ -208,6 +216,7 @@
         :id="'phone'"
         :className="'mt-3'"
         v-model="$v.phoneNumber.$model"
+        :required="true"
       />
       <div
         class="text-danger"
@@ -223,6 +232,7 @@
           :className="'mt-3'"
           v-model="$v.organization.$model"
           :maxlength="70"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -239,6 +249,7 @@
           :className="'mt-3'"
           v-model="$v.facility.$model"
           :maxlength="70"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -261,7 +272,9 @@
           type="radio"
           id="new"
           value="New Submission"
+          name="submissionType"
           v-model="$v.submissionType.$model"
+          required
         />&nbsp;
         <label for="new">New Submission</label>
         <br />
@@ -269,6 +282,7 @@
           type="radio"
           id="revised"
           value="Revised Submission"
+          name="submissionType"
           v-model="$v.submissionType.$model"
         />&nbsp;
         <label for="revised">Revised Submission</label>
@@ -287,6 +301,7 @@
           :className="'mt-3'"
           v-model="$v.primaryNumber.$model"
           :maxlength="5"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -315,6 +330,7 @@
           :className="'mt-3'"
           v-model="$v.primaryLastName.$model"
           :maxlength="35"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -338,6 +354,7 @@
           :className="'mt-3'"
           v-model="$v.primaryNumber.$model"
           :maxlength="5"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -366,6 +383,7 @@
           :className="'mt-3'"
           v-model="$v.primaryLastName.$model"
           :maxlength="35"
+          :required="true"
         />
         <div
           class="text-danger"
@@ -512,13 +530,11 @@
         </div>
       </div>
     </div>
-    <div class="bar">
       <Button
         label="Continue"
         :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
         v-on:button-click="nextPage"
       />
-    </div>
   </div>
 </template>
 
@@ -723,9 +739,6 @@ export default {
         files: {
           required
         },
-        submissionType: {
-          required
-        },
         primaryNumber: {
           required,
           alphaNum,
@@ -926,16 +939,10 @@ h6 {
   margin-bottom: 80px;
 }
 
-.bar {
+.btn {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.bar .btn {
-  margin-right: 48px;
-  margin-top: 48px;
+  bottom: 0px;
+  right: 40px;
 }
 
 .disabled {
