@@ -435,12 +435,16 @@
         </div>
       </div>
 
-      <TextArea
-        :label="'Comments (optional)'"
-        :className="'mt-3'"
-        v-model="comments"
-        :maxlength="210"
-      />
+      <div class="mt-3">
+        <label v-bind:for="'textarea Comments (optional)'">Comments (optional):</label><br />
+        <textarea
+          id="'textarea Comments (optional)'"
+          class="form-control"
+          v-model="comments"
+          maxlength="210"
+        />
+      </div>
+
 
       <div class="mt-3 mb">
         <h3>
@@ -829,6 +833,9 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
+    handleCommentsChange: function() {
+      console.log('this.comments:', this.comments);
+    },
     nextPage: function() {
       this.$v.$touch();
 
