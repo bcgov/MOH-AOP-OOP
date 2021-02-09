@@ -11,40 +11,40 @@
     <div class="form-group">
       <input
         type="radio"
-        id="aop"
-        value="aop"
+        id="AOP"
+        value="AOP"
         name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
         required
       />&nbsp;
-      <label for="aop"
+      <label for="AOP"
         >Diagnostic Facility Services Assignment of Payment and Medical Director
         Authorization (HLTH 1908)</label
       >
       <br />
       <input
         type="radio"
-        id="coaop"
-        value="coaop"
+        id="COAOP"
+        value="COAOP"
         name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
       />&nbsp;
-      <label for="coaop"
+      <label for="COAOP"
         >Diagnostic Facility Services Cancellation of Assignment of Payment
         (HLTH 1926)</label
       >
       <br />
       <input
         type="radio"
-        id="oopa"
-        value="oopa"
+        id="OOPA"
+        value="OOPA"
         name="uploadType"
         v-model="uploadType"
         @change="resetCredentialsRequired"
       />&nbsp;
-      <label for="oopa"
+      <label for="OOPA"
         >Laboratory Services Outpatient Operator Payment Administration (HLTH
         2999)</label
       >
@@ -55,7 +55,7 @@
         Field is required
       </div>
     </div>
-    <div v-if="uploadType === 'aop'">
+    <div v-if="uploadType === 'AOP'">
       <h3>
         Do you need to submit Confirmation of Credentials for this Assignment of
         Payment?
@@ -83,7 +83,7 @@
         class="text-danger"
         v-if="
           $v.credentialsRequired.$dirty &&
-            uploadType === 'aop' &&
+            uploadType === 'AOP' &&
             !$v.credentialsRequired.required
         "
       >
@@ -91,7 +91,7 @@
       </div>
     </div>
     <br />
-    <div v-if="uploadType === 'aop' && credentialsRequired !== null">
+    <div v-if="uploadType === 'AOP' && credentialsRequired !== null">
       <h2 v-if="credentialsRequired === 'true'">
         Submit your Assignment of Payment and Medical Director Authorization
         Form with Confirmation of Practitioner Credentials
@@ -109,7 +109,7 @@
         forms can be processed.
       </p>
     </div>
-    <div v-if="uploadType === 'coaop'">
+    <div v-if="uploadType === 'COAOP'">
       <h2>Submit your Cancellation of Assignment of Payment</h2>
       <hr />
       <p>
@@ -119,7 +119,7 @@
         Assignment of Payment forms can be processed.
       </p>
     </div>
-    <div v-if="uploadType === 'oopa'">
+    <div v-if="uploadType === 'OOPA'">
       <h2>
         Laboratory Services: Submit your Outpatient Operator Payment
         Administration form
@@ -141,9 +141,9 @@
     </div>
     <div
       v-if="
-        (uploadType === 'aop' && credentialsRequired !== null) ||
-          uploadType === 'coaop' ||
-          uploadType === 'oopa'
+        (uploadType === 'AOP' && credentialsRequired !== null) ||
+          uploadType === 'COAOP' ||
+          uploadType === 'OOPA'
       "
     >
       <p>To submit a completed form:</p>
@@ -164,15 +164,15 @@
         </li>
       </ol>
     </div>
-    <p v-if="uploadType === 'oopa'">
+    <p v-if="uploadType === 'OOPA'">
       To report any issues with the secure upload tool, please send an email to
       <a href="mailto:labfacilities@phsa.ca">labfacilities@phsa.ca</a>
     </p>
     <div
       v-if="
-        (uploadType === 'aop' && credentialsRequired !== null) ||
-          uploadType === 'coaop' ||
-          uploadType === 'oopa'
+        (uploadType === 'AOP' && credentialsRequired !== null) ||
+          uploadType === 'COAOP' ||
+          uploadType === 'OOPA'
       "
     >
       <h3><em>Submitter Information</em></h3>
@@ -226,7 +226,7 @@
         Valid phone number required
       </div>
 
-      <div class="mb-3" v-if="uploadType === 'aop' || uploadType === 'coaop'">
+      <div class="mb-3" v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
         <Input
           :label="'Organization'"
           :className="'mt-3'"
@@ -243,7 +243,7 @@
         </div>
       </div>
 
-      <div class="mb-3" v-if="uploadType === 'oopa'">
+      <div class="mb-3" v-if="uploadType === 'OOPA'">
         <Input
           :label="'Facility Name'"
           :className="'mt-3'"
@@ -265,7 +265,7 @@
 
       <div
         class="form-group"
-        v-if="uploadType === 'aop' || uploadType === 'oopa'"
+        v-if="uploadType === 'AOP' || uploadType === 'OOPA'"
       >
         <p>Submission Type</p>
         <input
@@ -295,7 +295,7 @@
         </div>
       </div>
 
-      <div v-if="uploadType === 'aop' || uploadType === 'coaop'">
+      <div v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
         <Input
           :label="'Practitioner Number'"
           :className="'mt-3'"
@@ -348,7 +348,7 @@
         </div>
       </div>
 
-      <div v-if="uploadType === 'oopa'">
+      <div v-if="uploadType === 'OOPA'">
         <Input
           :label="'Primary Practitioner Number'"
           :className="'mt-3'"
@@ -547,7 +547,6 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import PhoneInput from "../components/PhoneInput";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
-import TextArea from "../components/TextArea.vue";
 import {
   required,
   minLength,
@@ -592,8 +591,7 @@ export default {
     Button,
     FileUploader,
     Input,
-    PhoneInput,
-    TextArea
+    PhoneInput
   },
   data: () => {
     return {
@@ -616,7 +614,7 @@ export default {
     };
   },
   validations() {
-    if (this.uploadType === 'aop' && this.credentialsRequired === 'true') {
+    if (this.uploadType === 'AOP' && this.credentialsRequired === 'true') {
       return {
         uploadType: {
           required
@@ -668,7 +666,7 @@ export default {
           isValidLastName
         }
       };
-    } else if (this.uploadType === 'aop') {
+    } else if (this.uploadType === 'AOP') {
       return {
         uploadType: {
           required
@@ -717,7 +715,7 @@ export default {
           isValidLastName
         }
       };
-    } else if (this.uploadType === 'coaop') {
+    } else if (this.uploadType === 'COAOP') {
       return {
         uploadType: {
           required
@@ -760,7 +758,7 @@ export default {
           isValidLastName
         }
       };
-    } else if (this.uploadType === 'oopa') {
+    } else if (this.uploadType === 'OOPA') {
       return {
         uploadType: {
           required
@@ -833,9 +831,6 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
-    handleCommentsChange: function() {
-      console.log('this.comments:', this.comments);
-    },
     nextPage: function() {
       this.$v.$touch();
 
@@ -889,11 +884,11 @@ export default {
   computed: {
     uploadTitle() {
       switch (this.uploadType) {
-        case "aop":
+        case "AOP":
           return "Assignment of Payment";
-        case "coaop":
+        case "COAOP":
           return "Cancellation of Assignment of Payment";
-        case "oopa":
+        case "OOPA":
           return "Operator Payment Administration";
         default:
           return "";
