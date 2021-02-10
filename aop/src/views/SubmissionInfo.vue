@@ -205,22 +205,44 @@
       </div>
       <div
         class="text-danger"
-        v-if="$v.emailAddress.$dirty && !$v.emailAddress.email"
+        v-if="$v.emailAddress.$dirty && !$v.emailAddress.isValidEmail"
         aria-live="assertive"
       >
         Must be a valid email address
       </div>
 
-      <PhoneInput
-        :label="'Phone Number'"
-        :id="'phone'"
-        :className="'mt-3'"
-        v-model="$v.phoneNumber.$model"
-        :required="true"
-      />
+      <div class="mt-3">
+        <label for="phone">Phone Number:</label><br />
+        <masked-input
+          id="phone"
+          type="text"
+          name="phoneNumber"
+          class="form-control"
+          v-model="phoneNumber"
+          :required="true"
+          @blur="handlePhoneBlur"
+          :mask="[
+            '(',
+            /[1-9]/,
+            /\d/,
+            /\d/,
+            ')',
+            ' ',
+            /\d/,
+            /\d/,
+            /\d/,
+            '-',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/
+          ]"
+        >
+        </masked-input>
+      </div>
       <div
         class="text-danger"
-        v-if="phoneNumber !== null && !$v.phoneNumber.isValidPhone"
+        v-if="$v.phoneNumber.$dirty && !$v.phoneNumber.isValidPhone"
         aria-live="assertive"
       >
         Valid phone number required
@@ -456,7 +478,7 @@
             <div class="col-md upload-container">
               <FileUploader v-model="files" />
               <div
-                class="text-danger"
+                class="mt text-danger"
                 v-if="$v.files.$dirty && !$v.files.required"
                 aria-live="assertive"
               >
@@ -506,7 +528,7 @@
             <div class="col-md upload-container">
               <FileUploader v-model="credentials" />
               <div
-                class="text-danger"
+                class="mt text-danger"
                 v-if="
                   $v.credentials.$dirty &&
                     credentialsRequired &&
@@ -545,14 +567,13 @@
 <script>
 import Button from "../components/Button";
 import Input from "../components/Input";
-import PhoneInput from "../components/PhoneInput";
+import MaskedInput from "vue-text-mask";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import {
   required,
   minLength,
   alpha,
-  alphaNum,
-  email
+  alphaNum
 } from "vuelidate/lib/validators";
 import pageStateService from "../services/page-state-service";
 import routes from "../router/routes";
@@ -585,13 +606,17 @@ const isValidLastName = name => {
   return /([a-z][a-z,', ,\-,.]{1,})/gi.test(name);
 }
 
+const isValidEmail = email => {
+  return /[A-Z0-9][A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(email);
+}
+
 export default {
   name: "SubmissionInfo",
   components: {
     Button,
     FileUploader,
     Input,
-    PhoneInput
+    MaskedInput
   },
   data: () => {
     return {
@@ -635,7 +660,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -687,7 +712,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -733,7 +758,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -776,7 +801,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         facility: {
           required
@@ -831,17 +856,17 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
+    handlePhoneBlur: function() {
+      this.$v.phoneNumber.$touch();
+    },
     nextPage: function() {
       this.$v.$touch();
 
-      // Workaround for masked input 
-      if (this.phoneNumber === null) this.phoneNumber = undefined;
-
       if (this.$v.$invalid) {
-        console.log('this.$v:', this.$v);
         scrollToError();
         return;
       }
+      
       this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
       this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
       this.$store.dispatch(SET_FIRST_NAME, this.firstName);
@@ -941,6 +966,10 @@ h6 {
   margin-bottom: 80px;
 }
 
+.mt {
+  margin-top: 2rem;
+}
+
 .btn {
   position: fixed;
   bottom: 0px;
@@ -950,5 +979,4 @@ h6 {
 .disabled {
   background: #f3f3f3;
 }
-
 </style>

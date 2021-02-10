@@ -925,7 +925,7 @@ export default {
   border-radius: 0px 0px 5px 5px;
   text-align: right;
   margin: 0 2px 0 2px;
-  color: red;
+  color: #b33238;
   padding: 0.3em;
   transition: 0.3s;
   cursor: pointer;
@@ -938,5 +938,9 @@ export default {
 .svg-icon {
   width: 60px;
   height: 60px;
+}
+
+.text-danger {
+  color: #b33238 !important;
 }
 </style>

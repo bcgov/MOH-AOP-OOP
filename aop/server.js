@@ -9,7 +9,7 @@ app.get("/", (_, res) => {
   res.render("./dist/index.html");
 });
 
-app.get("/hello", (_, res) => {
+app.get("/health", (_, res) => {
   res.status(200).end();
 });
 
