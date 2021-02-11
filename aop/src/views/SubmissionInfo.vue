@@ -208,7 +208,7 @@
         v-if="$v.emailAddress.$dirty && !$v.emailAddress.isValidEmail"
         aria-live="assertive"
       >
-        Must be a valid email address
+        Invalid email address
       </div>
 
       <div class="mt-3">
@@ -220,7 +220,7 @@
           class="form-control"
           v-model="phoneNumber"
           :required="true"
-          @blur="handlePhoneBlur"
+          @change="handlePhoneChange"
           :mask="[
             '(',
             /[1-9]/,
@@ -339,13 +339,6 @@
         >
           Invalid practitioner number
         </div>
-        <div
-          class="text-danger"
-          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
-          aria-live="assertive"
-        >
-          Invalid practitioner number
-        </div>
 
         <Input
           :label="'Practitioner Last Name'"
@@ -392,13 +385,6 @@
         >
           Invalid practitioner number
         </div>
-        <div
-          class="text-danger"
-          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
-          aria-live="assertive"
-        >
-          Invalid practitioner number
-        </div>
 
         <Input
           :label="'Primary Practitioner Last Name'"
@@ -430,13 +416,6 @@
         <div
           class="text-danger"
           v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.alphaNum"
-          aria-live="assertive"
-        >
-          Invalid practitioner number
-        </div>
-        <div
-          class="text-danger"
-          v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.minLength"
           aria-live="assertive"
         >
           Invalid practitioner number
@@ -603,7 +582,7 @@ const isValidPhone = ph => {
 }
 
 const isValidLastName = name => {
-  return /([a-z][a-z,', ,\-,.]{1,})/gi.test(name);
+  return /^([A-Z]+([ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
 }
 
 const isValidEmail = email => {
@@ -676,16 +655,14 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         secondaryLastName: {
           isValidLastName
@@ -725,16 +702,14 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         secondaryLastName: {
           isValidLastName
@@ -768,16 +743,14 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         secondaryLastName: {
           isValidLastName
@@ -814,16 +787,14 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5)
+          alphaNum
         },
         secondaryLastName: {
           isValidLastName
@@ -856,7 +827,7 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
-    handlePhoneBlur: function() {
+    handlePhoneChange: function() {
       this.$v.phoneNumber.$touch();
     },
     nextPage: function() {
@@ -866,7 +837,7 @@ export default {
         scrollToError();
         return;
       }
-      
+
       this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
       this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
       this.$store.dispatch(SET_FIRST_NAME, this.firstName);
