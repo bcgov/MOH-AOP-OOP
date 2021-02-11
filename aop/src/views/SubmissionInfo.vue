@@ -205,7 +205,7 @@
       </div>
       <div
         class="text-danger"
-        v-if="$v.emailAddress.$dirty && !$v.emailAddress.isValidEmail"
+        v-if="$v.emailAddress.$dirty && !$v.emailAddress.email"
         aria-live="assertive"
       >
         Invalid email address
@@ -552,7 +552,8 @@ import {
   required,
   minLength,
   alpha,
-  alphaNum
+  alphaNum,
+  email
 } from "vuelidate/lib/validators";
 import pageStateService from "../services/page-state-service";
 import routes from "../router/routes";
@@ -585,9 +586,10 @@ const isValidLastName = name => {
   return /^([A-Z]+([ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
 }
 
-const isValidEmail = email => {
-  return /[A-Z0-9][A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(email);
-}
+// // RFC 5322
+// const isValidEmail = email => {
+//   return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])+/gi.test(email);
+// }
 
 export default {
   name: "SubmissionInfo",
@@ -639,7 +641,7 @@ export default {
         },
         emailAddress: {
           required,
-          isValidEmail
+          email
         },
         organization: {
           required
@@ -689,7 +691,7 @@ export default {
         },
         emailAddress: {
           required,
-          isValidEmail
+          email
         },
         organization: {
           required
@@ -733,7 +735,7 @@ export default {
         },
         emailAddress: {
           required,
-          isValidEmail
+          email
         },
         organization: {
           required
@@ -774,7 +776,7 @@ export default {
         },
         emailAddress: {
           required,
-          isValidEmail
+          email
         },
         facility: {
           required

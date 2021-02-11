@@ -8,6 +8,10 @@
 import "./services/page-state-service";
 
 export default {
-  name: "App"
+  name: "App",
+  created() {
+    const { version: projectVersion } = require('../package.json');
+    console.log('Canonical Version:', projectVersion);
+  }
 };
 </script>
