@@ -1,18 +1,18 @@
 <template>
-  <main>
+  <div>
     <Header
       :heading="
         'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
       "
     />
-    <div class="container py-5">
+    <main class="container py-5">
       <h1 class="text-center">Sending Application</h1>
       <div class="text-center">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
       </div>
-    </div>
+    </main>
     <Footer />
-  </main>
+  </div>
 </template>
 
 <script>

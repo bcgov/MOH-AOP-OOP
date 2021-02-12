@@ -79,15 +79,15 @@ export default {
   },
   created() {
     switch (this.$store.state.uploadType) {
-      case "aop":
+      case "AOP":
         this.selectedForm =
           "Diagnostic Facility Services Assignment of Payment and Medical Director Authorization";
         break;
-      case "coaop":
+      case "COAOP":
         this.selectedForm =
           "Diagnostic Facility Services Cancellation of Assignment of Payment";
         break;
-      case "oopa":
+      case "OOPA":
         this.selectedForm =
           "Laboratory Services Outpatient Operator Payment Administration";
         break;
@@ -123,19 +123,19 @@ export default {
       { name: "Comments", value: this.$store.state.comments || "N/A" }
     ];
 
-    if (this.$store.state.uploadType === "aop") {
+    if (this.$store.state.uploadType === "AOP") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
           return { name: `AOP Form - ${i + 1}`, value: item.name };
         }
       );
-    } else if (this.$store.state.uploadType === "coaop") {
+    } else if (this.$store.state.uploadType === "COAOP") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
-          return { name: `CAOP Form - ${i + 1}`, value: item.name };
+          return { name: `COAOP Form - ${i + 1}`, value: item.name };
         }
       );
-    } else if (this.$store.state.uploadType === "oopa") {
+    } else if (this.$store.state.uploadType === "OOPA") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
           return { name: `OOPA Form - ${i + 1}`, value: item.name };

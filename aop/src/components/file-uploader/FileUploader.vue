@@ -7,6 +7,7 @@
         <img
           :src="cloudUploadIconSvg"
           class="svg-icon d-inline-block mb-3 ml-3"
+          alt="Upload"
         />
 
         <input
@@ -50,7 +51,7 @@
         >
           <div class="thumbnail-container">
             <div class="image-thumbnail demo-thumbnail">
-              <img :src="plusIconSvg" class="svg-icon" />
+              <img :src="plusIconSvg" alt="Add" class="svg-icon" />
             </div>
             <div class="action-strip text-primary text-center">
               Add

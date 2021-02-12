@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Please select the type of upload that you want to submit:</h2>
+    <h1>Please select the type of upload that you want to submit:</h1>
     <hr />
     <p>You can upload and send ONLY ONE form at a time.</p>
     <p>
@@ -339,6 +339,13 @@
         >
           Invalid practitioner number
         </div>
+        <div
+          class="text-danger"
+          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
+        </div>
 
         <Input
           :label="'Practitioner Last Name'"
@@ -385,6 +392,13 @@
         >
           Invalid practitioner number
         </div>
+        <div
+          class="text-danger"
+          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
+        </div>
 
         <Input
           :label="'Primary Practitioner Last Name'"
@@ -416,6 +430,13 @@
         <div
           class="text-danger"
           v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.alphaNum"
+          aria-live="assertive"
+        >
+          Invalid practitioner number
+        </div>
+        <div
+          class="text-danger"
+          v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.minLength"
           aria-live="assertive"
         >
           Invalid practitioner number
@@ -657,14 +678,16 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         secondaryLastName: {
           isValidLastName
@@ -704,14 +727,16 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         secondaryLastName: {
           isValidLastName
@@ -745,14 +770,16 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         secondaryLastName: {
           isValidLastName
@@ -789,14 +816,16 @@ export default {
         },
         primaryNumber: {
           required,
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         primaryLastName: {
           required,
           isValidLastName
         },
         secondaryNumber: {
-          alphaNum
+          alphaNum,
+          minLength: minLength(5)
         },
         secondaryLastName: {
           isValidLastName
