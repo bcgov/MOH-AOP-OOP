@@ -245,7 +245,7 @@
         v-if="$v.phoneNumber.$dirty && !$v.phoneNumber.isValidPhone"
         aria-live="assertive"
       >
-        Valid phone number required
+        Valid phone number is required
       </div>
 
       <div class="mb-3" v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
@@ -390,14 +390,14 @@
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.alphaNum"
           aria-live="assertive"
         >
-          Invalid practitioner number
+          Invalid primary practitioner number
         </div>
         <div
           class="text-danger"
           v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
           aria-live="assertive"
         >
-          Invalid practitioner number
+          Invalid primary practitioner number
         </div>
 
         <Input
@@ -419,12 +419,13 @@
           v-if="$v.primaryLastName.$dirty && $v.primaryLastName.required && !$v.primaryLastName.isValidLastName"
           aria-live="assertive"
         >
-          Invalid practitioner last name
+          Invalid primary practitioner last name
         </div>
 
         <Input
           :label="'Secondary Practitioner Number (optional)'"
           :className="'mt-3'"
+          :maxlength="5"
           v-model="$v.secondaryNumber.$model"
         />
         <div
@@ -432,14 +433,14 @@
           v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.alphaNum"
           aria-live="assertive"
         >
-          Invalid practitioner number
+          Invalid secondary practitioner number
         </div>
         <div
           class="text-danger"
           v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.minLength"
           aria-live="assertive"
         >
-          Invalid practitioner number
+          Invalid secondary practitioner number
         </div>
 
         <Input
@@ -453,7 +454,7 @@
           v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.isValidLastName"
           aria-live="assertive"
         >
-          Invalid practitioner last name
+          Invalid secondary practitioner last name
         </div>
       </div>
 
