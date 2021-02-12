@@ -605,7 +605,7 @@ const isValidPhone = ph => {
 }
 
 const isValidLastName = name => {
-  return /^([A-Z]+([ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
+  return /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
 }
 
 // // RFC 5322
