@@ -1,7 +1,13 @@
 <template>
   <div class="account-type">
-    <div class="container">
-      <h1>Page content here.</h1>
-    </div>
+    <h1>Page content here.</h1>
   </div>
 </template>
+
+<script>
+
+export default {
+  name: 'AccountTypePage',
+  components: {}
+}
+</script>
