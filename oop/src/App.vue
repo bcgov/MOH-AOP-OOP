@@ -1,12 +1,10 @@
 <template>
   <div id="app">
     <Header title='Out-of-Province Form' />
-    <div class="container">
-      <ProgressBar :currentPath='$router.currentRoute.path'
-                   :routes='stepRoutes'/>
-      <div class="py-sm-5">
-        <router-view/>
-      </div>
+    <ProgressBar :currentPath='$router.currentRoute.path'
+                  :routes='stepRoutes'/>
+    <div class="pt-3 pt-sm-5">
+      <router-view/>
     </div>
     <Footer :version='version' />
   </div>
