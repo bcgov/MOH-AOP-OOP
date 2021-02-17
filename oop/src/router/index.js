@@ -16,11 +16,6 @@ const routeCollection = [
     component: routes.ACCOUNT_TYPE_PAGE.component
   },
   {
-    path: routes.DEPENDENT_PAGE.path,
-    name: routes.DEPENDENT_PAGE.name,
-    component: routes.DEPENDENT_PAGE.component
-  },
-  {
     path: routes.MOVE_INFO_PAGE.path,
     name: routes.MOVE_INFO_PAGE.name,
     component: routes.MOVE_INFO_PAGE.component
