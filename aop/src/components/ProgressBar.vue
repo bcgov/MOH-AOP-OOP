@@ -1,5 +1,5 @@
 <template>
-  <div class="component-container">
+  <nav class="component-container">
     <div class="progress-bar-container">
       <div class="progress-bar" :style="progressBarStyles"></div>
     </div>
@@ -18,7 +18,7 @@
     <div class="mobile-step p-3 border-bottom">
       Step {{ currentStepNumber }}/{{ routes.length }} - {{ currentStepTitle }}
     </div>
-  </div>
+  </nav>
 </template>
 
 <script>

@@ -51,7 +51,7 @@
         >
           <div class="thumbnail-container">
             <div class="image-thumbnail demo-thumbnail">
-              <img :src="plusIconSvg" alt="Add" class="svg-icon" />
+              <img :src="plusIconSvg" alt="Upload a file" class="svg-icon" />
             </div>
             <div class="action-strip text-primary text-center">
               Add

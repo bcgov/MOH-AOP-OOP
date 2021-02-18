@@ -6,7 +6,7 @@
       "
     />
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
-    <main class="container py-5">
+    <main class="container py-5 px-2">
       <router-view></router-view>
     </main>
     <Footer />

@@ -6,7 +6,7 @@
     >
       <div classNames="navbar-brand pointer" aria-labelledby="title" />
       <img
-        alt="logo"
+        alt="BC Logo"
         classNames="img-fluid d-none d-md-block pointer"
         :width="181"
         :src="bcidLogoRev"

@@ -14,7 +14,7 @@ export const routes = {
   },
   SUBMISSION_INFO: {
     path: "/submission-info",
-    title: "Submission Info",
+    title: "Select a Form",
     name: "SubmissionInfo",
     component: SubmissionInfo
   },
@@ -32,7 +32,7 @@ export const routes = {
   },
   SUBMISSION: {
     path: "/submission",
-    title: "Submission",
+    title: "Confirmation",
     name: "Submission",
     component: Submission
   },

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>Please select the type of upload that you want to submit:</h1>
+    <h1>Select a Form</h1>
+    <br> 
+    <h2>Please select the form that you want to submit:</h2>
     <hr />
     <p>You can upload and send ONLY ONE form at a time.</p>
     <p>
@@ -9,6 +11,7 @@
       automatically for the second and subsequent submissions.
     </p>
     <div class="form-group">
+      <div class="radio-group">
       <input
         type="radio"
         id="AOP"
@@ -17,12 +20,15 @@
         v-model="uploadType"
         @change="resetCredentialsRequired"
         required
+        aria-required="true"
       />&nbsp;
       <label for="AOP"
         >Diagnostic Facility Services Assignment of Payment and Medical Director
         Authorization (HLTH 1908)</label
       >
-      <br />
+    </div>
+    <br />
+    <div class="radio-group">
       <input
         type="radio"
         id="COAOP"
@@ -35,7 +41,9 @@
         >Diagnostic Facility Services Cancellation of Assignment of Payment
         (HLTH 1926)</label
       >
-      <br />
+    </div>
+    <br />
+    <div class="radio-group">
       <input
         type="radio"
         id="OOPA"
@@ -48,12 +56,13 @@
         >Laboratory Services Outpatient Operator Payment Administration (HLTH
         2999)</label
       >
-      <div
-        class="text-danger"
-        v-if="$v.uploadType.$dirty && !$v.uploadType.required"
-      >
-        Field is required
-      </div>
+    </div>
+    <div
+      class="text-danger"
+      v-if="$v.uploadType.$dirty && !$v.uploadType.required"
+    >
+      Field is required
+    </div>
     </div>
     <div v-if="uploadType === 'AOP'">
       <h3>
@@ -61,24 +70,29 @@
         Payment?
       </h3>
       <hr />
-      <input
-        type="radio"
-        id="no"
-        value="false"
-        required
-        name="credentialsRequired"
-        v-model="credentialsRequired"
-      />&nbsp;
-      <label for="no">No</label>
+      <div class="radio-group">
+        <input
+          type="radio"
+          id="no"
+          value="false"
+          required
+          aria-required="true"
+          name="credentialsRequired"
+          v-model="credentialsRequired"
+        />&nbsp;
+        <label for="no">No</label>
+      </div>
       <br />
-      <input
-        type="radio"
-        id="yes"
-        value="true"
-        name="credentialsRequired"
-        v-model="credentialsRequired"
-      />&nbsp;
-      <label for="yes">Yes</label>
+      <div class="radio-group">
+        <input
+          type="radio"
+          id="yes"
+          value="true"
+          name="credentialsRequired"
+          v-model="credentialsRequired"
+        />&nbsp;
+        <label for="yes">Yes</label>
+      </div>
       <div
         class="text-danger"
         v-if="
@@ -220,6 +234,7 @@
           class="form-control"
           v-model="phoneNumber"
           :required="true"
+          :aria-required="true"
           @change="handlePhoneChange"
           :mask="[
             '(',
@@ -289,25 +304,30 @@
         class="form-group"
         v-if="uploadType === 'AOP' || uploadType === 'OOPA'"
       >
-        <p>Submission Type</p>
-        <input
-          type="radio"
-          id="new"
-          value="New Submission"
-          name="submissionType"
-          v-model="$v.submissionType.$model"
-          required
-        />&nbsp;
-        <label for="new">New Submission</label>
+        <p>Submission Type:</p>
+        <div class="radio-group">
+          <input
+            type="radio"
+            id="new"
+            value="New Submission"
+            name="submissionType"
+            v-model="$v.submissionType.$model"
+            required
+            aria-required="true"
+          />&nbsp;
+          <label for="new">New Submission</label>
+        </div>
         <br />
-        <input
-          type="radio"
-          id="revised"
-          value="Revised Submission"
-          name="submissionType"
-          v-model="$v.submissionType.$model"
-        />&nbsp;
-        <label for="revised">Revised Submission</label>
+        <div class="radio-group">
+          <input
+            type="radio"
+            id="revised"
+            value="Revised Submission"
+            name="submissionType"
+            v-model="$v.submissionType.$model"
+          />&nbsp;
+          <label for="revised">Revised Submission</label>
+        </div>
         <div
           class="text-danger"
           v-if="$v.submissionType.$dirty && !$v.submissionType.required"
@@ -341,7 +361,7 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          v-if="$v.primaryNumber.$dirty && $v.primaryNumber.alphaNum && !$v.primaryNumber.minLength"
           aria-live="assertive"
         >
           Invalid practitioner number
@@ -394,7 +414,7 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.minLength"
+          v-if="$v.primaryNumber.$dirty && $v.primaryNumber.alphaNum && !$v.primaryNumber.minLength"
           aria-live="assertive"
         >
           Invalid primary practitioner number
@@ -437,11 +457,18 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.minLength"
+          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && !$v.secondaryNumber.minLength"
           aria-live="assertive"
         >
           Invalid secondary practitioner number
         </div>
+        <!-- <div
+          class="text-danger"
+          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && $v.secondaryNumber.minLength && !$v.secondaryNumber.hasSecondaryLastName"
+          aria-live="assertive"
+        >
+          Secondary practitioner last name is required if supplying a secondary practitioner number 
+        </div> -->
 
         <Input
           :label="'Secondary Practitioner Last Name (optional)'"
@@ -451,20 +478,29 @@
         />
         <div
           class="text-danger"
-          v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.isValidLastName"
+          v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.isValidSecondaryLastName"
           aria-live="assertive"
         >
           Invalid secondary practitioner last name
         </div>
+        <!-- <div
+          class="text-danger"
+          v-if="$v.secondaryLastName.$dirty && $v.secondaryLastName.isValidSecondaryLastName && !$v.secondaryLastName.hasSecondaryNumber"
+          aria-live="assertive"
+        >
+          Secondary practitioner number is required if supplying a secondary practitioner last name
+        </div> -->
       </div>
 
       <div class="mt-3">
-        <label v-bind:for="'textarea Comments (optional)'">Comments (optional):</label><br />
+        <label for="comments">Comments (optional):</label><br />
         <textarea
-          id="'textarea Comments (optional)'"
+          id="comments"
           class="form-control"
           v-model="comments"
           maxlength="210"
+          alt="comments"
+          name="comments"
         />
       </div>
 
@@ -608,10 +644,17 @@ const isValidLastName = name => {
   return /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
 }
 
-// // RFC 5322
-// const isValidEmail = email => {
-//   return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])+/gi.test(email);
-// }
+const isValidSecondaryLastName = name => {
+  return name === '' || /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
+}
+
+const hasSecondaryNumber = (value, vm) => {
+  vm.secondaryNumber.length > 0; 
+}
+
+const hasSecondaryLastName = (value, vm) => {
+  vm.secondaryLastName.length > 0;
+}
 
 export default {
   name: "SubmissionInfo",
@@ -688,10 +731,12 @@ export default {
         },
         secondaryNumber: {
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
+          // hasSecondaryLastName
         },
         secondaryLastName: {
-          isValidLastName
+          isValidSecondaryLastName,
+          // hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'AOP') {
@@ -737,10 +782,12 @@ export default {
         },
         secondaryNumber: {
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
+          // hasSecondaryLastName
         },
         secondaryLastName: {
-          isValidLastName
+          isValidSecondaryLastName,
+          // hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'COAOP') {
@@ -780,10 +827,12 @@ export default {
         },
         secondaryNumber: {
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
+          // hasSecondaryLastName
         },
         secondaryLastName: {
-          isValidLastName
+          isValidSecondaryLastName,
+          // hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'OOPA') {
@@ -826,10 +875,12 @@ export default {
         },
         secondaryNumber: {
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
+          // hasSecondaryLastName
         },
         secondaryLastName: {
-          isValidLastName
+          isValidSecondaryLastName,
+          // hasSecondaryNumber
         }
       };
     } else {
@@ -857,6 +908,8 @@ export default {
     this.comments = this.$store.state.comments;
     this.files = this.$store.state.uploadedForms;
     this.credentials = this.$store.state.uploadedCredentials;
+    console.log('files:', this.files);
+    console.log('credentials:', this.credentials);
   },
   methods: {
     handlePhoneChange: function() {
@@ -876,8 +929,11 @@ export default {
       this.$store.dispatch(SET_LAST_NAME, this.lastName);
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
-      this.$store.dispatch(SET_ORGANIZATION, this.organization);
-      this.$store.dispatch(SET_FACILITY_NAME, this.facility);
+      if (this.uploadType === 'AOP' || this.uploadType === 'COAOP') {
+        this.$store.dispatch(SET_ORGANIZATION, this.organization);
+      } else {
+        this.$store.dispatch(SET_FACILITY_NAME, this.facility);
+      }
       this.$store.dispatch(SET_SUBMISSION_TYPE, this.submissionType);
       this.$store.dispatch(SET_PRIMARY_NUMBER, this.primaryNumber);
       this.$store.dispatch(SET_PRIMARY_LAST_NAME, this.primaryLastName);
@@ -939,6 +995,10 @@ hr {
   margin-top: 0.5rem;
 }
 
+label {
+  margin-bottom: 0;
+}
+
 h1,
 h2,
 h3,
@@ -952,6 +1012,11 @@ h6 {
   background-color: #f2f2f2;
   border-radius: 8px;
   padding: 8px 15px;
+}
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
 }
 
 .upload-container {
@@ -980,6 +1045,14 @@ h6 {
 }
 
 .disabled {
-  background: #f3f3f3;
+  background: #bbbbbb;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  * {
+    margin-right: 6px;
+  }
 }
 </style>

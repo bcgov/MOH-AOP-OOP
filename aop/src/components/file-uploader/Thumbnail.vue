@@ -2,7 +2,7 @@
   <div class="thumbnail-container">
     <img
       :src="imageObject.fileContent"
-      alt="Image Thumbnail"
+      alt=""
       tabindex="0"
       :class="thumbnailClass"
     />
@@ -66,9 +66,14 @@ export default {
   height: auto;
   max-width: 100%;
 }
+
 .image-thumbnail-width-priority {
   max-width: 270px;
   width: auto;
   max-height: 100%;
+}
+
+.text-danger {
+  color: #b33238 !important;
 }
 </style>

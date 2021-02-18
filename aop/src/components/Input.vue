@@ -7,6 +7,7 @@
       :value="value"
       :disabled="disabled"
       :required="required"
+      :aria-required="required"
       :maxlength="maxlength"
       :minlength="minlength"
       @input="emitInput($event)"
@@ -36,4 +37,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+label {
+  margin-bottom: 0;
+}
+</style>

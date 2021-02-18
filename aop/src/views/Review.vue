@@ -9,8 +9,8 @@
         <hr />
       </div>
       <div class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-          >Edit</a
+        <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
+          >Edit <i class="fa fa-pencil"></i></a
         >
       </div>
     </div>
@@ -23,11 +23,6 @@
         <h2>Submitter Information</h2>
         <hr />
       </div>
-      <div class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-          >Edit</a
-        >
-      </div>
     </div>
     <Table :elements="submitterData" />
 
@@ -36,10 +31,36 @@
         <h2>Submission Information</h2>
         <hr />
       </div>
-      <div class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-          >Edit</a
-        >
+    </div>
+    <div class="submission-type">
+      <div class="name">
+        <div>
+          <strong>Submission Type:</strong>
+        </div>
+      </div>
+      <div class="radios">
+        <div class="radio-group">
+          <input
+              type="radio"
+              id="new"
+              value="New Submission"
+              name="submissionType"
+              v-model="$store.state.submissionType"
+              disabled
+            />&nbsp;
+            <label for="new">New Submission</label>
+        </div>
+        <div class="radio-group">
+          <input
+            type="radio"
+            id="revised"
+            value="Revised Submission"
+            name="submissionType"
+            v-model="$store.state.submissionType"
+            disabled
+          />&nbsp;
+          <label for="revised">Revised Submission</label>
+        </div>
       </div>
     </div>
     <Table :elements="submissionData" />
@@ -48,11 +69,6 @@
       <div class="col-10">
         <h2>Supporting Documents</h2>
         <hr />
-      </div>
-      <div class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-          >Edit</a
-        >
       </div>
     </div>
     <Table :elements="supportingDocuments" />
@@ -104,51 +120,56 @@ export default {
     }
 
     this.submitterData = [
-      { name: "First Name", value: this.$store.state.firstName },
-      { name: "Last Name", value: this.$store.state.lastName },
-      { name: "Email Address", value: this.$store.state.emailAddress },
-      { name: "Phone Number", value: this.$store.state.phoneNumber },
-      { name: "Facility Name:", value: this.$store.state.facility || "N/A" },
-      { name: "Organization:", value: this.$store.state.organization || "N/A" }
+      { name: "First Name:", value: this.$store.state.firstName },
+      { name: "Last Name:", value: this.$store.state.lastName },
+      { name: "Email Address:", value: this.$store.state.emailAddress },
+      { name: "Phone Number:", value: this.$store.state.phoneNumber }
     ];
 
+    if (this.$store.state.facility) {
+      this.submitterData = [...this.submitterData, { name: "Facility Name:", value: this.$store.state.facility }]
+    }
+
+    if (this.$store.state.organization) {
+      this.submitterData = [...this.submitterData, { name: "Organization:", value: this.$store.state.organization }]
+    }
+
     this.submissionData = [
-      { name: "Submission Type", value: this.$store.state.submissionType },
-      {
-        name: "Primary Practitioner Number",
-        value: this.$store.state.primaryNumber
-      },
-      {
-        name: "Primary Practitioner Last Name",
-        value: this.$store.state.primaryLastName
-      },
-      {
-        name: "Secondary Practitioner Number",
-        value: this.$store.state.secondaryNumber || "N/A"
-      },
-      {
-        name: "Secondary Practitioner Last Name",
-        value: this.$store.state.secondaryLastName || "N/A"
-      },
-      { name: "Comments", value: this.$store.state.comments || "N/A" }
+      { name: "Primary Practitioner Number:", value: this.$store.state.primaryNumber },
+      { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName }
     ];
+
+    if (this.$store.state.secondaryNumber) {
+      this.submissionData = [
+        ...this.submissionData, 
+        { name: 'Secondary Practitioner Number:', value: this.$store.state.secondaryNumber },
+        { name: 'Secondary Practitioner Last Name:', value: this.$store.state.secondaryLastName }
+      ]
+    }
+
+    if (this.$store.state.comments) {
+      this.submissionData = [
+        ...this.submissionData, 
+        { name: 'Comments:', value: this.$store.state.comments }
+      ]
+    }
 
     if (this.$store.state.uploadType === "AOP") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
-          return { name: `AOP Form - ${i + 1}`, value: item.name };
+          return { name: `AOP Form - ${i + 1}:`, value: item.name };
         }
       );
     } else if (this.$store.state.uploadType === "COAOP") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
-          return { name: `CAOP Form - ${i + 1}`, value: item.name };
+          return { name: `CAOP Form - ${i + 1}:`, value: item.name };
         }
       );
     } else if (this.$store.state.uploadType === "OOPA") {
       this.supportingDocuments = this.$store.state.uploadedForms.map(
         (item, i) => {
-          return { name: `OOPA Form - ${i + 1}`, value: item.name };
+          return { name: `OOPA Form - ${i + 1}:`, value: item.name };
         }
       );
     }
@@ -187,7 +208,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     if (
       to.path === routes.SENDING.path ||
-      (to.path === routes.HOME.path &&
+      (to.path === routes.SIGN_IN.path &&
         pageStateService.isPageComplete(to.path)) ||
       (to.path === routes.SUBMISSION_INFO.path &&
         pageStateService.isPageComplete(to.path))
@@ -210,7 +231,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .selected-form {
   font-weight: bold;
   background-color: #eee;
@@ -219,5 +240,42 @@ export default {
 
 .mb {
   margin-bottom: 80px;
+}
+
+.edit-link {
+  text-decoration: none;
+}
+
+.submission-type {
+  background: #eee;
+  padding: 4px 8px 0 8px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  .name {
+    width: 50%;
+  }
+
+  .radios {
+    width: 50%;
+  }
+}
+
+label {
+  margin: 0;
+}
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  * {
+    margin-right: 6px;
+  }
 }
 </style>
