@@ -1,15 +1,21 @@
 <template>
   <div class="home">
-    <div class="container mt-5">
+    <div class="container">
       <h1>Home</h1>
       <hr/>
       <p>Content here.</p>
     </div>
+    <ContinueBar />
   </div>
 </template>
 
 <script>
+import ContinueBar from '../components/ContinueBar.vue';
+
 export default {
-  name: 'Home'
+  name: 'HomePage',
+  components: {
+    ContinueBar
+  }
 }
 </script>

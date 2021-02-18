@@ -1,6 +1,5 @@
 
 import AccountTypePage from '../views/AccountTypePage.vue';
-import DependentPage from '../views/DependentPage.vue';
 import HomePage from '../views/HomePage.vue';
 import MoveInfoPage from '../views/MoveInfoPage.vue';
 import ReviewPage from '../views/ReviewPage.vue';
@@ -16,12 +15,6 @@ export const routes = {
     title: 'Account Type',
     name: 'AccountTypePage',
     component: AccountTypePage
-  },
-  DEPENDENT_PAGE: {
-    path: BASE_URL + 'dependent',
-    title: 'Dependent(s)',
-    name: 'DependentPage',
-    component: DependentPage
   },
   HOME_PAGE: {
     path: BASE_URL,
