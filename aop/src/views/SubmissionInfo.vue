@@ -908,8 +908,6 @@ export default {
     this.comments = this.$store.state.comments;
     this.files = this.$store.state.uploadedForms;
     this.credentials = this.$store.state.uploadedCredentials;
-    console.log('files:', this.files);
-    console.log('credentials:', this.credentials);
   },
   methods: {
     handlePhoneChange: function() {
