@@ -100,6 +100,9 @@
 </template>
 
 <script>
+import pageStateService from '../services/page-state-service';
+import routes from '../router/routes';
+import { scrollTo } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 
@@ -119,7 +122,11 @@ export default {
   },
   methods: {
     nextPage() {
-      this.isLoading = true;
+      pageStateService.setPageIncomplete(routes.ACCOUNT_TYPE_PAGE.path)
+      const path = routes.MOVE_INFO_PAGE.path;
+      pageStateService.setPageComplete(path);
+      this.$router.push(path);
+      scrollTo(0);
     }
   }
 }
