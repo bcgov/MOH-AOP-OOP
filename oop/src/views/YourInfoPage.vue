@@ -6,10 +6,32 @@
       <hr/>
       <div class="row">
         <div class="col-sm-7">
-          <Input label='Last name' />
-          <Input label='Personal Health Number (PHN)' />
-          <Input label='Email (Optional)' />
-          <Input label='Phone number' className='mb-3' />
+          <Input label='Last name'
+                 v-model='lastName' />
+          <div class="text-danger"
+               v-if="$v.lastName.$dirty && !$v.lastName.required"
+               aria-live="assertive">Field is required</div>
+          
+          <Input label='Personal Health Number (PHN)'
+                 v-model='phn'
+                 className='mt-3' />
+          <div class="text-danger"
+               v-if="$v.phn.$dirty && !$v.phn.required"
+               aria-live="assertive">Field is required</div>
+
+          <Input label='Email (Optional)'
+                 v-model='email'
+                 className='mt-3' />
+          <div class="text-danger"
+               v-if="$v.email.$dirty && !$v.email.required"
+               aria-live="assertive">Field is required</div>
+
+          <Input label='Phone number'
+                 v-model='phone'
+                 className='mt-3 mb-3' />
+          <div class="text-danger"
+               v-if="$v.phone.$dirty && !$v.phone.required"
+               aria-live="assertive">Field is required</div>
         </div>
         <div class="col-sm-5">
           <h4>Tip</h4>
@@ -24,9 +46,17 @@
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo } from '../helpers/scroll';
+import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
+import { required } from 'vuelidate/lib/validators';
+import {
+  MODULE_NAME as formModule,
+  SET_LAST_NAME,
+  SET_PHN,
+  SET_EMAIL,
+  SET_PHONE,
+} from '../store/modules/form';
 
 export default {
   name: 'YourInfoPage',
@@ -34,8 +64,49 @@ export default {
     ContinueBar,
     Input
   },
+  data: () => {
+    return {
+      lastName: null,
+      phn: null,
+      email: null,
+      phone: null,
+    }
+  },
+  created() {
+    this.lastName = this.$store.state.form.lastName;
+    this.phn = this.$store.state.form.phn;
+    this.email = this.$store.state.form.email;
+    this.phone = this.$store.state.form.phone;
+  },
+  validations() {
+    return {
+      lastName: {
+        required,
+      },
+      phn: {
+        required,
+      },
+      email: {
+        required,
+      },
+      phone: {
+        required,
+      }
+    };
+  },
   methods: {
     nextPage() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        scrollToError();
+        return;
+      }
+
+      this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
+      this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
+      this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
+      this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+
       pageStateService.setPageIncomplete(routes.YOUR_INFO_PAGE.path)
       const path = routes.ACCOUNT_TYPE_PAGE.path;
       pageStateService.setPageComplete(path);
