@@ -50,12 +50,14 @@ import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import { required } from 'vuelidate/lib/validators';
+import strings from '../locale/strings.en';
 import {
   MODULE_NAME as formModule,
   SET_LAST_NAME,
   SET_PHN,
   SET_EMAIL,
   SET_PHONE,
+  RESET_FORM,
 } from '../store/modules/form';
 
 export default {
@@ -112,6 +114,19 @@ export default {
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
+    }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    if (to.path === routes.ACCOUNT_TYPE_PAGE.path) {
+      next();
+    } else if (to.path === routes.HOME_PAGE.path) {
+      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
+        this.$store.dispatch(formModule + '/' + RESET_FORM);
+        next();
+      } else {
+        next(false);
+      }
     }
   }
 }

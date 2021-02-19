@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { routes } from './routes';
+import pageStateService from '../services/page-state-service';
 
 Vue.use(VueRouter);
+pageStateService.importPageRoutes(routes);
 
 const routeCollection = [
   {
@@ -41,6 +43,27 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: routeCollection
+});
+
+const shouldNavigateHome = (homeRouteName, to) => {
+  if(to && to.name
+  && homeRouteName !== to.name
+  && !pageStateService.isPageComplete(to.path)) {
+    return true;
+  }
+  return false;
+};
+
+router.beforeEach((to, from, next) => {
+  // Home redirect.
+  if (shouldNavigateHome(routes.HOME_PAGE.name, to)) {
+    next({ name: routes.HOME_PAGE.name });
+  }
+  
+  // Catch-all (navigation).
+  else {
+    next();
+  }
 });
 
 export default router;
