@@ -3,7 +3,6 @@
     <label :for="'input' + label">{{label}}</label><br/>
     <input :id="'input' + label"
            class='form-control'
-           :class='className'
            :value="value"
            @input="emitInput($event)" />
   </div>
