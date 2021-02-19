@@ -37,6 +37,11 @@ import { scrollTo } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput from '../components/DateInput.vue';
 import Input from '../components/Input.vue';
+import strings from '../locale/strings.en';
+import {
+  MODULE_NAME as formModule,
+  RESET_FORM
+} from '../store/modules/form';
 
 export default {
   name: 'MoveInfoPage',
@@ -52,6 +57,19 @@ export default {
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
+    }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    if (to.path === routes.HOME_PAGE.path) {
+      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
+        this.$store.dispatch(formModule + '/' + RESET_FORM);
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
     }
   }
 }

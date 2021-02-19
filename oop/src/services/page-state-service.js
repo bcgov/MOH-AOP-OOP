@@ -1,10 +1,13 @@
-import { routes } from '../router/routes';
 import settings from '../settings';
 
 class PageStateService {
   pages = [];
 
   constructor() {
+    this.pages = [];
+  }
+
+  importPageRoutes(routes) {
     this.pages = [];
     for (let key in routes) {
       this.pages.push(routes[key]);
