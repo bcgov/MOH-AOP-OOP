@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class='className'>
     <fieldset>
       <legend class="date--legend">{{label}}:</legend>
       <div class="date-row">
@@ -82,6 +82,7 @@ export default {
   components: {},
   props: {
     value: Date,
+    className: String,
     disabled: {
       type: Boolean,
       default: false

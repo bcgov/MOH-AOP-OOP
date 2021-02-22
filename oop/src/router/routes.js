@@ -7,47 +7,45 @@ import YourInfoPage from '../views/YourInfoPage.vue';
 import SubmissionPage from '../views/SubmissionPage.vue';
 import SubmissionErrorPage from '../views/SubmissionErrorPage.vue';
 
-const BASE_URL = '/oop';
-
 export const routes = {
   ACCOUNT_TYPE_PAGE: {
-    path: BASE_URL + '/account-type',
+    path: '/account-type',
     title: 'Account Type',
     name: 'AccountTypePage',
     component: AccountTypePage
   },
   HOME_PAGE: {
-    path: BASE_URL,
+    path: '/',
     title: 'Home',
     name: 'HomePage',
     component: HomePage
   },
   MOVE_INFO_PAGE: {
-    path: BASE_URL + '/move-info',
+    path: '/move-info',
     title: 'Move Information',
     name: 'MoveInfoPage',
     component: MoveInfoPage
   },
   REVIEW_PAGE: {
-    path: BASE_URL + '/review',
+    path: '/review',
     title: 'Review',
     name: 'ReviewPage',
     component: ReviewPage
   },
   YOUR_INFO_PAGE: {
-    path: BASE_URL + '/your-info',
+    path: '/your-info',
     title: 'Your Information',
     name: 'YourInfoPage',
     component: YourInfoPage
   },
   SUBMISSION_PAGE: {
-    path: BASE_URL + '/submission',
+    path: '/submission',
     title: 'Submission',
     name: 'SubmissionPage',
     component: SubmissionPage
   },
   SUBMISSION_ERROR_PAGE: {
-    path: BASE_URL + '/submission-error',
+    path: '/submission-error',
     title: 'Submission Error',
     name: 'SubmissionErrorPage',
     component: SubmissionErrorPage

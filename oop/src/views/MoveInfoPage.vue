@@ -9,20 +9,28 @@
       <h2>What is the change of address effective date?</h2>
       <div class="row">
         <div class="col-md-6">
-          <DateInput label="Date of permanent move from B.C."/>
-          <DateInput label="Date of arrival in new destination"/>
+          <DateInput label="Date of permanent move from B.C."
+                     className='mt-3'/>
+          <DateInput label="Date of arrival in new destination"
+                     className='mt-3'/>
         </div>
       </div>
       
       <h2 class='mt-4'>What is the new address information?</h2>
       <div class="row">
         <div class="col-md-6">
-          <Input label='Address line 1' />
-          <Input label='Address line 2' />
-          <Input label='Country' />
-          <Input label='Province/Region/State' />
-          <Input label='City/Town' />
-          <Input label='Postal Code/Zip' className='mb-3' />
+          <Input label='Address line 1'
+                 className='mt-3' />
+          <Input label='Address line 2'
+                 className='mt-3' />
+          <Input label='Country'
+                 className='mt-3' />
+          <Input label='Province/Region/State'
+                 className='mt-3' />
+          <Input label='City/Town'
+                 className='mt-3' />
+          <Input label='Postal Code/Zip'
+                 className='my-3' />
         </div>
       </div>
 
