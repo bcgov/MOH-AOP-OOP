@@ -7,10 +7,16 @@
       <div class="row">
         <div class="col-sm-7">
           <Input label='Last name'
-                 v-model='lastName' />
+                 v-model='lastName'/>
           <div class="text-danger"
                v-if="$v.lastName.$dirty && !$v.lastName.required"
                aria-live="assertive">Field is required</div>
+          <div class="text-danger"
+               v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
+               aria-live="assertive">This field cannot contain special characters.</div>
+          <div class="text-danger"
+               v-if="showServerValidationError"
+               aria-live="assertive">This field does not match our records.</div>
           
           <Input label='Personal Health Number (PHN)'
                  v-model='phn'
@@ -18,6 +24,12 @@
           <div class="text-danger"
                v-if="$v.phn.$dirty && !$v.phn.required"
                aria-live="assertive">Field is required</div>
+          <div class="text-danger"
+               v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
+               aria-live="assertive">This is not a valid Personal Health Number.</div>
+          <div class="text-danger"
+               v-if="showServerValidationError"
+               aria-live="assertive">This field does not match our records.</div>
 
           <Input label='Email (Optional)'
                  v-model='email'
@@ -28,12 +40,13 @@
 
           <Input label='Phone number'
                  v-model='phone'
-                 className='mt-3 mb-3' />
+                 className='mt-3' />
           <div class="text-danger"
                v-if="$v.phone.$dirty && !$v.phone.required"
                aria-live="assertive">Field is required</div>
+          <br/>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-5 mt-3 mt-sm-0">
           <h4>Tip</h4>
           <p>Tip content here</p>
         </div>
@@ -43,6 +56,7 @@
     <ContinueBar @continue='nextPage()' />
   </div>
 </template>
+
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
@@ -60,6 +74,75 @@ import {
   RESET_FORM,
 } from '../store/modules/form';
 
+const nameValidator = (value) => {
+  const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
+  const result = criteria.test(value);
+  return result;
+};
+
+const phnValidator = (value) => {
+  if (!value) {
+    return false;
+  }
+  // Init weights and other stuff
+  const weights = [-1, 2, 4, 8, 5, 10, 9, 7, 3, -1];
+  let sumOfRemainders = 0;
+  let phn;
+  // Clean up string
+  value = value.trim();
+  phn = value
+              .replace( /^0+/, '' ) // remove leading zeros
+              .replace(/_/g, '') // remove underlines
+              .replace(/\s/g, ''); // spaces
+
+  // Test for length
+  if (phn.length !== 10) {
+    return false;
+  }
+
+  // Walk through each character
+  for (let i=0; i<phn.length; i++) {
+
+    // pull out char
+    const char = phn.charAt(i);
+
+    // parse the number
+    const num = Number(char);
+
+    if (Number.isNaN(num)) {
+      return false;
+    }
+
+    // Only use the multiplier if weight is greater than zero
+    let result = 0;
+    if (weights[i] > 0) {
+      // multiply the value against the weight
+      result = num * weights[i];
+
+      // divide by 11 and save the remainder
+      result = result % 11;
+
+      // add it to our sum
+      sumOfRemainders += result;
+    }
+  }
+
+  // mod by 11
+  const checkDigit = 11 - (sumOfRemainders % 11);
+
+  // if the result is 10 or 11, it is an invalid PHN
+  if (checkDigit === 10 || checkDigit === 11) {
+    return false;
+  }
+
+  // Compare against 10th digitfinalDigit
+  const finalDigit = Number(phn.substring(9, 10));
+  if (checkDigit !== finalDigit) {
+    return false;
+  }
+  return true;
+};
+
 export default {
   name: 'YourInfoPage',
   components: {
@@ -72,6 +155,7 @@ export default {
       phn: null,
       email: null,
       phone: null,
+      showServerValidationError: false,
     }
   },
   created() {
@@ -84,9 +168,11 @@ export default {
     return {
       lastName: {
         required,
+        nameValidation: nameValidator,
       },
       phn: {
         required,
+        phnValidation: phnValidator,
       },
       email: {
         required,
