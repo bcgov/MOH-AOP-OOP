@@ -18,9 +18,9 @@
                v-if="showServerValidationError"
                aria-live="assertive">This field does not match our records.</div>
           
-          <Input label='Personal Health Number (PHN)'
-                 v-model='phn'
-                 className='mt-3' />
+          <PhnInput label='Personal Health Number (PHN)'
+                    v-model='phn'
+                    className='mt-3' />
           <div class="text-danger"
                v-if="$v.phn.$dirty && !$v.phn.required"
                aria-live="assertive">Field is required</div>
@@ -63,6 +63,7 @@ import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
+import PhnInput from '../components/PhnInput.vue';
 import { required } from 'vuelidate/lib/validators';
 import strings from '../locale/strings.en';
 import {
@@ -147,7 +148,8 @@ export default {
   name: 'YourInfoPage',
   components: {
     ContinueBar,
-    Input
+    Input,
+    PhnInput,
   },
   data: () => {
     return {
