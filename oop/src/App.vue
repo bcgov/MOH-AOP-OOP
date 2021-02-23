@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <Header title='Out-of-Province Form' />
-    <ProgressBar :currentPath='$router.currentRoute.path'
-                  :routes='stepRoutes'/>
+    <Header title='MSP Permanent Move Outside of B.C.' />
+    <div class="container">
+      <ProgressBar :currentPath='$router.currentRoute.path'
+                   :routes='stepRoutes'/>
+    </div>
     <div class="pt-3 pt-sm-5">
       <router-view/>
     </div>
