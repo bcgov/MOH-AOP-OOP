@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav
+    <div
       class="container-fluid navbar navbar-expand-lg navbar-dark"
       aria-label="Header"
     >
@@ -14,7 +14,7 @@
       <div id="title" class="navbar-brand">
         {{ heading }}
       </div>
-    </nav>
+    </div>
   </header>
 </template>
 
@@ -37,6 +37,11 @@ export default {
 </script>
 
 <style scoped>
+header .navbar {
+  background-color: #036;
+  border-bottom: 2px solid #fcba19;
+}
+
 .navbar > .container-fluid {
   width: 95%;
   justify-content: inherit;

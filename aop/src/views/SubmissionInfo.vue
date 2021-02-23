@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form>
     <h1>Select a Form</h1>
     <br> 
     <h2>Please select the form that you want to submit:</h2>
@@ -18,7 +18,7 @@
         value="AOP"
         name="uploadType"
         v-model="uploadType"
-        @change="resetCredentialsRequired"
+        @change="resetFiles"
         required
         aria-required="true"
       />&nbsp;
@@ -35,7 +35,7 @@
         value="COAOP"
         name="uploadType"
         v-model="uploadType"
-        @change="resetCredentialsRequired"
+        @change="resetFiles"
       />&nbsp;
       <label for="COAOP"
         >Diagnostic Facility Services Cancellation of Assignment of Payment
@@ -50,7 +50,7 @@
         value="OOPA"
         name="uploadType"
         v-model="uploadType"
-        @change="resetCredentialsRequired"
+        @change="resetFiles"
       />&nbsp;
       <label for="OOPA"
         >Laboratory Services Outpatient Operator Payment Administration (HLTH
@@ -79,6 +79,7 @@
           aria-required="true"
           name="credentialsRequired"
           v-model="credentialsRequired"
+          @change="resetCredentials"
         />&nbsp;
         <label for="no">No</label>
       </div>
@@ -90,6 +91,7 @@
           value="true"
           name="credentialsRequired"
           v-model="credentialsRequired"
+          @change="resetCredentials"
         />&nbsp;
         <label for="yes">Yes</label>
       </div>
@@ -105,7 +107,7 @@
       </div>
     </div>
     <br />
-    <div v-if="uploadType === 'AOP' && credentialsRequired !== null">
+    <div v-if="uploadType === 'AOP' && credentialsRequired !== ''">
       <h2 v-if="credentialsRequired === 'true'">
         Submit your Assignment of Payment and Medical Director Authorization
         Form with Confirmation of Practitioner Credentials
@@ -155,7 +157,7 @@
     </div>
     <div
       v-if="
-        (uploadType === 'AOP' && credentialsRequired !== null) ||
+        (uploadType === 'AOP' && credentialsRequired !== '') ||
           uploadType === 'COAOP' ||
           uploadType === 'OOPA'
       "
@@ -184,7 +186,7 @@
     </p>
     <div
       v-if="
-        (uploadType === 'AOP' && credentialsRequired !== null) ||
+        (uploadType === 'AOP' && credentialsRequired !== '') ||
           uploadType === 'COAOP' ||
           uploadType === 'OOPA'
       "
@@ -219,7 +221,7 @@
       </div>
       <div
         class="text-danger"
-        v-if="$v.emailAddress.$dirty && !$v.emailAddress.email"
+        v-if="$v.emailAddress.$dirty && $v.emailAddress.required &&!$v.emailAddress.isValidEmail"
         aria-live="assertive"
       >
         Invalid email address
@@ -462,13 +464,14 @@
         >
           Invalid secondary practitioner number
         </div>
-        <!-- <div
+        <div
           class="text-danger"
-          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && $v.secondaryNumber.minLength && !$v.secondaryNumber.hasSecondaryLastName"
+          v-if="$v.secondaryLastName.$dirty && $v.secondaryLastName.isValidSecondaryLastName && !$v.secondaryLastName.hasSecondaryNumber"
           aria-live="assertive"
         >
-          Secondary practitioner last name is required if supplying a secondary practitioner number 
-        </div> -->
+          Secondary practitioner number is required if supplying a secondary practitioner last name
+        </div>
+        
 
         <Input
           :label="'Secondary Practitioner Last Name (optional)'"
@@ -483,13 +486,13 @@
         >
           Invalid secondary practitioner last name
         </div>
-        <!-- <div
+        <div
           class="text-danger"
-          v-if="$v.secondaryLastName.$dirty && $v.secondaryLastName.isValidSecondaryLastName && !$v.secondaryLastName.hasSecondaryNumber"
+          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && $v.secondaryNumber.minLength && !$v.secondaryNumber.hasSecondaryLastName"
           aria-live="assertive"
         >
-          Secondary practitioner number is required if supplying a secondary practitioner last name
-        </div> -->
+          Secondary practitioner last name is required if supplying a secondary practitioner number 
+        </div>
       </div>
 
       <div class="mt-3">
@@ -519,7 +522,7 @@
                 v-if="$v.files.$dirty && !$v.files.required"
                 aria-live="assertive"
               >
-                Upload is required
+                Please upload required document
               </div>
             </div>
             <div class="col-md notice">
@@ -598,7 +601,7 @@
         :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
         v-on:button-click="nextPage"
       />
-  </div>
+  </form>
 </template>
 
 <script>
@@ -640,6 +643,10 @@ const isValidPhone = ph => {
   return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(ph);
 }
 
+const isValidEmail = email => {
+  return /^(?:[A-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]{2,}(?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i.test(email);
+}
+
 const isValidLastName = name => {
   return /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
 }
@@ -649,11 +656,15 @@ const isValidSecondaryLastName = name => {
 }
 
 const hasSecondaryNumber = (value, vm) => {
-  vm.secondaryNumber.length > 0; 
+  const hasNumber = vm.secondaryNumber.length > 0;
+  const hasNeither = vm.secondaryNumber.length < 1 && value.length < 1;
+  return hasNeither || hasNumber;
 }
 
 const hasSecondaryLastName = (value, vm) => {
-  vm.secondaryLastName.length > 0;
+  const hasLastName = vm.secondaryLastName.length > 0;
+  const hasNeither = vm.secondaryLastName.length < 1 && value.length < 1;
+  return hasNeither || hasLastName;
 }
 
 export default {
@@ -666,22 +677,22 @@ export default {
   },
   data: () => {
     return {
-      uploadType: null,
-      credentialsRequired: null,
-      firstName: null,
-      lastName: null,
-      emailAddress: null,
-      phoneNumber: null,
-      organization: null,
-      facility: null,
+      uploadType: '',
+      credentialsRequired: '',
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      phoneNumber: '',
+      organization: '',
+      facility: '',
       files: null,
       credentials: null,
-      submissionType: null,
-      primaryNumber: null,
-      primaryLastName: null,
-      secondaryNumber: null,
-      secondaryLastName: null,
-      comments: null
+      submissionType: '',
+      primaryNumber: '',
+      primaryLastName: '',
+      secondaryNumber: '',
+      secondaryLastName: '',
+      comments: ''
     };
   },
   validations() {
@@ -706,7 +717,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -732,11 +743,11 @@ export default {
         secondaryNumber: {
           alphaNum,
           minLength: minLength(5),
-          // hasSecondaryLastName
+          hasSecondaryLastName
         },
         secondaryLastName: {
           isValidSecondaryLastName,
-          // hasSecondaryNumber
+          hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'AOP') {
@@ -760,7 +771,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -783,11 +794,11 @@ export default {
         secondaryNumber: {
           alphaNum,
           minLength: minLength(5),
-          // hasSecondaryLastName
+          hasSecondaryLastName
         },
         secondaryLastName: {
           isValidSecondaryLastName,
-          // hasSecondaryNumber
+          hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'COAOP') {
@@ -808,7 +819,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         organization: {
           required
@@ -828,11 +839,11 @@ export default {
         secondaryNumber: {
           alphaNum,
           minLength: minLength(5),
-          // hasSecondaryLastName
+          hasSecondaryLastName
         },
         secondaryLastName: {
           isValidSecondaryLastName,
-          // hasSecondaryNumber
+          hasSecondaryNumber
         }
       };
     } else if (this.uploadType === 'OOPA') {
@@ -853,7 +864,7 @@ export default {
         },
         emailAddress: {
           required,
-          email
+          isValidEmail
         },
         facility: {
           required
@@ -876,11 +887,11 @@ export default {
         secondaryNumber: {
           alphaNum,
           minLength: minLength(5),
-          // hasSecondaryLastName
+          hasSecondaryLastName
         },
         secondaryLastName: {
           isValidSecondaryLastName,
-          // hasSecondaryNumber
+          hasSecondaryNumber
         }
       };
     } else {
@@ -947,8 +958,12 @@ export default {
       this.$router.push(path);
       scrollTo(0);
     },
-    resetCredentialsRequired: function() {
-      this.credentialsRequired = null;
+    resetFiles: function() {
+      this.files = null;
+      this.credentialsRequired = '';
+    },
+    resetCredentials: function() {
+      this.credentials = null;
     }
   },
   // Required in order to block back navigation on second page.
@@ -1050,7 +1065,7 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   * {
-    margin-right: 6px;
+    margin-right: 12px;
   }
 }
 </style>

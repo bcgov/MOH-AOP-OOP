@@ -3,36 +3,24 @@
     <h1>Review Your Submission</h1>
     <hr />
 
-    <div class="row mt-5">
-      <div class="col-10">
+    <div class="relative">
         <h2>Selected Form</h2>
         <hr />
-      </div>
-      <div class="col-2 text-right">
         <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
           >Edit <i class="fa fa-pencil"></i></a
         >
-      </div>
     </div>
-    <div class="selected-form">
+    <div class="selected-form mb-4">
       {{ selectedForm }}
     </div>
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Submitter Information</h2>
-        <hr />
-      </div>
-    </div>
+    <h2 class="mt-4">Submitter Information</h2>
+    <hr />
     <Table :elements="submitterData" />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Submission Information</h2>
-        <hr />
-      </div>
-    </div>
-    <div class="submission-type">
+    <h2 class="mt-4">Information About This Submission</h2>
+    <hr />
+    <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
       <div class="name">
         <div>
           <strong>Submission Type:</strong>
@@ -65,12 +53,8 @@
     </div>
     <Table :elements="submissionData" />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Supporting Documents</h2>
-        <hr />
-      </div>
-    </div>
+    <h2 class="mt-4">Supporting Documents</h2>
+    <hr />
     <Table :elements="supportingDocuments" />
 
     <Button
@@ -119,67 +103,76 @@ export default {
         break;
     }
 
-    this.submitterData = [
-      { name: "First Name:", value: this.$store.state.firstName },
-      { name: "Last Name:", value: this.$store.state.lastName },
-      { name: "Email Address:", value: this.$store.state.emailAddress },
-      { name: "Phone Number:", value: this.$store.state.phoneNumber }
-    ];
-
-    if (this.$store.state.facility) {
-      this.submitterData = [...this.submitterData, { name: "Facility Name:", value: this.$store.state.facility }]
+    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
+      this.submitterData = [
+        { name: "First Name:", value: this.$store.state.firstName },
+        { name: "Last Name:", value: this.$store.state.lastName },
+        { name: "Email Address:", value: this.$store.state.emailAddress },
+        { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Organization:", value: this.$store.state.organization }
+      ];
+    } else {
+      this.submitterData = [
+        { name: "First Name:", value: this.$store.state.firstName },
+        { name: "Last Name:", value: this.$store.state.lastName },
+        { name: "Email Address:", value: this.$store.state.emailAddress },
+        { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Facility Name:", value: this.$store.state.facility }
+      ];
     }
 
-    if (this.$store.state.organization) {
-      this.submitterData = [...this.submitterData, { name: "Organization:", value: this.$store.state.organization }]
-    }
-
-    this.submissionData = [
-      { name: "Primary Practitioner Number:", value: this.$store.state.primaryNumber },
-      { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName }
-    ];
-
-    if (this.$store.state.secondaryNumber) {
+    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
       this.submissionData = [
-        ...this.submissionData, 
-        { name: 'Secondary Practitioner Number:', value: this.$store.state.secondaryNumber },
-        { name: 'Secondary Practitioner Last Name:', value: this.$store.state.secondaryLastName }
-      ]
-    }
-
-    if (this.$store.state.comments) {
+        { name: "Practitioner Number:", value: this.$store.state.primaryNumber },
+        { name: "Practitioner Last Name:", value: this.$store.state.primaryLastName },
+        { name: "Comments:", value: this.$store.state.comments }
+      ];
+    } else {
       this.submissionData = [
-        ...this.submissionData, 
-        { name: 'Comments:', value: this.$store.state.comments }
+        { name: "Primary Practitioner Number:", value: this.$store.state.primaryNumber },
+        { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName },
+        { name: "Secondary Practitioner Number:", value: this.$store.state.secondaryNumber },
+        { name: "Secondary Practitioner Last Name:", value: this.$store.state.secondaryLastName },
+        { name: "Comments:", value: this.$store.state.comments }
       ]
     }
 
     if (this.$store.state.uploadType === "AOP") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `AOP Form - ${i + 1}:`, value: item.name };
-        }
-      );
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label } ];
+      }
     } else if (this.$store.state.uploadType === "COAOP") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `CAOP Form - ${i + 1}:`, value: item.name };
-        }
-      );
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
+      }
     } else if (this.$store.state.uploadType === "OOPA") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `OOPA Form - ${i + 1}:`, value: item.name };
-        }
-      );
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
+      }
     }
 
-    if (this.$store.state.uploadedCredentials.length > 0) {
-      const credentials = this.$store.state.uploadedCredentials.map(
-        (item, i) => {
-          return { name: `Credentials - ${i + 1}`, value: item.name };
-        }
-      );
+    if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
+      let credentials;
+      if (this.$store.state.uploadedCredentials.length > 1) {
+        const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
+        credentials = [ { name: "Credentials Document:", value: label } ];
+      } else {
+        const label = this.$store.state.uploadedCredentials[0].name;
+        credentials = [ { name: "Credentials Document:", value: label } ];
+
+      }
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }
   },
@@ -259,6 +252,7 @@ export default {
 
   .radios {
     width: 50%;
+    padding: 0 6px;
   }
 }
 
@@ -276,6 +270,16 @@ input[type="radio"] {
   align-items: center;
   * {
     margin-right: 6px;
+  }
+}
+
+.relative {
+  position: relative;
+
+  .edit-link {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 </style>

@@ -40,5 +40,6 @@ export default {
 .bcgov-table-cell {
   width: 50%;
   padding: 0 8px;
+  overflow-wrap: break-word;
 }
 </style>

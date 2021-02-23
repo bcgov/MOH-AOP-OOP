@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <nav class="navbar navbar-expand-sm navbar-dark"
+    <div class="navbar navbar-expand-sm navbar-dark"
          aria-label="Footer">
       <button
         class="navbar-toggler"
@@ -19,7 +19,7 @@
           <link-element url="https://www2.gov.bc.ca/gov/content/home/copyright" label="Copyright" />
         </ul>
       </div>
-    </nav>
+    </div>
   </footer>
 </template>
 
@@ -33,3 +33,12 @@
     }
   }
 </script>
+
+<style>
+
+footer .navbar { 
+  background-color: #036;
+  border-top: 2px solid #fcba19;
+}
+
+</style>

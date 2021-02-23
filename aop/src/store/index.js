@@ -25,24 +25,24 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    uploadType: null,
-    credentialsRequired: null,
-    firstName: null,
-    lastName: null,
-    emailAddress: null,
-    phoneNumber: null,
-    organization: null,
-    facilityName: null,
-    submissionType: null,
-    primaryNumber: null,
-    primaryLastName: null,
-    secondaryNumber: null,
-    secondaryLastName: null,
-    comments: null,
+    uploadType: '',
+    credentialsRequired: '',
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    phoneNumber: '',
+    organization: '',
+    facilityName: '',
+    submissionType: '',
+    primaryNumber: '',
+    primaryLastName: '',
+    secondaryNumber: '',
+    secondaryLastName: '',
+    comments: '',
     uploadedForms: [],
     uploadedCredentials: [],
-    apiResponse: null,
-    apiError: null
+    apiResponse: '',
+    apiError: ''
   },
   mutations: {
     setUploadType(state, payload) {
@@ -102,24 +102,24 @@ export default new Vuex.Store({
   },
   actions: {
     resetForm({ commit }) {
-      commit(SET_UPLOAD_TYPE, null);
-      commit(SET_CREDENTIALS_REQUIRED, null);
-      commit(SET_FIRST_NAME, null);
-      commit(SET_LAST_NAME, null);
-      commit(SET_EMAIL_ADDRESS, null);
-      commit(SET_PHONE_NUMBER, null);
-      commit(SET_ORGANIZATION, null);
-      commit(SET_FACILITY_NAME, null);
-      commit(SET_SUBMISSION_TYPE, null);
-      commit(SET_PRIMARY_NUMBER, null);
-      commit(SET_PRIMARY_LAST_NAME, null);
-      commit(SET_SECONDARY_NUMBER, null);
-      commit(SET_SECONDARY_LAST_NAME, null);
-      commit(SET_COMMENTS, null);
+      commit(SET_UPLOAD_TYPE, '');
+      commit(SET_CREDENTIALS_REQUIRED, '');
+      commit(SET_FIRST_NAME, '');
+      commit(SET_LAST_NAME, '');
+      commit(SET_EMAIL_ADDRESS, '');
+      commit(SET_PHONE_NUMBER, '');
+      commit(SET_ORGANIZATION, '');
+      commit(SET_FACILITY_NAME, '');
+      commit(SET_SUBMISSION_TYPE, '');
+      commit(SET_PRIMARY_NUMBER, '');
+      commit(SET_PRIMARY_LAST_NAME, '');
+      commit(SET_SECONDARY_NUMBER, '');
+      commit(SET_SECONDARY_LAST_NAME, '');
+      commit(SET_COMMENTS, '');
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
-      commit(SET_API_RESPONSE, null);
-      commit(SET_API_ERROR, null);
+      commit(SET_API_RESPONSE, '');
+      commit(SET_API_ERROR, '');
     },
     setHasAcceptedTerms({ commit }, hasAcceptedTerms) {
       commit(SET_HAS_ACCEPTED_TERMS, hasAcceptedTerms);

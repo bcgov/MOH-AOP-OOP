@@ -779,23 +779,23 @@ export default {
     getErrorMessage: function(error) {
       switch (error) {
         case CommonImageError.WrongType:
-          return "Wrong file type.";
+          return "Invalid document. Please provide document in PDF format";
         case CommonImageError.TooSmall:
-          return "File too small.";
+          return "File too small";
         case CommonImageError.TooBig:
-          return "File too large.";
+          return "File too large";
         case CommonImageError.AlreadyExists:
-          return "File already exists.";
+          return "File already exists";
         case CommonImageError.Unknown:
-          return "Unknown error.";
+          return "Unknown error";
         case CommonImageError.CannotOpen:
-          return "Cannot open file.";
+          return "Cannot open file";
         case CommonImageError.PDFnotSupported:
-          return "This PDF file is not supported.";
+          return "This PDF file is not supported";
         case CommonImageError.CannotOpenPDF:
-          return "Cannot open PDF file.";
+          return "Cannot open PDF file";
         default:
-          return "An error has occurred.";
+          return "An error has occurred";
       }
     },
 

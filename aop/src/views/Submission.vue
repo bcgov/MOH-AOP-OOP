@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="print-button" v-on:click="print()">
-      Print <i class="fa fa-print fa-2x"></i>
+      <span>Save</span> <i class="far fa-save fa-2x"></i> <span>Print</span> <i class="fa fa-print fa-2x"></i>
     </button>
     <h1>Confirmation Message</h1>
     <hr />
@@ -20,29 +20,73 @@
         </div>
       </div>
     </div>
+    <p class="mt-3">Thank you for submitting your completed form.</p>
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Submitter Information</h2>
-        <hr />
-      </div>
-    </div>
+    <h2>Important</h2>
+    <hr>
+    <ul>
+      <li>Full processing of an Assignment of Payment can take up to 30 days.</li>
+      <li>All Assignments of Payment must be processed within 90 days of the first date of service indicated on the AOP form in order to recieve payment from the Medical Services Plan.</li>
+      <li>It is recommended that AOP forms are submitted within 60 days of first date of service.</li>
+      <li>Health Insurance BC (HIBC) will provide email confirmation to the submitter when full processing of an AOP form has been completed.</li>
+      <li>For information on your specifica AOP submission, contact HIBC:</li>
+      Email: <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
+      <br>
+      Telephone: <strong>Dial 1-8666-456-6950</strong>
+      <ul>
+        <li>Hold for options to be presented; then select:</li>
+        <li>Option 3 (provider services): then</li>
+        <ul>
+          <li>Option 1 (AOP self-service processing confirmation)</li>
+          <li>Option 2 (Anything else) - this will ring through to an agent</li>
+          <li>Option 3 (Assignment of Payment)</li>
+        </ul>
+      </ul>
+      <li>For more information concerning the Assignment of Payment process, see: <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a></li>
+    </ul>
+
+    <h2 class="mt-4">Submitter Information</h2>
+    <hr />
     <Table :elements="submitterData" />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Submission Information</h2>
-        <hr />
+    <h2 class="mt-4">Information About This Submission</h2>
+    <hr />
+    <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
+      <div class="name">
+        <div>
+          <strong>Submission Type:</strong>
+        </div>
+      </div>
+      <div class="radios">
+        <div class="radio-group">
+          <input
+              type="radio"
+              id="new"
+              value="New Submission"
+              name="submissionType"
+              v-model="$store.state.submissionType"
+              disabled
+            />&nbsp;
+            <label for="new">New Submission</label>
+        </div>
+        <div class="radio-group">
+          <input
+            type="radio"
+            id="revised"
+            value="Revised Submission"
+            name="submissionType"
+            v-model="$store.state.submissionType"
+            disabled
+          />&nbsp;
+          <label for="revised">Revised Submission</label>
+        </div>
       </div>
     </div>
     <Table :elements="submissionData" />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Supporting Documents</h2>
-        <hr />
-      </div>
-    </div>
+    
+    <h2 class="mt-4">Supporting Documents</h2>
+    <hr />
     <Table :elements="supportingDocuments" />
 
     <Button
@@ -70,7 +114,7 @@ export default {
   data: () => {
     return {
       selectedForm: "",
-      date: Date.now().toString(),
+      date: "",
       referenceNumber: "A123456789",
       submitterData: [],
       submissionData: [],
@@ -78,77 +122,98 @@ export default {
     };
   },
   created() {
+    const date = new Date();
+    const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const month = monthList[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    this.date = `${month} ${day}, ${year}`
+
     switch (this.$store.state.uploadType) {
       case "AOP":
         this.selectedForm =
-          "Diagnostic Facility Services Assignment of Payment and Medical Director Authorization";
+          "Diagnostic Facility Services Assignment of Payment and Medical Director Authorization (HLTH 1908)";
         break;
       case "COAOP":
         this.selectedForm =
-          "Diagnostic Facility Services Cancellation of Assignment of Payment";
+          "Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)";
         break;
       case "OOPA":
         this.selectedForm =
-          "Laboratory Services Outpatient Operator Payment Administration";
+          "Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)";
         break;
     }
 
-    this.submitterData = [
-      { name: "First Name", value: this.$store.state.firstName },
-      { name: "Last Name", value: this.$store.state.lastName },
-      { name: "Email Address", value: this.$store.state.emailAddress },
-      { name: "Phone Number", value: this.$store.state.phoneNumber },
-      { name: "Facility Name:", value: this.$store.state.facility || "N/A" },
-      { name: "Organization:", value: this.$store.state.organization || "N/A" }
-    ];
-
-    this.submissionData = [
-      { name: "Submission Type", value: this.$store.state.submissionType },
-      {
-        name: "Primary Practitioner Number",
-        value: this.$store.state.primaryNumber
-      },
-      {
-        name: "Primary Practitioner Last Name",
-        value: this.$store.state.primaryLastName
-      },
-      {
-        name: "Secondary Practitioner Number",
-        value: this.$store.state.secondaryNumber || "N/A"
-      },
-      {
-        name: "Secondary Practitioner Last Name",
-        value: this.$store.state.secondaryLastName || "N/A"
-      },
-      { name: "Comments", value: this.$store.state.comments || "N/A" }
-    ];
-
-    if (this.$store.state.uploadType === "AOP") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `AOP Form - ${i + 1}`, value: item.name };
-        }
-      );
-    } else if (this.$store.state.uploadType === "COAOP") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `COAOP Form - ${i + 1}`, value: item.name };
-        }
-      );
-    } else if (this.$store.state.uploadType === "OOPA") {
-      this.supportingDocuments = this.$store.state.uploadedForms.map(
-        (item, i) => {
-          return { name: `OOPA Form - ${i + 1}`, value: item.name };
-        }
-      );
+    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
+      this.submitterData = [
+        { name: "First Name:", value: this.$store.state.firstName },
+        { name: "Last Name:", value: this.$store.state.lastName },
+        { name: "Email Address:", value: this.$store.state.emailAddress },
+        { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Organization:", value: this.$store.state.organization }
+      ];
+    } else {
+      this.submitterData = [
+        { name: "First Name:", value: this.$store.state.firstName },
+        { name: "Last Name:", value: this.$store.state.lastName },
+        { name: "Email Address:", value: this.$store.state.emailAddress },
+        { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Facility Name:", value: this.$store.state.facility }
+      ];
     }
 
-    if (this.$store.state.uploadedCredentials.length > 0) {
-      const credentials = this.$store.state.uploadedCredentials.map(
-        (item, i) => {
-          return { name: `Credentials - ${i + 1}`, value: item.name };
-        }
-      );
+    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
+      this.submissionData = [
+        { name: "Practitioner Number:", value: this.$store.state.primaryNumber },
+        { name: "Practitioner Last Name:", value: this.$store.state.primaryLastName },
+        { name: "Comments:", value: this.$store.state.comments }
+      ];
+    } else {
+      this.submissionData = [
+        { name: "Primary Practitioner Number:", value: this.$store.state.primaryNumber },
+        { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName },
+        { name: "Secondary Practitioner Number:", value: this.$store.state.secondaryNumber },
+        { name: "Secondary Practitioner Last Name:", value: this.$store.state.secondaryLastName },
+        { name: "Comments:", value: this.$store.state.comments }
+      ]
+    }
+
+    if (this.$store.state.uploadType === "AOP") {
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label } ];
+      }
+    } else if (this.$store.state.uploadType === "COAOP") {
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
+      }
+    } else if (this.$store.state.uploadType === "OOPA") {
+      if (this.$store.state.uploadedForms.length > 1) {
+        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label} ];
+      } else {
+        const label = this.$store.state.uploadedForms[0].name;
+        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
+      }
+    }
+
+    if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
+      let credentials;
+      if (this.$store.state.uploadedCredentials.length > 1) {
+        const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
+        credentials = [ { name: "Credentials Document:", value: label } ];
+      } else {
+        const label = this.$store.state.uploadedCredentials[0].name;
+        credentials = [ { name: "Credentials Document:", value: label } ];
+
+      }
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }
   },
@@ -181,7 +246,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 .fa-check-circle {
   color: rgba(112, 182, 3, 1);
 }
@@ -211,9 +276,48 @@ export default {
 
 .print-button i {
   color: black;
+  margin-right: 8px;
+}
+
+.print-button span {
+  margin-right: 8px;
 }
 
 .mb {
   margin-bottom: 80px;
+}
+
+.submission-type {
+  background: #eee;
+  padding: 4px 8px 0 8px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  .name {
+    width: 50%;
+  }
+
+  .radios {
+    width: 50%;
+    padding: 0 6px;
+  }
+}
+
+label {
+  margin: 0;
+}
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  * {
+    margin-right: 6px;
+  }
 }
 </style>
