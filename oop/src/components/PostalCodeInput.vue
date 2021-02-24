@@ -7,7 +7,7 @@
         name="postalCode"
         class="form-control"
         v-model="localValue"
-        :mask="[/[A-Za-z]/, /\d/, /[A-Za-z]/, ' ', /\d/, /[A-Za-z]/, /\d/]"
+        :mask="mask"
         :guide="false"
         placeholderChar="#">
       </masked-input>
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       localValue: null,
+      mask: [/[A-Za-z]/, /\d/, /[A-Za-z]/, ' ', /\d/, /[A-Za-z]/, /\d/],
     }
   },
   created() {
