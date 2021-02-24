@@ -7,7 +7,7 @@
         name="phn"
         class="form-control"
         v-model="localValue"
-        :mask="[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]"
+        :mask="mask"
         :guide="false"
         placeholderChar="#">
       </masked-input>
@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       localValue: null,
+      mask: [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
     }
   },
   created() {

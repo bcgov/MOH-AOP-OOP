@@ -13,7 +13,7 @@
                aria-live="assertive">Field is required</div>
           <div class="text-danger"
                v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
-               aria-live="assertive">This field cannot contain special characters.</div>
+               aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
           <div class="text-danger"
                v-if="showServerValidationError"
                aria-live="assertive">This field does not match our records.</div>
