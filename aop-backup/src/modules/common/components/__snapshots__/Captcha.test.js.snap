@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Captcha component matches the primary snapshot 1`] = `
-<div>
-  <div></div>
-  <!---->
-</div>
-`;

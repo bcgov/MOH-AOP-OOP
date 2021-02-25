@@ -516,7 +516,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md upload-container">
-              <FileUploader v-model="files" />
+              <FileUploader :images="files" v-model="files" />
               <div
                 class="mt text-danger"
                 v-if="$v.files.$dirty && !$v.files.required"
@@ -566,7 +566,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md upload-container">
-              <FileUploader v-model="credentials" />
+              <FileUploader :images="credentials" v-model="credentials" />
               <div
                 class="mt text-danger"
                 v-if="
@@ -576,7 +576,7 @@
                 "
                 aria-live="assertive"
               >
-                Upload is required
+                Please upload required document
               </div>
             </div>
             <div class="col-md notice">
@@ -959,11 +959,12 @@ export default {
       scrollTo(0);
     },
     resetFiles: function() {
-      this.files = null;
+      this.files = [];
+      this.credentials = [];
       this.credentialsRequired = '';
     },
     resetCredentials: function() {
-      this.credentials = null;
+      this.credentials = [];
     }
   },
   // Required in order to block back navigation on second page.

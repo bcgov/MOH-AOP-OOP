@@ -117,7 +117,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Facility Name:", value: this.$store.state.facility }
+        { name: "Facility Name:", value: this.$store.state.facilityName }
       ];
     }
 
@@ -138,41 +138,19 @@ export default {
     }
 
     if (this.$store.state.uploadType === "AOP") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+      this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
     } else if (this.$store.state.uploadType === "COAOP") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
+      this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
     } else if (this.$store.state.uploadType === "OOPA") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
+      this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
     }
 
     if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
-      let credentials;
-      if (this.$store.state.uploadedCredentials.length > 1) {
-        const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
-        credentials = [ { name: "Credentials Document:", value: label } ];
-      } else {
-        const label = this.$store.state.uploadedCredentials[0].name;
-        credentials = [ { name: "Credentials Document:", value: label } ];
-
-      }
+      const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
+      const credentials = [ { name: "Credentials Document:", value: label } ];
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }
   },

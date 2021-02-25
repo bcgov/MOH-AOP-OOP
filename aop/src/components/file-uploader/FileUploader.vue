@@ -49,7 +49,7 @@
           class="common-thumbnail ml-3"
           @click="openFileDialog($event)"
         >
-          <div class="thumbnail-container">
+          <div v-if="images.length < 1" class="thumbnail-container">
             <div class="image-thumbnail demo-thumbnail">
               <img :src="plusIconSvg" alt="Upload a file" class="svg-icon" />
             </div>
@@ -235,7 +235,6 @@ export default {
    18. Finally, the image is saved into the user's ongoing EA/PA application including localstorage
    19. The image is displayed to user as a thumbnail
    */
-
   mounted() {
     const dragOverStream = fromEvent(this.$refs.dropZone, "dragover");
 

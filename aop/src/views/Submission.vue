@@ -24,7 +24,8 @@
 
     <h2>Important</h2>
     <hr>
-    <ul>
+    <!-- AOP -->
+    <ul v-if="$store.state.uploadType === 'AOP' || $store.state.uploadType === 'COAOP'">
       <li>Full processing of an Assignment of Payment can take up to 30 days.</li>
       <li>All Assignments of Payment must be processed within 90 days of the first date of service indicated on the AOP form in order to recieve payment from the Medical Services Plan.</li>
       <li>It is recommended that AOP forms are submitted within 60 days of first date of service.</li>
@@ -35,14 +36,40 @@
       Telephone: <strong>Dial 1-8666-456-6950</strong>
       <ul>
         <li>Hold for options to be presented; then select:</li>
-        <li>Option 3 (provider services): then</li>
+        <li>Option 3 (provider services); then</li>
         <ul>
-          <li>Option 1 (AOP self-service processing confirmation)</li>
-          <li>Option 2 (Anything else) - this will ring through to an agent</li>
-          <li>Option 3 (Assignment of Payment)</li>
+          <li>Option 3 again (Assignment of Payment)</li>
+          <ul>
+            <li>Option 1 (AOP self-service processing confirmation) Or</li>
+            <li>Option 2 (anything else) - this will ring through to an agent</li>
+          </ul>
         </ul>
       </ul>
       <li>For more information concerning the Assignment of Payment process, see: <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a></li>
+    </ul>
+
+    <!-- OPA -->
+    <ul v-else>
+      <li>Full processing of an Operator Payment Administration can take up to 30 days.</li>
+      <li>All Operator Payment Administration must be processed within 90 days of the first date of service indicated on the AOP form in order to recieve payment from the Medical Services Plan.</li>
+      <li>It is recommended that OPA forms are submitted within 60 days of first date of service.</li>
+      <li>Health Insurance BC (HIBC) will provide email confirmation to the submitter when full processing of an OPA form has been completed.</li>
+      <li>For information on your specifica OPA submission, contact HIBC:</li>
+      Email: <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
+      <br>
+      Telephone: <strong>Dial 1-8666-456-6950</strong>
+      <ul>
+        <li>Hold for options to be presented; then select:</li>
+        <li>Option 3 (provider services); then</li>
+        <ul>
+          <li>Option 3 again (Assignment of Payment)</li>
+          <ul>
+            <li>Option 1 (AOP self-service processing confirmation) Or</li>
+            <li>Option 2 (anything else) - this will ring through to an agent</li>
+          </ul>
+        </ul>
+      </ul>
+      <li>For more information concerning the Operator Payment Administration process, see: <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a></li>
     </ul>
 
     <h2 class="mt-4">Submitter Information</h2>
@@ -98,12 +125,12 @@
 </template>
 
 <script>
-import strings from "../locale/strings.en";
 import Button from "../components/Button";
 import Table from "../components/Table";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";
 import { scrollTo } from "../helpers/scroll";
+import { SET_UPLOAD_TYPE, SET_CREDENTIALS_REQUIRED, SET_SUBMISSION_TYPE, SET_PRIMARY_LAST_NAME, SET_PRIMARY_NUMBER, SET_SECONDARY_LAST_NAME, SET_SECONDARY_NUMBER, SET_UPLOADED_FORMS, SET_UPLOADED_CREDENTIALS, SET_COMMENTS } from '../store/index';
 
 export default {
   name: "Submission",
@@ -158,7 +185,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Facility Name:", value: this.$store.state.facility }
+        { name: "Facility Name:", value: this.$store.state.facilityName }
       ];
     }
 
@@ -179,46 +206,34 @@ export default {
     }
 
     if (this.$store.state.uploadType === "AOP") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+      this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
     } else if (this.$store.state.uploadType === "COAOP") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+      this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
     } else if (this.$store.state.uploadType === "OOPA") {
-      if (this.$store.state.uploadedForms.length > 1) {
-        const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label} ];
-      } else {
-        const label = this.$store.state.uploadedForms[0].name;
-        this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
-      }
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
+      this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
     }
 
     if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
-      let credentials;
-      if (this.$store.state.uploadedCredentials.length > 1) {
-        const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
-        credentials = [ { name: "Credentials Document:", value: label } ];
-      } else {
-        const label = this.$store.state.uploadedCredentials[0].name;
-        credentials = [ { name: "Credentials Document:", value: label } ];
-
-      }
+      const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
+      const credentials = [ { name: "Credentials Document:", value: label } ];
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }
   },
   methods: {
     newForm() {
+      this.$store.dispatch(SET_UPLOAD_TYPE, '');
+      this.$store.dispatch(SET_CREDENTIALS_REQUIRED, '');
+      this.$store.dispatch(SET_SUBMISSION_TYPE, '');
+      this.$store.dispatch(SET_PRIMARY_NUMBER, '');
+      this.$store.dispatch(SET_PRIMARY_LAST_NAME, '');
+      this.$store.dispatch(SET_SECONDARY_NUMBER, '');
+      this.$store.dispatch(SET_SECONDARY_LAST_NAME, '');
+      this.$store.dispatch(SET_COMMENTS, '');
+      this.$store.dispatch(SET_UPLOADED_FORMS, []);
+      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, []);
       pageStateService.setPageIncomplete(routes.SUBMISSION.path);
       const path = routes.SUBMISSION_INFO.path;
       pageStateService.setPageComplete(path);
@@ -230,18 +245,6 @@ export default {
       return false;
     }
   },
-  beforeRouteLeave(to, from, next) {
-    // Check for `hasConfirmedPageLeave` because of double navigation to home page.
-    if (
-      this.hasConfirmedPageLeave ||
-      window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)
-    ) {
-      this.hasConfirmedPageLeave = true;
-      next();
-    } else {
-      next(false);
-    }
-  }
 };
 </script>
 

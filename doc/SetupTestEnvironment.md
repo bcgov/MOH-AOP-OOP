@@ -15,7 +15,7 @@ oc get nsp
 ```
 And obtain name (such as builder-to-internet), and delete it, ie:
 ```console
-oc delete nsp address-service-to-address-doctor msp-service-to-cloudflare msp-service-to-maximus-servers msp-service-to-splunk-forwarder msp-to-address-service msp-to-captcha-service msp-to-msp-service  msp-to-spa-env-server msp-to-splunk-forwarder splunk-forwarder-to-cloudflare splunk-forwarder-to-maximus-servers
+oc delete nsp oop-to-address-service oop-to-captcha-service oop-to-msp-service oop-to-spa-env-server oop-to-splunk-forwarder address-service-to-address-doctor msp-service-to-cloudflare msp-service-to-maximus-servers msp-service-to-splunk-forwarder aop-to-address-service aop-to-captcha-service aop-to-msp-service  aop-to-spa-env-server aop-to-splunk-forwarder splunk-forwarder-to-cloudflare splunk-forwarder-to-maximus-servers
 ```
 
 Same with endpoints:
@@ -57,7 +57,7 @@ oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc projec
 
 3. create the trio of dc, service, routes using the deploy.yaml file:
 ```console
-oc process -f openshift/templates/deploy.yaml --param-file=params-test.txt | oc apply -f -
+oc process -f deploy.yaml --param-file=params-dev.txt | oc apply -f -
 ```
 
 ## deal with the github workflows
