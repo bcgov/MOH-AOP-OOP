@@ -15,8 +15,8 @@
 <script>
 import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
 import project from '../package.json';
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+import Header from '@bcgov/common-lib-vue/src/components/Header.vue';
+import Footer from '@bcgov/common-lib-vue/src/components/Footer.vue';
 import ProgressBar from '@/components/ProgressBar.vue';
 import stepRoutes from '@/router/step-routes';
 

@@ -1,11 +1,15 @@
-export const scrollTo = (top) => {
+export const scrollTo = (top, smoothScroll) => {
   if (!top) {
     top = 0;
   }
   const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
   if ( supportsNativeSmoothScroll ) {
-    window.scrollTo({top: top, behavior: 'smooth'});
+    if (smoothScroll) {
+      window.scrollTo({top: top, behavior: 'smooth'});
+    } else {
+      window.scrollTo({top: top});
+    }
   } else {
     /**
      * IE does not support ScrollToOptions (behavior, top, left), but does support
@@ -21,7 +25,7 @@ export const scrollToError = () => {
     const el = document.querySelector('.text-danger');
     if (el) {
       const top = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      scrollTo(top);
+      scrollTo(top, true);
     }
   }, 0);
 }
