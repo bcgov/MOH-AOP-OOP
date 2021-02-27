@@ -51,7 +51,8 @@
       </div>
       
     </div>
-    <ContinueBar @continue='nextPage()' />
+    <ContinueBar @continue='nextPage()'
+                 :hasLoader='isLoading'/>
   </div>
 </template>
 
@@ -155,6 +156,7 @@ export default {
       phn: null,
       email: null,
       phone: null,
+      isLoading: false,
       showServerValidationError: false,
     }
   },
@@ -188,17 +190,23 @@ export default {
         scrollToError();
         return;
       }
+      
+      this.isLoading = true;
 
-      this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
-      this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
-      this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
-      this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+      setTimeout(() => {
+        this.isLoading = false;
+    
+        this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
+        this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
+        this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
+        this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
 
-      pageStateService.setPageIncomplete(routes.YOUR_INFO_PAGE.path)
-      const path = routes.ACCOUNT_TYPE_PAGE.path;
-      pageStateService.setPageComplete(path);
-      this.$router.push(path);
-      scrollTo(0);
+        pageStateService.setPageIncomplete(routes.YOUR_INFO_PAGE.path)
+        const path = routes.ACCOUNT_TYPE_PAGE.path;
+        pageStateService.setPageComplete(path);
+        this.$router.push(path);
+        scrollTo(0);
+      }, 2000);
     }
   },
   // Required in order to block back navigation.
