@@ -30,17 +30,23 @@
       <div class="row">
         <div class="col-md-6">
           <Input label='Address line 1'
-                 className='mt-3' />
+                 className='mt-3'
+                 v-model="addressLine1" />
           <Input label='Address line 2'
-                 className='mt-3' />
+                 className='mt-3'
+                 v-model="addressLine2" />
           <Input label='Country'
-                 className='mt-3' />
+                 className='mt-3'
+                 v-model="country" />
           <Input label='Province/Region/State'
-                 className='mt-3' />
+                 className='mt-3'
+                 v-model="province" />
           <Input label='City/Town'
-                 className='mt-3' />
+                 className='mt-3'
+                 v-model="city" />
           <Input label='Postal Code/Zip'
-                 className='my-3' />
+                 className='my-3'
+                 v-model="postalCode" />
         </div>
       </div>
 
