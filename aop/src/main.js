@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 
 Vue.use(IdleVue, {
   eventEmitter: eventsHub,
-  idleTime: 10000,
+  idleTime: 60000,
   store
 });
 Vue.use(VueRouter);
