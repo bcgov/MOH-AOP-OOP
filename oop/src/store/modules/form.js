@@ -1,3 +1,6 @@
+import dummyData from '../states/form-dummy-data';
+import settings from '../../settings';
+
 export const MODULE_NAME = 'form';
 
 export const RESET_FORM = 'resetForm';
@@ -15,7 +18,7 @@ export const SET_SUBMISSION_ERROR = 'setSubmissionError';
 export default {
   namespaced: true,
   state: () => {
-    return {
+    const state = {
       lastName: null,
       phn: null,
       email: null,
@@ -23,6 +26,10 @@ export default {
       submissionResponse: null,
       submissionError: null,
     };
+    if (settings.useDummyData) {
+      Object.assign(state, dummyData);
+    }
+    return state;
   },
   mutations: {
     setLastName(state, payload) {
