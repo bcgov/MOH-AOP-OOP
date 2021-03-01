@@ -7,7 +7,8 @@
       <div class="row">
         <div class="col-sm-7">
           <Input label='Last name'
-                 v-model='lastName'/>
+                 v-model='lastName'
+                 maxlength='30'/>
           <div class="text-danger"
                v-if="$v.lastName.$dirty && !$v.lastName.required"
                aria-live="assertive">Field is required</div>
@@ -34,9 +35,6 @@
           <Input label='Email (Optional)'
                  v-model='email'
                  className='mt-3' />
-          <div class="text-danger"
-               v-if="$v.email.$dirty && !$v.email.required"
-               aria-live="assertive">Field is required</div>
 
           <Input label='Phone number'
                  v-model='phone'
@@ -177,7 +175,6 @@ export default {
         phnValidation: phnValidator,
       },
       email: {
-        required,
       },
       phone: {
         required,

@@ -4,6 +4,7 @@
     <input :id="'input' + label"
            class='form-control'
            :value="value"
+           :maxlength='maxlength'
            @input="emitInput($event)" />
   </div>
 </template>
@@ -17,6 +18,7 @@ export default {
     value: String,
     label: String,
     className: String,
+    maxlength: String,
   },
   methods: {
     emitInput(event) {
