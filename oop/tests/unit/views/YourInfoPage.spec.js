@@ -2,7 +2,6 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import form from '@/store/modules/form';
 import YourInfoPage from '@/views/YourInfoPage.vue';
 
 const localVue = createLocalVue();
@@ -14,13 +13,11 @@ describe('YourInfoPage.vue', () => {
   let store;
 
   beforeEach(() => {
-    state = () => {
-      return {
-        lastName: null,
-        phn: null,
-        email: null,
-        phone: null,
-      };
+    state ={
+      lastName: null,
+      phn: null,
+      email: null,
+      phone: null,
     };    
 
     store = new Vuex.Store({
@@ -36,7 +33,7 @@ describe('YourInfoPage.vue', () => {
     const wrapper = shallowMount(YourInfoPage, {
       store,
       localVue,
-    })
-    expect(wrapper.element).toBeDefined()
-  })
-})
+    });
+    expect(wrapper.element).toBeDefined();
+  });
+});
