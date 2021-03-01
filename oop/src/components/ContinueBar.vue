@@ -1,8 +1,7 @@
 <template>
   <div class='continue-bar'>
     <div class="d-flex flex-row-reverse p-3 container">
-      <!-- <button @click="onClick()">Continue</button> -->
-      <Button label="Continue"
+      <Button :label='buttonLabel'
               :hasLoader='hasLoader'
               @click='onContinue()'/>
     </div>
@@ -18,7 +17,14 @@ export default {
     Button
   },
   props: {
-    hasLoader: Boolean
+    hasLoader: {
+      type: Boolean,
+      default: false
+    },
+    buttonLabel: {
+      type: String,
+      default: 'Continue'
+    },
   },
   methods: {
     onContinue() {

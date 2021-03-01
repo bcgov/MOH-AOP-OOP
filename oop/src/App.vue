@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header title='MSP Permanent Move Outside of B.C.' />
+    <Header :title='pageTitle' />
     <div class="container">
       <ProgressBar :currentPath='$router.currentRoute.path'
                    :routes='stepRoutes'/>
@@ -29,9 +29,13 @@ export default {
   },
   data: () => {
     return {
+      pageTitle: 'MSP Permanent Move Outside of B.C.',
       version: project.version,
-      stepRoutes: stepRoutes
+      stepRoutes: stepRoutes,
     };
+  },
+  created() {
+    document.title = this.pageTitle;
   }
 }
 </script>
