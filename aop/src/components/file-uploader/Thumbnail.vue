@@ -2,7 +2,7 @@
   <div class="thumbnail-container">
     <img
       :src="imageObject.fileContent"
-      alt=""
+      :alt="imageObject.name"
       tabindex="0"
       :class="thumbnailClass"
     />

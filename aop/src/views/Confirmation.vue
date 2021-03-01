@@ -1,8 +1,13 @@
 <template>
   <div>
-    <button class="print-button" v-on:click="print()">
-      <span>Save</span> <i class="far fa-save fa-2x"></i> <span>Print</span> <i class="fa fa-print fa-2x"></i>
-    </button>
+    <div class="buttons">
+      <button class="print-button" v-on:click="print()">
+        <span>Save</span> <i class="far fa-save fa-2x"></i>
+      </button>
+      <button class="print-button" v-on:click="print()">
+        <span>Print</span> <i class="fa fa-print fa-2x"></i>
+      </button>
+    </div>
     <h1>Confirmation Message</h1>
     <hr />
     <div class="success-box container">
@@ -133,7 +138,7 @@ import { scrollTo } from "../helpers/scroll";
 import { SET_UPLOAD_TYPE, SET_CREDENTIALS_REQUIRED, SET_SUBMISSION_TYPE, SET_PRIMARY_LAST_NAME, SET_PRIMARY_NUMBER, SET_SECONDARY_LAST_NAME, SET_SECONDARY_NUMBER, SET_UPLOADED_FORMS, SET_UPLOADED_CREDENTIALS, SET_COMMENTS } from '../store/index';
 
 export default {
-  name: "Submission",
+  name: "Confirmation",
   components: {
     Button,
     Table
@@ -270,8 +275,11 @@ export default {
   float: right;
 }
 
-.print-button {
+.buttons {
   float: right;
+}
+
+.print-button {
   background: none;
   border: none;
   color: #0000ee;
@@ -299,6 +307,8 @@ export default {
 
   .name {
     width: 50%;
+    text-align: right;
+    padding-right: 8px;
   }
 
   .radios {

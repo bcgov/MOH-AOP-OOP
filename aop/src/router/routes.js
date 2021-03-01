@@ -2,8 +2,9 @@ import SignIn from "../views/SignIn.vue";
 import SubmissionInfo from "../views/SubmissionInfo.vue";
 import Review from "../views/Review.vue";
 import Sending from "../views/Sending.vue";
-import Submission from "../views/Submission.vue";
+import Confirmation from "../views/Confirmation.vue";
 import SubmissionError from "../views/SubmissionError.vue";
+import SessionEnd from "../views/SessionEnd.vue";
 
 export const routes = {
   SIGN_IN: {
@@ -30,17 +31,23 @@ export const routes = {
     name: "Sending",
     component: Sending
   },
-  SUBMISSION: {
-    path: "/submission",
+  CONFIRMATION: {
+    path: "/confirmation",
     title: "Confirmation",
-    name: "Submission",
-    component: Submission
+    name: "Confirmation",
+    component: Confirmation
   },
   SUBMISSION_ERROR: {
     path: "/submission-error",
     title: "Submission Error",
     name: "SubmissionError",
     component: SubmissionError
+  },
+  SESSION_END: {
+    path: "/session-end",
+    title: "Session End",
+    name: "SessionEnd",
+    component: SessionEnd
   }
 };
 export default routes;

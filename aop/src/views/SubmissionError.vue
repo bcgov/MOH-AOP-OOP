@@ -1,11 +1,7 @@
 <template>
   <div>
-    <Header :heading="'Enrolment'" />
-    <main class="container py-5 px-5">
-      <h1>Submission Error.</h1>
-      <p>See console for details.</p>
-    </main>
-    <Footer />
+    <h1>Submission Error.</h1>
+    <p>See console for details.</p>
   </div>
 </template>
 

@@ -5,12 +5,14 @@
       aria-label="Header"
     >
       <div classNames="navbar-brand pointer" aria-labelledby="title" />
-      <img
-        alt="BC Logo"
-        classNames="img-fluid d-none d-md-block pointer"
-        :width="181"
-        :src="bcidLogoRev"
-      />
+      <a href="http://www2.gov.bc.ca/" tabindex="0">
+        <img
+          alt="BC Logo"
+          classNames="img-fluid d-none d-md-block pointer"
+          :width="181"
+          :src="bcidLogoRev"
+        />
+      </a>
       <div id="title" class="navbar-brand">
         {{ heading }}
       </div>

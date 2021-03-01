@@ -176,28 +176,6 @@ export default {
       scrollTo(0);
     }
   },
-  beforeRouteLeave(to, from, next) {
-    if (
-      to.path === routes.SENDING.path ||
-      (to.path === routes.SIGN_IN.path &&
-        pageStateService.isPageComplete(to.path)) ||
-      (to.path === routes.SUBMISSION_INFO.path &&
-        pageStateService.isPageComplete(to.path))
-    ) {
-      next();
-    } else {
-      // Check for `hasConfirmedPageLeave` because of double navigation to home page.
-      if (
-        this.hasConfirmedPageLeave ||
-        window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)
-      ) {
-        this.hasConfirmedPageLeave = true;
-        next();
-      } else {
-        next(false);
-      }
-    }
-  }
 };
 </script>
 
@@ -226,6 +204,8 @@ export default {
 
   .name {
     width: 50%;
+    text-align: right;
+    padding-right: 8px;
   }
 
   .radios {

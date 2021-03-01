@@ -42,4 +42,8 @@ export default {
   padding: 0 8px;
   overflow-wrap: break-word;
 }
+
+.bcgov-table-cell:first-child {
+  text-align: right;
+}
 </style>

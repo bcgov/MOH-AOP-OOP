@@ -967,18 +967,6 @@ export default {
       this.credentials = [];
     }
   },
-  // Required in order to block back navigation on second page.
-  beforeRouteLeave(to, from, next) {
-    if (to.path === routes.REVIEW.path) {
-      next();
-    } else if (to.path === routes.HOME.path) {
-      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-        next();
-      } else {
-        next(false);
-      }
-    }
-  },
   computed: {
     uploadTitle() {
       switch (this.uploadType) {

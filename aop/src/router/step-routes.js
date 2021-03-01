@@ -4,7 +4,7 @@ const steps = [
   { ...routes.SIGN_IN },
   { ...routes.SUBMISSION_INFO },
   { ...routes.REVIEW },
-  { ...routes.SUBMISSION }
+  { ...routes.CONFIRMATION }
 ];
 
 export default steps;

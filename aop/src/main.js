@@ -4,9 +4,17 @@ import VueRouter from "vue-router";
 import Vuelidate from "vuelidate";
 import router from "./router";
 import store from "./store";
+import IdleVue from 'idle-vue';
+ 
+const eventsHub = new Vue();
 
 Vue.config.productionTip = false;
 
+Vue.use(IdleVue, {
+  eventEmitter: eventsHub,
+  idleTime: 30000,
+  store
+});
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 

@@ -55,9 +55,9 @@ const router = new VueRouter({
           }
         },
         {
-          path: routes.SUBMISSION.path,
-          name: routes.SUBMISSION.name,
-          component: routes.SUBMISSION.component,
+          path: routes.CONFIRMATION.path,
+          name: routes.CONFIRMATION.name,
+          component: routes.CONFIRMATION.component,
           meta: {
             title: 'Upload Tool | Confirmation',
             metaTags: [
@@ -72,6 +72,24 @@ const router = new VueRouter({
             ]
           }
         },
+        {
+          path: routes.SUBMISSION_ERROR.path,
+          name: routes.SUBMISSION_ERROR.name,
+          component: routes.SUBMISSION_ERROR.component,
+          meta: {
+            title: 'Upload Tool | Error',
+            metaTags: [
+              {
+                name: 'description',
+                content: 'An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
+              },
+              {
+                property: 'og:description',
+                content: 'An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
+              }
+            ]
+          }
+        }
       ],
       meta: {
         title: 'Upload Tool | Sign In',
@@ -106,23 +124,23 @@ const router = new VueRouter({
       }
     },
     {
-      path: routes.SUBMISSION_ERROR.path,
-      name: routes.SUBMISSION_ERROR.name,
-      component: routes.SUBMISSION_ERROR.component,
+      path: routes.SESSION_END.path,
+      name: routes.SESSION_END.name,
+      component: routes.SESSION_END.component,
       meta: {
-        title: 'Upload Tool | Error',
+        title: 'Upload Tool | Session End',
         metaTags: [
           {
             name: 'description',
-            content: 'An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
+            content: 'Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
           },
           {
             property: 'og:description',
-            content: 'An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
+            content: 'Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration'
           }
         ]
       }
-    }
+    },
   ]
 });
 

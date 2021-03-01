@@ -10,6 +10,8 @@
       <router-view></router-view>
     </main>
     <Footer />
+    <TimeoutModal v-if="showModal"
+            v-on:close="handleModalClose"/>
   </div>
 </template>
 
@@ -18,19 +20,29 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
 import stepRoutes from "../router/step-routes";
+import TimeoutModal from "../components/TimeoutModal";
 
 export default {
   name: "AssignmentOfPayment",
   components: {
     Footer,
     Header,
-    ProgressBar
+    ProgressBar,
+    TimeoutModal
   },
   data: () => {
     return {
-      history: {},
-      stepRoutes: stepRoutes
+      stepRoutes: stepRoutes,
+      showModal: false
     };
+  },
+  onIdle() {
+    this.showModal = true;
+  },
+  methods: {
+    handleModalClose() {
+      this.showModal = false;
+    }
   }
 };
 </script>

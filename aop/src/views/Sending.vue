@@ -5,7 +5,7 @@
         'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
       "
     />
-    <main class="container py-5 px-5">
+    <main class="container py-5 px-2">
       <h1 class="text-center">Sending Application</h1>
       <div class="text-center">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
@@ -52,7 +52,7 @@ export default {
   methods: {
     nextPage: function() {
       pageStateService.setPageIncomplete(routes.SENDING.path);
-      const path = routes.SUBMISSION.path;
+      const path = routes.CONFIRMATION.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
@@ -63,25 +63,6 @@ export default {
       this.$router.push(path);
     }
   },
-  beforeRouteLeave(to, from, next) {
-    if (
-      to.path === routes.SUBMISSION.path ||
-      to.path === routes.SUBMISSION_ERROR.path
-    ) {
-      next();
-    } else {
-      // Check for `hasConfirmedPageLeave` because of double navigation to home page.
-      if (
-        this.hasConfirmedPageLeave ||
-        window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)
-      ) {
-        this.hasConfirmedPageLeave = true;
-        next();
-      } else {
-        next(false);
-      }
-    }
-  }
 };
 </script>
 
