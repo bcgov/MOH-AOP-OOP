@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="modal">
     <div
       class="modal fade show"
       id="exampleModal"
@@ -50,7 +50,9 @@ export default {
   data: () => {
     return {
       secondsRemaining: 120,
-      interval: null
+      interval: null,
+      focusableEls: [],
+      focusedEl: null
     };
   },
   computed: {
@@ -62,6 +64,18 @@ export default {
     }
   },
   created() {
+    window.addEventListener('keyup', this.handleKeyDown);
+  },
+  destroyed() {
+    window.removeEventListener('keyup', this.handleKeyDown);
+  },
+  mounted() {
+    // Create an array of focusable elements from the contents of the modal
+    this.focusableEls = Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+    // Initialize to the first focusable element
+    this.focusedEl = this.focusableEls[0];
+    this.focusedEl.focus();
+
     this.interval = setInterval(() => {
       if (this.secondsRemaining === 0) {
         this.endSession();
@@ -86,6 +100,44 @@ export default {
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
+    },
+    handleKeyDown(event) {
+      // Check that the modal is open
+      if (!this.closed) {
+        // Handle tabbing
+        if (event.key === 'Tab') {
+          // Prevent usual tabbing, manually set focus
+          event.preventDefault();
+          if (event.shiftKey) {
+            this.handleTabBackwards();
+          } else {
+            this.handleTab();
+          }
+        // Stop users from being able to escape the modal
+        } else if (event.key === 'Escape') {
+          event.preventDefault();
+        }
+      }
+    },
+    // Move to next focusable element, if at last element, move to first
+    handleTab() {
+      const position = this.focusableEls.indexOf(this.focusedEl);
+      if (position === this.focusableEls.length - 1) {
+        this.focusedEl = this.focusableEls[0];
+      } else {
+        this.focusedEl = this.focusableEls[position + 1];
+      }
+      this.focusedEl.focus();
+    },
+    // Move to next focusable element, if at last element, move to first
+    handleTabBackwards() {
+      const position = this.focusableEls.indexOf(this.focusedEl);
+      if (position === 0) {
+        this.focusedEl = this.focusableEls[this.focusableEls.length - 1];
+      } else {
+        this.focusedEl = this.focusableEls[position - 1];
+      }
+      this.focusedEl.focus();
     },
   }
 };
