@@ -10,9 +10,19 @@
       <div class="row">
         <div class="col-md-6">
           <DateInput label="Date of permanent move from B.C."
-                     className='mt-3'/>
+                     className='mt-3'
+                     v-model="moveFromBCDate"/>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">A valid date of permanent move from B.C. is required.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
           <DateInput label="Date of arrival in new destination"
-                     className='mt-3'/>
+                     className='mt-3'
+                     v-model="arriveDestinationDate"/>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">A valid date of arrival is required.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
         </div>
       </div>
       
@@ -41,11 +51,17 @@
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo } from '../helpers/scroll';
+import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
-import DateInput from '../components/DateInput.vue';
+import DateInput, {
+  distantFutureValidator,
+  distantPastValidator,
+  beforeDateValidator,
+  afterDateValidator,
+} from '../components/DateInput.vue';
 import Input from '../components/Input.vue';
 import strings from '../locale/strings.en';
+import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM
@@ -58,8 +74,40 @@ export default {
     DateInput,
     Input,
   },
+  data: () => {
+    return {
+      moveFromBCDate: null,
+      arriveDestinationDate: null,
+      showServerValidationError: false,
+    }
+  },
+  created() {
+    this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
+    this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
+  },
+  validations() {
+    return {
+      moveFromBCDate: {
+        required,
+        distantFutureValidator,
+        distantPastValidator,
+        beforeDateValidator: beforeDateValidator('arriveDestinationDate')
+      },
+      arriveDestinationDate: {
+        required,
+        distantFutureValidator,
+        distantPastValidator,
+        afterDateValidator: afterDateValidator('moveFromBCDate')
+      }
+    };
+  },
   methods: {
     nextPage() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        scrollToError();
+        return;
+      }
       pageStateService.setPageIncomplete(routes.MOVE_INFO_PAGE.path)
       const path = routes.REVIEW_PAGE.path;
       pageStateService.setPageComplete(path);
