@@ -9,7 +9,7 @@
       <!-- Account holder option -->
       <input type='radio'
              id='account-type-account-holder'
-             value='account-holder'
+             value='AH'
              v-model='accountType' />
       <label for='account-type-account-holder'
              class='ml-3'><strong>I'm the account holder</strong></label>
@@ -24,7 +24,7 @@
       <!-- Dependent option -->
       <input type='radio'
              id='account-type-dependent'
-             value='dependent'
+             value='DEP' 
              v-model='accountType' />
       <label for='account-type-dependent'
              class='ml-3'><strong>I'm a Dependent</strong></label>
@@ -38,36 +38,42 @@
           <li>Learn more</li>
         </ul>
       </div>
+      <div class="text-danger"
+           v-if="$v.accountType.$dirty && !$v.accountType.required"
+           aria-live="assertive">Please choose an account type.</div>
 
       <!-- Account holder option chosen -->
-      <div v-if='accountType === "account-holder"'>
+      <div v-if='accountType === "AH"'>
         <h2 class="mt-4">Who is moving out of B.C.?</h2>
         <p>Please indicate who is moving out of B.C. If the Account Holder is completing the form on behalf of any dependents, PHNs will be required for each dependent.</p>
         <hr />
 
         <input type='radio'
               id='person-moving-ah'
-              value='account-holder'
+              value='AH_ONLY'
               v-model='personMoving' />
         <label for='person-moving-ah'
               class='ml-3'>Account Holder only</label>
         <br />
         <input type='radio'
               id='person-moving-ahad'
-              value='account-holder-dependent'
+              value='AH_DEP'
               v-model='personMoving' />
         <label for='person-moving-ahad'
               class='ml-3'>Account Holder and Dependent(s)</label>
         <br />
         <input type='radio'
               id='person-moving-d'
-              value='dependent'
+              value='DEP_ONLY'
               v-model='personMoving' />
         <label for='person-moving-d'
               class='ml-3'>Dependent(s) only</label>
+        <div class="text-danger"
+             v-if="$v.personMoving.$dirty && !$v.personMoving.required"
+             aria-live="assertive">This field is required.</div>
         <br/>
 
-        <div v-if='personMoving === "account-holder-dependent" || personMoving === "dependent"'>
+        <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'>
           <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
 
           <input type='radio'
@@ -83,6 +89,9 @@
                  v-model='isAllDependentsMoving' />
           <label for='is-all-dependents-moving-n'
                  class='ml-3'>No</label>
+          <div class="text-danger"
+               v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
+               aria-live="assertive">This field is required.</div>
           <br/>
 
           <div v-if='isAllDependentsMoving === "N"'>
@@ -95,21 +104,25 @@
         </div>
       </div>
     </div>
-    <ContinueBar :hasLoader='isLoading' @continue="nextPage()" />
+    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" />
   </div>
 </template>
 
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo } from '../helpers/scroll';
+import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import strings from '../locale/strings.en';
 import {
-  MODULE_NAME as formModule ,
-  RESET_FORM
+  MODULE_NAME as formModule,
+  SET_ACCOUNT_TYPE,
+  SET_PERSON_MOVING,
+  SET_IS_ALL_DEPENDENTS_MOVING,
+  RESET_FORM,
 } from '../store/modules/form';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   name: 'AccountTypePage',
@@ -125,13 +138,62 @@ export default {
       isLoading: false,
     }
   },
+  created() {
+    this.accountType = this.$store.state.form.accountType;
+    this.personMoving = this.$store.state.form.personMoving;
+    this.isAllDependentsMoving = this.$store.state.form.isAllDependentsMoving;
+  },
+  validations() {
+    const validations = {
+      accountType: {
+        required,
+      },
+    };
+    if (this.accountType === 'AH') {
+      validations.personMoving = {
+        required,
+      };
+      if (this.personMoving === 'AH_DEP' || this.personMoving === 'DEP_ONLY') {
+        validations.isAllDependentsMoving = {
+          required,
+        };
+      }
+    }
+    return validations;
+  },
   methods: {
+    validateFields() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        scrollToError();
+        return;
+      }
+
+      this.saveValues();
+      this.nextPage();
+    },
+    saveValues() {
+      this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
+      this.$store.dispatch(formModule + '/' + SET_PERSON_MOVING, this.personMoving);
+      this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, this.isAllDependentsMoving);
+    },
     nextPage() {
       pageStateService.setPageIncomplete(routes.ACCOUNT_TYPE_PAGE.path)
       const path = routes.MOVE_INFO_PAGE.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
+    }
+  },
+  watch: {
+    accountType() {
+      this.personMoving = null;
+      this.isAllDependentsMoving = null;
+    },
+    personMoving(val) {
+      if (val !== 'AH_DEP' && val !== 'DEP_ONLY') {
+        this.isAllDependentsMoving = null;
+      }
     }
   },
   // Required in order to block back navigation.

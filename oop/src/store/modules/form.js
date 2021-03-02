@@ -5,11 +5,16 @@ export const MODULE_NAME = 'form';
 
 export const RESET_FORM = 'resetForm';
 
-// Your info page
+// Your info page:
 export const SET_LAST_NAME = 'setLastName';
 export const SET_PHN = 'setPhn';
 export const SET_EMAIL = 'setEmail';
 export const SET_PHONE = 'setPhone';
+
+// Account type page:
+export const SET_ACCOUNT_TYPE = 'setAccountType';
+export const SET_PERSON_MOVING = 'setPersonMoving';
+export const SET_IS_ALL_DEPENDENTS_MOVING = 'setIsAllDependentsMoving';
 
 // Sending page:
 export const SET_SUBMISSION_RESPONSE = 'setSubmissionResponse';
@@ -23,6 +28,9 @@ export default {
       phn: null,
       email: null,
       phone: null,
+      accountType: null,
+      personMoving: null,
+      isAllDependentsMoving: null,
       submissionResponse: null,
       submissionError: null,
     };
@@ -43,6 +51,15 @@ export default {
     },
     setPhone(state, payload) {
       state.phone = payload;
+    },
+    setAccountType(state, payload) {
+      state.accountType = payload;
+    },
+    setPersonMoving(state, payload) {
+      state.personMoving = payload;
+    },
+    setIsAllDependentsMoving(state, payload) {
+      state.isAllDependentsMoving = payload;
     },
     setSubmissionResponse(state, payload) {
       state.submissionResponse = payload;
@@ -71,6 +88,15 @@ export default {
     },
     setPhone({ commit }, phone) {
       commit(SET_PHONE, phone);
+    },
+    setAccountType({ commit }, accountType) {
+      commit(SET_ACCOUNT_TYPE, accountType);
+    },
+    setPersonMoving({ commit }, personMoving) {
+      commit(SET_PERSON_MOVING, personMoving);
+    },
+    setIsAllDependentsMoving({ commit }, isAllDependentsMoving) {
+      commit(SET_IS_ALL_DEPENDENTS_MOVING, isAllDependentsMoving);
     },
     setApiResponse({ commit }, response) {
       commit(SET_SUBMISSION_RESPONSE, response);
