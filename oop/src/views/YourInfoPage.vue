@@ -62,9 +62,10 @@ import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
-import PhnInput, {
+import {
+  PhnInput,
   phnValidator
-} from '../components/PhnInput.vue';
+} from 'common-lib-vue';
 import { required } from 'vuelidate/lib/validators';
 import strings from '../locale/strings.en';
 import {
