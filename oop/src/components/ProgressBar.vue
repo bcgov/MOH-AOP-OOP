@@ -8,6 +8,7 @@
       <a href="javascript:void(0);"
           v-for='route in routes'
           :key='route.path'
+          :style='getLinkStyles(route.path)'
           @click="onClickLink(route.path)">
         <div class="step">
           <div class='step-text'>{{route.title}}</div>
@@ -64,10 +65,29 @@ export default {
   },
   methods: {
     onClickLink: function(path) {
-      if (environment.bypassRouteGuards) {
+      if (this.currentPath !== path && 
+        (
+          environment.bypassRouteGuards ||
+          this.isPastPath(path)
+        )) {
         this.$router.push(path);
       }
-    }
+    },
+    isPastPath(path) {
+      for (let i=0; i<this.routes.length; i++) {
+        if (this.routes[i].path === this.currentPath) {
+          return false;
+        } else if (this.routes[i].path === path) {
+          return true;
+        }
+      }
+      return false;
+    },
+    getLinkStyles(path) {
+      return {
+        cursor: this.isPastPath(path) ? 'pointer' : 'default'
+      }
+    },
   }
   
 }
@@ -93,9 +113,6 @@ export default {
 .step-container {
   display: flex;
   justify-content: space-around;
-}
-.step-container a {
-  cursor: default;
 }
 .step {
   position: relative;
