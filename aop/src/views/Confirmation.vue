@@ -239,7 +239,7 @@ export default {
       this.$store.dispatch(SET_COMMENTS, '');
       this.$store.dispatch(SET_UPLOADED_FORMS, []);
       this.$store.dispatch(SET_UPLOADED_CREDENTIALS, []);
-      pageStateService.setPageIncomplete(routes.SUBMISSION.path);
+      pageStateService.setPageIncomplete(routes.CONFIRMATION.path);
       const path = routes.SUBMISSION_INFO.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
