@@ -33,10 +33,18 @@
                  className='mt-3'
                  v-model="country" />
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
-          <Input label='Address line'
-                 className='mt-3'
-                 v-model="addressLine" />
-          <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
+          <div v-if='country === "CA"'>
+            <Input label='Address line'
+                  className='mt-3'
+                  v-model="addressLine" />
+            <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
+          </div>
+          <div v-if='country !== "CA"'>
+            <TextArea label='Address line text area'
+                  className='mt-3'
+                  v-model="addressLine"/>
+            <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
+          </div>
           <Input label='Province/State/Region'
                  className='mt-3'
                  v-model="province" />
@@ -73,6 +81,7 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import PostalCodeInput from '../components/PostalCodeInput.vue';
 import Input from '../components/Input.vue';
+import TextArea from '../components/TextArea.vue';
 import strings from '../locale/strings.en';
 import { required } from 'vuelidate/lib/validators';
 import {
@@ -93,6 +102,7 @@ export default {
     ContinueBar,
     DateInput,
     Input,
+    TextArea,
     PostalCodeInput,
     CountryInput,
   },
