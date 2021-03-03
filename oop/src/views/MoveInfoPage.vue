@@ -29,7 +29,7 @@
       <h2 class='mt-4'>What is the new address information?</h2>
       <div class="row">
         <div class="col-md-6">
-          <Input label='Country'
+          <CountryInput label='Country'
                  className='mt-3'
                  v-model="country" />
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
@@ -70,6 +70,7 @@ import DateInput, {
   beforeDateValidator,
   afterDateValidator,
 } from '../components/DateInput.vue';
+import CountryInput from '../components/CountryInput.vue';
 import PostalCodeInput from '../components/PostalCodeInput.vue';
 import Input from '../components/Input.vue';
 import strings from '../locale/strings.en';
@@ -93,6 +94,7 @@ export default {
     DateInput,
     Input,
     PostalCodeInput,
+    CountryInput,
   },
   data: () => {
     return {
