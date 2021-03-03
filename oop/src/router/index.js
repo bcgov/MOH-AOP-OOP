@@ -45,18 +45,10 @@ const router = new VueRouter({
   routes: routeCollection
 });
 
-const shouldNavigateHome = (homeRouteName, to) => {
-  if(to && to.name
-  && homeRouteName !== to.name
-  && !pageStateService.isPageComplete(to.path)) {
-    return true;
-  }
-  return false;
-};
-
 router.beforeEach((to, from, next) => {
   // Home redirect.
-  if (shouldNavigateHome(routes.HOME_PAGE.name, to)) {
+  if (to.path !== routes.HOME_PAGE.path
+    && !pageStateService.isPageVisited(to.path)) {
     next({ name: routes.HOME_PAGE.name });
   }
   

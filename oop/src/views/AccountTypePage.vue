@@ -114,13 +114,11 @@ import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
-import strings from '../locale/strings.en';
 import {
   MODULE_NAME as formModule,
   SET_ACCOUNT_TYPE,
   SET_PERSON_MOVING,
   SET_IS_ALL_DEPENDENTS_MOVING,
-  RESET_FORM,
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 
@@ -178,9 +176,8 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, this.isAllDependentsMoving);
     },
     nextPage() {
-      pageStateService.setPageIncomplete(routes.ACCOUNT_TYPE_PAGE.path)
       const path = routes.MOVE_INFO_PAGE.path;
-      pageStateService.setPageComplete(path);
+      pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo(0);
     }
@@ -194,19 +191,6 @@ export default {
       if (val !== 'AH_DEP' && val !== 'DEP_ONLY') {
         this.isAllDependentsMoving = null;
       }
-    }
-  },
-  // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    if (to.path === routes.HOME_PAGE.path) {
-      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-        this.$store.dispatch(formModule + '/' + RESET_FORM);
-        next();
-      } else {
-        next(false);
-      }
-    } else {
-      next();
     }
   }
 }
