@@ -70,7 +70,6 @@ import Button from "../components/Button";
 import Table from "../components/Table";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";
-import strings from "../locale/strings.en";
 import { scrollTo } from "../helpers/scroll";
 
 export default {

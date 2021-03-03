@@ -11,6 +11,7 @@ class PageStateService {
     this.pages = [];
     for (let key in routes) {
       this.pages.push(routes[key]);
+      this.pages[this.pages.length-1].isVisited = false;
     }
   }
 
@@ -37,6 +38,22 @@ class PageStateService {
       return page.path === path;
     });
     return (page && !!page.isComplete) || settings.bypassRouteGuards;
+  }
+
+  visitPage(path) {
+    const page = this.pages.find((page) => {
+      return page.path === path;
+    });
+    if (page) {
+      page.isVisited = true;
+    }
+  }
+
+  isPageVisited(path) {
+    const page = this.pages.find((page) => {
+      return page.path === path;
+    });
+    return page && !!page.isVisited;
   }
 }
 

@@ -21,7 +21,6 @@ import Header from "../components/Header";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";
 import { SET_API_RESPONSE, SET_API_ERROR } from "../store/index";
-import strings from "../locale/strings.en";
 
 export default {
   name: "Sending",

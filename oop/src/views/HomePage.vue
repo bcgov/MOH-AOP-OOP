@@ -60,7 +60,7 @@ export default {
   methods: {
     nextPage() {
       const path = routes.YOUR_INFO_PAGE.path;
-      pageStateService.setPageComplete(path);
+      pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo(0);
     }

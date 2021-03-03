@@ -62,18 +62,17 @@ import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
-import PhnInput, {
+import {
+  PhnInput,
   phnValidator
-} from '../components/PhnInput.vue';
+} from 'common-lib-vue';
 import { required } from 'vuelidate/lib/validators';
-import strings from '../locale/strings.en';
 import {
   MODULE_NAME as formModule,
   SET_LAST_NAME,
   SET_PHN,
   SET_EMAIL,
   SET_PHONE,
-  RESET_FORM,
 } from '../store/modules/form';
 
 const nameValidator = (value) => {
@@ -140,26 +139,25 @@ export default {
         this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
         this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
 
-        pageStateService.setPageIncomplete(routes.YOUR_INFO_PAGE.path)
         const path = routes.ACCOUNT_TYPE_PAGE.path;
-        pageStateService.setPageComplete(path);
+        pageStateService.visitPage(path);
         this.$router.push(path);
         scrollTo(0);
       }, 2000);
     }
   },
   // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    if (to.path === routes.ACCOUNT_TYPE_PAGE.path) {
-      next();
-    } else if (to.path === routes.HOME_PAGE.path) {
-      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-        this.$store.dispatch(formModule + '/' + RESET_FORM);
-        next();
-      } else {
-        next(false);
-      }
-    }
-  }
+  // beforeRouteLeave(to, from, next) {
+  //   if (to.path === routes.ACCOUNT_TYPE_PAGE.path) {
+  //     next();
+  //   } else if (to.path === routes.HOME_PAGE.path) {
+  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
+  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
+  //       next();
+  //     } else {
+  //       next(false);
+  //     }
+  //   }
+  // }
 }
 </script>

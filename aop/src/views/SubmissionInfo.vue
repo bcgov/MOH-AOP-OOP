@@ -636,7 +636,6 @@ import {
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION
 } from "../store/index";
-import strings from "../locale/strings.en";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 
 const isValidPhone = ph => {

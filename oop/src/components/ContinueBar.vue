@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Button from '../components/Button.vue';
+import { Button } from 'common-lib-vue';
 
 export default {
   name: 'ContinueBar',
