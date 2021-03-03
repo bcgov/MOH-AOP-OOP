@@ -29,15 +29,15 @@
       <h2 class='mt-4'>What is the new address information?</h2>
       <div class="row">
         <div class="col-md-6">
-          <Input label='Address line'
-                 className='mt-3'
-                 v-model="addressLine" />
-          <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
           <Input label='Country'
                  className='mt-3'
                  v-model="country" />
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
-          <Input label='Province/Region/State'
+          <Input label='Address line'
+                 className='mt-3'
+                 v-model="addressLine" />
+          <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
+          <Input label='Province/State/Region'
                  className='mt-3'
                  v-model="province" />
           <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Field is required.</div>
@@ -45,10 +45,12 @@
                  className='mt-3'
                  v-model="city" />
           <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Field is required.</div>
-          <Input label='Postal Code/Zip'
-                 className='my-3'
-                 v-model="postalCode" />
+          <PostalCodeInput id="postalCode"
+            label="Postal Code/Zip Code"
+            className='my-3'
+            v-model="postalCode"/>
           <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
         </div>
       </div>
 
@@ -60,6 +62,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
+import { bcPostalCodeValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -67,6 +70,7 @@ import DateInput, {
   beforeDateValidator,
   afterDateValidator,
 } from '../components/DateInput.vue';
+import PostalCodeInput from '../components/PostalCodeInput.vue';
 import Input from '../components/Input.vue';
 import strings from '../locale/strings.en';
 import { required } from 'vuelidate/lib/validators';
@@ -88,6 +92,7 @@ export default {
     ContinueBar,
     DateInput,
     Input,
+    PostalCodeInput,
   },
   data: () => {
     return {
@@ -138,6 +143,7 @@ export default {
       },
       postalCode: {
         required,
+        bcPostalCodeValidator
       },
     };
   },
