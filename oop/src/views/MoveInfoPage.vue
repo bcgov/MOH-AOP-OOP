@@ -37,14 +37,13 @@
             <Input label='Address line'
                   className='mt-3'
                   v-model="addressLine" />
-            <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
           </div>
           <div v-if='country !== "CA"'>
-            <TextArea label='Address line text area'
+            <TextArea label='Address line'
                   className='mt-3'
                   v-model="addressLine"/>
-            <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
           </div>
+          <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
           <Input label='Province/State/Region'
                  className='mt-3'
                  v-model="province" />
@@ -54,7 +53,7 @@
                  v-model="city" />
           <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Field is required.</div>
           <PostalCodeInput id="postalCode"
-            label="Postal Code/Zip Code"
+            label="Postal Code"
             className='my-3'
             v-model="postalCode"/>
           <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Field is required.</div>
@@ -63,7 +62,7 @@
       </div>
 
     </div>
-    <ContinueBar @continue='nextPage()'/>
+    <ContinueBar @continue="validateFields()"/>
   </div>
 </template>
 <script>
@@ -79,7 +78,7 @@ import DateInput, {
   afterDateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
-import PostalCodeInput from '../components/PostalCodeInput.vue';
+import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import TextArea from '../components/TextArea.vue';
 import strings from '../locale/strings.en';
@@ -128,7 +127,7 @@ export default {
     this.postalCode = this.$store.state.form.postalCode;
   },
   validations() {
-    return {
+    const validations = {
       moveFromBCDate: {
         required,
         distantFutureValidator,
@@ -141,10 +140,10 @@ export default {
         distantPastValidator,
         afterDateValidator: afterDateValidator('moveFromBCDate')
       },
-      addressLine: {
+      country: {
         required,
       },
-      country: {
+      addressLine: {
         required,
       },
       province: {
@@ -158,33 +157,28 @@ export default {
         bcPostalCodeValidator
       },
     };
+    return validations;
   },
   methods: {
-    nextPage() {
+    validateFields() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         scrollToError();
         return;
       }
 
-      this.isLoading = true;
+      this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
+      this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
+      this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
+      this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE, this.addressLine);
+      this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
+      this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
+      this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
 
-      setTimeout(() => {
-        this.isLoading = false;
-        this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
-        this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
-        this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE, this.addressLine);
-        this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
-        this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
-        this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
-
-        pageStateService.setPageIncomplete(routes.MOVE_INFO_PAGE.path)
-        const path = routes.REVIEW_PAGE.path;
-        pageStateService.setPageComplete(path);
-        this.$router.push(path);
-        scrollTo(0);
-      }, 2000);
+      const path = routes.REVIEW_PAGE.path;
+      pageStateService.visitPage(path);
+      this.$router.push(path);
+      scrollTo(0);
     }
   },
   // Required in order to block back navigation.

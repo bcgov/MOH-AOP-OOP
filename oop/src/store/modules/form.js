@@ -87,6 +87,7 @@ export default {
     },
     setPostalCode(state, payload) {
       state.postalCode = payload;
+    },
     setAccountType(state, payload) {
       state.accountType = payload;
     },
@@ -151,6 +152,7 @@ export default {
     },
     setPostalCode({ commit }, postalCode) {
       commit(SET_POSTAL_CODE, postalCode);
+    },
     setAccountType({ commit }, accountType) {
       commit(SET_ACCOUNT_TYPE, accountType);
     },
