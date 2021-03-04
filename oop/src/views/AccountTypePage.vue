@@ -172,8 +172,7 @@ export default {
     this.accountType = this.$store.state.form.accountType;
     this.personMoving = this.$store.state.form.personMoving;
     this.isAllDependentsMoving = this.$store.state.form.isAllDependentsMoving;
-    // this.dependentPhns
-    console.log('personMoving: ', this.personMoving);
+
     setTimeout(() => {
       this.isPageLoaded = true;
     }, 0);
