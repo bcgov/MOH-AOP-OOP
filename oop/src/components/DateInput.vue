@@ -77,6 +77,13 @@ export const afterDateValidator = (compareDateName) => {
   };
 };
 
+export const sameDateValidator = (compareDateName) => {
+  return (date, vm) => {
+    const dateToCompare = vm[compareDateName];
+    return (!isBefore(date, dateToCompare) && !isAfter(date, dateToCompare));
+  };
+};
+
 export default {
   name: 'DateInput',
   components: {},
