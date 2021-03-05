@@ -1,0 +1,196 @@
+# Copyright 2020 The Province of British Columbia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: aop-web
+metadata:
+  # The Network Security Policies (NSP) for the aop-web to other pods
+  name: aop-web
+objects:
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
+    metadata:
+      name: deny-by-default
+      labels:
+        app: aop-web
+    spec:
+      # This project's default posture is "security first". All
+      # traffic is denied by default.
+      podSelector: {}
+      ingress: []
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: allow-from-openshift-ingress
+      labels:
+        app: aop-web
+    spec:
+      # Any pod with an external route & service combination is
+      # allowed to accept traffic; if we don't want external access
+      # we do not assign a route.
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+      podSelector: {}
+      policyTypes:
+        - Ingress
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: aop-to-spa-env-server
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to spa-env-server
+      podSelector:
+        matchLabels:
+          role: spaenv
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: aop-to-address-service
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to address-service
+      podSelector:
+        matchLabels:
+          role: addressservice
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: aop-to-msp-service
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to msp-service
+      podSelector:
+        matchLabels:
+          role: mspservice
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: aop-to-splunk-forwarder
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to msp-service
+      podSelector:
+        matchLabels:
+          role: splunkforwarder
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: aop-to-captcha-service
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to captcha-service
+      podSelector:
+        matchLabels:
+          role: captchaservice
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: msp-service-to-splunk-forwarder
+      labels:
+        app: msp-service
+    spec:
+      #  allow msp service to talk to splunk-forwarder
+      podSelector:
+        matchLabels:
+          role: splunkforwarder
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: mspservice
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: security.devops.gov.bc.ca/v1alpha1
+    # apporeto any pod to any pod (will go away once they remove apporeto)
+    kind: NetworkSecurityPolicy
+    metadata:
+      name: any-to-any
+    spec:
+      description: |
+        allow all pods to communicate with each other
+      source:
+        - - "$namespace=${NAMESPACE}"
+      destination:
+        - - "$namespace=*"
+  - apiVersion: security.devops.gov.bc.ca/v1alpha1
+    # apporeto any pod to any pod (will go away once they remove apporeto)
+    kind: NetworkSecurityPolicy
+    metadata:
+      name: any-to-external
+    spec:
+      description: |
+        Allow all pods to talk to external systems
+      source:
+        - - "$namespace=${NAMESPACE}"
+      destination:
+        - - "ext:network=any"
+parameters:
+  - name: NAMESPACE
+    description: |
+      The the name of the namespace the policy is being
+      deployed to.
+    required: true
