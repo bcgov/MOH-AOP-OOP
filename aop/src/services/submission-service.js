@@ -8,7 +8,7 @@ import bypassCaptcha from "./captcha-bypass-service";
 ********************************************************/
 const setAttachmentUrl = (attachment, uuid) => {
   let url =
-    "/msp/api/submit-attachment/" + uuid + "/attachments/" + attachment.uuid;
+    "/api/submit-attachment/" + uuid + "/attachments/" + attachment.uuid;
 
   url += "?programArea=CLAIMS";
 
@@ -89,7 +89,7 @@ const sendAttachments = (token, applicationUUID, attachments) => {
 /********************************************************
  APPLICATION FUNCTIONS
 ********************************************************/
-const setApplicationUrl = uuid => "/msp/api/aopIntegration/" + uuid;
+const setApplicationUrl = uuid => "/api/aopIntegration/" + uuid;
 
 const setApplicationHeaders = token => ({
   "Content-Type": "application/json",
