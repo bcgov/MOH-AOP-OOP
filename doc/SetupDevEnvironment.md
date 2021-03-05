@@ -27,32 +27,21 @@ And obtain names, then delete, ie:
 oc delete en addressdoctor cloudflare maximus-servers
 ```
 
-3. apply the quickstart msp web (for dev, make sure your default oc project is dev):
+3. apply the quickstart (for tools, make sure your default oc project is tools):
 cd /openshift/templates
 ```console
-oc process -f quickmspweb-toall.yaml NAMESPACE=a3c641-dev | oc apply -f -
+oc process -f quickstart.yaml NAMESPACE_PREFIX=a3c641 -p ENVIRONMENT=dev | oc apply -f -
 ```
 
-To check things out:
+4. To check things out:
 The oc process should have created 3 networkpolicies and 2 network security policies.  To check them:
-oc get networkPolicy
-NAME                              POD-SELECTOR           AGE
-allow-all-internal                <none>                 47h
-allow-from-openshift-ingress      <none>                 23h
-deny-by-default                   <none>                 23h
-msp-service-to-splunk-forwarder   role=splunkforwarder   23h
-msp-to-address-service            role=addressservice    23h
-msp-to-captcha-service            role=captchaservice    23h
-msp-to-msp-service                role=mspservice        23h
-msp-to-spa-env-server             role=spaenv            23h
-msp-to-splunk-forwarder           role=splunkforwarder   23h
 oc get nsp
-NAME              AGE
-any-to-any        8m23s
-any-to-external   47h
+oc get networkpolicy
+To look more in detail, for example:
+oc describe nsp/any-to-any
+oc describe networkpolicy/allow-all-internal
 
-
-4. allow the dev project to pull from tools:
+5. allow the dev project to pull from tools:
    Go to the dev project (oc project a3c641-dev).
 ```console
 oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc project --short):default -n a3c641-tools

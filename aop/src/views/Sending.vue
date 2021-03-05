@@ -1,17 +1,14 @@
 <template>
   <div>
     <Header
-      :heading="'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'"
+      :heading="
+        'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
+      "
     />
     <main class="container py-5 px-2">
       <h1 class="text-center">Sending Application</h1>
       <div class="text-center">
-        <div class="lds-ring">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
       </div>
     </main>
     <Footer />
@@ -23,44 +20,47 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import routes from "../router/routes";
 import pageStateService from "../services/page-state-service";
-import { submitApplication } from "../services/submission-service";
-import { SET_API_RESPONSE } from '../store';
+import { SET_API_RESPONSE, SET_API_ERROR } from "../store/index";
 
 export default {
   name: "Sending",
   components: {
     Footer,
-    Header,
+    Header
   },
   data: () => {
     return {
-      hasConfirmedPageLeave: false,
+      hasConfirmedPageLeave: false
     };
   },
-  created() {
-    submitApplication(this.$store.state)
-      .then(res => {
-        this.$store.dispatch(SET_API_RESPONSE, res);
+  created: function() {
+    const testSuccess = true;
+
+    if (testSuccess === true) {
+      setTimeout(() => {
+        this.$store.dispatch(SET_API_RESPONSE, { message: "API Message" });
         this.nextPage();
-      })
-      .catch(err => {
-        this.$store.dispatch(SET_API_RESPONSE, err);
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        this.$store.dispatch(SET_API_ERROR, "Error message placeholder");
         this.navigateToErrorPage();
-      });
+      }, 2000);
+    }
   },
   methods: {
-    nextPage() {
+    nextPage: function() {
       pageStateService.setPageIncomplete(routes.SENDING.path);
       const path = routes.CONFIRMATION.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
-    navigateToErrorPage() {
+    navigateToErrorPage: function() {
       pageStateService.setPageIncomplete(routes.SENDING.path);
       const path = routes.SUBMISSION_ERROR.path;
       pageStateService.setPageComplete(path);
       this.$router.push(path);
-    },
+    }
   },
 };
 </script>
@@ -113,4 +113,5 @@ main {
     transform: rotate(360deg);
   }
 }
+
 </style>

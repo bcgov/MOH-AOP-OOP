@@ -626,7 +626,7 @@ import {
   SET_UPLOADED_FORMS,
   SET_UPLOAD_TYPE,
   SET_CREDENTIALS_REQUIRED,
-  SET_FACILITY,
+  SET_FACILITY_NAME,
   SET_SUBMISSION_TYPE,
   SET_PRIMARY_NUMBER,
   SET_PRIMARY_LAST_NAME,
@@ -909,7 +909,7 @@ export default {
     this.emailAddress = this.$store.state.emailAddress;
     this.phoneNumber = this.$store.state.phoneNumber;
     this.organization = this.$store.state.organization;
-    this.facility = this.$store.state.facility;
+    this.facility = this.$store.state.facilityName;
     this.submissionType = this.$store.state.submissionType;
     this.primaryNumber = this.$store.state.primaryNumber;
     this.primaryLastName = this.$store.state.primaryLastName;
@@ -940,7 +940,7 @@ export default {
       if (this.uploadType === 'AOP' || this.uploadType === 'COAOP') {
         this.$store.dispatch(SET_ORGANIZATION, this.organization);
       } else {
-        this.$store.dispatch(SET_FACILITY, this.facility);
+        this.$store.dispatch(SET_FACILITY_NAME, this.facility);
       }
       this.$store.dispatch(SET_SUBMISSION_TYPE, this.submissionType);
       this.$store.dispatch(SET_PRIMARY_NUMBER, this.primaryNumber);
@@ -948,9 +948,7 @@ export default {
       this.$store.dispatch(SET_SECONDARY_NUMBER, this.secondaryNumber);
       this.$store.dispatch(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
       this.$store.dispatch(SET_COMMENTS, this.comments);
-      this.files.forEach(x => x.documentType = 'AOPFORM');
       this.$store.dispatch(SET_UPLOADED_FORMS, this.files);
-      this.credentials.forEach(x => x.documentType = 'AOPCREDENTIAL');
       this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.credentials);
 
       pageStateService.setPageIncomplete(routes.SUBMISSION_INFO.path);
