@@ -15,34 +15,27 @@
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Field is required.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.sameDateValidator && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required  && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
           <DateInput label="Date of arrival in new destination"
                      className='mt-3'
                      v-model="arriveDestinationDate"/>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Field is required.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.moveFromBCDate.sameDateValidator && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
         </div>
       </div>
       
       <h2 class='mt-4'>What is the new address information?</h2>
       <div class="row">
         <div class="col-md-6">
-          <CountryInput label='Country'
+          <CountryInput label='CountryS'
                  className='mt-3'
                  v-model="country" />
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
-          <div v-if='country === "CA"'>
-            <Input label='Address line'
+          <Input label='Address line'
                   className='mt-3'
                   v-model="addressLine" />
-          </div>
-          <div v-if='country !== "CA"'>
-            <TextArea label='Address line'
-                  className='mt-3'
-                  v-model="addressLine"/>
-          </div>
           <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
           <Input label='Province/State/Region'
                  className='mt-3'
@@ -81,12 +74,9 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
-import TextArea from '../components/TextArea.vue';
-import strings from '../locale/strings.en';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
-  RESET_FORM,
   SET_ADDRESS_LINE,
   SET_ARRIVE_DESTINATION_DATE,
   SET_COUNTRY,
@@ -102,7 +92,6 @@ export default {
     ContinueBar,
     DateInput,
     Input,
-    TextArea,
     PostalCodeInput,
     CountryInput,
   },
@@ -133,14 +122,11 @@ export default {
         required,
         distantFutureValidator,
         distantPastValidator,
-        beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
-        sameDateValidator: sameDateValidator('arriveDestinationDate'),
       },
       arriveDestinationDate: {
         required,
         distantFutureValidator,
         distantPastValidator,
-        afterDateValidator: afterDateValidator('moveFromBCDate')
       },
       country: {
         required,
@@ -159,42 +145,57 @@ export default {
         bcPostalCodeValidator
       },
     };
+    if (this.moveFromBCDate !== null && this.arriveDestinationDate !== null && !sameDateValidator(this.moveFromBCDate, this.arriveDestinationDate)){
+      validations.moveFromBCDate = {
+        beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
+      };
+      validations.arriveDestinationDate = {
+        afterDateValidator: afterDateValidator('moveFromBCDate'),
+      };
+    }
     return validations;
   },
   methods: {
     validateFields() {
       this.$v.$touch()
       if (this.$v.$invalid) {
+        console.log('HERE');
         scrollToError();
         return;
       }
+      console.log('HERE 2');
+      this.isLoading = true;
 
-      this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
-      this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
-      this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
-      this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE, this.addressLine);
-      this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
-      this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
-      this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
+      setTimeout(() => {
+        this.isLoading = false;
 
-      const path = routes.REVIEW_PAGE.path;
-      pageStateService.visitPage(path);
-      this.$router.push(path);
-      scrollTo(0);
+        this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
+        this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
+        this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
+        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE, this.addressLine);
+        this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
+        this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
+        this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
+
+        const path = routes.REVIEW_PAGE.path;
+        pageStateService.visitPage(path);
+        this.$router.push(path);
+        scrollTo(0);
+      }, 2000);
     }
   },
   // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    if (to.path === routes.HOME_PAGE.path) {
-      if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-        this.$store.dispatch(formModule + '/' + RESET_FORM);
-        next();
-      } else {
-        next(false);
-      }
-    } else {
-      next();
-    }
-  }
+  // beforeRouteLeave(to, from, next) {
+  //   if (to.path === routes.HOME_PAGE.path) {
+  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
+  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
+  //       next();
+  //     } else {
+  //       next(false);
+  //     }
+  //   } else {
+  //     next();
+  //   }
+  // }
 }
 </script>

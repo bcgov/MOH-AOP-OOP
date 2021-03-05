@@ -78,11 +78,10 @@ export const afterDateValidator = (compareDateName) => {
   };
 };
 
-export const sameDateValidator = (compareDateName) => {
-  return (date, vm) => {
-    const dateToCompare = vm[compareDateName];
-    return isSameDay(date, dateToCompare);
-  };
+export const sameDateValidator = (date, dateToCompare) => {
+  console.log(date);
+  console.log(dateToCompare);
+  return isSameDay(date, dateToCompare);
 };
 
 export default {
