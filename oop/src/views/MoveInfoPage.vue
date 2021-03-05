@@ -15,14 +15,14 @@
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Field is required.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.sameDateValidator && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
           <DateInput label="Date of arrival in new destination"
                      className='mt-3'
                      v-model="arriveDestinationDate"/>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Field is required.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.moveFromBCDate.sameDateValidator && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
         </div>
       </div>
       
@@ -76,6 +76,7 @@ import DateInput, {
   distantPastValidator,
   beforeDateValidator,
   afterDateValidator,
+  sameDateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
@@ -132,7 +133,8 @@ export default {
         required,
         distantFutureValidator,
         distantPastValidator,
-        beforeDateValidator: beforeDateValidator('arriveDestinationDate')
+        beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
+        sameDateValidator: sameDateValidator('arriveDestinationDate'),
       },
       arriveDestinationDate: {
         required,

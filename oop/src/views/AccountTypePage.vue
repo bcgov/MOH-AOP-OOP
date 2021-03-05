@@ -1,5 +1,5 @@
 <template>
-  <div class="account-type">
+  <div class="account-type-page">
     <div class="container">
       <h1>Account holder or dependent</h1>
       <p>This form must be submitted by the Account Holder in the event of a family move. If this form is submitted by a dependent on an account, coverage will be cancelled for that dependent only.</p>
@@ -43,7 +43,8 @@
            aria-live="assertive">Please choose an account type.</div>
 
       <!-- Account holder option chosen -->
-      <div v-if='accountType === "AH"'>
+      <div v-if='accountType === "AH"'
+           class="account-type">
         <h2 class="mt-4">Who is moving out of B.C.?</h2>
         <p>Please indicate who is moving out of B.C. If the Account Holder is completing the form on behalf of any dependents, PHNs will be required for each dependent.</p>
         <hr />
@@ -73,7 +74,8 @@
              aria-live="assertive">This field is required.</div>
         <br/>
 
-        <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'>
+        <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'
+             class="person-moving">
           <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
 
           <input type='radio'
@@ -94,11 +96,26 @@
                aria-live="assertive">This field is required.</div>
           <br/>
 
-          <div v-if='isAllDependentsMoving === "N"'>
+          <div v-if='isAllDependentsMoving === "N"'
+               class="is-all-dependents-moving">
             <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
 
             <div>
-              <Input label='PHN: Dependent 1' className='mb-3' />
+              <div class='mb-3'>
+                <div v-for="(phn, index) in dependentPhns"
+                    :key='index'
+                    :set="v = $v.dependentPhns.$each[index]"
+                    class='mt-3'>
+                  <PhnInput :label='"PHN Dependent " + (index + 1)'
+                            v-model='phn.value'/>
+                  <div class="text-danger"
+                       v-if="v.value.$dirty && !v.value.phnValidator"
+                       aria-live="assertive">This is not a valid Personal Health Number.</div>
+                </div>
+              </div>
+
+              <Button label='+ Add dependent'
+                      @click='addDependentField()'/>
             </div>
           </div>
         </div>
@@ -111,9 +128,13 @@
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import { scrollTo, scrollToError, scrollToElement } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
-import Input from '../components/Input.vue';
+import {
+  Button,
+  PhnInput,
+  phnValidator
+} from 'common-lib-vue';
 import {
   MODULE_NAME as formModule,
   SET_ACCOUNT_TYPE,
@@ -122,17 +143,28 @@ import {
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 
+const localPhnValidator = (value) => {
+  if (!value) {
+    return true;
+  }
+  return phnValidator(value);
+};
+const MIN_PHN_DEPENDENT_FIELDS = 5;
+
 export default {
   name: 'AccountTypePage',
   components: {
+    Button,
     ContinueBar,
-    Input,
+    PhnInput,
   },
   data: () => {
     return {
       accountType: null,
       personMoving: null,
       isAllDependentsMoving: null,
+      dependentPhns: [],
+      isPageLoaded: false,
       isLoading: false,
     }
   },
@@ -140,6 +172,19 @@ export default {
     this.accountType = this.$store.state.form.accountType;
     this.personMoving = this.$store.state.form.personMoving;
     this.isAllDependentsMoving = this.$store.state.form.isAllDependentsMoving;
+
+    setTimeout(() => {
+      this.isPageLoaded = true;
+    }, 0);
+
+    const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
+
+    for (let i=0; i<numberOfPhns; i++) {
+      this.dependentPhns[i] = {
+        value: this.dependentPhns && this.dependentPhns[i] ? this.dependentPhns[i].value : null,
+        isValid: true,
+      }
+    }
   },
   validations() {
     const validations = {
@@ -155,6 +200,15 @@ export default {
         validations.isAllDependentsMoving = {
           required,
         };
+        if (this.isAllDependentsMoving === 'N') {
+          validations.dependentPhns = {
+            $each: {
+              value: {
+                phnValidator: localPhnValidator
+              },
+            }
+          };
+        }
       }
     }
     return validations;
@@ -167,8 +221,13 @@ export default {
         return;
       }
 
-      this.saveValues();
-      this.nextPage();
+      this.isLoading = true;
+
+      setTimeout(() => {
+        this.isLoading = false;
+        this.saveValues();
+        this.nextPage();
+      }, 1000);
     },
     saveValues() {
       this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
@@ -180,16 +239,49 @@ export default {
       pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo(0);
-    }
+    },
+    addDependentField() {
+      this.dependentPhns.push({
+        value: null,
+        isValid: true,
+      });
+    },
   },
   watch: {
-    accountType() {
-      this.personMoving = null;
-      this.isAllDependentsMoving = null;
-    },
-    personMoving(val) {
-      if (val !== 'AH_DEP' && val !== 'DEP_ONLY') {
+    accountType(newValue) {
+      if (this.isPageLoaded) {
+        this.personMoving = null;
         this.isAllDependentsMoving = null;
+
+        if (newValue === 'AH') {
+          setTimeout(() => {
+            const el = document.querySelector('.account-type');
+            scrollToElement(el, true);
+          }, 0);
+        }
+      }
+    },
+    personMoving(newValue) {
+      if (this.isPageLoaded) {
+        if (newValue === 'AH_ONLY') {
+          this.isAllDependentsMoving = null;
+        }
+        if (newValue === 'AH_DEP' || newValue === 'DEP_ONLY') {
+          setTimeout(() => {
+            const el = document.querySelector('.person-moving');
+            scrollToElement(el, true);
+          }, 0);
+        }
+      }
+    },
+    isAllDependentsMoving(newValue) {
+      if (this.isPageLoaded) {
+        if (newValue === 'N') {
+          setTimeout(() => {
+            const el = document.querySelector('.is-all-dependents-moving');
+            scrollToElement(el, true);
+          }, 0);
+        }
       }
     }
   }

@@ -48,7 +48,8 @@ import {
   startOfToday,
   isAfter,
   isBefore,
-  getDaysInMonth
+  getDaysInMonth,
+  isSameDay,
 } from 'date-fns';
 
 const MAX_YEAR_RANGE = 150;
@@ -74,6 +75,13 @@ export const afterDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
     return isAfter(date, dateToCompare);
+  };
+};
+
+export const sameDateValidator = (compareDateName) => {
+  return (date, vm) => {
+    const dateToCompare = vm[compareDateName];
+    return isSameDay(date, dateToCompare);
   };
 };
 

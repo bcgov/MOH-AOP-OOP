@@ -20,12 +20,17 @@ export const scrollTo = (top, smoothScroll) => {
 };
 
 export const scrollToError = () => {
+  const el = document.querySelector('.text-danger');
+  scrollToElement(el, true);
+}
+
+export const scrollToElement = (element, smoothScroll) => {
+  if (!element) {
+    return;
+  }
   const yOffset = -75;
   setTimeout(() => {
-    const el = document.querySelector('.text-danger');
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      scrollTo(top, true);
-    }
+    const top = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    scrollTo(top, smoothScroll);
   }, 0);
 }
