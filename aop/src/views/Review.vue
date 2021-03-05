@@ -116,7 +116,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Facility Name:", value: this.$store.state.facilityName }
+        { name: "Facility Name:", value: this.$store.state.facility }
       ];
     }
 
