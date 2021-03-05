@@ -11,7 +11,7 @@
                  maxlength='30'/>
           <div class="text-danger"
                v-if="$v.lastName.$dirty && !$v.lastName.required"
-               aria-live="assertive">Field is required</div>
+               aria-live="assertive">Last name is required.</div>
           <div class="text-danger"
                v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
                aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
@@ -24,7 +24,7 @@
                     className='mt-3' />
           <div class="text-danger"
                v-if="$v.phn.$dirty && !$v.phn.required"
-               aria-live="assertive">Field is required</div>
+               aria-live="assertive">Personal Health Number is required.</div>
           <div class="text-danger"
                v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
                aria-live="assertive">This is not a valid Personal Health Number.</div>
