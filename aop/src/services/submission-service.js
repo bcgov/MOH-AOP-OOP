@@ -170,9 +170,9 @@ const convertAttachments = images => {
 /********************************************************
  TOP LEVEL FUNCTION
 ********************************************************/
-export const submitApplication = state => {
+export const submitApplication = async state => {
   const AOPApplication = prepareAOPApplication(state);
-  const token = bypassCaptcha(AOPApplication.uuid);
+  const token = await bypassCaptcha(AOPApplication.uuid);
 
   console.log('token:', token);
 
