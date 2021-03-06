@@ -14,27 +14,23 @@
           <option v-for="(month, index) in monthList" :key="index" :value="index">{{month}}</option>
         </select>
 
-        <label for="dayInput">Day:</label>
-        <input id="dayInput"
-              type="number"
+        <label v-bind:for="'dayInput' + label">Day:</label>
+        <masked-input 
+              :id="'dayInput' + label"
+              type="text"
               class="form-control dayInput"
-              placeholder="Day"
-              v-model="day"
-              @blur="onBlurDay($event.target.value)"
-              :disabled='disabled'
-              maxlength="2"
-              autocomplete="off"/>
+              placeholder="DD"
+              v-model="day.localValue"
+              mask="11"/>
 
-        <label for="yearInput">Year:</label>
-        <input id="yearInput"
-              type="number"
+        <label v-bind:for="'yearInput' + label">Year:</label>
+        <masked-input  
+              :id="'yearInput' + label"
+              type="text"
               class="form-control yearInput"
-              placeholder="Year"
-              v-model="year"
-              @blur="onBlurYear($event.target.value)"
-              :disabled='disabled'
-              maxlength="4"
-              autocomplete="off"/>
+              placeholder="YYYY"
+              v-model="year.localValue"
+              mask="1111"/>
       </div>
     </fieldset>
   </div>
@@ -51,6 +47,7 @@ import {
   getDaysInMonth,
   isSameDay,
 } from 'date-fns';
+import MaskedInput from 'vue-masked-input';
 
 const MAX_YEAR_RANGE = 150;
 
@@ -87,7 +84,9 @@ export const sameDateValidator = (compareDateName) => {
 
 export default {
   name: 'DateInput',
-  components: {},
+  components: {
+    MaskedInput
+  },
   props: {
     value: Date,
     className: String,
@@ -103,8 +102,12 @@ export default {
   data() {
     return {
       month: null,
-      day: null,
-      year: null,
+      day: {
+        localValue: null,
+      },
+      year: {
+        localValue: null,
+      },
       monthList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     }
   },
