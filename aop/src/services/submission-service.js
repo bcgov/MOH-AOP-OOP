@@ -10,20 +10,17 @@ const setAttachmentUrl = (attachment, uuid) => {
   let url =
     "/api/submit-attachment/" + uuid + "/attachments/" + attachment.uuid;
 
-  url += "?programArea=enrolment";
+  url += "?programArea=CLAIMS";
 
-  // if (attachment.documentType === "AOPCREDENTIAL") {
-  //   url += "&attachmentDocumentType=AOPCREDENTIAL";
-  // } else {
-  //   url += "&attachmentDocumentType=AOPFORM";
-  // }
-  url += "&attachmentDocumentType=SupportDocument"
+  if (attachment.documentType === "AOPCREDENTIAL") {
+    url += "&attachmentDocumentType=AOPCREDENTIAL";
+  } else {
+    url += "&attachmentDocumentType=AOPFORM";
+  }
 
   url += "&contentType=" + attachment.contentType;
 
   url += "&imageSize=" + attachment.size;
-
-  url += "&dpackage=msp_enrolment_pkg";
 
   return url;
 };
