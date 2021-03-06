@@ -15,22 +15,28 @@
         </select>
 
         <label v-bind:for="'dayInput' + label">Day:</label>
-        <masked-input 
-              :id="'dayInput' + label"
-              type="text"
-              class="form-control dayInput"
-              placeholder="DD"
-              v-model="day.localValue"
-              mask="11"/>
+        <input 
+            :id="'dayInput' + label"
+            class="form-control dayInput"
+            placeholder="DD"
+            v-model="day"
+            @blur="onBlurDay($event.target.value)"
+            :disabled='disabled'
+            maxlength="2"
+            v-on:keypress="isNumber($event)"
+            >
 
         <label v-bind:for="'yearInput' + label">Year:</label>
-        <masked-input  
-              :id="'yearInput' + label"
-              type="text"
-              class="form-control yearInput"
-              placeholder="YYYY"
-              v-model="year.localValue"
-              mask="1111"/>
+        <input 
+            :id="'yearInput' + label"
+            class="form-control dayInput"
+            placeholder="YYYY"
+            v-model="year"
+            @blur="onBlurYear($event.target.value)"
+            :disabled='disabled'
+            maxlength="4"
+            v-on:keypress="isNumber($event)"
+            >
       </div>
     </fieldset>
   </div>
@@ -47,7 +53,6 @@ import {
   getDaysInMonth,
   isSameDay,
 } from 'date-fns';
-import MaskedInput from 'vue-masked-input';
 
 const MAX_YEAR_RANGE = 150;
 
@@ -84,9 +89,7 @@ export const sameDateValidator = (compareDateName) => {
 
 export default {
   name: 'DateInput',
-  components: {
-    MaskedInput
-  },
+  components: {},
   props: {
     value: Date,
     className: String,
@@ -102,12 +105,8 @@ export default {
   data() {
     return {
       month: null,
-      day: {
-        localValue: null,
-      },
-      year: {
-        localValue: null,
-      },
+      day: null,
+      year: null,
       monthList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     }
   },
@@ -119,6 +118,15 @@ export default {
     }
   },
   methods: {
+    isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     processDate() {
       if (this.canCreateDate()) {
         const year = this.getNumericValue(this.year);
