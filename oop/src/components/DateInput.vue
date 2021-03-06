@@ -69,21 +69,14 @@ export const distantPastValidator = (date) => {
 export const beforeDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return isBefore(date, dateToCompare);
+    return (isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
   };
 };
 
 export const afterDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return isAfter(date, dateToCompare);
-  };
-};
-
-export const sameDateValidator = (compareDateName) => {
-  return (date, vm) => {
-    const dateToCompare = vm[compareDateName];
-    return isSameDay(date, dateToCompare);
+    return (isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
   };
 };
 
