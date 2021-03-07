@@ -38,5 +38,7 @@ export default {
 <style scoped>
 .continue-bar {
   background-color: #cdd9e4;
+  position: sticky;
+  bottom: 0;
 }
 </style>
