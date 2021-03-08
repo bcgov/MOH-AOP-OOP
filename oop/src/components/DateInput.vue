@@ -1,7 +1,7 @@
 <template>
   <div :class='className'>
     <fieldset>
-      <legend class="date--legend">{{label}}:</legend>
+      <legend class="date--legend">{{label}}</legend>
       <div class="date-row">
         <label for="monthSelect">Month:</label>
         <select id="monthSelect"

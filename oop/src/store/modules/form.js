@@ -11,6 +11,15 @@ export const SET_PHN = 'setPhn';
 export const SET_EMAIL = 'setEmail';
 export const SET_PHONE = 'setPhone';
 
+// Move Info page
+export const SET_MOVE_FROM_BC_DATE = 'setMoveFromBCDate';
+export const SET_ARRIVE_DESTINATION_DATE = 'setArriveDestinationDate';
+export const SET_COUNTRY = 'setCountry';
+export const SET_ADDRESS_LINE1 = 'setAddressLine1';
+export const SET_ADDRESS_LINE2 = 'setAddressLine2';
+export const SET_PROVINCE = 'setProvince';
+export const SET_CITY = 'setCity';
+export const SET_POSTAL_CODE = 'setPostalCode';
 // Account type page:
 export const SET_ACCOUNT_TYPE = 'setAccountType';
 export const SET_PERSON_MOVING = 'setPersonMoving';
@@ -28,6 +37,14 @@ export default {
       phn: null,
       email: null,
       phone: null,
+      moveFromBCDate: null,
+      arriveDestinationDate: null,
+      country: null,
+      addressLine1: null,
+      addressLine2: null,
+      province: null,
+      city: null,
+      postalCode: null,
       accountType: null,
       personMoving: null,
       isAllDependentsMoving: null,
@@ -52,6 +69,30 @@ export default {
     setPhone(state, payload) {
       state.phone = payload;
     },
+    setMoveFromBCDate(state, payload) {
+      state.moveFromBCDate = payload;
+    },
+    setArriveDestinationDate(state, payload) {
+      state.arriveDestinationDate = payload;
+    },
+    setCountry(state, payload) {
+      state.country = payload;
+    },
+    setAddressLine1(state, payload) {
+      state.addressLine1 = payload;
+    },
+    setAddressLine2(state, payload) {
+      state.addressLine2 = payload;
+    },
+    setProvince(state, payload) {
+      state.province = payload;
+    },
+    setCity(state, payload) {
+      state.city = payload;
+    },
+    setPostalCode(state, payload) {
+      state.postalCode = payload;
+    },
     setAccountType(state, payload) {
       state.accountType = payload;
     },
@@ -74,6 +115,14 @@ export default {
       commit(SET_PHN, null);
       commit(SET_EMAIL, null);
       commit(SET_PHONE, null);
+      commit(SET_MOVE_FROM_BC_DATE, null);
+      commit(SET_ARRIVE_DESTINATION_DATE, null);
+      commit(SET_COUNTRY, null);
+      commit(SET_ADDRESS_LINE1, null);
+      commit(SET_ADDRESS_LINE2, null);
+      commit(SET_PROVINCE, null);
+      commit(SET_CITY, null);
+      commit(SET_POSTAL_CODE, null);
       commit(SET_SUBMISSION_RESPONSE, null);
       commit(SET_SUBMISSION_ERROR, null);
     },
@@ -88,6 +137,30 @@ export default {
     },
     setPhone({ commit }, phone) {
       commit(SET_PHONE, phone);
+    },
+    setMoveFromBCDate({ commit }, moveFromBCDate) {
+      commit(SET_MOVE_FROM_BC_DATE, moveFromBCDate);
+    },
+    setArriveDestinationDate({ commit }, arriveDestinationDate) {
+      commit(SET_ARRIVE_DESTINATION_DATE, arriveDestinationDate);
+    },
+    setCountry({ commit }, country) {
+      commit(SET_COUNTRY, country);
+    },
+    setAddressLine1({ commit }, addressLine1) {
+      commit(SET_ADDRESS_LINE1, addressLine1);
+    },
+    setAddressLine2({ commit }, addressLine2) {
+      commit(SET_ADDRESS_LINE2, addressLine2);
+    },
+    setProvince({ commit }, province) {
+      commit(SET_PROVINCE, province);
+    },
+    setCity({ commit }, city) {
+      commit(SET_CITY, city);
+    },
+    setPostalCode({ commit }, postalCode) {
+      commit(SET_POSTAL_CODE, postalCode);
     },
     setAccountType({ commit }, accountType) {
       commit(SET_ACCOUNT_TYPE, accountType);
