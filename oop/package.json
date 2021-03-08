@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@bcgov/bootstrap-theme": "github:bcgov/bootstrap-theme",
-    "common-lib-vue": "^1.0.2",
+    "common-lib-vue": "^1.0.3",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "vue": "^2.6.11",

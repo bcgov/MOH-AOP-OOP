@@ -36,13 +36,20 @@
             <Input label='Email (Optional)'
                   v-model='email'
                   className='mt-3' />
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && !$v.email.emailValidator"
+                aria-live="assertive">Email must have the following format: yourname@example.com.</div>
 
-            <Input label='Phone number'
-                  v-model='phone'
-                  className='mt-3' />
+            <PhoneNumberInput id='phone-input'
+                              label='Phone number'
+                              v-model='phone'
+                              className='mt-3' />
             <div class="text-danger"
                 v-if="$v.phone.$dirty && !$v.phone.required"
-                aria-live="assertive">Field is required</div>
+                aria-live="assertive">Phone number is required</div>
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && $v.phone.required && !$v.phone.phoneValidator"
+                aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
           </div>
           <div class="col-sm-5 mt-3 mt-sm-0">
@@ -66,6 +73,7 @@ import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
 import {
   PhnInput,
+  PhoneNumberInput,
   phnValidator
 } from 'common-lib-vue';
 import { required } from 'vuelidate/lib/validators';
@@ -79,8 +87,25 @@ import {
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
-  const result = criteria.test(value);
-  return result;
+  return criteria.test(value);
+};
+
+const emailValidator = (value) => {
+  if (!value) {
+    return true;
+  }
+  const criteria = /^(\S+)@(\S+)\.(\S+)$/;
+  return criteria.test(value);
+};
+
+const phoneValidator = (value) => {
+  const stripped = value
+        .replace(/_/g, '') // remove underlines
+        .replace(/\s/g, '') // spaces
+        .replace(/\+|-/g, '') // + or - symbol
+        .replace('(', '')
+        .replace(')', '');
+  return stripped.length === 10;
 };
 
 export default {
@@ -90,6 +115,7 @@ export default {
     Input,
     PageContent,
     PhnInput,
+    PhoneNumberInput,
   },
   data: () => {
     return {
@@ -118,9 +144,11 @@ export default {
         phnValidation: phnValidator,
       },
       email: {
+        emailValidator,
       },
       phone: {
         required,
+        phoneValidator,
       }
     };
   },
