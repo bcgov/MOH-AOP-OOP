@@ -24,6 +24,7 @@ export const SET_POSTAL_CODE = 'setPostalCode';
 export const SET_ACCOUNT_TYPE = 'setAccountType';
 export const SET_PERSON_MOVING = 'setPersonMoving';
 export const SET_IS_ALL_DEPENDENTS_MOVING = 'setIsAllDependentsMoving';
+export const SET_DEPENDENT_PHNS = 'setDependentPhns';
 
 // Sending page:
 export const SET_SUBMISSION_RESPONSE = 'setSubmissionResponse';
@@ -48,6 +49,7 @@ export default {
       accountType: null,
       personMoving: null,
       isAllDependentsMoving: null,
+      dependentPhns: [],
       submissionResponse: null,
       submissionError: null,
     };
@@ -101,6 +103,9 @@ export default {
     },
     setIsAllDependentsMoving(state, payload) {
       state.isAllDependentsMoving = payload;
+    },
+    setDependentPhns(state, payload) {
+      state.dependentPhns = payload;
     },
     setSubmissionResponse(state, payload) {
       state.submissionResponse = payload;
@@ -170,6 +175,9 @@ export default {
     },
     setIsAllDependentsMoving({ commit }, isAllDependentsMoving) {
       commit(SET_IS_ALL_DEPENDENTS_MOVING, isAllDependentsMoving);
+    },
+    setDependentPhns({ commit }, dependentPhns) {
+      commit(SET_DEPENDENT_PHNS, dependentPhns);
     },
     setApiResponse({ commit }, response) {
       commit(SET_SUBMISSION_RESPONSE, response);
