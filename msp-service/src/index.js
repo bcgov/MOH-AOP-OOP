@@ -133,12 +133,19 @@ app.use('/', function (req, res, next) {
         if (nounIndex < 0) {
             nounIndex = pathnameParts.indexOf("siteregIntegration");
         }
-		if (nounIndex < 0) {                                                                                                                          
-            nounIndex = pathnameParts.indexOf("bcp");                                                                                  
+        if (nounIndex < 0) {
+          nounIndex = pathnameParts.indexOf("aopIntegration");
+          console.log('A');
+        }
+		    if (nounIndex < 0) {                                                                                                                          
+          nounIndex = pathnameParts.indexOf("bcp");                                                                                  
         } 
-
+        
         if (nounIndex < 0 ||
-            pathnameParts.length < nounIndex + 2) {
+          pathnameParts.length < nounIndex + 2) {
+            console.log('B');
+            console.log('pathnameParts:', pathnameParts);
+            console.log('nounIndex:', nounIndex);
             denyAccess("missing noun or resource id", res, req);
             return;
         }

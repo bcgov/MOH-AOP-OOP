@@ -1,126 +1,128 @@
 <template>
-  <div class="account-type-page">
-    <div class="container">
-      <h1>Account holder or dependent</h1>
-      <p>This form must be submitted by the Account Holder in the event of a family move. If this form is submitted by a dependent on an account, coverage will be cancelled for that dependent only.</p>
-      <hr/>
-      <h2>Are you the account holder or a dependent?</h2>
+  <div>
+    <PageContent>
+      <div class="container pt-3 pt-sm-5 mb-3">
+        <h1>Account holder or dependent</h1>
+        <p>This form must be submitted by the Account Holder in the event of a family move. If this form is submitted by a dependent on an account, coverage will be cancelled for that dependent only.</p>
+        <hr/>
+        <h2>Are you the account holder or a dependent?</h2>
 
-      <!-- Account holder option -->
-      <input type='radio'
-             id='account-type-account-holder'
-             value='AH'
-             v-model='accountType' />
-      <label for='account-type-account-holder'
-             class='ml-3'><strong>I'm the account holder</strong></label>
-      <div class='ml-5'>
-        <p><strong>Who is an Account Holder?</strong></p>
-        <ul>
-          <li>An Account Holder is the primary individual associated with a Medical Services Plan account. An account may also include a spouse and/or one or more children.</li>
-          <li>Learn more</li>
-        </ul>
-      </div>
-
-      <!-- Dependent option -->
-      <input type='radio'
-             id='account-type-dependent'
-             value='DEP' 
-             v-model='accountType' />
-      <label for='account-type-dependent'
-             class='ml-3'><strong>I'm a Dependent</strong></label>
-      <div class='ml-5'>
-        <p><strong>Who is a Dependent?</strong></p>
-        <p>A dependent may be a:</p>
-        <ul>
-          <li>Spouse</li>
-          <li>An Account Holder's child</li>
-          <li>Post secondary student</li>
-          <li>Learn more</li>
-        </ul>
-      </div>
-      <div class="text-danger"
-           v-if="$v.accountType.$dirty && !$v.accountType.required"
-           aria-live="assertive">Please choose an account type.</div>
-
-      <!-- Account holder option chosen -->
-      <div v-if='accountType === "AH"'
-           class="account-type">
-        <h2 class="mt-4">Who is moving out of B.C.?</h2>
-        <p>Please indicate who is moving out of B.C. If the Account Holder is completing the form on behalf of any dependents, PHNs will be required for each dependent.</p>
-        <hr />
-
+        <!-- Account holder option -->
         <input type='radio'
-              id='person-moving-ah'
-              value='AH_ONLY'
-              v-model='personMoving' />
-        <label for='person-moving-ah'
-              class='ml-3'>Account Holder only</label>
-        <br />
+              id='account-type-account-holder'
+              value='AH'
+              v-model='accountType' />
+        <label for='account-type-account-holder'
+              class='ml-3'><strong>I'm the account holder</strong></label>
+        <div class='ml-5'>
+          <p><strong>Who is an Account Holder?</strong></p>
+          <ul>
+            <li>An Account Holder is the primary individual associated with a Medical Services Plan account. An account may also include a spouse and/or one or more children.</li>
+            <li>Learn more</li>
+          </ul>
+        </div>
+
+        <!-- Dependent option -->
         <input type='radio'
-              id='person-moving-ahad'
-              value='AH_DEP'
-              v-model='personMoving' />
-        <label for='person-moving-ahad'
-              class='ml-3'>Account Holder and Dependent(s)</label>
-        <br />
-        <input type='radio'
-              id='person-moving-d'
-              value='DEP_ONLY'
-              v-model='personMoving' />
-        <label for='person-moving-d'
-              class='ml-3'>Dependent(s) only</label>
+              id='account-type-dependent'
+              value='DEP' 
+              v-model='accountType' />
+        <label for='account-type-dependent'
+              class='ml-3'><strong>I'm a Dependent</strong></label>
+        <div class='ml-5'>
+          <p><strong>Who is a Dependent?</strong></p>
+          <p>A dependent may be a:</p>
+          <ul>
+            <li>Spouse</li>
+            <li>An Account Holder's child</li>
+            <li>Post secondary student</li>
+            <li>Learn more</li>
+          </ul>
+        </div>
         <div class="text-danger"
-             v-if="$v.personMoving.$dirty && !$v.personMoving.required"
-             aria-live="assertive">This field is required.</div>
-        <br/>
+            v-if="$v.accountType.$dirty && !$v.accountType.required"
+            aria-live="assertive">Please choose an account type.</div>
 
-        <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'
-             class="person-moving">
-          <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
+        <!-- Account holder option chosen -->
+        <div v-if='accountType === "AH"'
+            class="account-type">
+          <h2 class="mt-4">Who is moving out of B.C.?</h2>
+          <p>Please indicate who is moving out of B.C. If the Account Holder is completing the form on behalf of any dependents, PHNs will be required for each dependent.</p>
+          <hr />
 
           <input type='radio'
-                 id='is-all-dependents-moving-y'
-                 value='Y'
-                 v-model='isAllDependentsMoving' />
-          <label for='is-all-dependents-moving-y'
-                 class='ml-3'>Yes</label>
-          <br/>
+                id='person-moving-ah'
+                value='AH_ONLY'
+                v-model='personMoving' />
+          <label for='person-moving-ah'
+                class='ml-3'>Account Holder only</label>
+          <br />
           <input type='radio'
-                 id='is-all-dependents-moving-n'
-                 value='N'
-                 v-model='isAllDependentsMoving' />
-          <label for='is-all-dependents-moving-n'
-                 class='ml-3'>No</label>
+                id='person-moving-ahad'
+                value='AH_DEP'
+                v-model='personMoving' />
+          <label for='person-moving-ahad'
+                class='ml-3'>Account Holder and Dependent(s)</label>
+          <br />
+          <input type='radio'
+                id='person-moving-d'
+                value='DEP_ONLY'
+                v-model='personMoving' />
+          <label for='person-moving-d'
+                class='ml-3'>Dependent(s) only</label>
           <div class="text-danger"
-               v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
-               aria-live="assertive">This field is required.</div>
+              v-if="$v.personMoving.$dirty && !$v.personMoving.required"
+              aria-live="assertive">This field is required.</div>
           <br/>
 
-          <div v-if='isAllDependentsMoving === "N"'
-               class="is-all-dependents-moving">
-            <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
+          <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'
+              class="person-moving">
+            <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
 
-            <div>
-              <div class='mb-3'>
-                <div v-for="(phn, index) in dependentPhns"
-                    :key='index'
-                    :set="v = $v.dependentPhns.$each[index]"
-                    class='mt-3'>
-                  <PhnInput :label='"PHN Dependent " + (index + 1)'
-                            v-model='phn.value'/>
-                  <div class="text-danger"
-                       v-if="v.value.$dirty && !v.value.phnValidator"
-                       aria-live="assertive">This is not a valid Personal Health Number.</div>
+            <input type='radio'
+                  id='is-all-dependents-moving-y'
+                  value='Y'
+                  v-model='isAllDependentsMoving' />
+            <label for='is-all-dependents-moving-y'
+                  class='ml-3'>Yes</label>
+            <br/>
+            <input type='radio'
+                  id='is-all-dependents-moving-n'
+                  value='N'
+                  v-model='isAllDependentsMoving' />
+            <label for='is-all-dependents-moving-n'
+                  class='ml-3'>No</label>
+            <div class="text-danger"
+                v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
+                aria-live="assertive">This field is required.</div>
+            <br/>
+
+            <div v-if='isAllDependentsMoving === "N"'
+                class="is-all-dependents-moving">
+              <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
+
+              <div>
+                <div class='mb-3'>
+                  <div v-for="(phn, index) in dependentPhns"
+                      :key='index'
+                      :set="v = $v.dependentPhns.$each[index]"
+                      class='mt-3'>
+                    <PhnInput :label='"PHN Dependent " + (index + 1)'
+                              v-model='phn.value'/>
+                    <div class="text-danger"
+                        v-if="v.value.$dirty && !v.value.phnValidator"
+                        aria-live="assertive">This is not a valid Personal Health Number.</div>
+                  </div>
                 </div>
-              </div>
 
-              <Button label='+ Add dependent'
-                      @click='addDependentField()'/>
+                <Button label='+ Add dependent'
+                        @click='addDependentField()'/>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </PageContent>
     <ContinueBar :hasLoader='isLoading' @continue="validateFields()" />
   </div>
 </template>
@@ -130,6 +132,7 @@ import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError, scrollToElement } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
+import PageContent from '../components/PageContent.vue';
 import {
   Button,
   PhnInput,
@@ -156,6 +159,7 @@ export default {
   components: {
     Button,
     ContinueBar,
+    PageContent,
     PhnInput,
   },
   data: () => {

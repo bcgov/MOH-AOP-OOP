@@ -9,7 +9,7 @@ export const SET_LAST_NAME = "setLastName";
 export const SET_EMAIL_ADDRESS = "setEmailAddress";
 export const SET_PHONE_NUMBER = "setPhoneNumber";
 export const SET_ORGANIZATION = "setOrganization";
-export const SET_FACILITY_NAME = "setFacilityName";
+export const SET_FACILITY = "setFacility";
 export const SET_SUBMISSION_TYPE = "setSubmissionType";
 export const SET_PRIMARY_NUMBER = "setPrimaryNumber";
 export const SET_PRIMARY_LAST_NAME = "setPrimaryLastName";
@@ -19,7 +19,6 @@ export const SET_COMMENTS = "setComments";
 export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
-export const SET_API_ERROR = "setApiError";
 
 Vue.use(Vuex);
 
@@ -32,7 +31,7 @@ export default new Vuex.Store({
     emailAddress: '',
     phoneNumber: '',
     organization: '',
-    facilityName: '',
+    facility: '',
     submissionType: '',
     primaryNumber: '',
     primaryLastName: '',
@@ -42,7 +41,6 @@ export default new Vuex.Store({
     uploadedForms: [],
     uploadedCredentials: [],
     apiResponse: '',
-    apiError: ''
   },
   mutations: {
     setUploadType(state, payload) {
@@ -66,8 +64,8 @@ export default new Vuex.Store({
     setOrganization(state, payload) {
       state.organization = payload;
     },
-    setFacilityName(state, payload) {
-      state.facilityName = payload;
+    setFacility(state, payload) {
+      state.facility = payload;
     },
     setSubmissionType(state, payload) {
       state.submissionType = payload;
@@ -96,9 +94,6 @@ export default new Vuex.Store({
     setApiResponse(state, payload) {
       state.apiResponse = payload;
     },
-    setApiError(state, payload) {
-      state.apiError = payload;
-    }
   },
   actions: {
     resetForm({ commit }) {
@@ -109,7 +104,7 @@ export default new Vuex.Store({
       commit(SET_EMAIL_ADDRESS, '');
       commit(SET_PHONE_NUMBER, '');
       commit(SET_ORGANIZATION, '');
-      commit(SET_FACILITY_NAME, '');
+      commit(SET_FACILITY, '');
       commit(SET_SUBMISSION_TYPE, '');
       commit(SET_PRIMARY_NUMBER, '');
       commit(SET_PRIMARY_LAST_NAME, '');
@@ -119,7 +114,6 @@ export default new Vuex.Store({
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
       commit(SET_API_RESPONSE, '');
-      commit(SET_API_ERROR, '');
     },
     setHasAcceptedTerms({ commit }, hasAcceptedTerms) {
       commit(SET_HAS_ACCEPTED_TERMS, hasAcceptedTerms);
@@ -145,8 +139,8 @@ export default new Vuex.Store({
     setOrganization({ commit }, setOrganization) {
       commit(SET_ORGANIZATION, setOrganization);
     },
-    setFacilityName({ commit }, setFacilityName) {
-      commit(SET_FACILITY_NAME, setFacilityName);
+    setFacility({ commit }, setFacility) {
+      commit(SET_FACILITY, setFacility);
     },
     setSubmissionType({ commit }, setSubmissionType) {
       commit(SET_SUBMISSION_TYPE, setSubmissionType);
@@ -175,9 +169,6 @@ export default new Vuex.Store({
     setApiResponse({ commit }, response) {
       commit(SET_API_RESPONSE, response);
     },
-    setApiError({ commit }, error) {
-      commit(SET_API_ERROR, error);
-    }
   },
   getters: {}
 });

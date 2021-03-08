@@ -13,7 +13,7 @@
     <div class="success-box container">
       <div class="row">
         <div class="col-2 icon-container">
-          <i class="fas fa-5x fa-check-circle"></i>
+          <i class="fas fa-4x fa-check-circle"></i>
         </div>
 
         <div class="col-10">
@@ -190,7 +190,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Facility Name:", value: this.$store.state.facilityName }
+        { name: "Facility Name:", value: this.$store.state.facility }
       ];
     }
 

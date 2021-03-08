@@ -15,7 +15,7 @@
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Field is required.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required  && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
           <DateInput label="Date of arrival in new destination"
                      className='mt-3'
                      v-model="arriveDestinationDate"/>
@@ -69,7 +69,6 @@ import DateInput, {
   distantPastValidator,
   beforeDateValidator,
   afterDateValidator,
-  sameDateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
@@ -122,11 +121,13 @@ export default {
         required,
         distantFutureValidator,
         distantPastValidator,
+        beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
       },
       arriveDestinationDate: {
         required,
         distantFutureValidator,
         distantPastValidator,
+        afterDateValidator: afterDateValidator('moveFromBCDate'),
       },
       country: {
         required,
@@ -144,14 +145,6 @@ export default {
         required,
         bcPostalCodeValidator
       },
-    };
-    if (this.moveFromBCDate !== null && this.arriveDestinationDate !== null && !sameDateValidator(this.moveFromBCDate, this.arriveDestinationDate)){
-      validations.moveFromBCDate = {
-        beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
-      };
-      validations.arriveDestinationDate = {
-        afterDateValidator: afterDateValidator('moveFromBCDate'),
-      };
     }
     return validations;
   },
@@ -159,11 +152,9 @@ export default {
     validateFields() {
       this.$v.$touch()
       if (this.$v.$invalid) {
-        console.log('HERE');
         scrollToError();
         return;
       }
-      console.log('HERE 2');
       this.isLoading = true;
 
       setTimeout(() => {

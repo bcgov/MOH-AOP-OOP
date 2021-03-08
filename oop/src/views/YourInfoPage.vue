@@ -1,56 +1,64 @@
 <template>
-  <div class="your-info">
-    <div class="container mb-3">
-      <h1>Your Information</h1>
-      <p>To complete the Out of Province form, you must provide your PHN number that matches your last name.</p>
-      <hr/>
-      <div class="row">
-        <div class="col-sm-7">
-          <Input label='Last name'
-                 v-model='lastName'
-                 maxlength='30'/>
-          <div class="text-danger"
-               v-if="$v.lastName.$dirty && !$v.lastName.required"
-               aria-live="assertive">Field is required</div>
-          <div class="text-danger"
-               v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
-               aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
-          <div class="text-danger"
-               v-if="showServerValidationError"
-               aria-live="assertive">This field does not match our records.</div>
-          
-          <PhnInput label='Personal Health Number (PHN)'
-                    v-model='phn'
-                    className='mt-3' />
-          <div class="text-danger"
-               v-if="$v.phn.$dirty && !$v.phn.required"
-               aria-live="assertive">Field is required</div>
-          <div class="text-danger"
-               v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
-               aria-live="assertive">This is not a valid Personal Health Number.</div>
-          <div class="text-danger"
-               v-if="showServerValidationError"
-               aria-live="assertive">This field does not match our records.</div>
+  <div>
+    <PageContent>
+      <div class="container pt-3 pt-sm-5 mb-3">
+        <h1>Your Information</h1>
+        <p>To complete the Out of Province form, you must provide your PHN number that matches your last name.</p>
+        <hr/>
+        <div class="row">
+          <div class="col-sm-7">
+            <Input label='Last name'
+                  v-model='lastName'
+                  maxlength='30'/>
+            <div class="text-danger"
+                v-if="$v.lastName.$dirty && !$v.lastName.required"
+                aria-live="assertive">Last name is required.</div>
+            <div class="text-danger"
+                v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
+                aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
+            <div class="text-danger"
+                v-if="showServerValidationError"
+                aria-live="assertive">This field does not match our records.</div>
+            
+            <PhnInput label='Personal Health Number (PHN)'
+                      v-model='phn'
+                      className='mt-3' />
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && !$v.phn.required"
+                aria-live="assertive">Personal Health Number is required.</div>
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
+                aria-live="assertive">This is not a valid Personal Health Number.</div>
+            <div class="text-danger"
+                v-if="showServerValidationError"
+                aria-live="assertive">This field does not match our records.</div>
 
-          <Input label='Email (Optional)'
-                 v-model='email'
-                 className='mt-3' />
+            <Input label='Email (Optional)'
+                  v-model='email'
+                  className='mt-3' />
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && !$v.email.emailValidator"
+                aria-live="assertive">Email must have the following format: yourname@example.com.</div>
 
-          <Input label='Phone number'
-                 v-model='phone'
-                 className='mt-3' />
-          <div class="text-danger"
-               v-if="$v.phone.$dirty && !$v.phone.required"
-               aria-live="assertive">Field is required</div>
-          <br/>
-        </div>
-        <div class="col-sm-5 mt-3 mt-sm-0">
-          <h4>Tip</h4>
-          <p>Tip content here</p>
+            <PhoneNumberInput id='phone-input'
+                              label='Phone number'
+                              v-model='phone'
+                              className='mt-3' />
+            <div class="text-danger"
+                v-if="$v.phone.$dirty && !$v.phone.required"
+                aria-live="assertive">Phone number is required</div>
+            <div class="text-danger"
+                v-if="$v.phn.$dirty && $v.phone.required && !$v.phone.phoneValidator"
+                aria-live="assertive">The phone number you entered is not valid.</div>
+            <br/>
+          </div>
+          <div class="col-sm-5 mt-3 mt-sm-0">
+            <h4>Tip</h4>
+            <p>Tip content here</p>
+          </div>
         </div>
       </div>
-      
-    </div>
+    </PageContent>
     <ContinueBar @continue='nextPage()'
                  :hasLoader='isLoading'/>
   </div>
@@ -62,8 +70,10 @@ import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
+import PageContent from '../components/PageContent.vue';
 import {
   PhnInput,
+  PhoneNumberInput,
   phnValidator
 } from 'common-lib-vue';
 import { required } from 'vuelidate/lib/validators';
@@ -77,8 +87,25 @@ import {
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
-  const result = criteria.test(value);
-  return result;
+  return criteria.test(value);
+};
+
+const emailValidator = (value) => {
+  if (!value) {
+    return true;
+  }
+  const criteria = /^(\S+)@(\S+)\.(\S+)$/;
+  return criteria.test(value);
+};
+
+const phoneValidator = (value) => {
+  const stripped = value
+        .replace(/_/g, '') // remove underlines
+        .replace(/\s/g, '') // spaces
+        .replace(/\+|-/g, '') // + or - symbol
+        .replace('(', '')
+        .replace(')', '');
+  return stripped.length === 10;
 };
 
 export default {
@@ -86,7 +113,9 @@ export default {
   components: {
     ContinueBar,
     Input,
+    PageContent,
     PhnInput,
+    PhoneNumberInput,
   },
   data: () => {
     return {
@@ -115,9 +144,11 @@ export default {
         phnValidation: phnValidator,
       },
       email: {
+        emailValidator,
       },
       phone: {
         required,
+        phoneValidator,
       }
     };
   },

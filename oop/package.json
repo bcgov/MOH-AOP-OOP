@@ -1,6 +1,6 @@
 {
   "name": "oop",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@bcgov/bootstrap-theme": "github:bcgov/bootstrap-theme",
-    "common-lib-vue": "^1.0.0",
+    "common-lib-vue": "^1.0.3",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "vue": "^2.6.11",
     "vue-country-region-select": "^2.0.14",
+    "vue-masked-input": "^0.5.2",
     "vue-router": "^3.2.0",
     "vue-text-mask": "^6.1.2",
     "vuelidate": "^0.7.6",
