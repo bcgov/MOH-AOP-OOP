@@ -3,11 +3,9 @@
     <Header :title='pageTitle' />
     <div class="container">
       <ProgressBar :currentPath='$router.currentRoute.path'
-                   :routes='stepRoutes'/>
+                  :routes='stepRoutes'/>
     </div>
-    <div class="pt-3 pt-sm-5">
-      <router-view/>
-    </div>
+    <router-view/>
     <Footer :version='version' />
   </div>
 </template>
