@@ -1,69 +1,70 @@
 <template>
-  <div class="move-info">
-    <div class="container">
-      <h1>Move Information</h1>
-      <p>
-        <b>If you are moving within Canada</b>, coverage is provided for the remainder of the month in which you leave the province plus the next two months. If required, your coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.
-        <br><br>
-        <b>If you are moving outside Canada</b>, coverage is provided for the remainder of the month in which you leave the province.</p>
-      <hr/>
+  <div>
+    <PageContent>
+      <div class="container pt-3 pt-sm-5 mb-3">
+        <h1>Move Information</h1>
+        <p>
+          <b>If you are moving within Canada</b>, coverage is provided for the remainder of the month in which you leave the province plus the next two months. If required, your coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.
+          <br><br>
+          <b>If you are moving outside Canada</b>, coverage is provided for the remainder of the month in which you leave the province.</p>
+        <hr/>
 
-      <h2 class='mt-5 mb-0'>Move dates</h2>
-      <hr/>
-      <div class="row">
-        <div class="col-md-6">
-          <DateInput label="Permanent move from B.C."
-                     className='mt-3'
-                     v-model="moveFromBCDate"/>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Permanent move from B.C. is required.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">Permanent move from B.C. must be before the arrival in new destination.</div>
-          <DateInput label="Arrival in new destination"
-                     className='mt-3'
-                     v-model="arriveDestinationDate"/>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Arrival in new destination is required.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">Arrival in new destination must be after the permanent move from B.C.</div>
+        <h2 class='mt-4 mb-0'>Move dates</h2>
+        <hr/>
+        <div class="row">
+          <div class="col-md-6">
+            <DateInput label="Permanent move from B.C."
+                      className='mt-3'
+                      v-model="moveFromBCDate"/>
+            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Permanent move from B.C. is required.</div>
+            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
+            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
+            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">Permanent move from B.C. must be before the arrival in new destination.</div>
+            <DateInput label="Arrival in new destination"
+                      className='mt-3'
+                      v-model="arriveDestinationDate"/>
+            <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Arrival in new destination is required.</div>
+            <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
+            <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
+            <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">Arrival in new destination must be after the permanent move from B.C.</div>
+          </div>
+        </div>
+        
+        <h2 class='mt-5 mb-0'>New address</h2>
+        <hr/>
+        <div class="row">
+          <div class="col-md-6">
+            <CountryInput label='Country:'
+                  className='mt-3'
+                  v-model="country" />
+            <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+            <Input label='Address line 1:'
+                    className='mt-3'
+                    v-model="addressLine1"
+                    maxlength='25' />
+            <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
+            <Input label='Address line 2 (Optional):'
+                    className='mt-3'
+                    v-model="addressLine2"
+                    maxlength='25' />
+            <Input label='Province:'
+                  className='mt-3'
+                  v-model="province" />
+            <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+            <Input label='City:'
+                  className='mt-3'
+                  v-model="city" />
+            <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+            <PostalCodeInput id="postalCode"
+              label="Postal code"
+              className='mt-3'
+              v-model="postalCode"/>
+            <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
+            <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+          </div>
         </div>
       </div>
-      
-      <h2 class='mt-5 mb-0'>New address</h2>
-      <hr/>
-      <div class="row">
-        <div class="col-md-6">
-          <CountryInput label='Country:'
-                 className='mt-3'
-                 v-model="country" />
-          <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
-          <Input label='Address line 1:'
-                  className='mt-3'
-                  v-model="addressLine1"
-                  maxlength='25' />
-          <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
-          <Input label='Address line 2 (Optional):'
-                  className='mt-3'
-                  v-model="addressLine2"
-                  maxlength='25' />
-          <Input label='Province:'
-                 className='mt-3'
-                 v-model="province" />
-          <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-          <Input label='City:'
-                 className='mt-3'
-                 v-model="city" />
-          <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
-          <PostalCodeInput id="postalCode"
-            label="Postal code"
-            className='mt-3'
-            v-model="postalCode"/>
-          <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
-          <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
-        </div>
-      </div>
-
-    </div>
+    </PageContent>
     <ContinueBar @continue="validateFields()"/>
   </div>
 </template>
@@ -82,6 +83,7 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
+import PageContent from '../components/PageContent.vue';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
@@ -101,6 +103,7 @@ export default {
     ContinueBar,
     DateInput,
     Input,
+    PageContent,
     PostalCodeInput,
     CountryInput,
   },
