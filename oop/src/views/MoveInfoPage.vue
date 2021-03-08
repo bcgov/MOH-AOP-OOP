@@ -15,17 +15,17 @@
           <DateInput label="Permanent move from B.C."
                      className='mt-3'
                      v-model="moveFromBCDate"/>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Permanent move from B.C. is required.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">The date of permanent move from B.C. must be before the date of arrival.</div>
+          <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">Permanent move from B.C. must be before the arrival in new destination.</div>
           <DateInput label="Arrival in new destination"
                      className='mt-3'
                      v-model="arriveDestinationDate"/>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">Arrival in new destination is required.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
           <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">The date of arrival must be after the date of permanent move from B.C.</div>
+          <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.afterDateValidator" aria-live="assertive">Arrival in new destination must be after the permanent move from B.C.</div>
         </div>
       </div>
       
@@ -36,12 +36,12 @@
           <CountryInput label='Country:'
                  className='mt-3'
                  v-model="country" />
-          <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
           <Input label='Address line 1:'
                   className='mt-3'
                   v-model="addressLine1"
                   maxlength='25' />
-          <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
           <Input label='Address line 2 (Optional):'
                   className='mt-3'
                   v-model="addressLine2"
@@ -49,16 +49,16 @@
           <Input label='Province:'
                  className='mt-3'
                  v-model="province" />
-          <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
           <Input label='City:'
                  className='mt-3'
                  v-model="city" />
-          <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
           <PostalCodeInput id="postalCode"
-            label="Postal code:"
-            className='my-3'
+            label="Postal code"
+            className='mt-3'
             v-model="postalCode"/>
-          <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Field is required.</div>
+          <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
           <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
         </div>
       </div>
