@@ -35,11 +35,13 @@
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
           <Input label='Address line 1'
                   className='mt-3'
-                  v-model="addressLine1" />
+                  v-model="addressLine1"
+                  maxlength='25' />
           <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Field is required.</div>
           <Input label='Address line 2 (optional)'
                   className='mt-3'
-                  v-model="addressLine2" />
+                  v-model="addressLine2"
+                  maxlength='25' />
           <Input label='Province/State/Region'
                  className='mt-3'
                  v-model="province" />
