@@ -15,7 +15,8 @@ export const SET_PHONE = 'setPhone';
 export const SET_MOVE_FROM_BC_DATE = 'setMoveFromBCDate';
 export const SET_ARRIVE_DESTINATION_DATE = 'setArriveDestinationDate';
 export const SET_COUNTRY = 'setCountry';
-export const SET_ADDRESS_LINE = 'setAddressLine';
+export const SET_ADDRESS_LINE1 = 'setAddressLine1';
+export const SET_ADDRESS_LINE2 = 'setAddressLine2';
 export const SET_PROVINCE = 'setProvince';
 export const SET_CITY = 'setCity';
 export const SET_POSTAL_CODE = 'setPostalCode';
@@ -39,7 +40,8 @@ export default {
       moveFromBCDate: null,
       arriveDestinationDate: null,
       country: null,
-      addressLine: null,
+      addressLine1: null,
+      addressLine2: null,
       province: null,
       city: null,
       postalCode: null,
@@ -76,8 +78,11 @@ export default {
     setCountry(state, payload) {
       state.country = payload;
     },
-    setAddressLine(state, payload) {
-      state.addressLine = payload;
+    setAddressLine1(state, payload) {
+      state.addressLine1 = payload;
+    },
+    setAddressLine2(state, payload) {
+      state.addressLine2 = payload;
     },
     setProvince(state, payload) {
       state.province = payload;
@@ -113,7 +118,8 @@ export default {
       commit(SET_MOVE_FROM_BC_DATE, null);
       commit(SET_ARRIVE_DESTINATION_DATE, null);
       commit(SET_COUNTRY, null);
-      commit(SET_ADDRESS_LINE, null);
+      commit(SET_ADDRESS_LINE1, null);
+      commit(SET_ADDRESS_LINE2, null);
       commit(SET_PROVINCE, null);
       commit(SET_CITY, null);
       commit(SET_POSTAL_CODE, null);
@@ -141,8 +147,11 @@ export default {
     setCountry({ commit }, country) {
       commit(SET_COUNTRY, country);
     },
-    setAddressLine({ commit }, addressLine) {
-      commit(SET_ADDRESS_LINE, addressLine);
+    setAddressLine1({ commit }, addressLine1) {
+      commit(SET_ADDRESS_LINE1, addressLine1);
+    },
+    setAddressLine2({ commit }, addressLine2) {
+      commit(SET_ADDRESS_LINE2, addressLine2);
     },
     setProvince({ commit }, province) {
       commit(SET_PROVINCE, province);

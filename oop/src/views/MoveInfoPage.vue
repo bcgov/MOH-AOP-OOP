@@ -29,14 +29,17 @@
       <h2 class='mt-4'>What is the new address information?</h2>
       <div class="row">
         <div class="col-md-6">
-          <CountryInput label='CountryS'
+          <CountryInput label='Country'
                  className='mt-3'
                  v-model="country" />
           <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Field is required.</div>
-          <Input label='Address line'
+          <Input label='Address line 1'
                   className='mt-3'
-                  v-model="addressLine" />
-          <div class="text-danger" v-if="$v.addressLine.$dirty && !$v.addressLine.required" aria-live="assertive">Field is required.</div>
+                  v-model="addressLine1" />
+          <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Field is required.</div>
+          <Input label='Address line 2 (optional)'
+                  className='mt-3'
+                  v-model="addressLine2" />
           <Input label='Province/State/Region'
                  className='mt-3'
                  v-model="province" />
@@ -76,7 +79,8 @@ import Input from '../components/Input.vue';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
-  SET_ADDRESS_LINE,
+  SET_ADDRESS_LINE1,
+  SET_ADDRESS_LINE2,
   SET_ARRIVE_DESTINATION_DATE,
   SET_COUNTRY,
   SET_CITY,
@@ -98,7 +102,8 @@ export default {
     return {
       moveFromBCDate: null,
       arriveDestinationDate: null,
-      addressLine: null,
+      addressLine1: null,
+      addressLine2: null,
       country: null,
       province: null,
       city: null,
@@ -109,7 +114,8 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.addressLine = this.$store.state.form.addressLine;
+    this.addressLine1 = this.$store.state.form.addressLine1;
+    this.addressLine2 = this.$store.state.form.addressLine2;
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -132,7 +138,7 @@ export default {
       country: {
         required,
       },
-      addressLine: {
+      addressLine1: {
         required,
       },
       province: {
@@ -163,7 +169,8 @@ export default {
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE, this.addressLine);
+        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE1, this.addressLine1);
+        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE2, this.addressLine2);
         this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
         this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
         this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
