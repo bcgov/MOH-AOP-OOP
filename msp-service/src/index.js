@@ -1,16 +1,19 @@
 var https = require('https'),
-    http = require('http'),
-    util = require('util'),
-    path = require('path'),
-    fs = require('fs'),
-    colors = require('colors'),
-    winston = require('winston'),
-    jwt = require('jsonwebtoken'),
-    url = require('url'),
-    stringify = require('json-stringify-safe'),
-    express = require('express'),
-    moment = require('moment'),
-    proxy = require('http-proxy-middleware');
+  http = require('http'),
+  util = require('util'),
+  path = require('path'),
+  fs = require('fs'),
+  colors = require('colors'),
+  winston = require('winston'),
+  jwt = require('jsonwebtoken'),
+  url = require('url'),
+  stringify = require('json-stringify-safe'),
+  express = require('express'),
+  moment = require('moment');
+
+const proxy = require('http-proxy-middleware');
+console.log('proxy:', proxy);
+console.log('typeof proxy:', typeof proxy);
 
 // verbose replacement
 function logProvider(provider) {
