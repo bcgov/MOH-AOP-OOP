@@ -59,6 +59,11 @@ app.get('/hello', function (req, res) {
     res.status(200).end();
 });
 
+// health and readiness check
+app.get('/health', function (req, res) {
+    res.status(200).end();
+});
+
 //
 // CAPTCHA Authorization, ALWAYS first
 //
@@ -119,16 +124,16 @@ app.use('/', function (req, res, next) {
         // find the noun(s)
         var nounIndex = pathnameParts.indexOf("MSPDESubmitAttachment");
         if (nounIndex < 0) {
-            nounIndex = pathnameParts.indexOf("MSPDESubmitApplication") ;
+            nounIndex = pathnameParts.indexOf("MSPDESubmitApplication");
         }
         if (nounIndex < 0) {
-            nounIndex = pathnameParts.indexOf("submit-attachment") ;
+            nounIndex = pathnameParts.indexOf("submit-attachment");
         }
         if (nounIndex < 0) {
-            nounIndex = pathnameParts.indexOf("submit-application") ;
+            nounIndex = pathnameParts.indexOf("submit-application");
         }
         if (nounIndex < 0) {
-            nounIndex = pathnameParts.indexOf("accLetterIntegration") ;
+            nounIndex = pathnameParts.indexOf("accLetterIntegration");
         }
         if (nounIndex < 0) {
             nounIndex = pathnameParts.indexOf("siteregIntegration");
