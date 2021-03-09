@@ -97,9 +97,9 @@ export default {
 <style scoped>
 .progress-bar-component {
   flex: 1;
-  padding: 1em 2em;
+  padding: 1.5em 0em;
   min-height: 2em;
-  /* min-width: 650px; */
+  height: 65px;
 }
 .progress-bar-container {
   background-color: #adb5bd;
