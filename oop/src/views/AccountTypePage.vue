@@ -173,9 +173,7 @@ const atLeastOnePhnValidator = (phns) => {
   return false; 
 };
 
-const phnIsUniqueValidator = (phns, vm) => {
-  console.log('PHNs: ', phns, 'VM: ', vm);
-  debugger;
+const phnIsUniqueValidator = (phns) => {
   if (!phns) {
     return true;
   }
@@ -183,8 +181,10 @@ const phnIsUniqueValidator = (phns, vm) => {
 
   for (let i=0; i<phns.length; i++) {
     const phn = phns[i].value;
-    console.log('PHN MAP: ', phnMap);
-    if (phn && phnMap[phn] && phns[phn].length > 0 && phnMap[phn] === phn) {
+
+    if (!phn || phn === '') {
+      continue;
+    } else if (phnMap[phn] === phn) {
       return false;
     } else {
       phnMap[phn] = phn;
