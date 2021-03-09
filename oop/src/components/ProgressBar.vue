@@ -1,6 +1,6 @@
 <template>
   <div v-if='isCurrentPathInSteps'
-       class='component-container'>
+       class='progress-bar-component'>
     <div class='progress-bar-container'>
       <div class='progress-bar' :style='progressBarStyles'></div>
     </div>
@@ -95,7 +95,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.component-container {
+.progress-bar-component {
   flex: 1;
   padding: 1em 2em;
   min-height: 2em;
@@ -145,7 +145,7 @@ export default {
   font-weight: bold;
 }
 @media only screen and (max-width: 575px) {
-  .component-container {
+  .progress-bar-component {
     padding: 0;
   }
   .progress-bar-container,

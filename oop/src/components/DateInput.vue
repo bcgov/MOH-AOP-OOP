@@ -1,7 +1,7 @@
 <template>
   <div :class='className'>
     <fieldset>
-      <legend class="date--legend">{{label}}:</legend>
+      <legend class="date--legend">{{label}}</legend>
       <div class="date-row">
         <label for="monthSelect">Month:</label>
         <select id="monthSelect"
@@ -14,27 +14,29 @@
           <option v-for="(month, index) in monthList" :key="index" :value="index">{{month}}</option>
         </select>
 
-        <label for="dayInput">Day:</label>
-        <input id="dayInput"
-              type="number"
-              class="form-control dayInput"
-              placeholder="Day"
-              v-model="day"
-              @blur="onBlurDay($event.target.value)"
-              :disabled='disabled'
-              maxlength="2"
-              autocomplete="off"/>
+        <label v-bind:for="'dayInput' + label">Day:</label>
+        <input 
+            :id="'dayInput' + label"
+            class="form-control dayInput"
+            placeholder="DD"
+            v-model="day"
+            @blur="onBlurDay($event.target.value)"
+            :disabled='disabled'
+            maxlength="2"
+            v-on:keypress="isNumber($event)"
+            >
 
-        <label for="yearInput">Year:</label>
-        <input id="yearInput"
-              type="number"
-              class="form-control yearInput"
-              placeholder="Year"
-              v-model="year"
-              @blur="onBlurYear($event.target.value)"
-              :disabled='disabled'
-              maxlength="4"
-              autocomplete="off"/>
+        <label v-bind:for="'yearInput' + label">Year:</label>
+        <input 
+            :id="'yearInput' + label"
+            class="form-control dayInput"
+            placeholder="YYYY"
+            v-model="year"
+            @blur="onBlurYear($event.target.value)"
+            :disabled='disabled'
+            maxlength="4"
+            v-on:keypress="isNumber($event)"
+            >
       </div>
     </fieldset>
   </div>
@@ -67,21 +69,14 @@ export const distantPastValidator = (date) => {
 export const beforeDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return isBefore(date, dateToCompare);
+    return (isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
   };
 };
 
 export const afterDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return isAfter(date, dateToCompare);
-  };
-};
-
-export const sameDateValidator = (compareDateName) => {
-  return (date, vm) => {
-    const dateToCompare = vm[compareDateName];
-    return isSameDay(date, dateToCompare);
+    return (isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
   };
 };
 
@@ -116,6 +111,15 @@ export default {
     }
   },
   methods: {
+    isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
     processDate() {
       if (this.canCreateDate()) {
         const year = this.getNumericValue(this.year);

@@ -20,8 +20,10 @@ export const scrollTo = (top, smoothScroll) => {
 };
 
 export const scrollToError = () => {
-  const el = document.querySelector('.text-danger');
-  scrollToElement(el, true);
+  setTimeout(() => {
+    const el = document.querySelector('.text-danger');
+    scrollToElement(el, true);
+  }, 0);
 }
 
 export const scrollToElement = (element, smoothScroll) => {
