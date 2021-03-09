@@ -11,7 +11,7 @@ var https = require('https'),
   express = require('express'),
   moment = require('moment');
 
-const proxy = require('http-proxy-middleware');
+var proxy = require('http-proxy-middleware');
 console.log('proxy:', proxy);
 console.log('typeof proxy:', typeof proxy);
 
