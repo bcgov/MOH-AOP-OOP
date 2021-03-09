@@ -9,7 +9,7 @@ var https = require('https'),
     url = require('url'),
     stringify = require('json-stringify-safe'),
     express = require('express'),
-    moment = require('moment');
+    moment = require('moment'),
     proxy = require('http-proxy-middleware');
 
 // verbose replacement
