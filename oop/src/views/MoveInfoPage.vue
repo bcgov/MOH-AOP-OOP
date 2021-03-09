@@ -3,10 +3,8 @@
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Move Information</h1>
-        <p>
-          <b>If you are moving within Canada</b>, coverage is provided for the remainder of the month in which you leave the province plus the next two months. If required, your coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.
-          <br><br>
-          <b>If you are moving outside Canada</b>, coverage is provided for the remainder of the month in which you leave the province.</p>
+        <p><b>If you are moving within Canada,</b> coverage is provided for the remainder of the month in which you leave the province plus the next two months. If required, your coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.
+        <p><b>If you are moving outside Canada,</b> coverage is provided for the remainder of the month in which you leave the province.</p>
         <hr/>
 
         <h2 class='mt-4 mb-0'>Move dates</h2>

@@ -3,7 +3,7 @@
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Account holder or dependent</h1>
-        <p>This form must be submitted by the Account Holder in the event of a family move. If this form is submitted by a dependent on an account, coverage will be cancelled for that dependent only.</p>
+        <p>This form must be submitted by the Account Holder for a family move. If submitted by a dependent, coverage will be cancelled for that dependent only.</p>
         <hr/>
         <h2>Are you the account holder or a dependent?</h2>
 

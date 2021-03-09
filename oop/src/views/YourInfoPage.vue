@@ -3,7 +3,6 @@
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Your Information</h1>
-        <p>To complete the Out of Province form, you must provide your PHN number that matches your last name.</p>
         <hr/>
         <div class="row">
           <div class="col-sm-7">
