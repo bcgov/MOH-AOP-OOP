@@ -94,7 +94,7 @@
                   class='ml-3'>No</label>
             <div class="text-danger"
                 v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
-                aria-live="assertive">This field is required.</div>
+                aria-live="assertive">Please select one of the options above.</div>
             <br/>
 
             <div v-if='isAllDependentsMoving === "N"'
@@ -112,11 +112,19 @@
                     <div class="text-danger"
                         v-if="v.value.$dirty && !v.value.phnValidator"
                         aria-live="assertive">This is not a valid Personal Health Number.</div>
+                    <div class="text-danger"
+                        v-if="v.value.$dirty && index === 0 && !$v.dependentPhns.atLeastOnePhnValidator"
+                        aria-live="assertive">Dependent Personal Health Number is required.</div>
                   </div>
                 </div>
 
                 <Button label='+ Add dependent'
-                        @click='addDependentField()'/>
+                        @click='addDependentField()'
+                        className='mb-3'/>
+
+                <div class="text-danger"
+                    v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
+                    aria-live="assertive">Personal Health Numbers must be unique.</div>
               </div>
             </div>
           </div>
@@ -143,6 +151,7 @@ import {
   SET_ACCOUNT_TYPE,
   SET_PERSON_MOVING,
   SET_IS_ALL_DEPENDENTS_MOVING,
+  SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 
@@ -152,6 +161,38 @@ const localPhnValidator = (value) => {
   }
   return phnValidator(value);
 };
+
+const atLeastOnePhnValidator = (phns) => {
+  if (phns) {
+    for (let i=0; i<phns.length; i++) {
+      if (phns[i].value && phns[i].value !== '') {
+        return true;
+      }
+    }
+  }
+  return false; 
+};
+
+const phnIsUniqueValidator = (phns) => {
+  if (!phns) {
+    return true;
+  }
+  let phnMap = {};
+
+  for (let i=0; i<phns.length; i++) {
+    const phn = phns[i].value;
+
+    if (!phn || phn === '') {
+      continue;
+    } else if (phnMap[phn] === phn) {
+      return false;
+    } else {
+      phnMap[phn] = phn;
+    }
+  }
+  return true;
+};
+
 const MIN_PHN_DEPENDENT_FIELDS = 5;
 
 export default {
@@ -176,6 +217,7 @@ export default {
     this.accountType = this.$store.state.form.accountType;
     this.personMoving = this.$store.state.form.personMoving;
     this.isAllDependentsMoving = this.$store.state.form.isAllDependentsMoving;
+    this.dependentPhns = this.$store.state.form.dependentPhns;
 
     setTimeout(() => {
       this.isPageLoaded = true;
@@ -208,9 +250,11 @@ export default {
           validations.dependentPhns = {
             $each: {
               value: {
-                phnValidator: localPhnValidator
+                phnValidator: localPhnValidator,
               },
-            }
+            },
+            atLeastOnePhnValidator,
+            phnIsUniqueValidator,
           };
         }
       }
@@ -237,6 +281,7 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
       this.$store.dispatch(formModule + '/' + SET_PERSON_MOVING, this.personMoving);
       this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, this.isAllDependentsMoving);
+      this.$store.dispatch(formModule + '/' + SET_DEPENDENT_PHNS, this.dependentPhns);
     },
     nextPage() {
       const path = routes.MOVE_INFO_PAGE.path;
