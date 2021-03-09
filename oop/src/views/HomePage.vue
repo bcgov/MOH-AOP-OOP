@@ -5,7 +5,7 @@
         <h1>MSP permanent move outside of British Columbia</h1>
         <hr/>
         <h2>Who can complete this form</h2>
-        <p>If you will no longer be a resident of British Columbia (B.C.), you must notify Health Insurance BC (HIBC) of the date of your departure and your new address</p>
+        <p>If you are permanently moving out of British Columbia (B.C.), you must notify Health Insurance BC (HIBC) of your departure date and your new address.</p>
         <ul>
           <li><b>If you are moving within Canada:</b> coverage is provided for the balance of the month in which you leave the province plus two consecutive months. If required, coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.</li> <br>
           <li><b>If you are moving outside Canada:</b> coverage is provided for the balance of the month in which you leave the province.</li>
