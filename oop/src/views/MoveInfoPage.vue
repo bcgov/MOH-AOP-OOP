@@ -180,7 +180,6 @@ export default {
   methods: {
     validateFields() {
       this.$v.$touch()
-      console.log(this.postalCode);
       if (this.$v.$invalid) {
         scrollToError();
         return;
