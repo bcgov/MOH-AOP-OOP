@@ -32,34 +32,47 @@
         <hr/>
         <div class="row">
           <div class="col-md-6">
-            <CountryInput label='Country:'
+            <CountryInput label='Country'
                   className='mt-3'
                   v-model="country" />
             <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
-            <Input label='Address line 1:'
+            <Input label='Address line 1 (optional)'
                     className='mt-3'
                     v-model="addressLine1"
                     maxlength='25' />
-            <div class="text-danger" v-if="country === 'CA' && $v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
-            <Input label='Address line 2 (Optional):'
+            <Input label='Address line 2 (optional)'
                     className='mt-3'
                     v-model="addressLine2"
                     maxlength='25' />
-            <Input label='Province:'
-                  className='mt-3'
-                  v-model="province" />
-            <div class="text-danger" v-if="country === 'CA' && $v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-            <Input label='City:'
-                  className='mt-3'
-                  v-model="city"
-                  maxlength='35' />
-            <div class="text-danger" v-if="country === 'CA' && $v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
-            <PostalCodeInput id="postalCode"
-              label="Postal code"
-              className='mt-3'
-              v-model="postalCode"/>
-            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
-            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+            <div v-if="country === 'CA'">
+              <Input label='Province'
+                    className='mt-3'
+                    v-model="province" />
+              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+              <Input label='City (optional)'
+                    className='mt-3'
+                    v-model="city"
+                    maxlength='35' />
+              <PostalCodeInput id="postalCode"
+                    label="Postal code (optional)"
+                    className='mt-3'
+                    v-model="postalCode"/>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+            </div>
+            <div v-else>
+              <Input label='Province/state/region (optional)'
+                    className='mt-3'
+                    v-model="province"
+                    maxlength='35' />
+              <Input label='City/town (optional)'
+                    className='mt-3'
+                    v-model="city"
+                    maxlength='35' />
+              <Input label='Postal code/zip code (optional)'
+                    className='mt-3'
+                    v-model="postalCode"
+                    maxlength='35' />
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +108,13 @@ import {
   SET_POSTAL_CODE,
   SET_MOVE_FROM_BC_DATE,
 } from '../store/modules/form';
+
+const emptyPostalCodeValidator = (value) => {
+  if (value === null || value === '') {
+    return true;
+  }
+  return bcPostalCodeValidator(value);
+};
 
 export default {
   name: 'MoveInfoPage',
@@ -148,18 +168,11 @@ export default {
       },
     }
     if (this.country === 'CA'){
-      validations.addressLine1 = {
-        required,
-      },
-      validations.city = {
-        required,
-      },
       validations.province = {
         required,
       },
       validations.postalCode = {
-        required,
-        bcPostalCodeValidator
+        bcPostalCodeValidator: emptyPostalCodeValidator
       };
     }
     return validations;
@@ -167,6 +180,7 @@ export default {
   methods: {
     validateFields() {
       this.$v.$touch()
+      console.log(this.postalCode);
       if (this.$v.$invalid) {
         scrollToError();
         return;
