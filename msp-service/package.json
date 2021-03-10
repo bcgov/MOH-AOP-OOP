@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/MOH-MSP-Enrolment.git"
+    "url": "git+https://github.com/bcgov/MOH-AOP-OOP.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/bcgov/msp-service/issues"
   },
-  "homepage": "https://github.com/bcgov/MOH-MSP-Enrolment#msp-service/readme",
+  "homepage": "https://github.com/bcgov/MOH-AOP-OOP#msp-service/readme",
   "dependencies": {
     "colors": "^1.1.2",
     "express": "^4.15.0",
