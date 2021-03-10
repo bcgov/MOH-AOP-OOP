@@ -9,9 +9,9 @@ var https = require('https'),
   url = require('url'),
   stringify = require('json-stringify-safe'),
   express = require('express'),
-  moment = require('moment');
+  moment = require('moment'),
+  createProxy = require('http-proxy-middleware');
 
-var proxy = require('http-proxy-middleware');
 console.log('proxy:', proxy);
 console.log('typeof proxy:', typeof proxy);
 
@@ -192,7 +192,7 @@ if (process.env.USE_MUTUAL_TLS &&
 //
 // Create a HTTP Proxy server with a HTTPS target
 //
-var proxy = proxy({
+var proxy = createProxy({
     target: process.env.TARGET_URL || "http://localhost:3000",
     agent: myAgent || http.globalAgent,
     secure: process.env.SECURE_MODE || false,
