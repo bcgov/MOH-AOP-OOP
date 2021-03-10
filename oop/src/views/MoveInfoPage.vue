@@ -40,7 +40,7 @@
                     className='mt-3'
                     v-model="addressLine1"
                     maxlength='25' />
-            <div class="text-danger" v-if="$v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
+            <div class="text-danger" v-if="country === 'CA' && $v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
             <Input label='Address line 2 (Optional):'
                     className='mt-3'
                     v-model="addressLine2"
@@ -48,17 +48,18 @@
             <Input label='Province:'
                   className='mt-3'
                   v-model="province" />
-            <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+            <div class="text-danger" v-if="country === 'CA' && $v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
             <Input label='City:'
                   className='mt-3'
-                  v-model="city" />
-            <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+                  v-model="city"
+                  maxlength='35' />
+            <div class="text-danger" v-if="country === 'CA' && $v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
             <PostalCodeInput id="postalCode"
               label="Postal code"
               className='mt-3'
               v-model="postalCode"/>
-            <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
-            <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
+            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
           </div>
         </div>
       </div>
@@ -145,19 +146,21 @@ export default {
       country: {
         required,
       },
-      addressLine1: {
+    }
+    if (this.country === 'CA'){
+      validations.addressLine1 = {
         required,
       },
-      province: {
+      validations.city = {
         required,
       },
-      city: {
+      validations.province = {
         required,
       },
-      postalCode: {
+      validations.postalCode = {
         required,
         bcPostalCodeValidator
-      },
+      };
     }
     return validations;
   },
@@ -169,10 +172,10 @@ export default {
         return;
       }
       this.isLoading = true;
-
+      
       setTimeout(() => {
         this.isLoading = false;
-
+        
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
