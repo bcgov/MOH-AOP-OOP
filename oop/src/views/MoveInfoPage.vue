@@ -47,7 +47,8 @@
             <div v-if="country === 'CA'">
               <Input label='Province'
                     className='mt-3'
-                    v-model="province" />
+                    v-model="province" 
+                    maxlength='35' />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
               <Input label='City (optional)'
                     className='mt-3'
@@ -57,7 +58,7 @@
                     label="Postal code (optional)"
                     className='mt-3'
                     v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Must be a valid non-BC postal code.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
@@ -84,7 +85,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { postalCodeValidator } from '../helpers/validators';
+import { bcPostalCodeValidator, postalCodeValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -113,7 +114,7 @@ const emptyPostalCodeValidator = (value) => {
   if (value === null || value === '') {
     return true;
   }
-  return postalCodeValidator(value);
+  return postalCodeValidator(value) && !bcPostalCodeValidator(value);
 };
 
 export default {
