@@ -57,7 +57,7 @@
                     label="Postal code (optional)"
                     className='mt-3'
                     v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
@@ -84,7 +84,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator } from '../helpers/validators';
+import { postalCodeValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -113,7 +113,7 @@ const emptyPostalCodeValidator = (value) => {
   if (value === null || value === '') {
     return true;
   }
-  return bcPostalCodeValidator(value);
+  return postalCodeValidator(value);
 };
 
 export default {
@@ -172,7 +172,7 @@ export default {
         required,
       },
       validations.postalCode = {
-        bcPostalCodeValidator: emptyPostalCodeValidator
+        postalCodeValidator: emptyPostalCodeValidator
       };
     }
     return validations;
