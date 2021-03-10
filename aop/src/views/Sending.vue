@@ -40,8 +40,21 @@ export default {
   created() {
     submitApplication(this.$store.state)
       .then(res => {
-        this.$store.dispatch(SET_API_RESPONSE, res);
-        this.nextPage();
+        if (res.data && res.data.returnCode === "success") {
+          console.log('res:', res);
+          this.$store.dispatch(SET_API_RESPONSE, res.data.op_reference_number);
+          this.nextPage();
+        } else if (res.data && res.data.returnCode === "failure"){
+          if (res.data.dberrorMessage) {
+            this.$store.dispatch(SET_API_RESPONSE, res.data.dberrorMessage);
+          } else {
+            this.$store.dispatch(SET_API_RESPONSE, res.data.validationError);
+          }
+          this.navigateToErrorPage();
+        } else {
+          this.$store.dispatch(SET_API_RESPONSE, "Unknown error");
+          this.navigateToErrorPage();
+        }
       })
       .catch(err => {
         this.$store.dispatch(SET_API_RESPONSE, err);

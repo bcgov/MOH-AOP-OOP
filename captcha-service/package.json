@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/MOH-MSP-Enrolment.git"
+    "url": "git+https://github.com/bcgov/MOH-AOP-OOP.git"
   },
   "keywords": [
     "MyGovBC",
@@ -52,9 +52,9 @@
   "author": "Mark Lisé <contact@digitalspace.ca> (http://www.digitalspace.ca/)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bcgov/MOH-MSP-Enrolment/captcha-service/issues"
+    "url": "https://github.com/bcgov/MOH-AOP-OOP/captcha-service/issues"
   },
-  "homepage": "https://github.com/bcgov/MOH-MSP-Enrolment/captcha-service#readme",
+  "homepage": "https://github.com/bcgov/MOH-AOP-OOP/captcha-service#readme",
   "engines": {
     "node": ">=10.0.0"
   },

@@ -155,10 +155,8 @@ const convertAttachments = images => {
   const output = [];
   images.map((image, i) => {
     const partial = {
-      contentType: image.contentType,
       attachmentDocumentType: image.documentType,
       attachmentOrder: (i + 1).toString(),
-      description: "",
       attachmentUuid: image.uuid
     };
     output.push(partial);

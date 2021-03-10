@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/MOH-MSP-Enrolment.git"
+    "url": "git+https://github.com/bcgov/MOH-AOP-OOP.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bcgov/MOH-MSP-Enrolment/issues"
+    "url": "https://github.com/bcgov/MOH-AOP-OOP/issues"
   },
-  "homepage": "https://github.com/bcgov/MOH-MSP-Enrolment/address-service/#readme",
+  "homepage": "https://github.com/bcgov/MOH-AOP-OOP/address-service/#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "easy-soap-request": "^3.2.0",

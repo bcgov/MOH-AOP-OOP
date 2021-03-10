@@ -12,7 +12,7 @@ oc process -f openshift/templates/cicd.yaml \
 You should see a few secrets have been created (and a service account):
 
 ```console
-➜  MOH-MSP-Enrolment git:(main) ✗ oc get secrets |grep github
+➜  MOH-AOP-OOP git:(main) ✗ oc get secrets |grep github
 github-cicd-dockercfg-pn4x6   kubernetes.io/dockercfg
 github-cicd-token-c74j8       kubernetes.io/service-account-token
 github-cicd-token-p69fn       kubernetes.io/service-account-token

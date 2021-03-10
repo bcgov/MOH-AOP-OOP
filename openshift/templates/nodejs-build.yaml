@@ -18,7 +18,7 @@ parameters:
     description: Ouput version
     value: "v10-latest"
   - name: GIT_URI
-    value: https://github.com/bcgov/MOH-MSP-Enrolment.git
+    value: https://github.com/bcgov/MOH-AOP-OOP.git
   - name: GIT_REF
     value: master
   - name: PG_VERSION

@@ -147,13 +147,16 @@ export default {
     return {
       selectedForm: "",
       date: "",
-      referenceNumber: "A123456789",
+      referenceNumber: "",
       submitterData: [],
       submissionData: [],
       supportingDocuments: []
     };
   },
   created() {
+    console.log(this.$store.state.apiResponse);
+    this.referenceNumber = this.$store.state.apiResponse;
+
     const date = new Date();
     const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const month = monthList[date.getMonth()];

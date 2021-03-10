@@ -125,9 +125,6 @@ export const schema = {
     AttachmentType: {
       type: 'object',
       properties: {
-        contentType: {
-          $ref: '#/definitions/ContentType'
-        },
         attachmentDocumentType: {
           type: 'string',
           enum: [
@@ -146,7 +143,6 @@ export const schema = {
         }
       },
       required: [
-        'contentType',
         'attachmentDocumentType',
         'attachmentUuid'
       ]
