@@ -3,7 +3,13 @@ import Vuelidate from 'vuelidate';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'core-js/es/number';
+
+library.add(faPencilAlt);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Vuelidate);
 

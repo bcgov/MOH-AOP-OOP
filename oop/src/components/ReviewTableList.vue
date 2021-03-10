@@ -1,34 +1,43 @@
 <template>
   <div>
-    <div class="row mt-3">
-      <div class="col-10">
-        <h2>Your Information</h2>
+    <div class="row align-items-end mt-3">
+      <div class="col-9">
+        <h2 class="mb-2">Your Information</h2>
       </div>
       <div v-if='showEditButtons'
-          class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToYourInfoPage()">Edit</a>
+          class="col-3 text-right">
+        <a href="javascript:void(0)"
+           @click="navigateToYourInfoPage()">Edit 
+          <font-awesome-icon icon="pencil-alt" />
+        </a>
       </div>
     </div>
     <ReviewTable :elements='yourInfoTableData' />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Account Type</h2>
+    <div class="row align-items-end mt-5">
+      <div class="col-9">
+        <h2 class="mb-2">Account Type</h2>
       </div>
       <div v-if='showEditButtons'
-          class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToAccountTypePage()">Edit</a>
+          class="col-3 text-right">
+        <a href="javascript:void(0)"
+           @click="navigateToAccountTypePage()">Edit
+          <font-awesome-icon icon="pencil-alt" />
+        </a>
       </div>
     </div>
     <ReviewTable :elements='accountTypeTableData' />
 
-    <div class="row mt-5">
-      <div class="col-10">
-        <h2>Move Information</h2>
+    <div class="row align-items-end mt-5">
+      <div class="col-9">
+        <h2 class="mb-2">Move Information</h2>
       </div>
       <div v-if='showEditButtons'
-          class="col-2 text-right">
-        <a href="javascript:void(0)" @click="navigateToMoveInfoPage()">Edit</a>
+          class="col-3 text-right">
+        <a href="javascript:void(0)"
+           @click="navigateToMoveInfoPage()">Edit
+          <font-awesome-icon icon="pencil-alt" />
+        </a>
       </div>
     </div>
     <ReviewTable :elements='moveInfoTableData' />
@@ -173,3 +182,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a {
+  text-decoration: none;
+}
+</style>
