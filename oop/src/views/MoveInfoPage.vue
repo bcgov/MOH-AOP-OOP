@@ -51,7 +51,8 @@
             <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
             <Input label='City:'
                   className='mt-3'
-                  v-model="city" />
+                  v-model="city"
+                  maxlength='35' />
             <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
             <PostalCodeInput id="postalCode"
               label="Postal code"
