@@ -1,6 +1,6 @@
 {
   "name": "oop",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,7 +15,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
-    "common-lib-vue": "^1.0.5",
+    "common-lib-vue": "^1.0.6",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "vue": "^2.6.11",

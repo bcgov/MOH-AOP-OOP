@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="className">
     <div class="row align-items-end mt-3">
       <div class="col-9">
         <h2 class="mb-2">Your Information</h2>
@@ -59,6 +59,10 @@ export default {
     showEditButtons: {
       type: Boolean,
       default: false,
+    },
+    className: {
+      type: String,
+      default: '',
     }
   },
   computed: {
