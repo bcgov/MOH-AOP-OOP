@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log('Submit form.');
       this.isLoading = true;
 
       setTimeout(() => {
