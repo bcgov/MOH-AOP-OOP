@@ -45,11 +45,12 @@
                     v-model="addressLine2"
                     maxlength='25' />
             <div v-if="country === 'CA'">
-              <Input label='Province'
+              <ProvinceInput label='Province'
                     className='mt-3'
                     v-model="province" 
                     maxlength='35' />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Province must be outside BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
                     v-model="city"
@@ -85,7 +86,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator, postalCodeValidator } from '../helpers/validators';
+import { bcPostalCodeValidator, postalCodeValidator, nonBCValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -94,6 +95,7 @@ import DateInput, {
   afterDateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
+import ProvinceInput from '../components/ProvinceInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -126,6 +128,7 @@ export default {
     PageContent,
     PostalCodeInput,
     CountryInput,
+    ProvinceInput,
   },
   data: () => {
     return {
@@ -171,6 +174,7 @@ export default {
     if (this.country === 'CA'){
       validations.province = {
         required,
+        nonBCValidator
       },
       validations.postalCode = {
         postalCodeValidator: emptyPostalCodeValidator
