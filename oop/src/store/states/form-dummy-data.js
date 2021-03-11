@@ -10,7 +10,7 @@ export default {
   arriveDestinationDate: new Date('2021-06-02'),
   country: 'CA',
   addressLine1: '123 Main St.',
-  province: 'BC',
+  province: 'AB',
   city: 'Victoria',
-  postalCode: 'V8V 8V8',
+  postalCode: 'A8V 8V8',
 };

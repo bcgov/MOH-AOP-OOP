@@ -18,6 +18,8 @@
 import PageContent from '../components/PageContent.vue';
 import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
+import pageStateService from '../services/page-state-service';
+import { routes } from '../router/routes';
 
 export default {
   name: 'ReviewPage',
@@ -35,7 +37,18 @@ export default {
     submitForm() {
       console.log('Submit form.');
       this.isLoading = true;
+
+      setTimeout(() => {
+        this.isLoading = false;
+
+        this.navigateToSubmissionPage();
+      }, 1000);
     },
+    navigateToSubmissionPage() {
+      const path = routes.SUBMISSION_PAGE.path;
+      pageStateService.visitPage(path);
+      this.$router.push(path);
+    }
   }
 }
 </script>
