@@ -51,7 +51,7 @@
                     v-model="province" 
                     maxlength='35' />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Province must be outside BC.</div>
+              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
                     v-model="city"
@@ -60,7 +60,7 @@
                     label="Postal code (optional)"
                     className='mt-3'
                     v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Must be a valid non-BC postal code.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
@@ -143,6 +143,7 @@ export default {
       city: null,
       postalCode: null,
       showServerValidationError: false,
+      isPageLoaded: false,
     }
   },
   created() {
@@ -154,6 +155,10 @@ export default {
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
     this.postalCode = this.$store.state.form.postalCode;
+
+    setTimeout(() => {
+      this.isPageLoaded = true;
+    }, 0);
   },
   validations() {
     const validations = {
@@ -214,6 +219,17 @@ export default {
       }, 2000);
     }
   },
+  watch: {
+    country(newValue) {
+      if (this.isPageLoaded && newValue){
+        this.addressLine1 = null;
+        this.addressLine2 = null;
+        this.province = null;
+        this.city = null;
+        this.postalCode = null;
+      }
+    },
+  }
   // Required in order to block back navigation.
   // beforeRouteLeave(to, from, next) {
   //   if (to.path === routes.HOME_PAGE.path) {
