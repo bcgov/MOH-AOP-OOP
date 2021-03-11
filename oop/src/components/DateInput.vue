@@ -52,7 +52,6 @@ import {
   isBefore,
   getDaysInMonth,
   isSameDay,
-  isValid,
 } from 'date-fns';
 
 const MAX_YEAR_RANGE = 150;
@@ -70,21 +69,15 @@ export const distantPastValidator = (date) => {
 export const beforeDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return (isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
+    return (dateToCompare == null || isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
   };
 };
 
 export const afterDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return (isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
+    return (dateToCompare == null || isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
   };
-};
-
-export const dateValidator = (date) => {
-  console.log(this.day);
-  console.log(this.year);
-  return isValid(date);
 };
 
 export default {
