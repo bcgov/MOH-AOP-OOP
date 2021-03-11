@@ -5,5 +5,12 @@ export default {
   phone: '250-123-4567',
   accountType: 'AH',
   personMoving: 'AH_DEP',
-  isAllDependentsMoving: 'N',
+  isAllDependentsMoving: 'Y',
+  moveFromBCDate: new Date('2021-06-01'),
+  arriveDestinationDate: new Date('2021-06-02'),
+  country: 'CA',
+  addressLine1: '123 Main St.',
+  province: 'BC',
+  city: 'Victoria',
+  postalCode: 'V8V 8V8',
 };
