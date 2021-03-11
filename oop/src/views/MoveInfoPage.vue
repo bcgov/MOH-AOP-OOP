@@ -141,6 +141,7 @@ export default {
       city: null,
       postalCode: null,
       showServerValidationError: false,
+      isPageLoaded: false,
     }
   },
   created() {
@@ -152,6 +153,10 @@ export default {
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
     this.postalCode = this.$store.state.form.postalCode;
+
+    setTimeout(() => {
+      this.isPageLoaded = true;
+    }, 0);
   },
   validations() {
     const validations = {
@@ -212,7 +217,7 @@ export default {
   },
   watch: {
     country(newValue) {
-      if (newValue) {
+      if (this.isPageLoaded && newValue){
         this.addressLine1 = null;
         this.addressLine2 = null;
         this.province = null;
