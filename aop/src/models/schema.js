@@ -25,7 +25,7 @@ export const schema = {
     },
     PhoneNumberType: {
       type: 'string',
-      pattern: '^[2-9]([0-9]{9})$'
+      pattern: '^([0-9]{10})$'
     },
     OrganizationType: {
       type: 'string',

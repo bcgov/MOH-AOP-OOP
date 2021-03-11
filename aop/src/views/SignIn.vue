@@ -1,39 +1,60 @@
 <template>
   <div>
-    <h1>Sign In</h1>
-    <div class="card">
-      <h3>
-        Sign in with a BC Services Card enabled Diagnostic Facilities Services
-        User ID
-      </h3>
-      <Button
-        label="Log in with a BC Services Card"
-        styling="bcgov-normal-blue btn mb-5"
-        v-on:button-click="nextPage"
-      />
-    </div>
+    <Header
+      :heading="
+        'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
+      "
+    />
+    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <main class="container py-5 px-2">
+      <h1>Sign in to upload forms</h1>
+      <ul class="mt-3">
+        <li>Diagnostic Facility Services Assignment of Payment &#38; Medical Director Authorization (HLTH 1908)</li>
+        <li>Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)</li>
+        <li>Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)</li>
+      </ul>
+      <hr>
+      <div class="card">
+        <h3>
+          Sign in with a BC Services Card enabled Diagnostic Facilities Services
+          User ID
+        </h3>
+        <Button
+          label="Log in with a BC Services Card"
+          styling="bcgov-normal-blue btn"
+          v-on:button-click="nextPage"
+        />
+        <p class="mb-3">A <a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card">BC Services Card</a> provides secure access to provincial government services and access to Diagnostic Facilities Services. <a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/log-in-with-card/help">Learn how to use your BC Services Card to log in.</a></p>
+      </div>
+    </main>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Header from "../components/Header";
+import ProgressBar from "../components/ProgressBar";
 import Button from "../components/Button";
-import pageStateService from "../services/page-state-service";
-import routes from "../router/routes";
+import Footer from "../components/Footer";
+import { routes, stepRoutes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 
 export default {
   name: "SignIn",
   components: {
-    Button
+    Header,
+    ProgressBar,
+    Button,
+    Footer
   },
-  created() {
-    pageStateService.setPageComplete(routes.SIGN_IN.path);
+  data: () => {
+    return {
+      stepRoutes
+    }
   },
   methods: {
     nextPage() {
-      pageStateService.setPageIncomplete(routes.SIGN_IN.path);
       const path = routes.SUBMISSION_INFO.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     }
@@ -53,9 +74,18 @@ export default {
   border-bottom: 1px solid #444;
   padding: 8px 16px;
   border-radius: 5px 5px 0 0;
+  color: black;
 }
 
 .card .btn {
   margin: 8px;
+}
+
+.card p {
+  margin: 8px;
+}
+
+.card p a {
+  text-decoration: none;
 }
 </style>

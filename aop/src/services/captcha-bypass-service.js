@@ -7,13 +7,11 @@ const bypassCaptcha = async uuid => {
 
   try {
     const encryptedCaptcha = await axios.post(captchaUrl, { nonce: uuid });
-    console.log('encryptedCaptcha:', encryptedCaptcha);
     const response = await axios.post(verifyUrl, {
       nonce: uuid,
       answer: "irobot",
       validation: encryptedCaptcha.validation
     });
-    console.log('response:', response);
 
     token = response.data.jwt;
     

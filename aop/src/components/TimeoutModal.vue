@@ -35,8 +35,7 @@
 
 <script>
 import Button from "./Button";
-import pageStateService from "../services/page-state-service";
-import routes from "../router/routes";
+import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 
 export default {
@@ -95,9 +94,7 @@ export default {
       // Navigate to session end
       clearInterval(this.interval);
       this.$store.dispatch('resetForm');
-      pageStateService.setPageIncomplete(this.$router.path);
       const path = routes.SESSION_END.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },

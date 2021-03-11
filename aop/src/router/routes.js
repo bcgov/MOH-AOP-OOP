@@ -50,4 +50,10 @@ export const routes = {
     component: SessionEnd
   }
 };
-export default routes;
+
+export const stepRoutes = [
+  { ...routes.SIGN_IN },
+  { ...routes.SUBMISSION_INFO },
+  { ...routes.REVIEW },
+  { ...routes.CONFIRMATION }
+];

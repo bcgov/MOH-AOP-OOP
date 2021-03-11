@@ -33,8 +33,7 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import routes from "../router/routes";
-import pageStateService from "../services/page-state-service";
+import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 
 export default {
@@ -54,9 +53,7 @@ export default {
   },
   methods: {
     navigateToSignIn() {
-      pageStateService.setPageIncomplete(routes.SUBMISSION_ERROR.path);
       const path = routes.SIGN_IN.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     }
@@ -80,25 +77,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-main {
-  padding: 0;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-}
-
-.bottom {
-  position: fixed;
-  right: 40px;
-  bottom: 0;
-}
-
-.mb {
-  margin-bottom: 80px;
 }
 </style>

@@ -172,11 +172,9 @@ export const submitApplication = async state => {
   const AOPApplication = prepareAOPApplication(state);
   const token = await bypassCaptcha(AOPApplication.uuid);
 
-  console.log('token:', token);
-
-  console.log('AOPApplication:', AOPApplication);
-
   return new Promise((resolve, reject) => {
+    if (!token) reject("Invalid token");
+
     // validating application data before sending
     validate(AOPApplication).then(async validator => {
       
@@ -196,7 +194,7 @@ export const submitApplication = async state => {
         ...state.uploadedForms,
         ...state.uploadedCredentials
       ])
-        .then(attachmentsResponse => {
+        .then(() => {
           return sendAOPApplication(token, AOPApplication)
             .then(applicationResponse => {
               // contains reference number

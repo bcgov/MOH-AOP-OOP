@@ -3,7 +3,7 @@ import { schema } from '../models/schema';
 
 const ajv = new Ajv({ schemaId: '$id', allErrors: true });
 
-const validate = async app => {
+const validate = async () => {
   const validator = ajv.compile(schema);
   try {
     return validator;

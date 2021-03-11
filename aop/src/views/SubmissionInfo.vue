@@ -1,7 +1,7 @@
 <template>
   <form>
     <h1>Select a Form</h1>
-    <br> 
+    <br />
     <h2>Please select the form that you want to submit:</h2>
     <hr />
     <p>You can upload and send ONLY ONE form at a time.</p>
@@ -12,57 +12,57 @@
     </p>
     <div class="form-group">
       <div class="radio-group">
-      <input
-        type="radio"
-        id="AOP"
-        value="AOP"
-        name="uploadType"
-        v-model="uploadType"
-        @change="resetFiles"
-        required
-        aria-required="true"
-      />&nbsp;
-      <label for="AOP"
-        >Diagnostic Facility Services Assignment of Payment and Medical Director
-        Authorization (HLTH 1908)</label
+        <input
+          type="radio"
+          id="AOP"
+          value="AOP"
+          name="uploadType"
+          v-model="uploadType"
+          @change="resetFiles"
+          required
+          aria-required="true"
+        />&nbsp;
+        <label for="AOP"
+          >Diagnostic Facility Services Assignment of Payment and Medical
+          Director Authorization (HLTH 1908)</label
+        >
+      </div>
+      <br />
+      <div class="radio-group">
+        <input
+          type="radio"
+          id="COAOP"
+          value="COAOP"
+          name="uploadType"
+          v-model="uploadType"
+          @change="resetFiles"
+        />&nbsp;
+        <label for="COAOP"
+          >Diagnostic Facility Services Cancellation of Assignment of Payment
+          (HLTH 1926)</label
+        >
+      </div>
+      <br />
+      <div class="radio-group">
+        <input
+          type="radio"
+          id="OOPA"
+          value="OOPA"
+          name="uploadType"
+          v-model="uploadType"
+          @change="resetFiles"
+        />&nbsp;
+        <label for="OOPA"
+          >Laboratory Services Outpatient Operator Payment Administration (HLTH
+          2999)</label
+        >
+      </div>
+      <div
+        class="text-danger"
+        v-if="$v.uploadType.$dirty && !$v.uploadType.required"
       >
-    </div>
-    <br />
-    <div class="radio-group">
-      <input
-        type="radio"
-        id="COAOP"
-        value="COAOP"
-        name="uploadType"
-        v-model="uploadType"
-        @change="resetFiles"
-      />&nbsp;
-      <label for="COAOP"
-        >Diagnostic Facility Services Cancellation of Assignment of Payment
-        (HLTH 1926)</label
-      >
-    </div>
-    <br />
-    <div class="radio-group">
-      <input
-        type="radio"
-        id="OOPA"
-        value="OOPA"
-        name="uploadType"
-        v-model="uploadType"
-        @change="resetFiles"
-      />&nbsp;
-      <label for="OOPA"
-        >Laboratory Services Outpatient Operator Payment Administration (HLTH
-        2999)</label
-      >
-    </div>
-    <div
-      class="text-danger"
-      v-if="$v.uploadType.$dirty && !$v.uploadType.required"
-    >
-      Field is required
-    </div>
+        Field is required
+      </div>
     </div>
     <div v-if="uploadType === 'AOP'">
       <h3>
@@ -99,8 +99,8 @@
         class="text-danger"
         v-if="
           $v.credentialsRequired.$dirty &&
-            uploadType === 'AOP' &&
-            !$v.credentialsRequired.required
+          uploadType === 'AOP' &&
+          !$v.credentialsRequired.required
         "
       >
         Field is required
@@ -158,8 +158,8 @@
     <div
       v-if="
         (uploadType === 'AOP' && credentialsRequired !== '') ||
-          uploadType === 'COAOP' ||
-          uploadType === 'OOPA'
+        uploadType === 'COAOP' ||
+        uploadType === 'OOPA'
       "
     >
       <p>To submit a completed form:</p>
@@ -187,8 +187,8 @@
     <div
       v-if="
         (uploadType === 'AOP' && credentialsRequired !== '') ||
-          uploadType === 'COAOP' ||
-          uploadType === 'OOPA'
+        uploadType === 'COAOP' ||
+        uploadType === 'OOPA'
       "
     >
       <h3><em>Submitter Information</em></h3>
@@ -197,7 +197,7 @@
         Provide details below about the person submitting the form (clerk,
         administrator, etc.)
       </p>
-      <Input :label="'First Name'" v-model="firstName" :disabled="true"/>
+      <Input :label="'First Name'" v-model="firstName" :disabled="true" />
       <Input
         :label="'Last Name'"
         :className="'mt-3'"
@@ -221,7 +221,11 @@
       </div>
       <div
         class="text-danger"
-        v-if="$v.emailAddress.$dirty && $v.emailAddress.required &&!$v.emailAddress.isValidEmail"
+        v-if="
+          $v.emailAddress.$dirty &&
+          $v.emailAddress.required &&
+          !$v.emailAddress.isValidEmail
+        "
         aria-live="assertive"
       >
         Invalid email address
@@ -252,7 +256,7 @@
             /\d/,
             /\d/,
             /\d/,
-            /\d/
+            /\d/,
           ]"
         >
         </masked-input>
@@ -363,7 +367,11 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryNumber.$dirty && $v.primaryNumber.alphaNum && !$v.primaryNumber.minLength"
+          v-if="
+            $v.primaryNumber.$dirty &&
+            $v.primaryNumber.alphaNum &&
+            !$v.primaryNumber.minLength
+          "
           aria-live="assertive"
         >
           Invalid practitioner number
@@ -385,7 +393,11 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryLastName.$dirty && $v.primaryLastName.required && !$v.primaryLastName.isValidLastName"
+          v-if="
+            $v.primaryLastName.$dirty &&
+            $v.primaryLastName.required &&
+            !$v.primaryLastName.isValidLastName
+          "
           aria-live="assertive"
         >
           Invalid practitioner last name
@@ -416,7 +428,11 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryNumber.$dirty && $v.primaryNumber.alphaNum && !$v.primaryNumber.minLength"
+          v-if="
+            $v.primaryNumber.$dirty &&
+            $v.primaryNumber.alphaNum &&
+            !$v.primaryNumber.minLength
+          "
           aria-live="assertive"
         >
           Invalid primary practitioner number
@@ -438,7 +454,11 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.primaryLastName.$dirty && $v.primaryLastName.required && !$v.primaryLastName.isValidLastName"
+          v-if="
+            $v.primaryLastName.$dirty &&
+            $v.primaryLastName.required &&
+            !$v.primaryLastName.isValidLastName
+          "
           aria-live="assertive"
         >
           Invalid primary practitioner last name
@@ -459,19 +479,27 @@
         </div>
         <div
           class="text-danger"
-          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && !$v.secondaryNumber.minLength"
+          v-if="
+            $v.secondaryNumber.$dirty &&
+            $v.secondaryNumber.alphaNum &&
+            !$v.secondaryNumber.minLength
+          "
           aria-live="assertive"
         >
           Invalid secondary practitioner number
         </div>
         <div
           class="text-danger"
-          v-if="$v.secondaryLastName.$dirty && $v.secondaryLastName.isValidSecondaryLastName && !$v.secondaryLastName.hasSecondaryNumber"
+          v-if="
+            $v.secondaryLastName.$dirty &&
+            $v.secondaryLastName.isValidSecondaryLastName &&
+            !$v.secondaryLastName.hasSecondaryNumber
+          "
           aria-live="assertive"
         >
-          Secondary practitioner number is required if supplying a secondary practitioner last name
+          Secondary practitioner number is required if supplying a secondary
+          practitioner last name
         </div>
-        
 
         <Input
           :label="'Secondary Practitioner Last Name (optional)'"
@@ -481,17 +509,26 @@
         />
         <div
           class="text-danger"
-          v-if="$v.secondaryLastName.$dirty && !$v.secondaryLastName.isValidSecondaryLastName"
+          v-if="
+            $v.secondaryLastName.$dirty &&
+            !$v.secondaryLastName.isValidSecondaryLastName
+          "
           aria-live="assertive"
         >
           Invalid secondary practitioner last name
         </div>
         <div
           class="text-danger"
-          v-if="$v.secondaryNumber.$dirty && $v.secondaryNumber.alphaNum && $v.secondaryNumber.minLength && !$v.secondaryNumber.hasSecondaryLastName"
+          v-if="
+            $v.secondaryNumber.$dirty &&
+            $v.secondaryNumber.alphaNum &&
+            $v.secondaryNumber.minLength &&
+            !$v.secondaryNumber.hasSecondaryLastName
+          "
           aria-live="assertive"
         >
-          Secondary practitioner last name is required if supplying a secondary practitioner number 
+          Secondary practitioner last name is required if supplying a secondary
+          practitioner number
         </div>
       </div>
 
@@ -506,7 +543,6 @@
           name="comments"
         />
       </div>
-
 
       <div class="mt-3 mb">
         <h3>
@@ -571,8 +607,8 @@
                 class="mt text-danger"
                 v-if="
                   $v.credentials.$dirty &&
-                    credentialsRequired &&
-                    !$v.credentials.required
+                  credentialsRequired &&
+                  !$v.credentials.required
                 "
                 aria-live="assertive"
               >
@@ -596,11 +632,11 @@
         </div>
       </div>
     </div>
-      <Button
-        label="Continue"
-        :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
-        v-on:button-click="nextPage"
-      />
+    <Button
+      label="Continue"
+      :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
+      v-on:button-click="nextPage"
+    />
   </form>
 </template>
 
@@ -609,15 +645,8 @@ import Button from "../components/Button";
 import Input from "../components/Input";
 import MaskedInput from "vue-text-mask";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
-import {
-  required,
-  minLength,
-  alpha,
-  alphaNum,
-  email
-} from "vuelidate/lib/validators";
-import pageStateService from "../services/page-state-service";
-import routes from "../router/routes";
+import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
+import { routes } from "../router/routes";
 import {
   SET_FIRST_NAME,
   SET_LAST_NAME,
@@ -634,37 +663,17 @@ import {
   SET_SECONDARY_LAST_NAME,
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
-  SET_ORGANIZATION
+  SET_ORGANIZATION,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
-
-const isValidPhone = ph => {
-  return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(ph);
-}
-
-const isValidEmail = email => {
-  return /^(?:[A-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9]{2,}(?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i.test(email);
-}
-
-const isValidLastName = name => {
-  return /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
-}
-
-const isValidSecondaryLastName = name => {
-  return name === '' || /^([A-Z]+([.]?[ ]?[']?[-]?[A-Z]?)*)$/gi.test(name);
-}
-
-const hasSecondaryNumber = (value, vm) => {
-  const hasNumber = vm.secondaryNumber.length > 0;
-  const hasNeither = vm.secondaryNumber.length < 1 && value.length < 1;
-  return hasNeither || hasNumber;
-}
-
-const hasSecondaryLastName = (value, vm) => {
-  const hasLastName = vm.secondaryLastName.length > 0;
-  const hasNeither = vm.secondaryLastName.length < 1 && value.length < 1;
-  return hasNeither || hasLastName;
-}
+import {
+  isValidEmail,
+  isValidPhone,
+  isValidLastName,
+  isValidSecondaryLastName,
+  hasSecondaryNumber,
+  hasSecondaryLastName,
+} from "../helpers/validators";
 
 export default {
   name: "SubmissionInfo",
@@ -672,233 +681,206 @@ export default {
     Button,
     FileUploader,
     Input,
-    MaskedInput
+    MaskedInput,
   },
   data: () => {
     return {
-      uploadType: '',
-      credentialsRequired: '',
-      firstName: '',
-      lastName: '',
-      emailAddress: '',
-      phoneNumber: '',
-      organization: '',
-      facility: '',
+      uploadType: "",
+      credentialsRequired: "",
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      organization: "",
+      facility: "",
       files: null,
       credentials: null,
-      submissionType: '',
-      primaryNumber: '',
-      primaryLastName: '',
-      secondaryNumber: '',
-      secondaryLastName: '',
-      comments: ''
+      submissionType: "",
+      primaryNumber: "",
+      primaryLastName: "",
+      secondaryNumber: "",
+      secondaryLastName: "",
+      comments: "",
     };
   },
   validations() {
-    if (this.uploadType === 'AOP' && this.credentialsRequired === 'true') {
+    if (this.uploadType === "AOP" && this.credentialsRequired === "true") {
       return {
         uploadType: {
-          required
+          required,
         },
         credentialsRequired: {
-          required
+          required,
         },
         firstName: {
           required,
-          alpha
+          alpha,
         },
         lastName: {
           required,
-          alpha
+          alpha,
         },
         phoneNumber: {
-          isValidPhone
+          isValidPhone,
         },
         emailAddress: {
           required,
-          isValidEmail
+          isValidEmail,
         },
         organization: {
-          required
+          required,
         },
         files: {
-          required
+          required,
         },
         credentials: {
-          required
+          required,
         },
         submissionType: {
-          required
+          required,
         },
         primaryNumber: {
           required,
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
         },
         primaryLastName: {
           required,
-          isValidLastName
-        },
-        secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5),
-          hasSecondaryLastName
-        },
-        secondaryLastName: {
-          isValidSecondaryLastName,
-          hasSecondaryNumber
+          isValidLastName,
         }
       };
-    } else if (this.uploadType === 'AOP') {
+    } else if (this.uploadType === "AOP") {
       return {
         uploadType: {
-          required
+          required,
         },
         credentialsRequired: {
-          required
+          required,
         },
         firstName: {
           required,
-          alpha
+          alpha,
         },
         lastName: {
           required,
-          alpha
+          alpha,
         },
         phoneNumber: {
-          isValidPhone
+          isValidPhone,
         },
         emailAddress: {
           required,
-          isValidEmail
+          isValidEmail,
         },
         organization: {
-          required
+          required,
         },
         files: {
-          required
+          required,
         },
         submissionType: {
-          required
+          required,
         },
         primaryNumber: {
           required,
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
         },
         primaryLastName: {
           required,
-          isValidLastName
+          isValidLastName,
         },
-        secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5),
-          hasSecondaryLastName
-        },
-        secondaryLastName: {
-          isValidSecondaryLastName,
-          hasSecondaryNumber
-        }
       };
-    } else if (this.uploadType === 'COAOP') {
+    } else if (this.uploadType === "COAOP") {
       return {
         uploadType: {
-          required
+          required,
         },
         firstName: {
           required,
-          alpha
+          alpha,
         },
         lastName: {
           required,
-          alpha
+          alpha,
         },
         phoneNumber: {
-          isValidPhone
+          isValidPhone,
         },
         emailAddress: {
           required,
-          isValidEmail
+          isValidEmail,
         },
         organization: {
-          required
+          required,
         },
         files: {
-          required
+          required,
         },
         primaryNumber: {
           required,
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
         },
         primaryLastName: {
           required,
-          isValidLastName
-        },
-        secondaryNumber: {
-          alphaNum,
-          minLength: minLength(5),
-          hasSecondaryLastName
-        },
-        secondaryLastName: {
-          isValidSecondaryLastName,
-          hasSecondaryNumber
+          isValidLastName,
         }
       };
-    } else if (this.uploadType === 'OOPA') {
+    } else if (this.uploadType === "OOPA") {
       return {
         uploadType: {
-          required
+          required,
         },
         firstName: {
           required,
-          alpha
+          alpha,
         },
         lastName: {
           required,
-          alpha
+          alpha,
         },
         phoneNumber: {
-          isValidPhone
+          isValidPhone,
         },
         emailAddress: {
           required,
-          isValidEmail
+          isValidEmail,
         },
         facility: {
-          required
+          required,
         },
         files: {
-          required
+          required,
         },
         submissionType: {
-          required
+          required,
         },
         primaryNumber: {
           required,
           alphaNum,
-          minLength: minLength(5)
+          minLength: minLength(5),
         },
         primaryLastName: {
           required,
-          isValidLastName
+          isValidLastName,
         },
         secondaryNumber: {
           alphaNum,
           minLength: minLength(5),
-          hasSecondaryLastName
+          hasSecondaryLastName,
         },
         secondaryLastName: {
           isValidSecondaryLastName,
-          hasSecondaryNumber
-        }
+          hasSecondaryNumber,
+        },
       };
     } else {
       return {
         uploadType: {
-          required
-        }
-      }
+          required,
+        },
+      };
     }
   },
   created() {
@@ -920,10 +902,10 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
-    handlePhoneChange: function() {
+    handlePhoneChange() {
       this.$v.phoneNumber.$touch();
     },
-    nextPage: function() {
+    nextPage() {
       this.$v.$touch();
 
       if (this.$v.$invalid) {
@@ -937,7 +919,7 @@ export default {
       this.$store.dispatch(SET_LAST_NAME, this.lastName);
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
-      if (this.uploadType === 'AOP' || this.uploadType === 'COAOP') {
+      if (this.uploadType === "AOP" || this.uploadType === "COAOP") {
         this.$store.dispatch(SET_ORGANIZATION, this.organization);
       } else {
         this.$store.dispatch(SET_FACILITY, this.facility);
@@ -948,25 +930,23 @@ export default {
       this.$store.dispatch(SET_SECONDARY_NUMBER, this.secondaryNumber);
       this.$store.dispatch(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
       this.$store.dispatch(SET_COMMENTS, this.comments);
-      this.files.forEach(x => x.documentType = 'AOPFORM');
+      this.files.forEach(x => (x.documentType = "AOPFORM"));
       this.$store.dispatch(SET_UPLOADED_FORMS, this.files);
-      this.credentials.forEach(x => x.documentType = 'AOPCREDENTIAL');
+      this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
       this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.credentials);
 
-      pageStateService.setPageIncomplete(routes.SUBMISSION_INFO.path);
       const path = routes.REVIEW.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },
-    resetFiles: function() {
+    resetFiles() {
       this.files = [];
       this.credentials = [];
-      this.credentialsRequired = '';
+      this.credentialsRequired = "";
     },
-    resetCredentials: function() {
+    resetCredentials() {
       this.credentials = [];
-    }
+    },
   },
   computed: {
     uploadTitle() {
@@ -980,9 +960,6 @@ export default {
         default:
           return "";
       }
-    },
-    validPhone: function() {
-      return isValidPhone(this.phoneNumber);
     }
   }
 };
@@ -990,16 +967,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.text-danger {
-  color: #b33238 !important;
-}
-
 hr {
   margin-top: 0.5rem;
-}
-
-label {
-  margin-bottom: 0;
 }
 
 h1,
@@ -1017,11 +986,6 @@ h6 {
   padding: 8px 15px;
 }
 
-input[type="radio"] {
-  width: 18px;
-  height: 18px;
-}
-
 .upload-container {
   @media (max-width: 767.98px) {
     padding-left: 0;
@@ -1031,10 +995,6 @@ input[type="radio"] {
   > * {
     height: 100%;
   }
-}
-
-.mb {
-  margin-bottom: 80px;
 }
 
 .mt {
@@ -1056,6 +1016,12 @@ input[type="radio"] {
   align-items: center;
   * {
     margin-right: 12px;
+  }
+}
+
+@media (min-width: 576px){
+  input.form-control {
+      width: 50%;
   }
 }
 </style>

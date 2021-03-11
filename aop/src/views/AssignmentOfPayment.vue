@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header
+    <SignOutHeader
       :heading="
         'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
       "
@@ -17,16 +17,16 @@
 
 <script>
 import Footer from "../components/Footer";
-import Header from "../components/Header";
+import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
-import stepRoutes from "../router/step-routes";
+import { stepRoutes } from "../router/routes";
 import TimeoutModal from "../components/TimeoutModal";
 
 export default {
   name: "AssignmentOfPayment",
   components: {
     Footer,
-    Header,
+    SignOutHeader,
     ProgressBar,
     TimeoutModal
   },
@@ -46,16 +46,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-main {
-  padding: 0;
-}
-
-.footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-}
-</style>

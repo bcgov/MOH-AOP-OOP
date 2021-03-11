@@ -21,8 +21,7 @@
 <script>
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import routes from "../router/routes";
-import pageStateService from "../services/page-state-service";
+import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { SET_API_RESPONSE } from '../store';
 
@@ -41,8 +40,7 @@ export default {
     submitApplication(this.$store.state)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
-          console.log('res:', res);
-          this.$store.dispatch(SET_API_RESPONSE, res.data.op_reference_number);
+          this.$store.dispatch(SET_API_RESPONSE, res.data.uuid);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
           if (res.data.dberrorMessage) {
@@ -63,15 +61,11 @@ export default {
   },
   methods: {
     nextPage() {
-      pageStateService.setPageIncomplete(routes.SENDING.path);
       const path = routes.CONFIRMATION.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
     navigateToErrorPage() {
-      pageStateService.setPageIncomplete(routes.SENDING.path);
       const path = routes.SUBMISSION_ERROR.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
     },
   },
@@ -80,23 +74,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-main {
-  padding: 0;
-}
 
-.footer {
-  position: fixed;
-  width: 100vw;
-  bottom: 0;
-}
-
-/* From a resource */
+/* Spinner from a resource */
 .lds-ring {
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
 }
+
 .lds-ring div {
   box-sizing: border-box;
   display: block;
@@ -109,15 +95,19 @@ main {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #eee transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
   animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);

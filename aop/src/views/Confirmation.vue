@@ -132,29 +132,25 @@
 <script>
 import Button from "../components/Button";
 import Table from "../components/Table";
-import routes from "../router/routes";
-import pageStateService from "../services/page-state-service";
+import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
-import { SET_UPLOAD_TYPE, SET_CREDENTIALS_REQUIRED, SET_SUBMISSION_TYPE, SET_PRIMARY_LAST_NAME, SET_PRIMARY_NUMBER, SET_SECONDARY_LAST_NAME, SET_SECONDARY_NUMBER, SET_UPLOADED_FORMS, SET_UPLOADED_CREDENTIALS, SET_COMMENTS } from '../store/index';
+import { NEW_FORM } from '../store/index';
+import SummaryMixin from "../mixins/SummaryMixin";
 
 export default {
   name: "Confirmation",
+  mixins: [SummaryMixin],
   components: {
     Button,
     Table
   },
   data: () => {
     return {
-      selectedForm: "",
       date: "",
       referenceNumber: "",
-      submitterData: [],
-      submissionData: [],
-      supportingDocuments: []
     };
   },
   created() {
-    console.log(this.$store.state.apiResponse);
     this.referenceNumber = this.$store.state.apiResponse;
 
     const date = new Date();
@@ -163,88 +159,11 @@ export default {
     const day = date.getDate();
     const year = date.getFullYear();
     this.date = `${month} ${day}, ${year}`
-
-    switch (this.$store.state.uploadType) {
-      case "AOP":
-        this.selectedForm =
-          "Diagnostic Facility Services Assignment of Payment and Medical Director Authorization (HLTH 1908)";
-        break;
-      case "COAOP":
-        this.selectedForm =
-          "Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)";
-        break;
-      case "OOPA":
-        this.selectedForm =
-          "Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)";
-        break;
-    }
-
-    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
-      this.submitterData = [
-        { name: "First Name:", value: this.$store.state.firstName },
-        { name: "Last Name:", value: this.$store.state.lastName },
-        { name: "Email Address:", value: this.$store.state.emailAddress },
-        { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Organization:", value: this.$store.state.organization }
-      ];
-    } else {
-      this.submitterData = [
-        { name: "First Name:", value: this.$store.state.firstName },
-        { name: "Last Name:", value: this.$store.state.lastName },
-        { name: "Email Address:", value: this.$store.state.emailAddress },
-        { name: "Phone Number:", value: this.$store.state.phoneNumber },
-        { name: "Facility Name:", value: this.$store.state.facility }
-      ];
-    }
-
-    if (this.$store.state.uploadType === "AOP" || this.$store.state.uploadType === "COAOP") {
-      this.submissionData = [
-        { name: "Practitioner Number:", value: this.$store.state.primaryNumber },
-        { name: "Practitioner Last Name:", value: this.$store.state.primaryLastName },
-        { name: "Comments:", value: this.$store.state.comments }
-      ];
-    } else {
-      this.submissionData = [
-        { name: "Primary Practitioner Number:", value: this.$store.state.primaryNumber },
-        { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName },
-        { name: "Secondary Practitioner Number:", value: this.$store.state.secondaryNumber },
-        { name: "Secondary Practitioner Last Name:", value: this.$store.state.secondaryLastName },
-        { name: "Comments:", value: this.$store.state.comments }
-      ]
-    }
-
-    if (this.$store.state.uploadType === "AOP") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-      this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
-    } else if (this.$store.state.uploadType === "COAOP") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
-      this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label} ];
-    } else if (this.$store.state.uploadType === "OOPA") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
-      this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
-    }
-
-    if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
-      const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
-      const credentials = [ { name: "Credentials Document:", value: label } ];
-      this.supportingDocuments = [...this.supportingDocuments, ...credentials];
-    }
   },
   methods: {
     newForm() {
-      this.$store.dispatch(SET_UPLOAD_TYPE, '');
-      this.$store.dispatch(SET_CREDENTIALS_REQUIRED, '');
-      this.$store.dispatch(SET_SUBMISSION_TYPE, '');
-      this.$store.dispatch(SET_PRIMARY_NUMBER, '');
-      this.$store.dispatch(SET_PRIMARY_LAST_NAME, '');
-      this.$store.dispatch(SET_SECONDARY_NUMBER, '');
-      this.$store.dispatch(SET_SECONDARY_LAST_NAME, '');
-      this.$store.dispatch(SET_COMMENTS, '');
-      this.$store.dispatch(SET_UPLOADED_FORMS, []);
-      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, []);
-      pageStateService.setPageIncomplete(routes.CONFIRMATION.path);
+      this.$store.dispatch(NEW_FORM);
       const path = routes.SUBMISSION_INFO.path;
-      pageStateService.setPageComplete(path);
       this.$router.push(path);
       scrollTo(0);
     },
@@ -295,38 +214,6 @@ export default {
 
 .print-button span {
   margin-right: 8px;
-}
-
-.mb {
-  margin-bottom: 80px;
-}
-
-.submission-type {
-  background: #eee;
-  padding: 4px 8px 0 8px;
-  display: flex;
-  flex: 1;
-  align-items: center;
-
-  .name {
-    width: 50%;
-    text-align: right;
-    padding-right: 8px;
-  }
-
-  .radios {
-    width: 50%;
-    padding: 0 6px;
-  }
-}
-
-label {
-  margin: 0;
-}
-
-input[type="radio"] {
-  width: 18px;
-  height: 18px;
 }
 
 .radio-group {

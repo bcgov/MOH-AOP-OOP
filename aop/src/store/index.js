@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 export const RESET_FORM = "resetForm";
+export const NEW_FORM = "newForm";
 export const SET_UPLOAD_TYPE = "setUploadType";
 export const SET_CREDENTIALS_REQUIRED = "setCredentialsRequired";
 export const SET_FIRST_NAME = "setFirstName";
@@ -114,6 +115,18 @@ export default new Vuex.Store({
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
       commit(SET_API_RESPONSE, '');
+    },
+    newForm({ commit }) {
+      commit(SET_UPLOAD_TYPE, '');
+      commit(SET_CREDENTIALS_REQUIRED, '');
+      commit(SET_SUBMISSION_TYPE, '');
+      commit(SET_PRIMARY_NUMBER, '');
+      commit(SET_PRIMARY_LAST_NAME, '');
+      commit(SET_SECONDARY_NUMBER, '');
+      commit(SET_SECONDARY_LAST_NAME, '');
+      commit(SET_COMMENTS, '');
+      commit(SET_UPLOADED_FORMS, []);
+      commit(SET_UPLOADED_CREDENTIALS, []);
     },
     setHasAcceptedTerms({ commit }, hasAcceptedTerms) {
       commit(SET_HAS_ACCEPTED_TERMS, hasAcceptedTerms);
