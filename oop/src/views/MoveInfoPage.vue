@@ -210,6 +210,17 @@ export default {
       }, 2000);
     }
   },
+  watch: {
+    country(newValue) {
+      if (newValue) {
+        this.addressLine1 = null;
+        this.addressLine2 = null;
+        this.province = null;
+        this.city = null;
+        this.postalCode = null;
+      }
+    },
+  }
   // Required in order to block back navigation.
   // beforeRouteLeave(to, from, next) {
   //   if (to.path === routes.HOME_PAGE.path) {
