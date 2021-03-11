@@ -32,34 +32,49 @@
         <hr/>
         <div class="row">
           <div class="col-md-6">
-            <CountryInput label='Country:'
+            <CountryInput label='Country'
                   className='mt-3'
                   v-model="country" />
             <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
-            <Input label='Address line 1:'
+            <Input label='Address line 1 (optional)'
                     className='mt-3'
                     v-model="addressLine1"
                     maxlength='25' />
-            <div class="text-danger" v-if="country === 'CA' && $v.addressLine1.$dirty && !$v.addressLine1.required" aria-live="assertive">Address Line 1 is required.</div>
-            <Input label='Address line 2 (Optional):'
+            <Input label='Address line 2 (optional)'
                     className='mt-3'
                     v-model="addressLine2"
                     maxlength='25' />
-            <Input label='Province:'
-                  className='mt-3'
-                  v-model="province" />
-            <div class="text-danger" v-if="country === 'CA' && $v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-            <Input label='City:'
-                  className='mt-3'
-                  v-model="city"
-                  maxlength='35' />
-            <div class="text-danger" v-if="country === 'CA' && $v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
-            <PostalCodeInput id="postalCode"
-              label="Postal code"
-              className='mt-3'
-              v-model="postalCode"/>
-            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
-            <div class="text-danger" v-if="country === 'CA' && $v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.bcPostalCodeValidator" aria-live="assertive">Must be a valid BC postal code.</div>
+            <div v-if="country === 'CA'">
+              <ProvinceInput label='Province'
+                    className='mt-3'
+                    v-model="province" 
+                    maxlength='35' />
+              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+              <Input label='City (optional)'
+                    className='mt-3'
+                    v-model="city"
+                    maxlength='35' />
+              <PostalCodeInput id="postalCode"
+                    label="Postal code (optional)"
+                    className='mt-3'
+                    v-model="postalCode"/>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
+            </div>
+            <div v-else>
+              <Input label='Province/state/region (optional)'
+                    className='mt-3'
+                    v-model="province"
+                    maxlength='35' />
+              <Input label='City/town (optional)'
+                    className='mt-3'
+                    v-model="city"
+                    maxlength='35' />
+              <Input label='Postal code/zip code (optional)'
+                    className='mt-3'
+                    v-model="postalCode"
+                    maxlength='35' />
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +86,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator } from '../helpers/validators';
+import { bcPostalCodeValidator, postalCodeValidator, nonBCValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -80,6 +95,7 @@ import DateInput, {
   afterDateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
+import ProvinceInput from '../components/ProvinceInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -96,6 +112,13 @@ import {
   SET_MOVE_FROM_BC_DATE,
 } from '../store/modules/form';
 
+const emptyPostalCodeValidator = (value) => {
+  if (value === null || value === '') {
+    return true;
+  }
+  return postalCodeValidator(value) && !bcPostalCodeValidator(value);
+};
+
 export default {
   name: 'MoveInfoPage',
   components: {
@@ -105,6 +128,7 @@ export default {
     PageContent,
     PostalCodeInput,
     CountryInput,
+    ProvinceInput,
   },
   data: () => {
     return {
@@ -117,6 +141,7 @@ export default {
       city: null,
       postalCode: null,
       showServerValidationError: false,
+      isPageLoaded: false,
     }
   },
   created() {
@@ -128,6 +153,10 @@ export default {
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
     this.postalCode = this.$store.state.form.postalCode;
+
+    setTimeout(() => {
+      this.isPageLoaded = true;
+    }, 0);
   },
   validations() {
     const validations = {
@@ -148,18 +177,12 @@ export default {
       },
     }
     if (this.country === 'CA'){
-      validations.addressLine1 = {
-        required,
-      },
-      validations.city = {
-        required,
-      },
       validations.province = {
         required,
+        nonBCValidator
       },
       validations.postalCode = {
-        required,
-        bcPostalCodeValidator
+        postalCodeValidator: emptyPostalCodeValidator
       };
     }
     return validations;
@@ -192,6 +215,17 @@ export default {
       }, 2000);
     }
   },
+  watch: {
+    country(newValue) {
+      if (this.isPageLoaded && newValue){
+        this.addressLine1 = null;
+        this.addressLine2 = null;
+        this.province = null;
+        this.city = null;
+        this.postalCode = null;
+      }
+    },
+  }
   // Required in order to block back navigation.
   // beforeRouteLeave(to, from, next) {
   //   if (to.path === routes.HOME_PAGE.path) {

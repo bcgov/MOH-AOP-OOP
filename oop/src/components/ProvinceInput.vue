@@ -1,13 +1,13 @@
 <template>
   <div :class="className">
     <label :for="id">{{label}}</label><br/>
-    <country-select 
+    <region-select 
       :id="id" 
-      name="country"
+      name="region"
       class="form-control" 
-      v-model="country"
+      v-model="region"
       :country="country"
-      topCountry="CA"/>
+      :region="region"/>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ import vueCountryRegionSelect from 'vue-country-region-select';
 Vue.use(vueCountryRegionSelect);
 
 export default {
-  name: 'CountryInput',
+  name: 'ProvinceInput',
   components: {},
   props: {
     id: String,
@@ -27,15 +27,15 @@ export default {
   },
   data() {
     return {
-      country: '',
+      country: 'CA',
       region: ''
     }
   },
   created() {
-    this.country = this.value;
+    this.region = this.value;
   },
   watch: {
-    country(newValue) {
+    region(newValue) {
       this.$emit('input', newValue);
     }
   }
