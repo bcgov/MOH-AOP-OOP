@@ -14,7 +14,8 @@
             <DateInput label="Permanent move from B.C."
                       className='mt-3'
                       v-model="moveFromBCDate"/>
-            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Permanent move from B.C. is required.</div>
+            <div class="text-danger" v-if="$v.moveFromBCDate.value === 0" aria-live="assertive">Permanent move from B.C. is required.</div>
+            <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">Invalid Permanent move from B.C. date.</div>
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">Permanent move from B.C. must be before the arrival in new destination.</div>
@@ -93,6 +94,7 @@ import DateInput, {
   distantPastValidator,
   beforeDateValidator,
   afterDateValidator,
+  dateValidator,
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
@@ -160,12 +162,14 @@ export default {
         distantFutureValidator,
         distantPastValidator,
         beforeDateValidator: beforeDateValidator('arriveDestinationDate'),
+        dateValidator,
       },
       arriveDestinationDate: {
         required,
         distantFutureValidator,
         distantPastValidator,
         afterDateValidator: afterDateValidator('moveFromBCDate'),
+        dateValidator,
       },
       country: {
         required,
