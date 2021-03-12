@@ -5,7 +5,8 @@
         <h1>Review request</h1>
         <p>Review your request before submission</p>
         <hr/>
-        <ReviewTableList :showEditButtons='true' />
+        <ReviewTableList :showEditButtons='true' 
+                        tableBackgroundColor='#EEE'/>
       </div>
     </PageContent>
     <ContinueBar @continue='submitForm()'

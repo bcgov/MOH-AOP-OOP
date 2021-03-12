@@ -40,9 +40,9 @@
         <h3 class="mt-4">Next Steps</h3>
         <hr/>
         <ul>
-          <li>Please print this page for your records.</li>
+          <li>Please <a href="javascript:void(0)" @click="printPage()" class="print-link">print</a> this page for your records.</li>
           <li>Health Insurance BC will send you a letter following cancellation of MSP coverage.</li>
-          <li>Please contact Health Insurance BC if you have any questions.</li>
+          <li>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</li>
         </ul>
 
         <ReviewTableList className='mt-5 mb-5' />
@@ -81,6 +81,10 @@ export default {
 <style scoped>
 .print-btn {
   text-decoration: none;
+}
+.print-link {
+  text-decoration: none;
+  font-weight: bold;
 }
 .box-border {
   border-width: 4px !important;
