@@ -15,7 +15,7 @@
           <div class="row">
             <div class="col-md-6">
               <h2>Requirements</h2>
-              <p>Your Personal Health Number (PHN) is the 10 digit number that can be found on the back of your BC Services Card (or front of your CareCard if you still have one).</p>
+              <p>Your Personal Health Number (PHN) is the 10 digit number that can be found on the back of your <a href="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/personal-health-identification/your-bc-services-card" target="_blank">BC Services Card</a> (or front of your CareCard if you still have one).</p>
             </div>
             <div class="col-md-6">
               <img
