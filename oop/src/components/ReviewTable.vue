@@ -1,5 +1,6 @@
 <template>
-  <div class="form-group bcgov-table-body">
+  <div class="form-group bcgov-table-body"
+      :style="{'background-color': backgroundColor}">
     <div v-for="element in elements"
         :key="element.label"
         class="bcgov-row">
@@ -15,7 +16,11 @@ export default {
   name: 'Table',
   components: {},
   props: {
-    elements: Array
+    elements: Array,
+    backgroundColor: {
+      type: String,
+      default: 'white',
+    }
   }
 }
 </script>
@@ -25,7 +30,7 @@ export default {
 .bcgov-table-body {
   display: flex;
   flex-direction: column;
-  background-color: #EEE;
+  /* background-color: #EEE; */
   border-top: 1px solid rgba(0,0,0,0.3);
 }
 

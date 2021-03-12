@@ -1,5 +1,5 @@
 <template>
-  <div :style="pageContentStyles">
+  <div class="page-content" :style="pageContentStyles">
     <slot>Page content here.</slot>
   </div>
 </template>
@@ -53,3 +53,11 @@ export default {
   }
 }
 </script>
+
+<style>
+@media print {
+  .page-content {
+    min-height: auto !important;
+  }
+}
+</style>
