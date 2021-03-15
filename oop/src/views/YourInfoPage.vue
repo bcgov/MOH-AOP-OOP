@@ -51,9 +51,13 @@
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
           </div>
-          <div class="col-sm-5 mt-3 mt-sm-0">
-            <h4>Tip</h4>
-            <p>Tip content here</p>
+          <div class="col-sm-5">
+            <TipBox title="Tip: PHN number">
+              <p>The 10 digit number that can be found on the back of your <a href="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/personal-health-identification/your-bc-services-card" target="_blank">BC Services Card</a> (or front of the CareCard if you still have one).</p>
+              <img src="/images/bcid-sample.jpg"
+                   alt="BC Services Card Sample"
+                   class="bcid"/>
+            </TipBox>
           </div>
         </div>
       </div>
@@ -70,6 +74,7 @@ import { scrollTo, scrollToError } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
+import TipBox from '../components/TipBox.vue';
 import {
   PhnInput,
   PhoneNumberInput,
@@ -115,6 +120,7 @@ export default {
     PageContent,
     PhnInput,
     PhoneNumberInput,
+    TipBox,
   },
   data: () => {
     return {
@@ -191,3 +197,11 @@ export default {
   // }
 }
 </script>
+
+<style scoped>
+.bcid {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+</style>
