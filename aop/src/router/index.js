@@ -1,6 +1,7 @@
 import VueRouter from "vue-router";
 import AssignmentOfPayment from "../views/AssignmentOfPayment.vue";
 import { routes } from "./routes";
+import { scrollTo } from "../helpers/scroll";
 
 // Determine if back or forward nav buttons have been pressed
 let navPushed = false;
