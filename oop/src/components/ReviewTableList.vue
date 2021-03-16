@@ -177,7 +177,7 @@ export default {
 
       for (let i=0; i<addressLines.length; i++) {
         if (addressLines[i].value && addressLines[i].value !== '') {
-          result += addressLines[i].value + ' ';
+          result += addressLines[i].value + '\n';
         }
       }
       return result.trim();
