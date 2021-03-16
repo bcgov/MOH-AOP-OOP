@@ -283,16 +283,16 @@ export default {
 }
 </script>
 
-<style>
-#app .add-button-padding { 
+<style scoped>
+.add-button-padding { 
   padding-left: 0px;
 }
 
-#app .remove-button-padding { 
+.remove-button-padding { 
   padding-left: 20px;
 }
 
-#app .add-remove-button { 
+.add-remove-button { 
   min-width: 60px;
   min-height: 40px;
 }

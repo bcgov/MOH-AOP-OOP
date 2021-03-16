@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'Input',
+  name: 'AddressInput',
   components: {},
   props: {
     value: String,
