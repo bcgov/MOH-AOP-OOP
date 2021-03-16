@@ -40,7 +40,7 @@ export default {
     submitApplication(this.$store.state)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
-          this.$store.dispatch(SET_API_RESPONSE, res.data.uuid);
+          this.$store.dispatch(SET_API_RESPONSE, res.data.refNumber);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
           if (res.data.dberrorMessage) {
@@ -90,10 +90,10 @@ export default {
   width: 64px;
   height: 64px;
   margin: 8px;
-  border: 8px solid #eee;
+  border: 8px solid #bbb;
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #eee transparent transparent transparent;
+  border-color: #bbb transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
