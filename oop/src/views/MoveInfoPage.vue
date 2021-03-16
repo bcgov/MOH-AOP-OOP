@@ -42,7 +42,7 @@
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-9 mt-3'>
               <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
-                        v-model="addressLine.value"/>
+                        v-model="addressLine.value" maxlength='25'/>
               </div>
               <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-button-padding">
                 <Button label='+'
@@ -58,14 +58,13 @@
             <div v-if="country === 'CA'">
               <ProvinceInput label='Province'
                     className='mt-3'
-                    v-model="province" 
-                    maxlength='35' />
+                    v-model="province" />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
                     v-model="city"
-                    maxlength='35' />
+                    maxlength='25' />
               <PostalCodeInput id="postalCode"
                     label="Postal code (optional)"
                     className='mt-3'
@@ -76,15 +75,15 @@
               <Input label='Province/state/region (optional)'
                     className='mt-3'
                     v-model="province"
-                    maxlength='35' />
+                    maxlength='30' />
               <Input label='City/town (optional)'
                     className='mt-3'
                     v-model="city"
-                    maxlength='35' />
+                    maxlength='25' />
               <Input label='Postal code/zip code (optional)'
                     className='mt-3'
                     v-model="postalCode"
-                    maxlength='35' />
+                    maxlength='7' />
             </div>
           </div>
         </div>
