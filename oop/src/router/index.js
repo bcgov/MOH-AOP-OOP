@@ -36,6 +36,11 @@ const routeCollection = [
     path: routes.SUBMISSION_PAGE.path,
     name: routes.SUBMISSION_PAGE.name,
     component: routes.SUBMISSION_PAGE.component
+  },
+  {
+    path: routes.SUBMISSION_ERROR_PAGE.path,
+    name: routes.SUBMISSION_ERROR_PAGE.name,
+    component: routes.SUBMISSION_ERROR_PAGE.component
   }
 ];
 
