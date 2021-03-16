@@ -31,7 +31,7 @@
         <h2 class='mt-5 mb-0'>New address</h2>
         <hr/>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-sm-7">
             <CountryInput label='Country'
                   className='mt-3'
                   v-model="country" />
@@ -76,6 +76,12 @@
                     maxlength='35' />
             </div>
           </div>
+          <div class="col-sm-5">
+            <TipBox title="Tip: find your address">
+              <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
+              <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
+            </TipBox>
+          </div>
         </div>
       </div>
     </PageContent>
@@ -99,6 +105,7 @@ import ProvinceInput from '../components/ProvinceInput.vue';
 import { PostalCodeInput } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
+import TipBox from '../components/TipBox.vue';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
@@ -129,6 +136,7 @@ export default {
     PostalCodeInput,
     CountryInput,
     ProvinceInput,
+    TipBox,
   },
   data: () => {
     return {
