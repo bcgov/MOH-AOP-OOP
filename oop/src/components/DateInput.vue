@@ -69,14 +69,14 @@ export const distantPastValidator = (date) => {
 export const beforeDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return (isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
+    return (dateToCompare == null || isSameDay(date, dateToCompare) == true) ? true : isBefore(date, dateToCompare);
   };
 };
 
 export const afterDateValidator = (compareDateName) => {
   return (date, vm) => {
     const dateToCompare = vm[compareDateName];
-    return (isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
+    return (dateToCompare == null || isSameDay(date, dateToCompare) == true) ? true : isAfter(date, dateToCompare);
   };
 };
 
@@ -149,9 +149,12 @@ export default {
         || typeof this.month === 'number';
 
       const day = parseInt(this.day);
+      // If the user puts '0' as the day, return invalid
+      if (day === 0){
+        return false;
+      }
       const daysInMonth = getDaysInMonth(new Date(this.year, this.month, 2));
       const isDateValid = day <= daysInMonth;
-
       if (!!this.year && !!this.day && isMonthValid && isDateValid) {
         return true;
       }

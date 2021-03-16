@@ -12,7 +12,8 @@
         </a>
       </div>
     </div>
-    <ReviewTable :elements='yourInfoTableData' />
+    <ReviewTable :elements='yourInfoTableData'
+                :backgroundColor='tableBackgroundColor'/>
 
     <div class="row align-items-end mt-5">
       <div class="col-9">
@@ -26,7 +27,8 @@
         </a>
       </div>
     </div>
-    <ReviewTable :elements='accountTypeTableData' />
+    <ReviewTable :elements='accountTypeTableData'
+                :backgroundColor='tableBackgroundColor' />
 
     <div class="row align-items-end mt-5">
       <div class="col-9">
@@ -40,7 +42,8 @@
         </a>
       </div>
     </div>
-    <ReviewTable :elements='moveInfoTableData' />
+    <ReviewTable :elements='moveInfoTableData'
+                :backgroundColor='tableBackgroundColor' />
   </div>
 </template>
 
@@ -63,6 +66,9 @@ export default {
     className: {
       type: String,
       default: '',
+    },
+    tableBackgroundColor: {
+      type: String,
     }
   },
   computed: {
