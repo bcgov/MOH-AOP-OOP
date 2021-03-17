@@ -131,7 +131,7 @@ export default {
         label: 'Country',
         value: this.$store.state.form.country,
       });
-      const provinceLabel = this.$store.state.form.country === 'CA' ? 'Province' : 'State / province / region'
+      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province' : 'State / province / region'
       items.push({
         label: provinceLabel,
         value: this.$store.state.form.province,

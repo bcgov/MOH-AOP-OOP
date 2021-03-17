@@ -7,7 +7,9 @@
       class="form-control" 
       v-model="region"
       :country="country"
-      :region="region"/>
+      :region="region"
+      :countryName="true"
+      :regionName="true"/>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ export default {
   },
   data() {
     return {
-      country: 'CA',
+      country: 'Canada',
       region: ''
     }
   },

@@ -8,9 +8,9 @@ export default {
   isAllDependentsMoving: 'Y',
   moveFromBCDate: new Date('2021-06-01'),
   arriveDestinationDate: new Date('2021-06-02'),
-  country: 'CA',
+  country: 'Canada',
   addressLine1: '123 Main St.',
-  province: 'AB',
+  province: 'Alberta',
   city: 'Victoria',
   postalCode: 'A8V 8V8',
 };
