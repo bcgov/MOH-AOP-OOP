@@ -1,5 +1,7 @@
 <template>
-  <div class="home">
+  <div>
+    <ConsentModal v-if="showConsentModal"
+                  @close="handleCloseConsentModal" />
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-5">
         <h1>MSP permanent move outside of British Columbia</h1>
@@ -54,14 +56,24 @@ import routes from '../router/routes';
 import { scrollTo } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
+import ConsentModal from '../components/ConsentModal.vue';
 
 export default {
   name: 'HomePage',
   components: {
+    ConsentModal,
     ContinueBar,
     PageContent,
   },
+  data: () => {
+    return {
+      showConsentModal: true,
+    }
+  },
   methods: {
+    handleCloseConsentModal() {
+      this.showConsentModal = false;
+    },
     nextPage() {
       const path = routes.YOUR_INFO_PAGE.path;
       pageStateService.visitPage(path);
