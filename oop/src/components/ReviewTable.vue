@@ -4,8 +4,8 @@
     <div v-for="element in elements"
         :key="element.label"
         class="bcgov-row">
-      <div class="bcgov-table-cell label"><b>{{element.label}}</b></div>
-      <div class="bcgov-table-cell value">{{element.value}}</div>
+      <div class="bcgov-table-cell label">{{element.label}}</div>
+      <div class="bcgov-table-cell value"><b>{{element.value}}</b></div>
     </div>
   </div>
 </template>
