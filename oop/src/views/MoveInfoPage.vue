@@ -190,7 +190,7 @@ export default {
     }
 
     for (let i=currNumOfAddressLines-1; i>=0; i--){
-      if (this.addressLines[i].value == null || this.addressLines[i].value == ''){
+      if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
         this.addressLines.splice(i,1);
       }
     }
