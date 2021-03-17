@@ -55,7 +55,7 @@
                         class='add-remove-button mt-5'/>
               </div>
             </div>
-            <div v-if="country === 'CA'">
+            <div v-if="country === 'Canada'">
               <ProvinceInput label='Province'
                     className='mt-3'
                     v-model="province" />
@@ -218,7 +218,7 @@ export default {
         },
       },
     }
-    if (this.country === 'CA'){
+    if (this.country === 'Canada'){
       validations.province = {
         required,
         nonBCValidator

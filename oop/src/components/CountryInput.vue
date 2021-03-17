@@ -7,7 +7,8 @@
       class="form-control" 
       v-model="country"
       :country="country"
-      topCountry="CA"/>
+      topCountry="Canada"
+      :countryName="true"/>
   </div>
 </template>
 
