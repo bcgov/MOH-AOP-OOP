@@ -170,8 +170,6 @@ export default {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
     this.addressLines = this.$store.state.form.addressLines;
-    // this.addressLine1 = this.$store.state.form.addressLine1;
-    // this.addressLine2 = this.$store.state.form.addressLine2;
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -275,19 +273,6 @@ export default {
       }
     },
   }
-  // Required in order to block back navigation.
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path === routes.HOME_PAGE.path) {
-  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
-  //       next();
-  //     } else {
-  //       next(false);
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // }
 }
 </script>
 
