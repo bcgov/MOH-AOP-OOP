@@ -41,8 +41,8 @@
                         :key='index'
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-9 mt-3'>
-              <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
-                        v-model="addressLine.value" maxlength='25'/>
+                <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
+                                v-model="addressLine.value" maxlength='25'/>
               </div>
               <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-button-padding">
                 <Button label='+'
@@ -183,8 +183,14 @@ export default {
 
     for (let i=0; i<currNumOfAddressLines; i++) {
       this.addressLines[i] = {
-        value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
-        isValid: true,
+          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+          isValid: true,
+      }
+    }
+
+    for (let i=currNumOfAddressLines-1; i>=0; i--){
+      if (this.addressLines[i].value == null || this.addressLines[i].value == ''){
+        this.addressLines.splice(i,1);
       }
     }
   },
