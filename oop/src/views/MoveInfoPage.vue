@@ -95,7 +95,7 @@
         </div>
       </div>
     </PageContent>
-    <ContinueBar @continue="validateFields()"/>
+    <ContinueBar @continue="validateFields()" :hasLoader="isLoading"/>
   </div>
 </template>
 <script>
@@ -164,6 +164,7 @@ export default {
       postalCode: null,
       showServerValidationError: false,
       isPageLoaded: false,
+      isLoading: false,
     }
   },
   created() {
