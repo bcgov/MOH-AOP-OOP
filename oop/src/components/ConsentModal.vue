@@ -5,7 +5,7 @@
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title" id="exampleModalLabel">Information collection notice</h2>
@@ -41,9 +41,11 @@ export default {
   },
   created() {
     window.addEventListener('keydown', this.handleKeyDown);
+    document.body.classList.add('no-scroll');
   },
   destroyed() {
     window.removeEventListener('keydown', this.handleKeyDown);
+    document.body.classList.remove('no-scroll');
   },
   mounted() {
     // Create an array of focusable elements from the contents of the modal
@@ -70,6 +72,7 @@ export default {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[0];
         this.focusedEl.focus();
+        return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
       if (position === this.focusableEls.length - 1) {
@@ -84,6 +87,7 @@ export default {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[this.focusableEls.length - 1];
         this.focusedEl.focus();
+        return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
       if (position === 0) {
