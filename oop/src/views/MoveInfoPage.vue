@@ -41,8 +41,8 @@
                         :key='index'
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-9 mt-3'>
-              <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
-                        v-model="addressLine.value" maxlength='25'/>
+                <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
+                                v-model="addressLine.value" maxlength='25'/>
               </div>
               <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-button-padding">
                 <Button label='+'
@@ -171,8 +171,6 @@ export default {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
     this.addressLines = this.$store.state.form.addressLines;
-    // this.addressLine1 = this.$store.state.form.addressLine1;
-    // this.addressLine2 = this.$store.state.form.addressLine2;
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -186,8 +184,14 @@ export default {
 
     for (let i=0; i<currNumOfAddressLines; i++) {
       this.addressLines[i] = {
-        value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
-        isValid: true,
+          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+          isValid: true,
+      }
+    }
+
+    for (let i=currNumOfAddressLines-1; i>=0; i--){
+      if (this.addressLines[i].value == null || this.addressLines[i].value == ''){
+        this.addressLines.splice(i,1);
       }
     }
   },
@@ -276,19 +280,6 @@ export default {
       }
     },
   }
-  // Required in order to block back navigation.
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path === routes.HOME_PAGE.path) {
-  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
-  //       next();
-  //     } else {
-  //       next(false);
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // }
 }
 </script>
 
