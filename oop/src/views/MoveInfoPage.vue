@@ -93,7 +93,7 @@
                     maxlength='7' />
             </div>
           </div>
-          <div class="col-sm-5">
+          <div v-if="country === 'Canada'" class="col-sm-5">
             <TipBox title="Tip: find your address">
               <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
               <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
