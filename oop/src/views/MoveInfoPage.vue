@@ -43,17 +43,17 @@
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-7 mt-3'>
                 <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
-                                v-model="addressLine.value" class="addressLine" maxlength='25'/>
+                                v-model="addressLine.value" class="address-line" maxlength='25'/>
               </div>
-              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-remove-button-padding">
+              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='+'
                         @click='addAddressField()'
-                        class='add-remove-button mt-5'/>
+                        class='add-remove-button mt-5 form-control'/>
               </div>
-              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 add-remove-button-padding">
+              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='-'
                         @click='removeAddressField()'
-                        class='add-remove-button mt-5'/>
+                        class='add-remove-button mt-5 form-control'/>
               </div>
             </div>
             <div v-if="country === 'Canada'">
@@ -71,7 +71,7 @@
               <PostalCodeInput id="postalCode"
                     label="Postal code (optional)"
                     className='mt-3'
-                    class="postalCode"
+                    class="postal-code"
                     v-model="postalCode"/>
               <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
@@ -88,7 +88,7 @@
                     maxlength='25' />
               <Input label='Postal code/zip code (optional)'
                     className='mt-3'
-                    class="postalCode"
+                    class="postal-code"
                     v-model="postalCode"
                     maxlength='7' />
             </div>
@@ -291,19 +291,31 @@ export default {
 </script>
 
 <style scoped>
-.country, .province, .postalCode{
-  width: 200px;
+.address-row {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
-.addressLine, .city{
+.country {
+  max-width: 100%;
+  width: 540px;
+}
+
+.address-line, .city, .province {
+  max-width: 100%;
   width: 350px;
 }
 
-.add-remove-button-padding { 
-  padding-left: 0px;
+.postal-code {
+  max-width: 100%;
+  width: 160px;
 }
 
-.add-remove-button { 
+.address-row-margin { 
+  margin-right: 1em;
+}
+
+.add-remove-button {
   min-width: 50px;
   min-height: 40px;
 }

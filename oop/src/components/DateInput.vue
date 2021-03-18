@@ -29,7 +29,7 @@
         <label v-bind:for="'yearInput' + label">Year:</label>
         <input 
             :id="'yearInput' + label"
-            class="form-control dayInput"
+            class="form-control yearInput"
             placeholder="YYYY"
             v-model="year"
             @blur="onBlurYear($event.target.value)"
@@ -188,7 +188,6 @@ legend {
 .date-row {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
 }
 label {
   border: 0;
@@ -201,14 +200,14 @@ label {
   width: 1px;
 }
 .monthSelect {
-  max-width: 50%;
+  width: 160px;
   margin-right: 1em;
 }
 .dayInput {
-  max-width: 25%;
+  width: 50px;
   margin-right: 1em;
 }
 .yearInput {
-  max-width: 25%;
+  width: 65px;
 }
 </style>
