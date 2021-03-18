@@ -4,7 +4,7 @@
       <button class="print-button" v-on:click="print()">
         <span>Print or Save as PDF</span>
       </button>
-      <i class="fas fa-info-circle fa-2x"><div class="tip">To save as PDF, in the print window and click "Save as PDF"</div></i>
+      <i class="fas fa-info-circle fa-2x"><div class="tip">To save as PDF, in the print window, click "Save as PDF"</div></i>
     </div>
     <h1>Confirmation Message</h1>
     <hr />
