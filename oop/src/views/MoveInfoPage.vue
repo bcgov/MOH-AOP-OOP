@@ -34,59 +34,66 @@
           <div class="col-sm-7">
             <CountryInput label='Country'
                   className='mt-3'
+                  class="country"
                   v-model="country" />
             <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
             <div class="row">
               <div v-for="(addressLine, index) in addressLines"
                         :key='index'
                         :set="v = $v.addressLines.$each[index]"
-                        class='col-md-9 mt-3'>
+                        class='col-md-7 mt-3'>
                 <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
-                                v-model="addressLine.value" maxlength='25'/>
+                                v-model="addressLine.value" class="address-line" maxlength='25'/>
               </div>
-              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-button-padding">
+              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='+'
                         @click='addAddressField()'
-                        class='add-remove-button mt-5'/>
+                        class='add-remove-button mt-5 form-control'/>
               </div>
-              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 remove-button-padding">
+              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='-'
                         @click='removeAddressField()'
-                        class='add-remove-button mt-5'/>
+                        class='add-remove-button mt-5 form-control'/>
               </div>
             </div>
             <div v-if="country === 'Canada'">
               <ProvinceInput label='Province'
                     className='mt-3'
+                    class="province"
                     v-model="province" />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
+                    class="city"
                     v-model="city"
                     maxlength='25' />
               <PostalCodeInput id="postalCode"
                     label="Postal code (optional)"
                     className='mt-3'
+                    class="postal-code"
                     v-model="postalCode"/>
               <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
                     className='mt-3'
+                    class="province"
                     v-model="province"
                     maxlength='30' />
               <Input label='City/town (optional)'
                     className='mt-3'
+                    class="city"
                     v-model="city"
                     maxlength='25' />
               <Input label='Postal code/zip code (optional)'
                     className='mt-3'
+                    class="postal-code"
                     v-model="postalCode"
                     maxlength='7' />
             </div>
           </div>
-          <div class="col-sm-5">
+          <div v-if="country === 'Canada'" class="col-sm-5">
             <TipBox title="Tip: find your address">
               <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
               <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
@@ -284,16 +291,32 @@ export default {
 </script>
 
 <style scoped>
-.add-button-padding { 
-  padding-left: 0px;
+.address-row {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
-.remove-button-padding { 
-  padding-left: 20px;
+.country {
+  max-width: 100%;
+  width: 540px;
 }
 
-.add-remove-button { 
-  min-width: 60px;
+.address-line, .city, .province {
+  max-width: 100%;
+  width: 350px;
+}
+
+.postal-code {
+  max-width: 100%;
+  width: 160px;
+}
+
+.address-row-margin { 
+  margin-right: 1em;
+}
+
+.add-remove-button {
+  min-width: 50px;
   min-height: 40px;
 }
 </style>
