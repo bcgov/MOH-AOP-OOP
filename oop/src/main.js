@@ -8,6 +8,7 @@ import {
   faCheckCircle,
   faPencilAlt,
   faPrint,
+  faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'core-js/es/number';
@@ -15,6 +16,7 @@ import 'core-js/es/number';
 library.add(faCheckCircle);
 library.add(faPencilAlt);
 library.add(faPrint);
+library.add(faTimesCircle);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(Vuelidate);

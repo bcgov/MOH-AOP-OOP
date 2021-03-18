@@ -123,20 +123,17 @@ export default {
         label: 'Arrival in new destination',
         value: formatDate(this.$store.state.form.arriveDestinationDate),
       });
-      let address = this.$store.state.form.addressLine1;
-      if (this.$store.state.form.addressLine2) {
-        address += '\n' + this.$store.state.form.addressLine2;
-      }
       items.push({
         label: 'New address',
-        value: address,
+        value: this.addressLines,
       });
       items.push({
         label: 'Country',
         value: this.$store.state.form.country,
       });
+      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province' : 'State / province / region'
       items.push({
-        label: 'State / province / region',
+        label: provinceLabel,
         value: this.$store.state.form.province,
       });
       items.push({
@@ -171,6 +168,17 @@ export default {
       for (let i=0; i<phns.length; i++) {
         if (phns[i].value && phns[i].value !== '') {
           result += phns[i].value + '\n';
+        }
+      }
+      return result.trim();
+    },
+    addressLines() {
+      const addressLines = this.$store.state.form.addressLines;
+      let result = '';
+
+      for (let i=0; i<addressLines.length; i++) {
+        if (addressLines[i].value && addressLines[i].value !== '') {
+          result += addressLines[i].value + '\n';
         }
       }
       return result.trim();

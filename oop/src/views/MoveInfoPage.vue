@@ -31,30 +31,40 @@
         <h2 class='mt-5 mb-0'>New address</h2>
         <hr/>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-sm-7">
             <CountryInput label='Country'
                   className='mt-3'
                   v-model="country" />
             <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
-            <Input label='Address line 1 (optional)'
-                    className='mt-3'
-                    v-model="addressLine1"
-                    maxlength='25' />
-            <Input label='Address line 2 (optional)'
-                    className='mt-3'
-                    v-model="addressLine2"
-                    maxlength='25' />
-            <div v-if="country === 'CA'">
+            <div class="row">
+              <div v-for="(addressLine, index) in addressLines"
+                        :key='index'
+                        :set="v = $v.addressLines.$each[index]"
+                        class='col-md-9 mt-3'>
+                <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
+                                v-model="addressLine.value" maxlength='25'/>
+              </div>
+              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 add-button-padding">
+                <Button label='+'
+                        @click='addAddressField()'
+                        class='add-remove-button mt-5'/>
+              </div>
+              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 remove-button-padding">
+                <Button label='-'
+                        @click='removeAddressField()'
+                        class='add-remove-button mt-5'/>
+              </div>
+            </div>
+            <div v-if="country === 'Canada'">
               <ProvinceInput label='Province'
                     className='mt-3'
-                    v-model="province" 
-                    maxlength='35' />
+                    v-model="province" />
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
               <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
                     v-model="city"
-                    maxlength='35' />
+                    maxlength='25' />
               <PostalCodeInput id="postalCode"
                     label="Postal code (optional)"
                     className='mt-3'
@@ -65,21 +75,27 @@
               <Input label='Province/state/region (optional)'
                     className='mt-3'
                     v-model="province"
-                    maxlength='35' />
+                    maxlength='30' />
               <Input label='City/town (optional)'
                     className='mt-3'
                     v-model="city"
-                    maxlength='35' />
+                    maxlength='25' />
               <Input label='Postal code/zip code (optional)'
                     className='mt-3'
                     v-model="postalCode"
-                    maxlength='35' />
+                    maxlength='7' />
             </div>
+          </div>
+          <div class="col-sm-5">
+            <TipBox title="Tip: find your address">
+              <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
+              <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
+            </TipBox>
           </div>
         </div>
       </div>
     </PageContent>
-    <ContinueBar @continue="validateFields()"/>
+    <ContinueBar @continue="validateFields()" :hasLoader="isLoading"/>
   </div>
 </template>
 <script>
@@ -96,14 +112,15 @@ import DateInput, {
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
-import { PostalCodeInput } from 'common-lib-vue';
+import AddressInput from '../components/AddressInput.vue';
+import { PostalCodeInput, Button } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
+import TipBox from '../components/TipBox.vue';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
-  SET_ADDRESS_LINE1,
-  SET_ADDRESS_LINE2,
+  SET_ADDRESS_LINES,
   SET_ARRIVE_DESTINATION_DATE,
   SET_COUNTRY,
   SET_CITY,
@@ -119,6 +136,9 @@ const emptyPostalCodeValidator = (value) => {
   return postalCodeValidator(value) && !bcPostalCodeValidator(value);
 };
 
+const MIN_ADDRESS_LINES = 1;
+const MAX_ADDRESS_LINES = 3;
+
 export default {
   name: 'MoveInfoPage',
   components: {
@@ -129,26 +149,28 @@ export default {
     PostalCodeInput,
     CountryInput,
     ProvinceInput,
+    TipBox,
+    AddressInput,
+    Button,
   },
   data: () => {
     return {
       moveFromBCDate: null,
       arriveDestinationDate: null,
-      addressLine1: null,
-      addressLine2: null,
+      addressLines: [],
       country: null,
       province: null,
       city: null,
       postalCode: null,
       showServerValidationError: false,
       isPageLoaded: false,
+      isLoading: false,
     }
   },
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.addressLine1 = this.$store.state.form.addressLine1;
-    this.addressLine2 = this.$store.state.form.addressLine2;
+    this.addressLines = this.$store.state.form.addressLines;
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -157,6 +179,21 @@ export default {
     setTimeout(() => {
       this.isPageLoaded = true;
     }, 0);
+
+    const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+
+    for (let i=0; i<currNumOfAddressLines; i++) {
+      this.addressLines[i] = {
+          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+          isValid: true,
+      }
+    }
+
+    for (let i=currNumOfAddressLines-1; i>=0; i--){
+      if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
+        this.addressLines.splice(i,1);
+      }
+    }
   },
   validations() {
     const validations = {
@@ -175,8 +212,13 @@ export default {
       country: {
         required,
       },
+      addressLines: {
+        $each: {
+          value: {},
+        },
+      },
     }
-    if (this.country === 'CA'){
+    if (this.country === 'Canada'){
       validations.province = {
         required,
         nonBCValidator
@@ -202,8 +244,7 @@ export default {
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE1, this.addressLine1);
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINE2, this.addressLine2);
+        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, this.addressLines);
         this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
         this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
         this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
@@ -213,31 +254,46 @@ export default {
         this.$router.push(path);
         scrollTo(0);
       }, 2000);
+    },
+    addAddressField() {
+      this.addressLines.push({
+        value: null,
+        isValid: true,
+      });
+    },
+    removeAddressField() {
+      this.addressLines.pop();
+    },
+    getMaxAddressLines() {
+      return MAX_ADDRESS_LINES;
+    },
+    getMinAddressLines() {
+      return MIN_ADDRESS_LINES;
     }
   },
   watch: {
     country(newValue) {
       if (this.isPageLoaded && newValue){
-        this.addressLine1 = null;
-        this.addressLine2 = null;
         this.province = null;
         this.city = null;
         this.postalCode = null;
       }
     },
   }
-  // Required in order to block back navigation.
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path === routes.HOME_PAGE.path) {
-  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
-  //       next();
-  //     } else {
-  //       next(false);
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // }
 }
 </script>
+
+<style scoped>
+.add-button-padding { 
+  padding-left: 0px;
+}
+
+.remove-button-padding { 
+  padding-left: 20px;
+}
+
+.add-remove-button { 
+  min-width: 60px;
+  min-height: 40px;
+}
+</style>

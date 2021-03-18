@@ -21,6 +21,7 @@ import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
 import pageStateService from '../services/page-state-service';
 import { routes } from '../router/routes';
+import { scrollTo } from '../helpers/scroll';
 
 export default {
   name: 'ReviewPage',
@@ -48,6 +49,13 @@ export default {
       const path = routes.SUBMISSION_PAGE.path;
       pageStateService.visitPage(path);
       this.$router.push(path);
+      scrollTo();
+    },
+    navigateToSubmissionErrorPage() {
+      const path = routes.SUBMISSION_ERROR_PAGE.path;
+      pageStateService.visitPage(path);
+      this.$router.push(path);
+      scrollTo();
     }
   }
 }
