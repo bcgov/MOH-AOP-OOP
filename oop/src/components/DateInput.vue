@@ -23,8 +23,7 @@
             @blur="onBlurDay($event.target.value)"
             :disabled='disabled'
             maxlength="2"
-            v-on:keypress="isNumber($event)"
-            >
+            v-on:keypress="isNumber($event)"/>
 
         <label v-bind:for="'yearInput' + label">Year:</label>
         <input 
@@ -35,14 +34,25 @@
             @blur="onBlurYear($event.target.value)"
             :disabled='disabled'
             maxlength="4"
-            v-on:keypress="isNumber($event)"
-            >
+            v-on:keypress="isNumber($event)"/>
+        <div class="date-picker-icon"
+            @click="openCloseDatePicker($event)">
+          <font-awesome-icon icon="calendar-alt" />
+        </div>
+        <div class="date-picker-container"
+            ref="datePicker">
+          <!-- <v-date-picker v-if="isDatePickerOpen"
+                        v-model="datePickerDate"
+                        @dayclick="closeDatePicker()"/> -->
+          <DatePicker v-if="isDatePickerOpen" />
+        </div>
       </div>
     </fieldset>
   </div>
 </template>
 
 <script>
+import DatePicker from './DatePicker.vue';
 import {
   startOfDay,
   addYears,
@@ -82,7 +92,9 @@ export const afterDateValidator = (compareDateName) => {
 
 export default {
   name: 'DateInput',
-  components: {},
+  components: {
+    DatePicker,
+  },
   props: {
     value: Date,
     className: String,
@@ -101,6 +113,8 @@ export default {
       day: null,
       year: null,
       monthList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      isDatePickerOpen: false,
+      datePickerDate: null,
     }
   },
   created() {
@@ -108,7 +122,18 @@ export default {
       this.day = this.value.getDate().toString();
       this.month = this.value.getMonth().toString();
       this.year = this.value.getFullYear().toString();
+      this.datePickerDate = this.value;
     }
+  },
+  mounted() {
+    window.addEventListener('close-date-picker', this.closeDatePicker);
+    window.addEventListener('click', this.closeDatePicker);
+    this.$refs.datePicker.addEventListener('click', this.stopPropagation);
+  },
+  beforeUnmount() {
+    window.removeEventListener('close-date-picker', this.closeDatePicker);
+    window.removeEventListener('click', this.closeDatePicker);
+    this.$refs.datePicker.removeEventListener('click', this.stopPropagation);
   },
   methods: {
     isNumber: function(evt) {
@@ -141,6 +166,7 @@ export default {
           this.date = null;
         }
       }
+      this.datePickerDate = this.date;
       this.$emit('input', this.date);
     },
     canCreateDate() {
@@ -175,6 +201,35 @@ export default {
     onBlurMonth(value) {
       this.month = value;
       this.processDate();
+    },
+    openCloseDatePicker() {
+      event.stopPropagation();
+      if (this.isDatePickerOpen) {
+        this.closeDatePicker();
+      } else {
+        // Close existing date pickers.
+        window.dispatchEvent(new Event('close-date-picker'));
+        // Open component date picker.
+        this.isDatePickerOpen = true;
+      }
+    },
+    closeDatePicker() {
+      this.isDatePickerOpen = false;
+    },
+    stopPropagation(event) {
+      event.stopPropagation();
+    },
+  },
+  watch: {
+    datePickerDate(newDate) {
+      this.date = newDate;
+
+      if (this.date) {
+        this.day = this.date.getDate().toString();
+        this.month = this.date.getMonth().toString();
+        this.year = this.date.getFullYear().toString();
+      }
+      this.$emit('input', this.date);
     }
   }
 }
@@ -188,6 +243,8 @@ legend {
 .date-row {
   display: flex;
   flex-wrap: nowrap;
+  /* justify-content: space-between; */
+  position: relative;
 }
 label {
   border: 0;
@@ -201,6 +258,7 @@ label {
 }
 .monthSelect {
   width: 160px;
+  max-width: auto;
   margin-right: 1em;
 }
 .dayInput {
@@ -209,5 +267,18 @@ label {
 }
 .yearInput {
   width: 65px;
+  margin-right: 1em;
+}
+.date-picker-icon {
+  width: 32px;
+  height: 39px;
+  font-size: 26px;
+  cursor: pointer;
+}
+.date-picker-container {
+  position: absolute;
+  top: 39px;
+  right: 0;
+  z-index: 1;
 }
 </style>

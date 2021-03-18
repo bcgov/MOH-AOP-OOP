@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faCalendarAlt,
   faCheckCircle,
   faPencilAlt,
   faPrint,
@@ -13,6 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'core-js/es/number';
 
+library.add(faCalendarAlt);
 library.add(faCheckCircle);
 library.add(faPencilAlt);
 library.add(faPrint);
