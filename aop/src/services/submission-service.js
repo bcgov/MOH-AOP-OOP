@@ -129,6 +129,19 @@ const trimPhone = ph => {
   return trimmedPhone.join('');
 }
 
+// JSON escape
+const escapeSpecialChar = str => {
+  return str
+    .replace(/[\\]/g, '\\\\')
+    .replace(/[\"]/g, '\\\"')
+    .replace(/[\/]/g, '\\/')
+    .replace(/[\b]/g, '\\b')
+    .replace(/[\f]/g, '\\f')
+    .replace(/[\n]/g, '\\n')
+    .replace(/[\r]/g, '\\r')
+    .replace(/[\t]/g, '\\t');
+}
+
 // get AOP data ready for submission
 const convertAOPApp = state => {
   const app = {};
@@ -138,14 +151,14 @@ const convertAOPApp = state => {
   app.lastName = state.lastName;
   app.emailAddress = state.emailAddress;
   app.phoneNumber = trimPhone(state.phoneNumber);
-  app.organization = state.organization;
-  app.facility = state.facility;
+  app.organization = escapeSpecialChar(state.organization);
+  app.facility = escapeSpecialChar(state.facility);
   app.submissionType = state.submissionType;
   app.primaryNumber = state.primaryNumber;
   app.primaryLastName = state.primaryLastName;
   app.secondaryNumber = state.secondaryNumber;
   app.secondaryLastName = state.secondaryLastName;
-  app.comments = state.comments;
+  app.comments = escapeSpecialChar(state.comments);
 
   return app;
 };

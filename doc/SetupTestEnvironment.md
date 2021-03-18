@@ -9,7 +9,7 @@ oc project ...-test
 ```
 
 2. Switch Apporeto to Kubernetes network policy
-Make sure you're in dev:
+Make sure you're in test:
 ```console
 oc get nsp
 ```
@@ -30,7 +30,7 @@ oc delete en addressdoctor cloudflare maximus-servers
 3. apply the quickstart msp web (for test, make sure your default oc project is test):
 cd /openshift/templates
 ```console
-oc process -f quickmspweb-toall.yaml NAMESPACE=a3c641-test | oc apply -f -
+oc process -f quickaopweb-toall.yaml NAMESPACE=a3c641-test | oc apply -f -
 ```
 
 To check things out:
@@ -67,7 +67,7 @@ oc policy add-role-to-user system:image-puller system:serviceaccount:$(oc projec
 
 3. create the trio of dc, service, routes using the deploy.yaml file:
 ```console
-oc process -f deploy.yaml --param-file=params-dev.txt | oc apply -f -
+oc process -f deploy.yaml --param-file=params-test.txt | oc apply -f -
 ```
 
 ## deal with the github workflows

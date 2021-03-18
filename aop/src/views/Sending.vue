@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Header
-      :heading="'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'"
-    />
+    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1 class="text-center">Sending Application</h1>
       <div class="text-center">

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <SignOutHeader
-      :heading="
-        'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
-      "
-    />
+    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
     <main class="container py-5 px-2">
       <router-view></router-view>

@@ -1,18 +1,16 @@
 <template>
   <div>
-    <Header
-      :heading="
-        'Upload Tool for: Diagnostic Facility Services Assignment of Payment & Medical Director Authorization, Laboratory Services Outpatient Operator Payment Administration and related forms'
-      "
-    />
+    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
     <main class="container py-5 px-2">
-      <h1>Sign in to upload forms</h1>
+      <h1>Ministry of Health - Diagnostic Services Secure Upload Tool</h1>
+      <p>This site is specifically for submitting the following forms:</p>
       <ul class="mt-3">
         <li>Diagnostic Facility Services Assignment of Payment &#38; Medical Director Authorization (HLTH 1908)</li>
         <li>Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)</li>
         <li>Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)</li>
       </ul>
+      <strong>Please sign in as a first step to uploading one or more of these forms.</strong>
       <hr>
       <div class="card">
         <h3>

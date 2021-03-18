@@ -56,4 +56,8 @@ header .navbar {
 .pointer {
   cursor: pointer;
 }
+
+@media (min-width: 992px) {
+  
+}
 </style>

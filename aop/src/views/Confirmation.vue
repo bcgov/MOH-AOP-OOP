@@ -2,11 +2,9 @@
   <div>
     <div class="buttons">
       <button class="print-button" v-on:click="print()">
-        <span>Save</span> <i class="far fa-save fa-2x"></i>
+        <span>Print or Save as PDF</span>
       </button>
-      <button class="print-button" v-on:click="print()">
-        <span>Print</span> <i class="fa fa-print fa-2x"></i>
-      </button>
+      <i class="fas fa-info-circle fa-2x"><div class="tip">To save as PDF, in the print window click "Save as PDF"</div></i>
     </div>
     <h1>Confirmation Message</h1>
     <hr />
@@ -222,5 +220,33 @@ export default {
   * {
     margin-right: 6px;
   }
+}
+
+.fa-info-circle {
+  position: relative;
+  display: inline-block;
+  color: black;
+}
+
+/* Tooltip text */
+.fa-info-circle .tip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  font-weight: normal;
+  font-size: 12px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.fa-info-circle:hover .tip {
+  visibility: visible;
 }
 </style>

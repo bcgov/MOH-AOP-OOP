@@ -1,27 +1,30 @@
-export const log = () => {
-  const baseUrl = this.appConstants['logBaseUrl'];
-    // With Angular 5 we can't pass in undefined to the headers without runtime
-    // errors, so now we default to 'n/a'.
-    const refNumber = this.enrolDataService.application.referenceNumber ||
-                      this.benefitDataService.benefitApp.referenceNumber ||
-                      this.dataService.finAssistApp.referenceNumber ||
-                      this.dataService.getMspAccountApp().referenceNumber ||
-                      'n/a';
+import axios from "axios";
+import moment from "moment";
 
-    const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'logsource' : window.location.hostname,
-        'timestamp' : moment().toISOString(),
-        'program' : 'msp',
-        'severity' : 'info',
-        'referenceNumber' : refNumber,
-        'applicationId' : this.getApplicationId(),
-        'request_method' : request_method
+export const log = (logItem, refNumber, uuid) => {
+  const baseUrl = "/api/logging";
+
+  const headers = {
+    "Content-Type": "application/json",
+    logsource: window.location.hostname,
+    timestamp: moment().toISOString(),
+    program: "msp",
+    severity: "info",
+    referenceNumber: refNumber,
+    applicationId: uuid,
+  };
+
+  const options = { headers: headers, responseType: "text" };
+
+  const body = {
+    body: logItem
+  };
+
+  axios.post(baseUrl, body, options)
+    .then(res => {
+      console.log('Logging response:', res);
+    })
+    .catch(err => {
+      console.log('Logging error:', err);
     });
-    const options = { headers: headers, responseType: 'text' as 'text' };
-
-    const body = {
-      meta: this.createMetaData(),
-      body: logItem,
-    };
-}
+};
