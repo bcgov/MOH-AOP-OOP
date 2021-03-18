@@ -32,22 +32,20 @@
                 v-if="showServerValidationError"
                 aria-live="assertive">This field does not match our records.</div>
 
-            <Input label='Email (Optional)'
+            <Input label='Email (optional)'
                   v-model='email'
-                  className='mt-3' />
+                  className='mt-3'
+                  maxlength='50'/>
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.email.emailValidator"
                 aria-live="assertive">Email must have the following format: yourname@example.com.</div>
 
             <PhoneNumberInput id='phone-input'
-                              label='Phone number'
+                              label='Phone number (optional)'
                               v-model='phone'
                               className='mt-3' />
             <div class="text-danger"
-                v-if="$v.phone.$dirty && !$v.phone.required"
-                aria-live="assertive">Phone number is required</div>
-            <div class="text-danger"
-                v-if="$v.phn.$dirty && $v.phone.required && !$v.phone.phoneValidator"
+                v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
           </div>
@@ -103,6 +101,9 @@ const emailValidator = (value) => {
 };
 
 const phoneValidator = (value) => {
+  if (!value) {
+    return true;
+  }
   const stripped = value
         .replace(/_/g, '') // remove underlines
         .replace(/\s/g, '') // spaces
@@ -152,7 +153,6 @@ export default {
         emailValidator,
       },
       phone: {
-        required,
         phoneValidator,
       }
     };
