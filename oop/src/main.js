@@ -5,6 +5,8 @@ import router from './router';
 import store from './store';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faArrowLeft,
+  faArrowRight,
   faCalendarAlt,
   faCheckCircle,
   faPencilAlt,
@@ -14,6 +16,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'core-js/es/number';
 
+library.add(faArrowLeft);
+library.add(faArrowRight);
 library.add(faCalendarAlt);
 library.add(faCheckCircle);
 library.add(faPencilAlt);

@@ -41,10 +41,9 @@
         </div>
         <div class="date-picker-container"
             ref="datePicker">
-          <!-- <v-date-picker v-if="isDatePickerOpen"
-                        v-model="datePickerDate"
-                        @dayclick="closeDatePicker()"/> -->
-          <DatePicker v-if="isDatePickerOpen" />
+          <DatePicker v-if="isDatePickerOpen"
+                      v-model="datePickerDate"
+                      @dateSelected="closeDatePicker()" />
         </div>
       </div>
     </fieldset>
