@@ -32,7 +32,7 @@
                 v-if="showServerValidationError"
                 aria-live="assertive">This field does not match our records.</div>
 
-            <Input label='Email (Optional)'
+            <Input label='Email (optional)'
                   v-model='email'
                   className='mt-3'
                   maxlength='50'/>
@@ -41,7 +41,7 @@
                 aria-live="assertive">Email must have the following format: yourname@example.com.</div>
 
             <PhoneNumberInput id='phone-input'
-                              label='Phone number'
+                              label='Phone number (optional)'
                               v-model='phone'
                               className='mt-3' />
             <div class="text-danger"
