@@ -9,7 +9,8 @@
       :country="country"
       :region="region"
       :countryName="true"
-      :regionName="true"/>
+      :regionName="true"
+      placeholder="Select Province" />
   </div>
 </template>
 
