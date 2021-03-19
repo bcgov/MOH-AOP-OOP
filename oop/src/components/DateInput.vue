@@ -201,13 +201,21 @@ export default {
       this.month = value;
       this.processDate();
     },
-    openCloseDatePicker() {
+    openCloseDatePicker(event) {
       event.stopPropagation();
       if (this.isDatePickerOpen) {
         this.closeDatePicker();
       } else {
+        let closeEvent;
+        if (typeof(Event) === 'function') {
+          closeEvent = new Event('close-date-picker');
+        } else {
+          // For IE event dispatching.
+          closeEvent = document.createEvent('Event');
+          closeEvent.initEvent('close-date-picker', true, true);
+        }
         // Close existing date pickers.
-        window.dispatchEvent(new Event('close-date-picker'));
+        window.dispatchEvent(closeEvent);
         // Open component date picker.
         this.isDatePickerOpen = true;
       }

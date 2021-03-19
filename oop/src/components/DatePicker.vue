@@ -1,5 +1,5 @@
 <template>
-  <div :class="'date-picker ' + className">
+  <div :class="'date-picker no-select ' + className">
     <div class="title-container">
       <div class="arrow left"
           @click="previousMonth()">
@@ -19,10 +19,10 @@
       <div class="date-header-cell">T</div>
       <div class="date-header-cell">F</div>
       <div class="date-header-cell">S</div>
-      <div class="date-cell"
+      <div class="date-cell empty"
           v-for="index in paddedSquares"
           :key="'index' + index"></div>
-      <div :class="'date-cell ' + (date.getDate() === day ? 'selected' : '')"
+      <div :class="'date-cell ' + (isSelectedDate(date) ? 'selected' : '')"
           v-for="(date, index) in datesInMonth"
           :key="index"
           @click="handleDaySelect(date)">
@@ -104,7 +104,7 @@ export default {
     },
     monthLabel() {
       return MONTHS[this.month];
-    }
+    },
   },
   methods: {
     setDateValue(value) {
@@ -134,6 +134,15 @@ export default {
         this.month--;
       }
     },
+    isSelectedDate(date) {
+      if (date
+        && this.year === date.getFullYear()
+        && this.month === date.getMonth()
+        && this.day === date.getDate()) {
+        return true;
+      }
+      return false;
+    },
   },
   watch: {
     value(newValue) {
@@ -146,9 +155,9 @@ export default {
 <style scoped>
 .date-picker {
   background: #FFF;
-  /* max-width: 200px; */
   border: solid thin #CCC;
   border-radius: 5px;
+  box-shadow: 0px 0px 20px 0px #CCC;
 }
 .date-container {
   display: flex;
@@ -161,13 +170,19 @@ export default {
   padding: 7px;
   width: 40px;
   height: 40px;
+  max-width: 40px; /* Needed for IE */
   flex: 0 0 40px;
 }
 .date-cell {
   text-align: center;
   width: 40px;
   height: 40px;
+  max-width: 40px; /* Needed for IE */
   flex: 0 0 40px;
+  padding: 2px;
+}
+.date-cell:not(.empty) {
+  cursor: pointer;
 }
 .title-container {
   display: flex;
@@ -196,10 +211,24 @@ export default {
 }
 .date-cell .circle {
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  padding: 5px 0;
 }
 .date-cell.selected .circle {
   background: #BBB;
+}
+.date-cell:hover .circle {
+  color: #FFF;
+  background: #036;
+}
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 </style>
