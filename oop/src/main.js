@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'core-js/es/number';
+import { isIE } from './helpers/user-agent';
 
 library.add(faArrowLeft);
 library.add(faArrowRight);
@@ -28,6 +29,11 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Vuelidate);
 
 Vue.config.productionTip = false;
+
+// Add 'ie' class name when is IE browser.
+if (isIE()) {
+  document.body.classList.add('ie');
+}
 
 new Vue({
   router,

@@ -158,6 +158,10 @@ export default {
   border: solid thin #CCC;
   border-radius: 5px;
   box-shadow: 0px 0px 20px 0px #CCC;
+  width: 282px;
+}
+body.ie .date-picker {
+  width: 292px;
 }
 .date-container {
   display: flex;

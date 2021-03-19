@@ -41,9 +41,11 @@
         </div>
         <div class="date-picker-container"
             ref="datePicker">
-          <DatePicker v-if="isDatePickerOpen"
-                      v-model="datePickerDate"
-                      @dateSelected="closeDatePicker()" />
+          <div class="date-picker">
+            <DatePicker v-if="isDatePickerOpen"
+                        v-model="datePickerDate"
+                        @dateSelected="closeDatePicker()" />
+          </div>
         </div>
       </div>
     </fieldset>
@@ -250,8 +252,6 @@ legend {
 .date-row {
   display: flex;
   flex-wrap: nowrap;
-  /* justify-content: space-between; */
-  position: relative;
 }
 label {
   border: 0;
@@ -283,8 +283,11 @@ label {
   cursor: pointer;
 }
 .date-picker-container {
+  position: relative;
+}
+.date-picker {
   position: absolute;
-  top: 39px;
+  top: 18px;
   right: 0;
   z-index: 1;
 }
