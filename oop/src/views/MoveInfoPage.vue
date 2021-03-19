@@ -195,12 +195,6 @@ export default {
           isValid: true,
       }
     }
-
-    for (let i=currNumOfAddressLines-1; i>=0; i--){
-      if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
-        this.addressLines.splice(i,1);
-      }
-    }
   },
   validations() {
     const validations = {
@@ -247,6 +241,14 @@ export default {
       
       setTimeout(() => {
         this.isLoading = false;
+
+        // Eliminate empty address lines.
+        const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+        for (let i=currNumOfAddressLines-1; i>=0; i--){
+          if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
+            this.addressLines.splice(i,1);
+          }
+        }
         
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
