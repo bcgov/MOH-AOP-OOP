@@ -102,7 +102,7 @@
         </div>
       </div>
     </PageContent>
-    <ContinueBar @continue="validateFields()" :hasLoader="isLoading"/>
+    <ContinueBar @continue="validateFields()" :hasLoader="isLoading" buttonLabel='Review'/>
   </div>
 </template>
 <script>
