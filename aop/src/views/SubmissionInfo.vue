@@ -269,6 +269,31 @@
         Valid phone number is required
       </div>
 
+      <div class="mt-3">
+        <label for="extension">Phone Extension:</label><br />
+        <masked-input
+          id="extension"
+          type="text"
+          name="phoneExtension"
+          class="form-control"
+          v-model="phoneExtension"
+          :guide="false"
+          :mask="[
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+          ]"
+        >
+        </masked-input>
+      </div>
+
       <div class="mb-3" v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
         <Input
           :label="'Organization'"
@@ -652,6 +677,7 @@ import {
   SET_LAST_NAME,
   SET_EMAIL_ADDRESS,
   SET_PHONE_NUMBER,
+  SET_PHONE_EXTENSION,
   SET_UPLOADED_FORMS,
   SET_UPLOAD_TYPE,
   SET_CREDENTIALS_REQUIRED,
@@ -691,6 +717,7 @@ export default {
       lastName: "",
       emailAddress: "",
       phoneNumber: "",
+      phoneExtension: "",
       organization: "",
       facility: "",
       files: null,
@@ -890,6 +917,7 @@ export default {
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
     this.phoneNumber = this.$store.state.phoneNumber;
+    this.phoneExtension = this.$store.state.phoneExtension;
     this.organization = this.$store.state.organization;
     this.facility = this.$store.state.facility;
     this.submissionType = this.$store.state.submissionType;
@@ -919,6 +947,7 @@ export default {
       this.$store.dispatch(SET_LAST_NAME, this.lastName);
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
+      this.$store.dispatch(SET_PHONE_EXTENSION, this.phoneExtension);
       if (this.uploadType === "AOP" || this.uploadType === "COAOP") {
         this.$store.dispatch(SET_ORGANIZATION, this.organization);
       } else {

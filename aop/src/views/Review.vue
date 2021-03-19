@@ -11,7 +11,7 @@
         >
     </div>
     <div class="selected-form mb-4">
-      {{ selectedForm }}
+      {{ selectedForm }} {{ withCredentials }}
     </div>
 
     <h2 class="mt-4">Submitter Information</h2>
@@ -75,6 +75,14 @@ import SummaryMixin from '../mixins/SummaryMixin';
 export default {
   name: "Review",
   mixins: [SummaryMixin],
+  data: () => {
+    return {
+      withCredentials: ''
+    }
+  },
+  created() {
+    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with Credentials" : "";
+  },
   components: {
     Button,
     Table

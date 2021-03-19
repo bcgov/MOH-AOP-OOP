@@ -9,6 +9,7 @@ export const SET_FIRST_NAME = "setFirstName";
 export const SET_LAST_NAME = "setLastName";
 export const SET_EMAIL_ADDRESS = "setEmailAddress";
 export const SET_PHONE_NUMBER = "setPhoneNumber";
+export const SET_PHONE_EXTENSION = "setPhoneExtension";
 export const SET_ORGANIZATION = "setOrganization";
 export const SET_FACILITY = "setFacility";
 export const SET_SUBMISSION_TYPE = "setSubmissionType";
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     lastName: '',
     emailAddress: '',
     phoneNumber: '',
+    phoneExtension: '',
     organization: '',
     facility: '',
     submissionType: '',
@@ -61,6 +63,9 @@ export default new Vuex.Store({
     },
     setPhoneNumber(state, payload) {
       state.phoneNumber = payload;
+    },
+    setPhoneExtension(state, payload) {
+      state.phoneExtension = payload;
     },
     setOrganization(state, payload) {
       state.organization = payload;
@@ -104,6 +109,7 @@ export default new Vuex.Store({
       commit(SET_LAST_NAME, '');
       commit(SET_EMAIL_ADDRESS, '');
       commit(SET_PHONE_NUMBER, '');
+      commit(SET_PHONE_EXTENSION, '');
       commit(SET_ORGANIZATION, '');
       commit(SET_FACILITY, '');
       commit(SET_SUBMISSION_TYPE, '');
@@ -148,6 +154,9 @@ export default new Vuex.Store({
     },
     setPhoneNumber({ commit }, phoneNumber) {
       commit(SET_PHONE_NUMBER, phoneNumber);
+    },
+    setPhoneExtension({ commit }, phoneExtension) {
+      commit(SET_PHONE_EXTENSION, phoneExtension);
     },
     setOrganization({ commit }, setOrganization) {
       commit(SET_ORGANIZATION, setOrganization);

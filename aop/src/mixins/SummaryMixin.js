@@ -29,6 +29,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Phone Extension:", value: this.$store.state.phoneExtension },
         { name: "Organization:", value: this.$store.state.organization }
       ];
     } else {
@@ -37,6 +38,7 @@ export default {
         { name: "Last Name:", value: this.$store.state.lastName },
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
+        { name: "Phone Extension:", value: this.$store.state.phoneExtension },
         { name: "Facility Name:", value: this.$store.state.facility }
       ];
     }

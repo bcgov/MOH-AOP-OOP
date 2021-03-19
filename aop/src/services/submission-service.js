@@ -129,7 +129,7 @@ const trimPhone = ph => {
   return trimmedPhone.join('');
 }
 
-// JSON escape
+// JSON escape and trim to maxlength
 const escapeSpecialChar = (str, maxlength) => {
   return str
     .replace(/[\\]/g, '\\\\')
@@ -152,6 +152,7 @@ const convertAOPApp = state => {
   app.lastName = state.lastName;
   app.emailAddress = state.emailAddress;
   app.phoneNumber = trimPhone(state.phoneNumber);
+  app.phoneExtension = trimPhone(state.phoneExtension);
   app.organization = escapeSpecialChar(state.organization, 70);
   app.facility = escapeSpecialChar(state.facility, 70);
   app.submissionType = state.submissionType;
