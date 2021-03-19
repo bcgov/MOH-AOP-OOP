@@ -172,6 +172,7 @@ export default {
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
+      isAddressEmpty: true,
     }
   },
   created() {
@@ -188,17 +189,26 @@ export default {
     }, 0);
 
     const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    this.isAddressEmpty = true;
 
     for (let i=0; i<currNumOfAddressLines; i++) {
       this.addressLines[i] = {
-          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
-          isValid: true,
+        value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+        isValid: true,
+      }
+      if (this.addressLines[i].value != null && this.addressLines[i].value != ''){
+        this.isAddressEmpty = false;
       }
     }
 
-    for (let i=currNumOfAddressLines-1; i>=0; i--){
-      if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
-        this.addressLines.splice(i,1);
+    for (let i=currNumOfAddressLines; i>0; i--) {
+      // If all of the address lines is empty, do not splice the first address line
+      if (this.isAddressEmpty == true && i != MIN_ADDRESS_LINES){
+        this.addressLines.splice(i-1,1);
+      }
+      // If the one of the address lines has an address, splice all the empty address lines
+      else if (this.isAddressEmpty == false && (this.addressLines[i-1].value == null || this.addressLines[i-1].value == '')){
+        this.addressLines.splice(i-1,1);
       }
     }
   },
