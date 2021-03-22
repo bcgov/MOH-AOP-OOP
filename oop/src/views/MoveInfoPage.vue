@@ -303,14 +303,9 @@ export default {
   width: 540px;
 }
 
-.address-line, .city, .province {
+.address-line, .city, .province, .postal-code {
   max-width: 100%;
   width: 350px;
-}
-
-.postal-code {
-  max-width: 100%;
-  width: 160px;
 }
 
 .address-row-margin { 
