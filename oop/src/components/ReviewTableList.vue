@@ -95,8 +95,8 @@ export default {
     accountTypeTableData() {
       const items = [];
       items.push({
-        label: 'Are you the Account Holder or a Dependent?',
-        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the Account Holder' : 'I\'m a Dependent'
+        label: 'Are you the account holder or a dependent?',
+        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the account holder' : 'I\'m a dependent'
       });
       if (this.$store.state.form.accountType === 'AH') {
         items.push({
@@ -141,17 +141,19 @@ export default {
         label: 'Country:',
         value: this.$store.state.form.country,
       });
-      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province' : 'State / province / region'
+      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
       items.push({
         label: provinceLabel,
         value: this.$store.state.form.province,
       });
+      const cityLabel = this.$store.state.form.country === 'Canada' ? 'City:' : 'City/town:'
       items.push({
-        label: 'City:',
+        label: cityLabel,
         value: this.$store.state.form.city,
       });
+      const postalCodeLabel = this.$store.state.form.country === 'Canada' ? 'Postal code:' : 'Postal code/zip code:'
       items.push({
-        label: 'Zip / postal code:',
+        label: postalCodeLabel,
         value: this.$store.state.form.postalCode,
       });
       return items;
@@ -159,9 +161,9 @@ export default {
     whoIsMoving() {
       switch(this.$store.state.form.personMoving) {
         case 'AH_ONLY':
-          return 'Account Holder only';
+          return 'Account holder only';
         case 'AH_DEP':
-          return 'Account Holder and Dependent(s)';
+          return 'Account holder and dependent(s)';
         case 'DEP_ONLY':
           return 'Dependent(s) only';
       }

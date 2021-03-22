@@ -9,7 +9,7 @@
           <div class="col-3 text-right">
             <a href="javascript:void(0)"
               class="print-btn"
-              @click="printPage()">Print
+              @click="printPage()">Print or Save as PDF
               <font-awesome-icon icon="print" />
             </a>
           </div>
@@ -18,7 +18,7 @@
         
         <div class="box-border border border-success rounded">
           <div class="row align-items-center">
-            <div class="col-2 pr-0 text-center">
+            <div class="col-1 pr-0 text-center">
               <div class="status-icon text-success">
                 <font-awesome-icon icon="check-circle" />
               </div>
