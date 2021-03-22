@@ -141,17 +141,19 @@ export default {
         label: 'Country:',
         value: this.$store.state.form.country,
       });
-      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province' : 'State / province / region'
+      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
       items.push({
         label: provinceLabel,
         value: this.$store.state.form.province,
       });
+      const cityLabel = this.$store.state.form.country === 'Canada' ? 'City:' : 'City/town:'
       items.push({
-        label: 'City:',
+        label: cityLabel,
         value: this.$store.state.form.city,
       });
+      const postalCodeLabel = this.$store.state.form.country === 'Canada' ? 'Postal code:' : 'Postal code/zip code:'
       items.push({
-        label: 'Zip / postal code:',
+        label: postalCodeLabel,
         value: this.$store.state.form.postalCode,
       });
       return items;
