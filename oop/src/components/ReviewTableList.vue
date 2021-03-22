@@ -131,7 +131,7 @@ export default {
       const addressLines = this.$store.state.form.addressLines;
       for (let i=0; i<addressLines.length; i++) {
         items.push({
-          label: 'New address line ' + (i+1) + ':',
+          label: 'Address line ' + (i+1) + ':',
           value: addressLines[i].value,
         });
       }

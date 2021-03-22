@@ -42,7 +42,7 @@
                         :key='index'
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-7 mt-3'>
-                <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
+                <AddressInput :label='"Address line " + (index + 1) + " (optional)"'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
               </div>
               <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
@@ -303,9 +303,14 @@ export default {
   width: 540px;
 }
 
-.address-line, .city, .province, .postal-code {
+.address-line, .city, .province {
   max-width: 100%;
   width: 350px;
+}
+
+.postal-code {
+  max-width: 100%;
+  width: 160px;
 }
 
 .address-row-margin { 
