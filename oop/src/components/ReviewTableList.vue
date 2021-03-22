@@ -2,7 +2,7 @@
   <div :class="className">
     <div class="row align-items-end mt-3">
       <div class="col-9">
-        <h2 class="mb-2">Your Information</h2>
+        <h2 class="mb-2">Your information</h2>
       </div>
       <div v-if='showEditButtons'
           class="col-3 text-right">
@@ -17,7 +17,7 @@
 
     <div class="row align-items-end mt-5">
       <div class="col-9">
-        <h2 class="mb-2">Account Type</h2>
+        <h2 class="mb-2">Account type</h2>
       </div>
       <div v-if='showEditButtons'
           class="col-3 text-right">
@@ -32,7 +32,7 @@
 
     <div class="row align-items-end mt-5">
       <div class="col-9">
-        <h2 class="mb-2">Move Information</h2>
+        <h2 class="mb-2">Move information</h2>
       </div>
       <div v-if='showEditButtons'
           class="col-3 text-right">
@@ -75,19 +75,19 @@ export default {
     yourInfoTableData() {
       const items = [];
       items.push({
-        label: 'Last name',
+        label: 'Last name:',
         value: this.$store.state.form.lastName,
       });
       items.push({
-        label: 'PHN',
+        label: 'Personal health number (PHN):',
         value: this.$store.state.form.phn,
       });
       items.push({
-        label: 'Email address',
+        label: 'Email address:',
         value: this.$store.state.form.email,
       });
       items.push({
-        label: 'Phone number',
+        label: 'Phone number:',
         value: this.$store.state.form.phone,
       });
       return items;
@@ -95,20 +95,25 @@ export default {
     accountTypeTableData() {
       const items = [];
       items.push({
-        label: 'Who is moving?',
-        value: this.whoIsMoving
+        label: 'Are you the Account Holder or a Dependent?',
+        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the Account Holder' : 'I\'m a Dependent'
       });
-      if (this.$store.state.form.accountType === 'AH'
-        && (this.$store.state.form.personMoving === 'AH_DEP' || this.$store.state.form.personMoving === 'DEP_ONLY')) {
+      if (this.$store.state.form.accountType === 'AH') {
         items.push({
-          label: 'Are all dependents moving?',
-          value: this.$store.state.form.isAllDependentsMoving === 'Y' ? 'Yes' : 'No',
+          label: 'Who is moving out of B.C.?',
+          value: this.whoIsMoving
         });
-        if (this.$store.state.form.isAllDependentsMoving === 'N') {
+        if (this.$store.state.form.personMoving === 'AH_DEP' || this.$store.state.form.personMoving === 'DEP_ONLY') {
           items.push({
-            label: 'Dependent PHN(s)',
-            value: this.dependentPhns,
+            label: 'Are all of the dependents on your MSP account moving out of B.C.?',
+            value: this.$store.state.form.isAllDependentsMoving === 'Y' ? 'Yes' : 'No',
           });
+          if (this.$store.state.form.isAllDependentsMoving === 'N') {
+            items.push({
+              label: 'Dependent PHN(s):',
+              value: this.dependentPhns,
+            });
+          }
         }
       }
       return items;
@@ -116,19 +121,24 @@ export default {
     moveInfoTableData() {
       const items = [];
       items.push({
-        label: 'Permanent move from BC',
+        label: 'Permanent move from B.C.:',
         value: formatDate(this.$store.state.form.moveFromBCDate),
       });
       items.push({
-        label: 'Arrival in new destination',
+        label: 'Arrival in new destination:',
         value: formatDate(this.$store.state.form.arriveDestinationDate),
       });
+      const addressLines = this.$store.state.form.addressLines;
+      for (let i=0; i<addressLines.length; i++) {
+        items.push({
+          label: 'New address line ' + (i+1) + ':',
+          value: addressLines[i].value,
+        });
+      }
+      
+
       items.push({
-        label: 'New address',
-        value: this.addressLines,
-      });
-      items.push({
-        label: 'Country',
+        label: 'Country:',
         value: this.$store.state.form.country,
       });
       const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province' : 'State / province / region'
@@ -137,27 +147,23 @@ export default {
         value: this.$store.state.form.province,
       });
       items.push({
-        label: 'City',
+        label: 'City:',
         value: this.$store.state.form.city,
       });
       items.push({
-        label: 'Zip / postal code',
+        label: 'Zip / postal code:',
         value: this.$store.state.form.postalCode,
       });
       return items;
     },
     whoIsMoving() {
-      if (this.$store.state.form.accountType === 'AH') {
-        switch(this.$store.state.form.personMoving) {
-          case 'AH_ONLY':
-            return 'Account Holder only';
-          case 'AH_DEP':
-            return 'Account Holder and Dependent(s)';
-          case 'DEP_ONLY':
-            return 'Dependent(s) only';
-        }
-      } else if (this.$store.state.form.accountType === 'DEP') {
-        return 'Dependent';
+      switch(this.$store.state.form.personMoving) {
+        case 'AH_ONLY':
+          return 'Account Holder only';
+        case 'AH_DEP':
+          return 'Account Holder and Dependent(s)';
+        case 'DEP_ONLY':
+          return 'Dependent(s) only';
       }
       return null;
     },

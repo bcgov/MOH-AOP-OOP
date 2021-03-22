@@ -1,10 +1,12 @@
 <template>
-  <div class="form-group bcgov-table-body"
+  <div class="form-group bcgov-table-body p-3"
       :style="{'background-color': backgroundColor}">
     <div v-for="element in elements"
         :key="element.label"
-        class="bcgov-row">
-      <div class="bcgov-table-cell label">{{element.label}}</div>
+        class="bcgov-row d-flex align-items-end">
+      <div class="bcgov-table-cell label">
+        <div class="table-cell-max">{{element.label}}</div>
+      </div>
       <div class="bcgov-table-cell value"><b>{{element.value}}</b></div>
     </div>
   </div>
@@ -37,17 +39,21 @@ export default {
 .bcgov-row {
   display: flex;
   flex-direction: row;
-  vertical-align: top;
-  padding: 3px 8px;
+  vertical-align: middle;
+  padding: 5px 8px;
   white-space: pre-wrap;
 }
 
 .bcgov-table-cell.label {
-  width: 40%;
+  width: 50%;
+  text-align: right;
 }
 .bcgov-table-cell.value {
-  width: 60%;
+  width: 50%;
   padding-left: 6px;
 }
-
+.table-cell-max {
+  max-width: 350px;
+  display: inline-block;
+}
 </style>
