@@ -25,7 +25,6 @@
 
 <style lang="scss">
 footer.footer {
-  position: relative;
   width: 100%;
 }
 
