@@ -309,6 +309,13 @@
         >
           Organization is required
         </div>
+        <div
+          class="text-danger"
+          v-if="$v.organization.$dirty && $v.organization.required && !$v.organization.isValidOrganization"
+          aria-live="assertive"
+        >
+          Invalid organization
+        </div>
       </div>
 
       <div class="mb-3" v-if="uploadType === 'OOPA'">
@@ -325,6 +332,13 @@
           aria-live="assertive"
         >
           Facility name is required
+        </div>
+        <div
+          class="text-danger"
+          v-if="$v.facility.$dirty && $v.facility.required && !$v.facility.isValidFacility"
+          aria-live="assertive"
+        >
+          Invalid facility name
         </div>
       </div>
 
@@ -659,7 +673,7 @@
     </div>
     <Button
       label="Continue"
-      :styling="!$v.$invalid ? 'bcgov-normal-blue btn mb' : 'disabled btn mb'"
+      :styling="'bcgov-normal-blue btn mb'"
       v-on:button-click="nextPage"
     />
   </form>
@@ -699,6 +713,8 @@ import {
   isValidSecondaryLastName,
   hasSecondaryNumber,
   hasSecondaryLastName,
+  isValidOrganization,
+  isValidFacility
 } from "../helpers/validators";
 
 export default {
@@ -756,6 +772,7 @@ export default {
         },
         organization: {
           required,
+          isValidOrganization
         },
         files: {
           required,
@@ -801,6 +818,7 @@ export default {
         },
         organization: {
           required,
+          isValidOrganization
         },
         files: {
           required,
@@ -840,6 +858,7 @@ export default {
         },
         organization: {
           required,
+          isValidOrganization
         },
         files: {
           required,
@@ -876,6 +895,7 @@ export default {
         },
         facility: {
           required,
+          isValidFacility
         },
         files: {
           required,

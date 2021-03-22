@@ -25,3 +25,11 @@ export const hasSecondaryLastName = (value, vm) => {
   const hasNeither = vm.secondaryLastName.length < 1 && value.length < 1;
   return hasNeither || hasLastName;
 }
+
+export const isValidOrganization = org => {
+  return /^[^\\"/]/.test(org);
+}
+
+export const isValidFacility = fac => {
+  return /^[^\\"/]/.test(fac);
+}

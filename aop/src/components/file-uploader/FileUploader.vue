@@ -17,7 +17,6 @@
           accept="image/*,application/pdf"
           style="display:none;"
           tabindex="0"
-          multiple
           :name="id"
           :required="required"
           autocomplete="off"

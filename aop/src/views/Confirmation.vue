@@ -36,7 +36,7 @@
       <li>For information on your specific AOP submission, contact HIBC:</li>
       Email: <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
       <br>
-      Telephone: <strong>Dial 1-8666-456-6950</strong>
+      Telephone: <strong>Dial 1-866-456-6950</strong>
       <ul>
         <li>Hold for options to be presented; then select:</li>
         <li>Option 3 (provider services); then</li>
@@ -60,7 +60,7 @@
       <li>For information on your specific OPA submission, contact HIBC:</li>
       Email: <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
       <br>
-      Telephone: <strong>Dial 1-8666-456-6950</strong>
+      Telephone: <strong>Dial 1-866-456-6950</strong>
       <ul>
         <li>Hold for options to be presented; then select:</li>
         <li>Option 3 (provider services); then</li>

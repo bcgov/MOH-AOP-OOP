@@ -129,18 +129,17 @@ const trimPhone = ph => {
   return trimmedPhone.join('');
 }
 
-// JSON escape and trim to maxlength
-const escapeSpecialChar = (str, maxlength) => {
+// JSON escape
+const escapeSpecialChar = str => {
   return str
-    .replace(/[\\]/g, '\\\\')
-    .replace(/[\"]/g, '\\\"')
-    .replace(/[\/]/g, '\\/')
-    .replace(/[\b]/g, '\\b')
-    .replace(/[\f]/g, '\\f')
-    .replace(/[\n]/g, '\\n')
-    .replace(/[\r]/g, '\\r')
-    .replace(/[\t]/g, '\\t')
-    .substring(0, maxlength);
+    .replace(/[\\]/g, '')
+    .replace(/[\"]/g, '')
+    .replace(/[\/]/g, '')
+    .replace(/[\b]/g, '')
+    .replace(/[\f]/g, '')
+    .replace(/[\n]/g, '')
+    .replace(/[\r]/g, '')
+    .replace(/[\t]/g, '');
 }
 
 // get AOP data ready for submission
@@ -153,14 +152,14 @@ const convertAOPApp = state => {
   app.emailAddress = state.emailAddress;
   app.phoneNumber = trimPhone(state.phoneNumber);
   app.phoneExtension = trimPhone(state.phoneExtension);
-  app.organization = escapeSpecialChar(state.organization, 70);
-  app.facility = escapeSpecialChar(state.facility, 70);
+  app.organization = escapeSpecialChar(state.organization);
+  app.facility = escapeSpecialChar(state.facility);
   app.submissionType = state.submissionType;
   app.primaryNumber = state.primaryNumber;
   app.primaryLastName = state.primaryLastName;
   app.secondaryNumber = state.secondaryNumber;
   app.secondaryLastName = state.secondaryLastName;
-  app.comments = escapeSpecialChar(state.comments, 210);
+  app.comments = escapeSpecialChar(state.comments);
 
   return app;
 };

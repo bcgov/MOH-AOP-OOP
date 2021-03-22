@@ -1,24 +1,13 @@
 <template>
   <footer class="footer">
-    <div class="navbar navbar-expand-sm navbar-dark"
-         aria-label="Footer">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#footerBar"
-      >
-        <span class="navbar-toggler-icon" />
-      </button>
-      <div class="collapse navbar-collapse flex-grow-0" id="footerBar">
+    <div class="navbar navbar-dark" aria-label="Footer">
         <ul class="navbar-nav">
-          <link-element url="https://www2.gov.bc.ca" label="BC Government" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/disclaimer" label="Disclaimer" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/privacy" label="Privacy" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/accessibility" label="Accessibility" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/copyright" label="Copyright" />
+          <link-element url="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents-contact-us" label="Contact Us" />
         </ul>
-      </div>
     </div>
   </footer>
 </template>
@@ -34,11 +23,32 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+footer.footer {
+  position: relative;
+  width: 100%;
+}
 
 footer .navbar { 
   background-color: #036;
   border-top: 2px solid #fcba19;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  
+  li { 
+    padding: 2px 17px;
+    border-left: 1px solid #4b5e73;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 </style>
