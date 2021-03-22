@@ -18,7 +18,7 @@
         
         <div class="box-border border border-success rounded">
           <div class="row align-items-center">
-            <div class="col-2 pr-0 text-center">
+            <div class="col-1 pr-0 text-center">
               <div class="status-icon text-success">
                 <font-awesome-icon icon="check-circle" />
               </div>
