@@ -95,8 +95,8 @@ export default {
     accountTypeTableData() {
       const items = [];
       items.push({
-        label: 'Are you the Account Holder or a Dependent?',
-        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the Account Holder' : 'I\'m a Dependent'
+        label: 'Are you the account holder or a dependent?',
+        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the account holder' : 'I\'m a dependent'
       });
       if (this.$store.state.form.accountType === 'AH') {
         items.push({
@@ -161,9 +161,9 @@ export default {
     whoIsMoving() {
       switch(this.$store.state.form.personMoving) {
         case 'AH_ONLY':
-          return 'Account Holder only';
+          return 'Account holder only';
         case 'AH_DEP':
-          return 'Account Holder and Dependent(s)';
+          return 'Account holder and dependent(s)';
         case 'DEP_ONLY':
           return 'Dependent(s) only';
       }
