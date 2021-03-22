@@ -9,7 +9,7 @@
           <div class="col-3 text-right">
             <a href="javascript:void(0)"
               class="print-btn"
-              @click="printPage()">Print
+              @click="printPage()">Print or Save as PDF
               <font-awesome-icon icon="print" />
             </a>
           </div>
