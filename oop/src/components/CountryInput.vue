@@ -7,7 +7,6 @@
       class="form-control" 
       v-model="country"
       :country="country"
-      topCountry="Canada"
       :countryName="true"/>
   </div>
 </template>
@@ -33,7 +32,7 @@ export default {
     }
   },
   created() {
-    this.country = this.value;
+    this.country = this.value == null ? 'Canada' : this.value;
   },
   watch: {
     country(newValue) {
