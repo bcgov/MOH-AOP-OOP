@@ -132,7 +132,7 @@ export default {
       for (let i=0; i<addressLines.length; i++) {
         items.push({
           label: 'Address line ' + (i+1) + ':',
-          value: addressLines[i].value,
+          value: addressLines[i] == null ? '' : addressLines[i].value,
         });
       }
       items.push({
@@ -187,7 +187,7 @@ export default {
           result += addressLines[i].value + '\n';
         }
       }
-      return result.trim();
+      return result;
     }
   },
   methods: {

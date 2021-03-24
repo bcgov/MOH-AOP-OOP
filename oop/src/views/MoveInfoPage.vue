@@ -252,6 +252,14 @@ export default {
           }
         }
         
+        // If no address lines provided, create an empty address line 1 for Review Page
+        if(this.addressLines.length == 0){
+          this.addressLines[0] = {
+              value: null,
+              isValid: true,
+          }
+        }
+        
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
