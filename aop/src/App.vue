@@ -5,6 +5,9 @@
 </template>
 
 <script>
+import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+import 'common-lib-vue/dist/common-lib-vue.css';
+
 export default {
   name: "App",
   created() {

@@ -1,10 +1,10 @@
 <template>
   <div class="form-group bcgov-table-body">
     <div v-for="element in elements" :key="element.name" class="bcgov-row">
+      <div class="bcgov-table-cell">{{ element.name }}</div>
       <div class="bcgov-table-cell">
-        <strong>{{ element.name }}</strong>
+        <strong>{{ element.value }}</strong>
       </div>
-      <div class="bcgov-table-cell">{{ element.value }}</div>
     </div>
   </div>
 </template>

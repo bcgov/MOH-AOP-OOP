@@ -36,6 +36,7 @@ import Button from "../components/Button";
 import Footer from "../components/Footer";
 import { routes, stepRoutes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
+import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 
 export default {
   name: "SignIn",
@@ -45,6 +46,7 @@ export default {
     Button,
     Footer
   },
+  mixins: [FocusHeaderMixin],
   data: () => {
     return {
       stepRoutes
@@ -62,6 +64,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+main.container {
+  min-height: calc(100vh - 129px);
+}
+
 .card {
   border-radius: 5px;
   border: 1px solid #444;

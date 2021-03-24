@@ -26,6 +26,7 @@
 <style lang="scss">
 footer.footer {
   width: 100%;
+  position: relative;
 }
 
 footer .navbar { 

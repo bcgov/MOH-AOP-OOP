@@ -1,43 +1,43 @@
 <template>
   <div>
-    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
-    <main class="container py-5 px-2">
-      <router-view></router-view>
-    </main>
-    <Footer />
-    <TimeoutModal v-if="showModal"
-            v-on:close="handleModalClose"/>
+    <router-view></router-view>
+    <TimeoutModal v-if="showTimeout" v-on:close="handleModalClose"/>
+    <SignOutModal v-if="showSignOut" v-on:close="handleModalClose"/>
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
-import SignOutHeader from "../components/SignOutHeader";
-import ProgressBar from "../components/ProgressBar";
-import { stepRoutes } from "../router/routes";
 import TimeoutModal from "../components/TimeoutModal";
+import SignOutModal from "../components/SignOutModal";
+import { mapState } from "vuex";
 
 export default {
   name: "AssignmentOfPayment",
   components: {
-    Footer,
-    SignOutHeader,
-    ProgressBar,
-    TimeoutModal
+    TimeoutModal,
+    SignOutModal,
   },
   data: () => {
     return {
-      stepRoutes: stepRoutes,
-      showModal: false
+      showTimeout: false,
+      showSignOut: false,
     };
   },
+  computed: mapState(['showSignOutModal']),
+  watch: {
+    showSignOutModal(newVal) {
+      if (newVal === true) {
+        this.showSignOut = true;
+      }
+    }
+  },
   onIdle() {
-    this.showModal = true;
+    this.showTimeout = true;
   },
   methods: {
     handleModalClose() {
-      this.showModal = false;
+      this.showTimeout = false;
+      this.showSignOut = false;
     }
   }
 };

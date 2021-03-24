@@ -235,37 +235,9 @@ export default {
    19. The image is displayed to user as a thumbnail
    */
   mounted() {
-    const dragOverStream = fromEvent(this.$refs.dropZone, "dragover");
-
-    /**
-     * Must cancel the dragover event in order for the drop event to work.
-     */
-    dragOverStream
-      .pipe(
-        map(event => {
-          return event;
-        })
-      )
-      .subscribe(evt => {
-        if (evt) {
-          evt.preventDefault();
-        }
-      });
-
-    const dropStream = fromEvent(this.$refs.dropZone, "drop");
-    const filesArrayFromDrop = dropStream.pipe(
-      map(function(event) {
-        if (event && event.dataTransfer) {
-          event.preventDefault();
-          return event.dataTransfer.files;
-        }
-      })
-    );
-
+    
     const browseFileStream = fromEvent(this.$refs.browseFileRef, "change");
-
-    merge(
-      merge(browseFileStream).pipe(
+    merge(browseFileStream).pipe(
         map(event => {
           if (event) {
             event.preventDefault();
@@ -274,9 +246,7 @@ export default {
             }
           }
         })
-      ),
-      filesArrayFromDrop
-    )
+      )
       .pipe(
         filter(files => {
           if (!!files && files.length && files.length > 0) {

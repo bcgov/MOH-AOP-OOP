@@ -5,22 +5,17 @@
       <h1>Submission Error</h1>
       <div class="success-box container">
         <div class="row">
-          <div class="col-2 icon-container">
-            <i class="far fa-4x fa-times-circle"></i>
+          <div class="col-md-2 icon-container">
+            <font-awesome-icon icon="times-circle" size="4x" />
           </div>
 
-          <div class="col-10">
-            <p>Something went wrong:</p>
-            <p>{{ message }}</p>
+          <div class="col-md-10">
+            <p class="py-3">An error has occured with your submission. Please close this form and wait a few minutes before trying again. If the error persists, please contact <a class="HIBC-link" href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/msp/contact-us">Health Insurance BC</a>.</p>
           </div>
         </div>
       </div>
-      <Button
-        label="Back to Sign In"
-        styling="bcgov-normal-blue btn bottom mb"
-        v-on:button-click="navigateToSignIn"
-      />
     </main>
+    <ContinueBar :buttonLabel="'Back to Sign In'" @continue="navigateToSignIn"/>
     <Footer />
   </div>
 </template>
@@ -28,17 +23,19 @@
 <script>
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Button from "../components/Button";
+import ContinueBar from "../components/ContinueBar";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
+import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 
 export default {
   name: "SessionEnd",
   components: {
     Footer,
     Header,
-    Button
+    ContinueBar
   },
+  mixins: [FocusHeaderMixin],
   data: () => {
     return {
       message: ''
@@ -59,6 +56,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+main.container {
+  min-height: calc(100vh - 203px);
+}
+
 .fa-times-circle {
   color: #b33238;
 }
@@ -73,5 +74,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.HIBC-link {
+  text-decoration: none;
 }
 </style>

@@ -1,91 +1,101 @@
 <template>
   <div>
-    <h1>Review Your Submission</h1>
-    <hr />
-
-    <div class="relative">
-        <h2>Selected Form</h2>
+    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <main>
+      <div class="container py-5 px-2">
+        <h1>Review Your Submission</h1>
         <hr />
-        <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-          >Edit <i class="fa fa-pencil"></i></a
-        >
-    </div>
-    <div class="selected-form mb-4">
-      {{ selectedForm }} {{ withCredentials }}
-    </div>
 
-    <h2 class="mt-4">Submitter Information</h2>
-    <hr />
-    <Table :elements="submitterData" />
-
-    <h2 class="mt-4">Information About This Submission</h2>
-    <hr />
-    <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
-      <div class="name">
-        <div>
-          <strong>Submission Type:</strong>
+        <div class="relative">
+            <h2>Selected Form</h2>
+            <hr />
+            <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
+              >Edit <font-awesome-icon icon="pencil-alt" /></a
+            >
         </div>
+        <div class="selected-form mb-4">
+          {{ selectedForm }} {{ withCredentials }}
+        </div>
+
+        <h2 class="mt-4">Submitter Information</h2>
+        <hr />
+        <Table :elements="submitterData" />
+
+        <h2 class="mt-4">Information About This Submission</h2>
+        <hr />
+        <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
+          <div class="name">
+            <div>
+              Submission Type:
+            </div>
+          </div>
+          <div class="radios">
+            <div class="radio-group">
+              <input
+                  type="radio"
+                  id="new"
+                  value="New Submission"
+                  name="submissionType"
+                  v-model="$store.state.submissionType"
+                  disabled
+                />&nbsp;
+                <label for="new"><strong>New Submission</strong></label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                id="revised"
+                value="Revised Submission"
+                name="submissionType"
+                v-model="$store.state.submissionType"
+                disabled
+              />&nbsp;
+              <label for="revised"><strong>Revised Submission</strong></label>
+            </div>
+          </div>
+        </div>
+        <Table :elements="submissionData" />
+
+        <h2 class="mt-4">Supporting Documents</h2>
+        <hr />
+        <Table :elements="supportingDocuments" />
       </div>
-      <div class="radios">
-        <div class="radio-group">
-          <input
-              type="radio"
-              id="new"
-              value="New Submission"
-              name="submissionType"
-              v-model="$store.state.submissionType"
-              disabled
-            />&nbsp;
-            <label for="new">New Submission</label>
-        </div>
-        <div class="radio-group">
-          <input
-            type="radio"
-            id="revised"
-            value="Revised Submission"
-            name="submissionType"
-            v-model="$store.state.submissionType"
-            disabled
-          />&nbsp;
-          <label for="revised">Revised Submission</label>
-        </div>
-      </div>
-    </div>
-    <Table :elements="submissionData" />
-
-    <h2 class="mt-4">Supporting Documents</h2>
-    <hr />
-    <Table :elements="supportingDocuments" />
-
-    <Button
-      label="Submit"
-      styling="bcgov-normal-blue btn mb"
-      v-on:button-click="nextPage"
-    />
+      <ContinueBar @continue='nextPage()' :buttonLabel="'Submit'" />
+    </main>
+    <Footer />
   </div>
 </template>
 
 <script>
-import Button from "../components/Button";
+import SignOutHeader from "../components/SignOutHeader";
+import ProgressBar from "../components/ProgressBar";
+import ContinueBar from "../components/ContinueBar";
+import Footer from "../components/Footer";
 import Table from "../components/Table";
-import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 import SummaryMixin from '../mixins/SummaryMixin';
+import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
+import { routes, stepRoutes } from "../router/routes";
 
 export default {
   name: "Review",
-  mixins: [SummaryMixin],
+  components: {
+    SignOutHeader,
+    ProgressBar,
+    ContinueBar,
+    Table,
+    Footer
+  },
+  mixins: [SummaryMixin, FocusHeaderMixin],
   data: () => {
     return {
+      stepRoutes: stepRoutes,
       withCredentials: ''
     }
   },
   created() {
     this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with Credentials" : "";
-  },
-  components: {
-    Button,
-    Table
   },
   methods: {
     nextPage: function() {

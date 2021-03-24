@@ -1,5 +1,5 @@
 <template>
-  <nav class="component-container">
+  <nav class="container component-container">
     <div class="progress-bar-container">
       <div class="progress-bar" :style="progressBarStyles"></div>
     </div>

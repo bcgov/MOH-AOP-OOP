@@ -1,20 +1,21 @@
 <template>
   <header>
     <div
-      class="container-fluid navbar navbar-expand-lg navbar-dark"
+      class="container navbar navbar-dark"
       aria-label="Header"
     >
-      <div classNames="navbar-brand pointer" aria-labelledby="title" />
-      <a href="http://www2.gov.bc.ca/" tabindex="0">
-        <img
-          alt="BC Logo"
-          classNames="img-fluid d-none d-md-block pointer"
-          :width="181"
-          :src="bcidLogoRev"
-        />
-      </a>
-      <div id="title" class="navbar-brand">
-        {{ heading }}
+      <div class="logo-and-title">
+        <a href="http://www2.gov.bc.ca/" tabindex="0">
+          <img
+            alt="BC Logo"
+            classNames="img-fluid d-none d-md-block pointer"
+            :width="181"
+            :src="bcidLogoRev"
+          />
+        </a>
+        <div id="title" class="navbar-brand">
+          {{ heading }}
+        </div>
       </div>
     </div>
   </header>
@@ -39,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-header .navbar {
+header {
   background-color: #036;
   border-bottom: 2px solid #fcba19;
 }

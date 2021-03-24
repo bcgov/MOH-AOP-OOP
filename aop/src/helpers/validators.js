@@ -26,10 +26,6 @@ export const hasSecondaryLastName = (value, vm) => {
   return hasNeither || hasLastName;
 }
 
-export const isValidOrganization = org => {
-  return /^[^\\"/]/.test(org);
-}
-
-export const isValidFacility = fac => {
-  return /^[^\\"/]/.test(fac);
+export const hasNoInvalidJSON = val => {
+  return /^[^\\/"]*$/.test(val);
 }

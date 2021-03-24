@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+export const SET_SHOW_SIGN_OUT_MODAL = "setShowSignOutModal";
 export const RESET_FORM = "resetForm";
 export const NEW_FORM = "newForm";
 export const SET_UPLOAD_TYPE = "setUploadType";
@@ -26,6 +27,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    showSignOutModal: false,
     uploadType: '',
     credentialsRequired: '',
     firstName: '',
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     apiResponse: '',
   },
   mutations: {
+    setShowSignOutModal(state, payload) {
+      state.showSignOutModal = payload;
+    },
     setUploadType(state, payload) {
       state.uploadType = payload;
     },
@@ -102,6 +107,12 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    showSignOutModal({ commit }) {
+      commit(SET_SHOW_SIGN_OUT_MODAL, true);
+    },
+    hideSignOutModal({ commit }) {
+      commit(SET_SHOW_SIGN_OUT_MODAL, false);
+    },
     resetForm({ commit }) {
       commit(SET_UPLOAD_TYPE, '');
       commit(SET_CREDENTIALS_REQUIRED, '');

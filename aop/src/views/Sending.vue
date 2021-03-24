@@ -22,6 +22,7 @@ import Header from "../components/Header";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { SET_API_RESPONSE } from '../store';
+import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
 
 export default {
   name: "Sending",
@@ -29,6 +30,7 @@ export default {
     Footer,
     Header,
   },
+  mixins: [FocusHeaderMixin],
   data: () => {
     return {
       hasConfirmedPageLeave: false,
@@ -72,6 +74,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+main.container {
+  min-height: calc(100vh - 129px);
+}
 
 /* Spinner from a resource */
 .lds-ring {
