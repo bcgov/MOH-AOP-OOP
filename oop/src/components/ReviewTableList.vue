@@ -135,8 +135,6 @@ export default {
           value: addressLines[i].value,
         });
       }
-      
-
       items.push({
         label: 'Country:',
         value: this.$store.state.form.country,
@@ -213,4 +211,5 @@ export default {
 a {
   text-decoration: none;
 }
+
 </style>
