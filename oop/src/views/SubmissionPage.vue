@@ -18,7 +18,7 @@
         
         <div class="box-border border border-success rounded">
           <div class="row align-items-center">
-            <div class="col-1 pr-0 text-center">
+            <div class="col-2 pr-0 text-center">
               <div class="status-icon text-success">
                 <font-awesome-icon icon="check-circle" />
               </div>
@@ -92,4 +92,10 @@ export default {
 .status-icon {
   font-size: 32px;
 }
+@media (max-width: 991px) {
+  .col-2 {
+    max-width: 16%;
+  }
+}
+
 </style>
