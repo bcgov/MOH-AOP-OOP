@@ -92,6 +92,7 @@
                     class="postal-code"
                     v-model="postalCode"
                     maxlength='7' />
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
             </div>
           </div>
           <div v-if="country === 'Canada'" class="col-sm-5">
@@ -110,7 +111,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator, nonBCValidator, postalCodeValidator } from '../helpers/validators';
+import { bcPostalCodeValidator, nonBCValidator, invalidCharValidator, postalCodeValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -228,6 +229,11 @@ export default {
       },
       validations.postalCode = {
         postalCodeValidator: emptyPostalCodeValidator
+      };
+    }
+    else {
+      validations.postalCode = {
+        invalidCharValidator
       };
     }
     return validations;
