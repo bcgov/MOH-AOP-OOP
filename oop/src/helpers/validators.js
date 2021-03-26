@@ -13,3 +13,7 @@ export const invalidCharValidator = (value) => {
 export const nonBCValidator = (value) => {
     return (value !== 'British Columbia');
 };
+export const nonBCPostalCodeValidator = (value) => {
+    const criteria = RegExp('^[Vv]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][ ]?\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$');
+    return !criteria.test(value);
+};
