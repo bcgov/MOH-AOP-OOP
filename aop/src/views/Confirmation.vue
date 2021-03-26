@@ -186,7 +186,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" scoped>
+// Make bar transparent to prevent issues with printing of PDF being cut off / hidden
+.continue-bar {
+  background-color: transparent;
+}
+
 .fa-check-circle {
   color: rgba(112, 182, 3, 1);
 }

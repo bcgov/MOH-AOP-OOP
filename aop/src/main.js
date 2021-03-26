@@ -16,7 +16,9 @@ import {
   faPrint,
   faTimesCircle,
   faInfoCircle,
-  faSignOutAlt
+  faSignOutAlt,
+  faChevronDown,
+  faChevronUp
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { isIE } from './helpers/user-agent';
@@ -31,6 +33,8 @@ library.add(faPrint);
 library.add(faTimesCircle);
 library.add(faInfoCircle);
 library.add(faSignOutAlt);
+library.add(faChevronDown);
+library.add(faChevronUp);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 if (isIE()) {
   document.body.classList.add('ie');

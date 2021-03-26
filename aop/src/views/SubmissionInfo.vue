@@ -1022,6 +1022,11 @@ export default {
       this.files = [];
       this.credentials = [];
       this.credentialsRequired = "";
+      if (this.uploadType === "AOP" || this.uploadType === "COAOP") {
+        this.facility = "";
+      } else {
+        this.organization = "";
+      }
     },
     resetCredentials() {
       this.credentials = [];
