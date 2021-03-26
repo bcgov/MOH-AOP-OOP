@@ -74,7 +74,7 @@
                     class="postal-code"
                     v-model="postalCode"/>
               <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && !hasCanadianPostalCodeLength()" aria-live="assertive">The postal code you entered is not valid.</div>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && hasCanadianPostalCodeLength() && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && hasCanadianPostalCodeLength() && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
@@ -111,7 +111,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator, nonBCValidator, invalidCharValidator, postalCodeValidator } from '../helpers/validators';
+import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator} from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -141,13 +141,6 @@ import {
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
 const CANADIAN_POSTAL_CODE_LENGTH = 7; // including the space
-
-const emptyPostalCodeValidator = (value) => {
-  if (value === null || value === '') {
-    return true;
-  }
-  return postalCodeValidator(value) && !bcPostalCodeValidator(value);
-};
 
 export default {
   name: 'MoveInfoPage',
@@ -228,7 +221,7 @@ export default {
         nonBCValidator
       },
       validations.postalCode = {
-        postalCodeValidator: emptyPostalCodeValidator
+        nonBCPostalCodeValidator,
       };
     }
     else {
