@@ -15,15 +15,13 @@
           </div>
         </div>
         <hr/>
-        
-        <div class="box-border border border-success rounded">
+
+        <div class="success-box container">
           <div class="row align-items-center">
-            <div class="col-2 pr-0 text-center">
-              <div class="status-icon text-success">
-                <font-awesome-icon icon="check-circle" />
-              </div>
+            <div class="col-md-1 pr-0 icon-container text-center">
+              <font-awesome-icon icon="check-circle" size="3x" />
             </div>
-            <div class="col-10 pl-0 py-3">
+            <div class="col-md-10 pt-2 pb-2">
               <p>Your application has been submitted.</p>
               <div class="row">
                 <div class="col-md-4 col-lg-3">Date of Submission:</div>
@@ -79,6 +77,16 @@ export default {
 </script>
 
 <style scoped>
+.fa-check-circle {
+  color: rgba(46, 133, 64, 1);
+}
+
+.success-box {
+  border-radius: 10px;
+  border: 5px solid rgba(46, 133, 64, 1);
+  padding: 10px;
+}
+
 .print-btn {
   text-decoration: none;
 }
@@ -91,11 +99,6 @@ export default {
 }
 .status-icon {
   font-size: 32px;
-}
-@media (max-width: 991px) {
-  .col-2 {
-    max-width: 16%;
-  }
 }
 
 </style>
