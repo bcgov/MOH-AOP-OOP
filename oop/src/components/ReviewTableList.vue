@@ -131,12 +131,10 @@ export default {
       const addressLines = this.$store.state.form.addressLines;
       for (let i=0; i<addressLines.length; i++) {
         items.push({
-          label: 'New address line ' + (i+1) + ':',
-          value: addressLines[i].value,
+          label: 'Address line ' + (i+1) + ':',
+          value: addressLines[i] == null ? '' : addressLines[i].value,
         });
       }
-      
-
       items.push({
         label: 'Country:',
         value: this.$store.state.form.country,
@@ -189,7 +187,7 @@ export default {
           result += addressLines[i].value + '\n';
         }
       }
-      return result.trim();
+      return result;
     }
   },
   methods: {
@@ -213,4 +211,5 @@ export default {
 a {
   text-decoration: none;
 }
+
 </style>

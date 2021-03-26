@@ -42,7 +42,7 @@
                         :key='index'
                         :set="v = $v.addressLines.$each[index]"
                         class='col-md-7 mt-3'>
-                <AddressInput :label='"Address Line " + (index + 1) + " (optional)"'
+                <AddressInput :label='"Address line " + (index + 1) + " (optional)"'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
               </div>
               <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
@@ -73,7 +73,8 @@
                     className='mt-3'
                     class="postal-code"
                     v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.postalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && !hasCanadianPostalCodeLength()" aria-live="assertive">The postal code you entered is not valid.</div>
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && hasCanadianPostalCodeLength() && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
@@ -91,6 +92,7 @@
                     class="postal-code"
                     v-model="postalCode"
                     maxlength='7' />
+              <div class="text-danger" v-if="$v.postalCode.$dirty && !isEmptyPostalCode() && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
             </div>
           </div>
           <div v-if="country === 'Canada'" class="col-sm-5">
@@ -109,7 +111,7 @@
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
 import { scrollTo, scrollToError } from '../helpers/scroll';
-import { bcPostalCodeValidator, postalCodeValidator, nonBCValidator } from '../helpers/validators';
+import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator} from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -136,15 +138,9 @@ import {
   SET_MOVE_FROM_BC_DATE,
 } from '../store/modules/form';
 
-const emptyPostalCodeValidator = (value) => {
-  if (value === null || value === '') {
-    return true;
-  }
-  return postalCodeValidator(value) && !bcPostalCodeValidator(value);
-};
-
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
+const CANADIAN_POSTAL_CODE_LENGTH = 7; // including the space
 
 export default {
   name: 'MoveInfoPage',
@@ -225,7 +221,12 @@ export default {
         nonBCValidator
       },
       validations.postalCode = {
-        postalCodeValidator: emptyPostalCodeValidator
+        nonBCPostalCodeValidator,
+      };
+    }
+    else {
+      validations.postalCode = {
+        invalidCharValidator
       };
     }
     return validations;
@@ -247,6 +248,14 @@ export default {
         for (let i=currNumOfAddressLines-1; i>=0; i--){
           if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
             this.addressLines.splice(i,1);
+          }
+        }
+        
+        // If no address lines provided, create an empty address line 1 for Review Page
+        if(this.addressLines.length == 0){
+          this.addressLines[0] = {
+              value: null,
+              isValid: true,
           }
         }
         
@@ -278,6 +287,12 @@ export default {
     },
     getMinAddressLines() {
       return MIN_ADDRESS_LINES;
+    },
+    isEmptyPostalCode() {
+      return this.postalCode === null || this.postalCode === '';
+    },
+    hasCanadianPostalCodeLength() {
+      return this.postalCode.length === CANADIAN_POSTAL_CODE_LENGTH;
     }
   },
   watch: {
@@ -303,9 +318,14 @@ export default {
   width: 540px;
 }
 
-.address-line, .city, .province, .postal-code {
+.address-line, .city, .province {
   max-width: 100%;
   width: 350px;
+}
+
+.postal-code {
+  max-width: 100%;
+  width: 160px;
 }
 
 .address-row-margin { 
