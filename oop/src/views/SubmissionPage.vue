@@ -92,9 +92,9 @@ export default {
 .status-icon {
   font-size: 32px;
 }
-@media (max-width: 991px) {
+@media (min-width: 991px) {
   .col-2 {
-    max-width: 16%;
+    max-width: 8%;
   }
 }
 
