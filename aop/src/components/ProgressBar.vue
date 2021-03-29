@@ -16,24 +16,24 @@
       </a>
     </div>
     <div v-bind:class="{ hide: hideMobileStep }" class="mobile-step-container p-3 border-bottom">
-      Step {{ currentStepNumber }}/{{ routes.length }} - {{ currentStepTitle }}
+      <div class="pb-3">Step {{ currentStepNumber }}/{{ routes.length }} - {{ currentStepTitle }}</div>
       <div class="chevron-container" @click="openDropdown">
         <font-awesome-icon icon="chevron-down" />
       </div>
     </div>
-    <div v-bind:class="{ hide: hideMobileProgress }" class="mobile-progress-bar-container p-3 border-bottom">
+    <div v-bind:class="{ hide: hideMobileProgress }" class="mobile-progress-bar-container p-3 pt-5 border-bottom">
       <div class="v-progress-bar-container">
         <div class="v-progress-bar" :style="verticalProgressBarStyles"></div>
       </div>
       <div class="v-step-container">
         <a
         href="javascript:void(0);"
-        v-for="route in routes"
+        v-for="(route, index) in routes"
         :key="route.path"
         @click="onClickLink(route.path)"
       >
-        <div class="v-step">
-          <div class="v-step-text">{{ route.title }}</div>
+        <div class="v-step" v-bind:class="{'v-step-selected': index + 1 === currentStepNumber, 'v-step-passed': index + 1 < currentStepNumber}">
+          <div class="v-step-text" v-bind:class="{'v-step-text-selected': index + 1 === currentStepNumber}" >{{ route.title }}</div>
         </div>
       </a>
       </div>
@@ -52,13 +52,13 @@ export default {
     currentPath: String,
     routes: Array
   },
-  data: () => {
-    return {
-      hideMobileStep: false,
-      hideMobileProgress: true,
-    };   
-  },
   computed: {
+    hideMobileStep() {
+      return this.$store.state.showMobileProgress;
+    },
+    hideMobileProgress() {
+      return !this.$store.state.showMobileProgress;
+    },
     progressBarStyles() {
       const index = this.routes.findIndex(element => {
         return element.path === this.currentPath;
@@ -74,11 +74,8 @@ export default {
       const index = this.routes.findIndex(element => {
         return element.path === this.currentPath;
       });
-      return {
-        height:
-          (100 / this.routes.length) * index +
-          100 / this.routes.length / 2 +
-          "%"
+      return {     
+        height: index / (this.routes.length - 1) * 100 + "%"
       };
     },
     currentStepNumber() {
@@ -111,12 +108,10 @@ export default {
       }
     },
     openDropdown() {
-      this.hideMobileStep = true;
-      this.hideMobileProgress = false;
+      this.$store.dispatch('showMobileProgress');
     },
     closeDropdown() {
-      this.hideMobileStep = false;
-      this.hideMobileProgress = true;
+      this.$store.dispatch('hideMobileProgress');
     }
   }
 };
@@ -175,8 +170,9 @@ export default {
 .mobile-progress-bar-container {
   display: none;
   font-weight: bold;
-  height:260px;
+  height: 260px;
   position: relative;
+  padding-top: 16px;
 }
 .mobile-step-container {
   display: none;
@@ -210,9 +206,9 @@ export default {
 .v-step-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   position: absolute;
-  height: 80%;
+  height: 60%;
 }
 .v-step-container a {
   cursor: pointer;
@@ -228,28 +224,38 @@ export default {
   height: 1em;
   border-radius: 100%;
   background: #fff;
-  border: 3px solid #036;
+  border: 3px solid #606060;
   right: 0;
   left: 0;
   margin: 0 auto;
   bottom: 100%;
+}
+.v-step-selected:before {
+  border: 3px solid #036;
+}
+.v-step-passed:before {
+  border: 3px solid #036;
+  background: #036;
 }
 .v-step-text {
   position: absolute;
   -webkit-transform: translateY(-80%);
   transform: translateY(-80%);
   white-space: nowrap;
-  color: #164d80;
+  color: #494949;
   left: 30px;
+  font-weight: normal;
 }
-
+.v-step-text-selected {
+  font-weight: bold;
+}
 .v-progress-bar-container {
-  background-color: #adb5bd;
-  width: 0.5rem;
+  background-color: #606060;
+  width: 0.25rem;
   border-radius: 0.25rem;
   position: absolute;
-  height: 80%;
-  left: 20px;
+  height: 60%;
+  left: 22px;
 }
 .v-progress-bar {
   width: 100%;
@@ -260,7 +266,7 @@ export default {
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: #38598a;
+  background-color: #036;
   transition: height 0.6s ease;
 }
 </style>

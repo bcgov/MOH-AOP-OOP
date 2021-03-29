@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 export const SET_SHOW_SIGN_OUT_MODAL = "setShowSignOutModal";
+export const SET_SHOW_MOBILE_PROGRESS = "setShowMobileProgress";
 export const RESET_FORM = "resetForm";
 export const NEW_FORM = "newForm";
 export const SET_UPLOAD_TYPE = "setUploadType";
@@ -28,6 +29,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     showSignOutModal: false,
+    showMobileProgress: false,
     uploadType: '',
     credentialsRequired: '',
     firstName: '',
@@ -50,6 +52,9 @@ export default new Vuex.Store({
   mutations: {
     setShowSignOutModal(state, payload) {
       state.showSignOutModal = payload;
+    },
+    setShowMobileProgress(state, payload) {
+      state.showMobileProgress = payload;
     },
     setUploadType(state, payload) {
       state.uploadType = payload;
@@ -112,6 +117,12 @@ export default new Vuex.Store({
     },
     hideSignOutModal({ commit }) {
       commit(SET_SHOW_SIGN_OUT_MODAL, false);
+    },
+    showMobileProgress({ commit }) {
+      commit(SET_SHOW_MOBILE_PROGRESS, true);
+    },
+    hideMobileProgress({ commit }) {
+      commit(SET_SHOW_MOBILE_PROGRESS, false);
     },
     resetForm({ commit }) {
       commit(SET_UPLOAD_TYPE, '');

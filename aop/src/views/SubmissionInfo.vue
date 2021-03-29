@@ -998,11 +998,8 @@ export default {
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
       this.$store.dispatch(SET_PHONE_EXTENSION, this.phoneExtension);
-      if (this.uploadType === "AOP" || this.uploadType === "COAOP") {
-        this.$store.dispatch(SET_ORGANIZATION, this.organization);
-      } else {
-        this.$store.dispatch(SET_FACILITY, this.facility);
-      }
+      this.$store.dispatch(SET_ORGANIZATION, this.organization);
+      this.$store.dispatch(SET_FACILITY, this.facility);
       this.$store.dispatch(SET_SUBMISSION_TYPE, this.submissionType);
       this.$store.dispatch(SET_PRIMARY_NUMBER, this.primaryNumber);
       this.$store.dispatch(SET_PRIMARY_LAST_NAME, this.primaryLastName);

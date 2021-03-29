@@ -27,6 +27,7 @@ label {
 }
 
 input[type="radio"] {
+  min-width: 13px;
   width: 18px;
   height: 18px;
 }
