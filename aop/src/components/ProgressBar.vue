@@ -224,17 +224,17 @@ export default {
   height: 1em;
   border-radius: 100%;
   background: #fff;
-  border: 3px solid #606060;
+  border: 2px solid #606060;
   right: 0;
   left: 0;
   margin: 0 auto;
   bottom: 100%;
 }
 .v-step-selected:before {
-  border: 3px solid #036;
+  border: 2px solid #036;
 }
 .v-step-passed:before {
-  border: 3px solid #036;
+  border: 2px solid #036;
   background: #036;
 }
 .v-step-text {
