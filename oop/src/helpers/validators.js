@@ -1,5 +1,5 @@
 export const bcPostalCodeValidator = (value) => {
-    const criteria = RegExp('^[Vv]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][ ]?\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$');
+    const criteria = RegExp('^[Vv]\\d[A-Za-z][ ]?\\d[A-Za-z]\\d$');
     return criteria.test(value);
 };
 export const postalCodeValidator = (value) => {
@@ -21,7 +21,7 @@ export const invalidCharValidator = (value) => {
 };
 export const nonBCPostalCodeValidator = (value) => {
     if (!hasEmptyPostalCode(value)){
-        const criteria = RegExp('^[Vv]\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z][ ]?\\d[ABCEGHJ-NPRSTV-Zabceghj-nprstv-z]\\d$');
+        const criteria = RegExp('^[Vv]\\d[A-Za-z][ ]?\\d[A-Za-z]\\d$');
         return !criteria.test(value);
     }
     return true;
