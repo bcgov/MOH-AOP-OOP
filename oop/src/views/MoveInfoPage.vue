@@ -42,67 +42,67 @@
             <CountryInput label='Country'
                   className='mt-3'
                   class="country"
-                  v-model="country" />
-            <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+                  v-model="newAddress.country" />
+            <div class="text-danger" v-if="$v.newAddress.country.$dirty && !$v.newAddress.country.required" aria-live="assertive">Country is required.</div>
             <div class="row">
-              <div v-for="(addressLine, index) in addressLines"
+              <div v-for="(addressLine, index) in newAddress.addressLines"
                         :key='index'
-                        :set="v = $v.addressLines.$each[index]"
+                        :set="v = $v.newAddress.addressLines.$each[index]"
                         class='col-md-7 mt-3'>
                 <AddressInput :label='"Address line " + (index + 1) + " (optional)"'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
               </div>
-              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
+              <div v-if="newAddress.addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='+'
                         @click='addAddressField()'
                         class='add-remove-button mt-5 form-control'/>
               </div>
-              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
+              <div v-if="newAddress.addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
                 <Button label='-'
                         @click='removeAddressField()'
                         class='add-remove-button mt-5 form-control'/>
               </div>
             </div>
-            <div v-if="country === 'Canada'">
+            <div v-if="newAddress.country === 'Canada'">
               <ProvinceInput label='Province'
                     className='mt-3'
                     class="province"
-                    v-model="province" />
-              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+                    v-model="newAddress.province" />
+              <div class="text-danger" v-if="$v.newAddress.province.$dirty && !$v.newAddress.province.required" aria-live="assertive">Province is required.</div>
+              <div class="text-danger" v-if="$v.newAddress.province.$dirty && !$v.newAddress.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               <Input label='City (optional)'
                     className='mt-3'
                     class="city"
-                    v-model="city"
+                    v-model="newAddress.city"
                     maxlength='25' />
               <PostalCodeInput id="postalCode"
                     label="Postal code (optional)"
                     className='mt-3'
                     class="postal-code"
-                    v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.canadaPostalCodeLengthValidator" aria-live="assertive">The postal code you entered is not valid.</div>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
+                    v-model="newAddress.postalCode"/>
+              <div class="text-danger" v-if="$v.newAddress.postalCode.$dirty && !$v.newAddress.postalCode.canadaPostalCodeLengthValidator" aria-live="assertive">The postal code you entered is not valid.</div>
+              <div class="text-danger" v-if="$v.newAddress.postalCode.$dirty && !$v.newAddress.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
             </div>
             <div v-else>
               <Input label='Province/state/region (optional)'
                     className='mt-3'
                     class="province"
-                    v-model="province"
+                    v-model="newAddress.province"
                     maxlength='30' />
               <Input label='City/town (optional)'
                     className='mt-3'
                     class="city"
-                    v-model="city"
+                    v-model="newAddress.city"
                     maxlength='25' />
               <Input label='Postal code/zip code (optional)'
                     className='mt-3'
                     class="postal-code"
-                    v-model="postalCode"
+                    v-model="newAddress.postalCode"
                     maxlength='7' />
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
+              <div class="text-danger" v-if="$v.newAddress.postalCode.$dirty && !$v.newAddress.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
             </div>
           </div>
-          <div v-if="country === 'Canada'" class="col-sm-5">
+          <div v-if="newAddress.country === 'Canada'" class="col-sm-5">
             <TipBox title="Tip: find your address">
               <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
               <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
@@ -169,11 +169,13 @@ export default {
       moveFromBCDate: null,
       arriveDestinationDate: null,
       addressSearch: null,
-      addressLines: [],
-      country: null,
-      province: null,
-      city: null,
-      postalCode: null,
+      newAddress: {
+        addressLines: [],
+        country: null,
+        province: null,
+        city: null,
+        postalCode: null,
+      },
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
@@ -182,21 +184,21 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.addressLines = this.$store.state.form.addressLines;
-    this.country = this.$store.state.form.country;
-    this.province = this.$store.state.form.province;
-    this.city = this.$store.state.form.city;
-    this.postalCode = this.$store.state.form.postalCode;
+    this.newAddress.addressLines = this.$store.state.form.addressLines;
+    this.newAddress.country = this.$store.state.form.country;
+    this.newAddress.province = this.$store.state.form.province;
+    this.newAddress.city = this.$store.state.form.city;
+    this.newAddress.postalCode = this.$store.state.form.postalCode;
 
     setTimeout(() => {
       this.isPageLoaded = true;
     }, 0);
 
-    const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.newAddress.addressLines.length);
 
     for (let i=0; i<currNumOfAddressLines; i++) {
-      this.addressLines[i] = {
-          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+      this.newAddress.addressLines[i] = {
+          value: this.newAddress.addressLines && this.newAddress.addressLines[i] ? this.newAddress.addressLines[i].value : null,
           isValid: true,
       }
     }
@@ -215,27 +217,29 @@ export default {
         distantPastValidator,
         afterDateValidator: afterDateValidator('moveFromBCDate'),
       },
-      country: {
-        required,
-      },
-      addressLines: {
-        $each: {
-          value: {},
+      newAddress: {
+        country: {
+          required,
+        },
+        addressLines: {
+          $each: {
+            value: {},
+          },
         },
       },
     }
-    if (this.country === 'Canada'){
-      validations.province = {
+    if (this.newAddress.country === 'Canada'){
+      validations.newAddress.province = {
         required,
         nonBCValidator,
       },
-      validations.postalCode = {
+      validations.newAddress.postalCode = {
         canadaPostalCodeLengthValidator,
         nonBCPostalCodeValidator
       };
     }
     else {
-      validations.postalCode = {
+      validations.newAddress.postalCode = {
         invalidCharValidator
       };
     }
@@ -258,16 +262,16 @@ export default {
         this.isLoading = false;
 
         // Eliminate empty address lines.
-        const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+        const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.newAddress.addressLines.length);
         for (let i=currNumOfAddressLines-1; i>=0; i--){
-          if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
-            this.addressLines.splice(i,1);
+          if ((this.newAddress.addressLines[i].value == null || this.newAddress.addressLines[i].value == '') && currNumOfAddressLines > 1){
+            this.newAddress.addressLines.splice(i,1);
           }
         }
         
         // If no address lines provided, create an empty address line 1 for Review Page
-        if(this.addressLines.length == 0){
-          this.addressLines[0] = {
+        if(this.newAddress.addressLines.length == 0){
+          this.newAddress.addressLines[0] = {
               value: null,
               isValid: true,
           }
@@ -275,11 +279,11 @@ export default {
         
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
-        this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, this.addressLines);
-        this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
-        this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
-        this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
+        this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.newAddress.country);
+        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, this.newAddress.addressLines);
+        this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.newAddress.province);
+        this.$store.dispatch(formModule + '/' + SET_CITY, this.newAddress.city);
+        this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.newAddress.postalCode);
 
         const path = routes.REVIEW_PAGE.path;
         pageStateService.visitPage(path);
@@ -288,13 +292,13 @@ export default {
       }, 2000);
     },
     addAddressField() {
-      this.addressLines.push({
+      this.newAddress.addressLines.push({
         value: null,
         isValid: true,
       });
     },
     removeAddressField() {
-      this.addressLines.pop();
+      this.newAddress.addressLines.pop();
     },
     getMaxAddressLines() {
       return MAX_ADDRESS_LINES;
@@ -306,9 +310,9 @@ export default {
   watch: {
     country(newValue) {
       if (this.isPageLoaded && newValue){
-        this.province = null;
-        this.city = null;
-        this.postalCode = null;
+        this.newAddress.province = null;
+        this.newAddress.city = null;
+        this.newAddress.postalCode = null;
       }
     },
   }
