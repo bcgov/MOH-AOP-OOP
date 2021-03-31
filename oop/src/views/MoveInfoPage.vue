@@ -32,6 +32,13 @@
         <hr/>
         <div class="row">
           <div class="col-sm-7">
+            <AddressValidator
+              :id="'address-input'"
+              :label="'Address Lookup'"
+              :className="'mt-3'"
+              v-model="addressSearch"
+              @select="selectAddress($event)"
+            />
             <CountryInput label='Country'
                   className='mt-3'
                   class="country"
@@ -122,6 +129,7 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import AddressInput from '../components/AddressInput.vue';
+import AddressValidator from '../components/AddressValidator';
 import { PostalCodeInput, Button } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -153,12 +161,14 @@ export default {
     ProvinceInput,
     TipBox,
     AddressInput,
+    AddressValidator,
     Button,
   },
   data: () => {
     return {
       moveFromBCDate: null,
       arriveDestinationDate: null,
+      addressSearch: null,
       addressLines: [],
       country: null,
       province: null,
@@ -232,6 +242,10 @@ export default {
     return validations;
   },
   methods: {
+    selectAddress(address) {
+      this.addressSearch = address.street;
+      // this.address = address;
+    },
     validateFields() {
       this.$v.$touch()
       if (this.$v.$invalid) {
