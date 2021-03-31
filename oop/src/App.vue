@@ -46,7 +46,9 @@ export default {
 </script>
 
 <style scoped>
-.container.stepper {
-  padding: 0;
+@media only screen and (max-width: 575px) {
+  .container.stepper {
+    padding: 0;
+  }
 }
 </style>
