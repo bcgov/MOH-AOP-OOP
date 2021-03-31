@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header :title='pageTitle' />
-    <div class="container">
+    <div class="container stepper">
       <ProgressBar :currentPath='$router.currentRoute.path'
                   :routes='stepRoutes'/>
     </div>
@@ -44,3 +44,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.container.stepper {
+  padding: 0;
+}
+</style>

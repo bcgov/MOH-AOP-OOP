@@ -1,21 +1,22 @@
 <template>
   <div v-if='isCurrentPathInSteps'
        class='progress-bar-component'>
-    <div class='progress-bar-container'>
-      <div class='progress-bar' :style='progressBarStyles'></div>
+    <div class="scrollable-content">
+      <div class='progress-bar-container'>
+        <div class='progress-bar' :style='progressBarStyles'></div>
+      </div>
+      <div class='step-container'>
+        <a href="javascript:void(0);"
+            v-for='route in routes'
+            :key='route.path'
+            :style='getLinkStyles(route.path)'
+            @click="onClickLink(route.path)">
+          <div class="step">
+            <div class='step-text'>{{route.title}}</div>
+          </div>
+        </a>
+      </div>
     </div>
-    <div class='step-container'>
-      <a href="javascript:void(0);"
-          v-for='route in routes'
-          :key='route.path'
-          :style='getLinkStyles(route.path)'
-          @click="onClickLink(route.path)">
-        <div class="step">
-          <div class='step-text'>{{route.title}}</div>
-        </div>
-      </a>
-    </div>
-    <div class="mobile-step p-3 border-bottom">Step {{currentStepNumber}}/{{routes.length}} - {{currentStepTitle}}</div>
   </div>
 </template>
 
@@ -40,21 +41,6 @@ export default {
       return {
         width: (100 / this.routes.length * index) + (100 / this.routes.length / 2) + '%'
       };
-    },
-    currentStepNumber() {
-      const index = this.routes.findIndex((element) => {
-        return element.path === this.currentPath;
-      });
-      return index + 1;
-    },
-    currentStepTitle() {
-      const index = this.routes.findIndex((element) => {
-        return element.path === this.currentPath;
-      });
-      if (this.routes[index]) {
-        return this.routes[index].title;
-      }
-      return '';
     },
     isCurrentPathInSteps() {
       const index = this.routes.findIndex((element) => {
@@ -95,11 +81,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.progress-bar-component {
+.scrollable-content {
   flex: 1;
   padding: 1.5em 0em;
   min-height: 2em;
   height: 65px;
+  min-width: 650px; /* For mobile */
 }
 .progress-bar-container {
   background-color: #adb5bd;
@@ -146,14 +133,11 @@ export default {
 }
 @media only screen and (max-width: 575px) {
   .progress-bar-component {
-    padding: 0;
+    overflow-x: scroll;
   }
-  .progress-bar-container,
-  .step-container {
-    display: none;
-  }
-  .mobile-step {
-    display: block;
+  .scrollable-content {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 </style>
