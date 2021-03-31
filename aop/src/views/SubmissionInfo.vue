@@ -4,7 +4,7 @@
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
     <main>
       <form class="container py-5 px-2">
-        <h1>Select a Form</h1>
+        <h1>Select a form</h1>
         <br />
         <h2>Please select the form that you want to submit:</h2>
         <hr />
@@ -70,7 +70,7 @@
         </div>
         <div v-if="uploadType === 'AOP'">
           <h3>
-            Do you need to submit Confirmation of Credentials for this Assignment of
+            Do you need to submit confirmation of credentials for this Assignment of
             Payment?
           </h3>
           <hr />
@@ -114,11 +114,11 @@
         <div v-if="uploadType === 'AOP' && credentialsRequired !== ''">
           <h2 v-if="credentialsRequired === 'true'">
             Submit your Assignment of Payment and Medical Director Authorization
-            Form with Confirmation of Practitioner Credentials
+            form with Confirmation of Practitioner Credentials
           </h2>
           <h2 v-if="credentialsRequired === 'false'">
             Submit your Assignment of Payment and Medical Director Authorization
-            Form
+            form
           </h2>
           <hr />
           <p>
@@ -195,22 +195,16 @@
             uploadType === 'OOPA'
           "
         >
-          <h3><em>Submitter Information</em></h3>
+          <h3><em>Submitter information</em></h3>
           <hr />
           <p>
             Provide details below about the person submitting the form (clerk,
             administrator, etc.)
           </p>
-          <Input :label="'First Name'" v-model="firstName" :disabled="true" />
+          <Input :label="'First name'" v-model="firstName" :disabled="true" />
+          <Input :label="'Last name'" :className="'mt-3'" v-model="lastName" :disabled="true" />
           <Input
-            :label="'Last Name'"
-            :className="'mt-3'"
-            v-model="lastName"
-            :disabled="true"
-          />
-
-          <Input
-            :label="'Email Address'"
+            :label="'Email address'"
             :className="'mt-3'"
             v-model="$v.emailAddress.$model"
             :maxlength="100"
@@ -236,7 +230,7 @@
           </div>
 
           <div class="mt-3">
-            <label for="phone">Phone Number:</label><br />
+            <label for="phone">Phone number:</label><br />
             <masked-input
               id="phone"
               type="text"
@@ -274,7 +268,7 @@
           </div>
 
           <div class="mt-3">
-            <label for="extension">Phone Extension:</label><br />
+            <label for="extension">Phone extension (optional):</label><br />
             <masked-input
               id="extension"
               type="text"
@@ -324,7 +318,7 @@
 
           <div class="mb-3" v-if="uploadType === 'OOPA'">
             <Input
-              :label="'Facility Name'"
+              :label="'Facility name'"
               :className="'mt-3'"
               v-model="$v.facility.$model"
               :maxlength="70"
@@ -346,7 +340,7 @@
             </div>
           </div>
 
-          <h3><em>Information About This Submission</em></h3>
+          <h3><em>Information about this submission</em></h3>
           <hr />
 
           <div
@@ -364,7 +358,7 @@
                 required
                 aria-required="true"
               />&nbsp;
-              <label for="new">New Submission</label>
+              <label for="new">New submission</label>
             </div>
             <br />
             <div class="radio-group">
@@ -375,7 +369,7 @@
                 name="submissionType"
                 v-model="$v.submissionType.$model"
               />&nbsp;
-              <label for="revised">Revised Submission</label>
+              <label for="revised">Revised submission</label>
             </div>
             <div
               class="text-danger"
@@ -388,7 +382,7 @@
 
           <div v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
             <Input
-              :label="'Practitioner Number'"
+              :label="'Practitioner number'"
               :className="'mt-3'"
               v-model="$v.primaryNumber.$model"
               :maxlength="5"
@@ -421,7 +415,7 @@
             </div>
 
             <Input
-              :label="'Practitioner Last Name'"
+              :label="'Practitioner last name'"
               :className="'mt-3'"
               v-model="$v.primaryLastName.$model"
               :maxlength="29"
@@ -449,7 +443,7 @@
 
           <div v-if="uploadType === 'OOPA'">
             <Input
-              :label="'Primary Practitioner Number'"
+              :label="'Primary practitioner number'"
               :className="'mt-3'"
               v-model="$v.primaryNumber.$model"
               :maxlength="5"
@@ -482,7 +476,7 @@
             </div>
 
             <Input
-              :label="'Primary Practitioner Last Name'"
+              :label="'Primary practitioner last name'"
               :className="'mt-3'"
               v-model="$v.primaryLastName.$model"
               :maxlength="29"
@@ -508,7 +502,7 @@
             </div>
 
             <Input
-              :label="'Secondary Practitioner Number (optional)'"
+              :label="'Secondary practitioner number (optional)'"
               :className="'mt-3'"
               :maxlength="5"
               v-model="$v.secondaryNumber.$model"
@@ -545,7 +539,7 @@
             </div>
 
             <Input
-              :label="'Secondary Practitioner Last Name (optional)'"
+              :label="'Secondary practitioner last name (optional)'"
               :className="'mt-3'"
               v-model="$v.secondaryLastName.$model"
               :maxlength="29"
@@ -596,7 +590,7 @@
 
           <div class="mt-3 mb">
             <h3>
-              <em>Attach Completed {{ uploadTitle }} Form</em>
+              <em>Attach completed {{ uploadTitle }} form</em>
             </h3>
             <hr />
             <div class="container">
@@ -646,7 +640,7 @@
           </div>
           <div v-if="credentialsRequired === 'true'" class="mb">
             <h3>
-              <em>Attach Confirmation of Practitioner Credentials Documents</em>
+              <em>Attach confirmation of practitioner credentials documents</em>
             </h3>
             <hr />
             <div class="container">
@@ -683,8 +677,8 @@
           </div>
         </div>
       </form>
-      <ContinueBar @continue='nextPage()'/>
     </main>
+    <ContinueBar @continue='nextPage()'/>
     <Footer />
   </div>
 </template>
@@ -1050,6 +1044,10 @@ export default {
 <style lang="scss" scoped>
 hr {
   margin-top: 0.5rem;
+}
+
+main {
+  min-height: calc(100vh - 203px);
 }
 
 h1,

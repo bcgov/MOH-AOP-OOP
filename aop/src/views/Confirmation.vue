@@ -5,14 +5,14 @@
       <div class="container py-5 px-2">
         <div class="buttons">
           <button class="print-button" v-on:click="print()">
-            <span>Print or Save as PDF</span>
+            <span>Print or save as PDF</span>
           </button>
           <div class="tip-container">
             <font-awesome-icon icon="info-circle" />
             <div class="tip">To save as PDF, in the print window, click "Save as PDF"</div>
           </div>
         </div>
-        <h1>Confirmation Message</h1>
+        <h1>Confirmation message</h1>
         <hr />
         <div class="success-box container">
           <div class="row">
@@ -81,11 +81,11 @@
           <li>For more information concerning the Operator Payment Administration process, see: <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a></li>
         </ul>
 
-        <h2 class="mt-4">Submitter Information</h2>
+        <h2 class="mt-4">Submitter information</h2>
         <hr />
         <Table :elements="submitterData" />
 
-        <h2 class="mt-4">Information About This Submission</h2>
+        <h2 class="mt-4">Information about this submission</h2>
         <hr />
         <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
           <div class="name">
@@ -103,7 +103,7 @@
                   v-model="$store.state.submissionType"
                   disabled
                 />&nbsp;
-                <label for="new"><strong>New Submission</strong></label>
+                <label for="new"><strong>New submission</strong></label>
             </div>
             <div class="radio-group">
               <input
@@ -114,19 +114,19 @@
                 v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
-              <label for="revised"><strong>Revised Submission</strong></label>
+              <label for="revised"><strong>Revised submission</strong></label>
             </div>
           </div>
         </div>
         <Table :elements="submissionData" />
 
         
-        <h2 class="mt-4">Supporting Documents</h2>
+        <h2 class="mt-4">Supporting documents</h2>
         <hr />
         <Table :elements="supportingDocuments" />
 
       </div>
-      <ContinueBar @continue='newForm()' :buttonLabel="'New Form'" />
+      <ContinueBar @continue='newForm()' :buttonLabel="'New form'" />
     </main>
     <Footer />
   </div>
@@ -160,7 +160,7 @@ export default {
     };
   },
   created() {
-    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with Credentials" : "";
+    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with credentials" : "";
     this.referenceNumber = this.$store.state.apiResponse;
 
     const date = new Date();

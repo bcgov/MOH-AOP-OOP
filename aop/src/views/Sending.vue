@@ -2,7 +2,7 @@
   <div>
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
-      <h1 class="text-center">Sending Application</h1>
+      <h1 class="text-center">Sending application</h1>
       <div class="text-center">
         <div class="lds-ring">
           <div></div>

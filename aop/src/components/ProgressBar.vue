@@ -6,12 +6,12 @@
     <div class="step-container">
       <a
         href="javascript:void(0);"
-        v-for="route in routes"
+        v-for="(route, index) in routes"
         :key="route.path"
         @click="onClickLink(route.path)"
       >
-        <div class="step">
-          <div class="step-text">{{ route.title }}</div>
+        <div class="step" v-bind:class="{'step-selected': index + 1 === currentStepNumber, 'step-passed': index + 1 < currentStepNumber}">
+          <div class="step-text" v-bind:class="{'v-step-text-selected': index + 1 === currentStepNumber}">{{ route.title }}</div>
         </div>
       </a>
     </div>
@@ -126,13 +126,15 @@ export default {
   /* min-width: 650px; */
 }
 .progress-bar-container {
-  background-color: #adb5bd;
-  height: 0.5rem;
+  background-color: #606060;
   border-radius: 0.25rem;
+  transform: translateY(-2px);
+  height: 0.25rem;
 }
 .progress-bar {
   height: 100%;
   border-radius: 0.25rem;
+  background: #036;
 }
 .step-container {
   display: flex;
@@ -154,18 +156,29 @@ export default {
   height: 1em;
   border-radius: 100%;
   background: #fff;
-  border: 3px solid #036;
+  border: 2px solid #606060;
   right: 0;
   left: 0;
   margin: 0 auto;
   bottom: 100%;
+}
+.step-selected:before {
+  border: 2px solid #036;
+}
+.step-passed:before {
+  border: 2px solid #036;
+  background: #036;
 }
 .step-text {
   position: absolute;
   -webkit-transform: translateX(-37%);
   transform: translateX(-37%);
   white-space: nowrap;
-  color: #164d80;
+  color: #494949;
+  font-weight: normal;
+}
+.step-text-selected {
+  font-weight: bold;
 }
 .mobile-progress-bar-container {
   display: none;

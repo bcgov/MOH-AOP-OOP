@@ -4,11 +4,11 @@
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
     <main>
       <div class="container py-5 px-2">
-        <h1>Review Your Submission</h1>
+        <h1>Review your submission</h1>
         <hr />
 
         <div class="relative">
-            <h2>Selected Form</h2>
+            <h2>Selected form</h2>
             <hr />
             <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
               >Edit <font-awesome-icon icon="pencil-alt" /></a
@@ -18,11 +18,11 @@
           {{ selectedForm }} {{ withCredentials }}
         </div>
 
-        <h2 class="mt-4">Submitter Information</h2>
+        <h2 class="mt-4">Submitter information</h2>
         <hr />
         <Table :elements="submitterData" />
 
-        <h2 class="mt-4">Information About This Submission</h2>
+        <h2 class="mt-4">Information about this submission</h2>
         <hr />
         <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
           <div class="name">
@@ -40,7 +40,7 @@
                   v-model="$store.state.submissionType"
                   disabled
                 />&nbsp;
-                <label for="new"><strong>New Submission</strong></label>
+                <label for="new"><strong>New submission</strong></label>
             </div>
             <div class="radio-group">
               <input
@@ -51,13 +51,13 @@
                 v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
-              <label for="revised"><strong>Revised Submission</strong></label>
+              <label for="revised"><strong>Revised submission</strong></label>
             </div>
           </div>
         </div>
         <Table :elements="submissionData" />
 
-        <h2 class="mt-4">Supporting Documents</h2>
+        <h2 class="mt-4">Supporting documents</h2>
         <hr />
         <Table :elements="supportingDocuments" />
       </div>
@@ -95,7 +95,7 @@ export default {
     }
   },
   created() {
-    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with Credentials" : "";
+    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with credentials" : "";
   },
   methods: {
     nextPage: function() {

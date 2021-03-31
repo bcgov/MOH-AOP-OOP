@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <div class="navbar navbar-dark" aria-label="Footer">
+    <div class="navbar navbar-dark container" aria-label="Footer">
         <ul class="navbar-nav">
           <link-element url="https://www2.gov.bc.ca/gov/content/home/disclaimer" label="Disclaimer" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/privacy" label="Privacy" />
@@ -27,9 +27,6 @@
 footer.footer {
   width: 100%;
   position: relative;
-}
-
-footer .navbar { 
   background-color: #036;
   border-top: 2px solid #fcba19;
 }

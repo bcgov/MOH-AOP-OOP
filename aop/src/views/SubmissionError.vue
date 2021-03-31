@@ -2,7 +2,7 @@
   <div>
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
-      <h1>Submission Error</h1>
+      <h1>Submission error</h1>
       <div class="success-box container">
         <div class="row">
           <div class="col-md-2 icon-container">

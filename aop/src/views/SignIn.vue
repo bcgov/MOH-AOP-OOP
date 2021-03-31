@@ -3,7 +3,7 @@
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
     <main class="container py-5 px-2">
-      <h1>Ministry of Health - Diagnostic Services Secure Upload Tool</h1>
+      <h1>Ministry of Health - Diagnostic Services secure upload tool</h1>
       <p>This site is specifically for submitting the following forms:</p>
       <ul class="mt-3">
         <li>Diagnostic Facility Services Assignment of Payment &#38; Medical Director Authorization (HLTH 1908)</li>
@@ -15,7 +15,7 @@
       <div class="card">
         <h3>
           Sign in with a BC Services Card enabled Diagnostic Facilities Services
-          User ID
+          user ID
         </h3>
         <Button
           label="Log in with a BC Services Card"

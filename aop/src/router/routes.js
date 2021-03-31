@@ -9,13 +9,13 @@ import SessionEnd from "../views/SessionEnd.vue";
 export const routes = {
   SIGN_IN: {
     path: "/sign-in",
-    title: "Sign In",
+    title: "Sign in",
     name: "SignIn",
     component: SignIn
   },
   SUBMISSION_INFO: {
     path: "/submission-info",
-    title: "Select a Form",
+    title: "Select a form",
     name: "SubmissionInfo",
     component: SubmissionInfo
   },
@@ -27,7 +27,7 @@ export const routes = {
   },
   SENDING: {
     path: "/sending",
-    title: "Sending Application",
+    title: "Sending application",
     name: "Sending",
     component: Sending
   },
@@ -39,13 +39,13 @@ export const routes = {
   },
   SUBMISSION_ERROR: {
     path: "/submission-error",
-    title: "Submission Error",
+    title: "Submission error",
     name: "SubmissionError",
     component: SubmissionError
   },
   SESSION_END: {
     path: "/session-end",
-    title: "Session End",
+    title: "Session end",
     name: "SessionEnd",
     component: SessionEnd
   }
