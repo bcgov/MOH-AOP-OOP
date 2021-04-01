@@ -1,5 +1,6 @@
 <template>
-  <nav class="container component-container">
+  <nav v-if='isCurrentPathInSteps'
+      class="component-container">
     <div class="progress-bar-container">
       <div class="progress-bar" :style="progressBarStyles"></div>
     </div>
@@ -97,6 +98,12 @@ export default {
         return element.path.includes(this.currentPath);
       });
       return this.routes[index].title;
+    },
+    isCurrentPathInSteps() {
+      const index = this.routes.findIndex((element) => {
+        return element.path === this.currentPath;
+      });
+      return index > -1;
     }
   },
   methods: {
