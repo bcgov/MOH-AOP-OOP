@@ -1,63 +1,26 @@
 <template>
   <div>
-    <div class="dropzone" ref="dropZone">
-      <div
-        class="instruction-zone d-flex align-items-center flex-wrap flex-sm-nowrap flex-column flex-sm-row"
-      >
-        <img
-          :src="cloudUploadIconSvg"
-          class="svg-icon d-inline-block mb-3 ml-3"
-          alt="Upload"
-        />
-
-        <input
-          type="file"
-          :id="id"
-          ref="browseFileRef"
-          accept="image/*,application/pdf"
-          style="display:none;"
-          tabindex="0"
-          :name="id"
-          :required="required"
-          autocomplete="off"
-        />
-        <label
-          :for="id"
-          class="file-upload-label d-inline-block ml-3"
-          ref="selectFileLabel"
-        >
-          <span class="h2 color-body">Select a file</span>
-          <span class="d-block description">{{ instructionText }}</span>
-        </label>
+    <div class="mb-3 button-container">
+      <input
+        type="file"
+        :id="id"
+        ref="browseFileRef"
+        accept="image/*,application/pdf"
+        style="display:none;"
+        tabindex="0"
+        :name="id"
+        :required="required"
+        autocomplete="off"
+      />
+      <Button
+        label="Select a file"
+        styling="BC-Gov-SecondaryButton"
+        v-on:button-click="openFileDialog()"
+      />
+      <div v-if="images && images.length > 0" class="ml-3 d-flex">{{ images[0].name.slice(0, -6) }} 
+        <button class="remove ml-2" @click="deleteAllImages"><font-awesome-icon icon="times" />Remove</button>
       </div>
-
-      <div class="preview-zone">
-        <div
-          v-for="imageModel of images"
-          :key="imageModel.uuid"
-          class="preview-item"
-        >
-          <Thumbnail
-            :imageObject="imageModel"
-            @delete="deleteImage(imageModel)"
-          />
-        </div>
-
-        <a
-          href="javascript: void(0);"
-          class="common-thumbnail ml-3"
-          @click="openFileDialog($event)"
-        >
-          <div v-if="images.length < 1" class="thumbnail-container">
-            <div class="image-thumbnail demo-thumbnail">
-              <img :src="plusIconSvg" alt="Upload a file" class="svg-icon" />
-            </div>
-            <div class="action-strip text-primary text-center">
-              Add
-            </div>
-          </div>
-        </a>
-      </div>
+      <div v-else class="ml-3">No file selected</div>
     </div>
 
     <div class="text-danger">{{ errorMessage }}</div>
@@ -68,6 +31,7 @@
 </template>
 
 <script>
+import Button from "../Button";
 import Thumbnail from "./Thumbnail.vue";
 import { Observable, fromEvent, merge } from "rxjs";
 import { map, filter, flatMap, scan, delay, retryWhen } from "rxjs/operators";
@@ -180,7 +144,8 @@ export class CommonImageScaleFactorsImpl {
 export default {
   name: "FileUploader",
   components: {
-    Thumbnail
+    Thumbnail,
+    Button
   },
   props: {
     images: {
@@ -317,8 +282,7 @@ export default {
     },
 
     /** Opens the file upload dialog from the browser. */
-    openFileDialog: function(event) {
-      event.preventDefault();
+    openFileDialog: function() {
       this.$refs.browseFileRef.dispatchEvent(new MouseEvent("click"));
     },
 
@@ -339,6 +303,9 @@ export default {
      * @param scaleFactors
      */
     observableFromFiles: function(fileList, scaleFactors) {
+      // Clear old images 
+      this.$emit("input", []);
+      
       const reductionScaleFactor = 0.8;
 
       const self = this;
@@ -775,6 +742,10 @@ export default {
       this.$refs.browseFileRef.value = "";
     },
 
+    deleteAllImages: function() {
+      this.$emit("input", []);
+    },
+
     deleteImage: function(imageModel) {
       this.resetInputFields();
 
@@ -910,6 +881,58 @@ export default {
 }
 
 .text-danger {
-  color: #b33238 !important;
+  color: #D8292F !important;
+}
+
+.BC-Gov-SecondaryButton {
+  background: none;
+  border-radius: 4px;
+  border: 3px solid #003366;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  color: #003366;
+}
+
+.BC-Gov-SecondaryButton:hover {
+  opacity: 0.80;
+  background-color: #003366;
+  color: #FFFFFF;
+}
+
+.BC-Gov-SecondaryButton:focus {
+  outline-offset: 1px;
+  outline: 4px solid #3B99FC;
+}
+
+.BC-Gov-SecondaryButton:active {
+  opacity: 1;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.remove {
+  display: flex;
+  align-items: center;
+  color: #D8292F;
+  background: none;
+  border: none;
+}
+
+.fa-times {
+  height: 1.5rem;
+  width :1.5rem;
+}
+
+@media (max-width: 576px) {
+  .button-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

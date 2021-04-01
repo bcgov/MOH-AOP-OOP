@@ -595,45 +595,45 @@
             <hr />
             <div class="container">
               <div class="row">
-                <div class="col-md upload-container">
+                <div class="upload-container">
                   <FileUploader :images="files" v-model="files" />
                   <div
-                    class="mt text-danger"
+                    class="text-danger"
                     v-if="$v.files.$dirty && !$v.files.required"
                     aria-live="assertive"
                   >
                     Please upload required document
                   </div>
-                </div>
-                <div class="col-md notice">
-                  <strong>Note:</strong>
-                  <ul>
-                    <li>
-                      For system security purposes, form must be saved in PDF file
-                      format only
-                    </li>
-                    <li>
-                      File must be named for the practitioner who is named on the
-                      Assignment of Payment form
-                    </li>
-                    <li>In naming files, please:</li>
+                  <div class="notice">
+                    <strong>Note:</strong>
                     <ul>
-                      <li>Use the practitioner's last name then first name</li>
-                      <li>Use lower case letters only</li>
                       <li>
-                        Use dashes "-" to separate names (do not use spaces or
-                        underscores)
+                        For system security purposes, form must be saved in PDF file
+                        format only
                       </li>
                       <li>
-                        Do not use special characters including spaces, commas,
-                        underscores or periods
+                        File must be named for the practitioner who is named on the
+                        Assignment of Payment form
                       </li>
-                      <li>
-                        Example of proper naming convention: smith-john;
-                        brown-susan; white-bob
-                      </li>
+                      <li>In naming files, please:</li>
+                      <ul>
+                        <li>Use the practitioner's last name then first name</li>
+                        <li>Use lower case letters only</li>
+                        <li>
+                          Use dashes "-" to separate names (do not use spaces or
+                          underscores)
+                        </li>
+                        <li>
+                          Do not use special characters including spaces, commas,
+                          underscores or periods
+                        </li>
+                        <li>
+                          Example of proper naming convention: smith-john;
+                          brown-susan; white-bob
+                        </li>
+                      </ul>
                     </ul>
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -645,10 +645,10 @@
             <hr />
             <div class="container">
               <div class="row">
-                <div class="col-md upload-container">
+                <div class="upload-container">
                   <FileUploader :images="credentials" v-model="credentials" />
                   <div
-                    class="mt text-danger"
+                    class="text-danger"
                     v-if="
                       $v.credentials.$dirty &&
                       credentialsRequired &&
@@ -658,19 +658,16 @@
                   >
                     Please upload required document
                   </div>
-                </div>
-                <div class="col-md notice">
-                  <strong>Note:</strong>
-                  <p>
-                    You can add as many documents as needed. Scan the document, or
-                    take a photo of it. Make sure that it's:
-                  </p>
-                  <ul>
-                    <li>The entire document, from corner to corner</li>
-                    <li>Rotated correctly (not upside down or sideways)</li>
-                    <li>In focus and easy to read</li>
-                    <li>Documents must be uploaded in PDF file format only</li>
-                  </ul>
+                  <div class="notice">
+                    <strong>Note:</strong>
+                    <p>Scan the document, or take a photo of it. Make sure that it's:</p>
+                    <ul>
+                      <li>The entire document, from corner to corner</li>
+                      <li>Rotated correctly (not upside down or sideways)</li>
+                      <li>In focus and easy to read</li>
+                      <li>Documents must be uploaded in PDF file format only</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1066,18 +1063,9 @@ h6 {
 }
 
 .upload-container {
-  @media (max-width: 767.98px) {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  > * {
-    height: 100%;
-  }
-}
-
-.mt {
-  margin-top: 2rem;
+  display:flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .btn {

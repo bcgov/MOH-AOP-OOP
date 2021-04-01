@@ -61,12 +61,12 @@ main.container {
 }
 
 .fa-times-circle {
-  color: #b33238;
+  color: #D8292F;
 }
 
 .success-box {
   border-radius: 10px;
-  border: 5px solid #b33238;
+  border: 5px solid #D8292F;
   padding: 10px;
 }
 

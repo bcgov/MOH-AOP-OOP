@@ -15,6 +15,7 @@ import {
   faPencilAlt,
   faPrint,
   faTimesCircle,
+  faTimes,
   faInfoCircle,
   faSignOutAlt,
   faChevronDown,
@@ -31,6 +32,7 @@ library.add(faCheckCircle);
 library.add(faPencilAlt);
 library.add(faPrint);
 library.add(faTimesCircle);
+library.add(faTimes);
 library.add(faInfoCircle);
 library.add(faSignOutAlt);
 library.add(faChevronDown);

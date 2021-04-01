@@ -39,7 +39,7 @@ input[type="radio"] {
 }
 
 .text-danger {
-  color: #b33238 !important;
+  color: #D8292F !important;
 }
 
 .bottom {
