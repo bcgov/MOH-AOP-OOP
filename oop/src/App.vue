@@ -16,12 +16,10 @@ import 'common-lib-vue/dist/common-lib-vue.css';
 import './styles/styles.css';
 
 import project from '../package.json';
-// import {
-//   Header,
-//   Footer
-// } from 'common-lib-vue';
-import Header from '../src/components/Header.vue';
-import Footer from '../src/components/Footer.vue';
+import {
+  Header,
+  Footer
+} from 'common-lib-vue';
 import ProgressBar from '@/components/ProgressBar.vue';
 import stepRoutes from '@/router/step-routes';
 
