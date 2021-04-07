@@ -49,7 +49,10 @@
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo } from '../helpers/scroll';
+import {
+  scrollTo,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import ConsentModal from '../components/ConsentModal.vue';
@@ -72,9 +75,23 @@ export default {
     },
     nextPage() {
       const path = routes.YOUR_INFO_PAGE.path;
+      pageStateService.setPageComplete(path);
       pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo(0);
+    }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (pageStateService.isPageComplete(to.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
     }
   }
 }

@@ -67,8 +67,15 @@
 
 <script>
 import pageStateService from '../services/page-state-service';
-import routes from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import {
+  routes,
+  isPastPath,
+} from '../router/routes';
+import {
+  scrollTo,
+  scrollToError,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -81,6 +88,7 @@ import {
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
+  RESET_FORM,
   SET_LAST_NAME,
   SET_PHN,
   SET_EMAIL,
@@ -175,26 +183,30 @@ export default {
         this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
         this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
 
-        const path = routes.ACCOUNT_TYPE_PAGE.path;
-        pageStateService.visitPage(path);
-        this.$router.push(path);
+        const toPath = routes.ACCOUNT_TYPE_PAGE.path;
+        pageStateService.setPageComplete(toPath);
+        pageStateService.visitPage(toPath);
+        this.$router.push(toPath);
         scrollTo(0);
       }, 2000);
     }
   },
   // Required in order to block back navigation.
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path === routes.ACCOUNT_TYPE_PAGE.path) {
-  //     next();
-  //   } else if (to.path === routes.HOME_PAGE.path) {
-  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
-  //       next();
-  //     } else {
-  //       next(false);
-  //     }
-  //   }
-  // }
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
+  }
 }
 </script>
 

@@ -24,11 +24,35 @@
 
 <script>
 import PageContent from '../components/PageContent.vue';
+import pageStateService from '../services/page-state-service';
+import { routes } from '../router/routes';
+import {
+  MODULE_NAME as formModule,
+  RESET_FORM
+} from '../store/modules/form';
+import {
+  scrollTo,
+  getTopScrollPosition
+} from '../helpers/scroll';
 
 export default {
   name: 'SubmissionErrorPage',
   components: {
     PageContent,
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
   }
 }
 </script>

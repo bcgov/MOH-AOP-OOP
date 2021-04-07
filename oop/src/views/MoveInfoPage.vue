@@ -109,8 +109,15 @@
 </template>
 <script>
 import pageStateService from '../services/page-state-service';
-import routes from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import {
+  routes,
+  isPastPath
+} from '../router/routes';
+import {
+  scrollTo,
+  scrollToError,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator,canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
@@ -129,6 +136,7 @@ import TipBox from '../components/TipBox.vue';
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
+  RESET_FORM,
   SET_ADDRESS_LINES,
   SET_ARRIVE_DESTINATION_DATE,
   SET_COUNTRY,
@@ -172,7 +180,7 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.addressLines = this.$store.state.form.addressLines;
+    this.addressLines = this.$store.state.form.addressLines || [];
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -267,9 +275,10 @@ export default {
         this.$store.dispatch(formModule + '/' + SET_CITY, this.city);
         this.$store.dispatch(formModule + '/' + SET_POSTAL_CODE, this.postalCode);
 
-        const path = routes.REVIEW_PAGE.path;
-        pageStateService.visitPage(path);
-        this.$router.push(path);
+        const toPath = routes.REVIEW_PAGE.path;
+        pageStateService.setPageComplete(toPath);
+        pageStateService.visitPage(toPath);
+        this.$router.push(toPath);
         scrollTo(0);
       }, 2000);
     },
@@ -297,6 +306,22 @@ export default {
         this.postalCode = null;
       }
     },
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
   }
 }
 </script>
