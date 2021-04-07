@@ -32,14 +32,6 @@
                 v-if="showServerValidationError"
                 aria-live="assertive">This field does not match our records.</div>
 
-            <Input label='Email (optional)'
-                  v-model='email'
-                  className='mt-3'
-                  maxlength='50'/>
-            <div class="text-danger"
-                v-if="$v.phn.$dirty && !$v.email.emailValidator"
-                aria-live="assertive">Email must have the following format: yourname@example.com.</div>
-
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
                               v-model='phone'
@@ -91,20 +83,11 @@ import {
   RESET_FORM,
   SET_LAST_NAME,
   SET_PHN,
-  SET_EMAIL,
   SET_PHONE,
 } from '../store/modules/form';
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
-  return criteria.test(value);
-};
-
-const emailValidator = (value) => {
-  if (!value) {
-    return true;
-  }
-  const criteria = /^(\S+)@(\S+)\.(\S+)$/;
   return criteria.test(value);
 };
 
@@ -135,7 +118,6 @@ export default {
     return {
       lastName: null,
       phn: null,
-      email: null,
       phone: null,
       isLoading: false,
       showServerValidationError: false,
@@ -144,7 +126,6 @@ export default {
   created() {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
-    this.email = this.$store.state.form.email;
     this.phone = this.$store.state.form.phone;
   },
   validations() {
@@ -156,9 +137,6 @@ export default {
       phn: {
         required,
         phnValidation: phnValidator,
-      },
-      email: {
-        emailValidator,
       },
       phone: {
         phoneValidator,
@@ -180,7 +158,6 @@ export default {
     
         this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
         this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
-        this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
         this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
 
         const toPath = routes.ACCOUNT_TYPE_PAGE.path;

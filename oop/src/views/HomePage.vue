@@ -28,7 +28,7 @@
         </div>
         <br/>
         <h2>What happens after completing this form</h2>
-        <p>HIBC will process your request. We will contact you by email (if provided) or mail if there are any issues cancelling your MSP coverage. A confirmation letter will be sent to your new address following cancellation of  coverage.</p>
+        <p>HIBC will process your request. We will contact you by mail (if address is provided) if there are any issues cancelling your MSP coverage. A confirmation letter will be sent to your new address following cancellation of coverage.</p>
         <br>
         <h2>Time required to complete this form</h2>
         <p>10-15 minutes</p>

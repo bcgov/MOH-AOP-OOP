@@ -84,10 +84,6 @@ export default {
         value: this.$store.state.form.phn,
       });
       items.push({
-        label: 'Email address:',
-        value: this.$store.state.form.email,
-      });
-      items.push({
         label: 'Phone number:',
         value: this.$store.state.form.phone,
       });
