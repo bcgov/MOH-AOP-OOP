@@ -52,6 +52,7 @@ import ReviewTable from './ReviewTable.vue';
 import routes from '../router/routes';
 import { scrollTo } from '../helpers/scroll';
 import { formatDate } from '../helpers/date';
+import pageStateService from '../services/page-state-service';
 
 export default {
   name: 'ReviewTableList',
@@ -192,15 +193,21 @@ export default {
   },
   methods: {
     navigateToYourInfoPage() {
-      this.$router.push(routes.YOUR_INFO_PAGE.path);
+      const toPath = routes.YOUR_INFO_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      this.$router.push(toPath);
       scrollTo();
     },
     navigateToAccountTypePage() {
-      this.$router.push(routes.ACCOUNT_TYPE_PAGE.path);
+      const toPath = routes.ACCOUNT_TYPE_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      this.$router.push(toPath);
       scrollTo();
     },
     navigateToMoveInfoPage() {
-      this.$router.push(routes.MOVE_INFO_PAGE.path);
+      const toPath = routes.MOVE_INFO_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      this.$router.push(toPath);
       scrollTo();
     }
   }
