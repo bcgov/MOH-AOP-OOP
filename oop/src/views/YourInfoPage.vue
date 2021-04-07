@@ -71,7 +71,11 @@ import {
   routes,
   isPastPath,
 } from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import {
+  scrollTo,
+  scrollToError,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -196,7 +200,11 @@ export default {
     } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
       next();
     } else {
+      const topScrollPosition = getTopScrollPosition();
       next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
     }
   }
 }

@@ -113,7 +113,11 @@ import {
   routes,
   isPastPath
 } from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import {
+  scrollTo,
+  scrollToError,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator,canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
@@ -176,7 +180,7 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.addressLines = this.$store.state.form.addressLines;
+    this.addressLines = this.$store.state.form.addressLines || [];
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -312,7 +316,11 @@ export default {
     } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
       next();
     } else {
+      const topScrollPosition = getTopScrollPosition();
       next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
     }
   }
 }

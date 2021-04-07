@@ -20,8 +20,18 @@ import PageContent from '../components/PageContent.vue';
 import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
 import pageStateService from '../services/page-state-service';
-import { routes } from '../router/routes';
-import { scrollTo } from '../helpers/scroll';
+import {
+  routes,
+  isPastPath
+} from '../router/routes';
+import {
+  scrollTo,
+  getTopScrollPosition
+} from '../helpers/scroll';
+import {
+  MODULE_NAME as formModule,
+  RESET_FORM
+} from '../store/modules/form';
 
 export default {
   name: 'ReviewPage',
@@ -47,15 +57,33 @@ export default {
     },
     navigateToSubmissionPage() {
       const path = routes.SUBMISSION_PAGE.path;
+      pageStateService.setPageComplete(path);
       pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo();
     },
     navigateToSubmissionErrorPage() {
       const path = routes.SUBMISSION_ERROR_PAGE.path;
+      pageStateService.setPageComplete(path);
       pageStateService.visitPage(path);
       this.$router.push(path);
       scrollTo();
+    }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
     }
   }
 }
