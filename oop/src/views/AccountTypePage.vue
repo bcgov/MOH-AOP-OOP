@@ -137,7 +137,10 @@
 
 <script>
 import pageStateService from '../services/page-state-service';
-import routes from '../router/routes';
+import {
+  routes,
+  isPastPath,
+} from '../router/routes';
 import { scrollTo, scrollToError, scrollToElement } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
@@ -148,6 +151,7 @@ import {
 } from 'common-lib-vue';
 import {
   MODULE_NAME as formModule,
+  RESET_FORM,
   SET_ACCOUNT_TYPE,
   SET_PERSON_MOVING,
   SET_IS_ALL_DEPENDENTS_MOVING,
@@ -284,9 +288,10 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_DEPENDENT_PHNS, this.dependentPhns);
     },
     nextPage() {
-      const path = routes.MOVE_INFO_PAGE.path;
-      pageStateService.visitPage(path);
-      this.$router.push(path);
+      const toPath = routes.MOVE_INFO_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      pageStateService.visitPage(toPath);
+      this.$router.push(toPath);
       scrollTo(0);
     },
     addDependentField() {
@@ -332,6 +337,18 @@ export default {
           }, 0);
         }
       }
+    }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      next(false);
     }
   }
 }
