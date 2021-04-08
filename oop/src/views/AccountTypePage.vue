@@ -163,6 +163,7 @@ import {
   SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
+import apiService from '../services/api-service';
 
 const localPhnValidator = (value) => {
   if (!value) {
@@ -280,11 +281,24 @@ export default {
 
       this.isLoading = true;
 
-      setTimeout(() => {
-        this.isLoading = false;
-        this.saveValues();
-        this.nextPage();
-      }, 1000);
+      apiService.validateAhDep()
+        .then(() => {
+          // handle success.
+        })
+        .catch(() => {
+          // handle error.
+        })
+        .then(() => {
+          // always executed.
+          this.isLoading = false;
+        });
+      
+      // Temporarily calling this outside the ApiService promise until middleware is setup.
+      this.handleValidationSuccess();
+    },
+    handleValidationSuccess() {
+      this.saveValues();
+      this.nextPage();
     },
     saveValues() {
       this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);

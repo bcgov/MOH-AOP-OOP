@@ -32,6 +32,7 @@ import {
   MODULE_NAME as formModule,
   RESET_FORM
 } from '../store/modules/form';
+import apiService from '../services/api-service';
 
 export default {
   name: 'ReviewPage',
@@ -49,11 +50,20 @@ export default {
     submitForm() {
       this.isLoading = true;
 
-      setTimeout(() => {
-        this.isLoading = false;
-
-        this.navigateToSubmissionPage();
-      }, 1000);
+      apiService.submitApplication()
+        .then(() => {
+          // handle success.
+        })
+        .catch(() => {
+          // handle error.
+        })
+        .then(() => {
+          // always executed.
+          this.isLoading = false;
+        });
+      
+      // Temporarily calling this outside the ApiService promise until middleware is setup.
+      this.navigateToSubmissionPage();
     },
     navigateToSubmissionPage() {
       const path = routes.SUBMISSION_PAGE.path;

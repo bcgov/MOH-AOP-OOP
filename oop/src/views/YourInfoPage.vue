@@ -85,6 +85,7 @@ import {
   SET_PHN,
   SET_PHONE,
 } from '../store/modules/form';
+import apiService from '../services/api-service';
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
@@ -153,19 +154,31 @@ export default {
       
       this.isLoading = true;
 
-      setTimeout(() => {
-        this.isLoading = false;
-    
-        this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
-        this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
-        this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+      apiService.validateLastNamePhn(this.lastName, this.phn)
+        .then(() => {
+          // handle success.
+        })
+        .catch(() => {
+          // handle error.
+        })
+        .then(() => {
+          // always executed.
+          this.isLoading = false;
+        });
 
-        const toPath = routes.ACCOUNT_TYPE_PAGE.path;
-        pageStateService.setPageComplete(toPath);
-        pageStateService.visitPage(toPath);
-        this.$router.push(toPath);
-        scrollTo(0);
-      }, 2000);
+      // Temporarily calling this outside the ApiService promise until middleware is setup.
+      this.handleValidationSuccess();
+    },
+    handleValidationSuccess() {
+      this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
+      this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
+      this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+
+      const toPath = routes.ACCOUNT_TYPE_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      pageStateService.visitPage(toPath);
+      this.$router.push(toPath);
+      scrollTo(0);
     }
   },
   // Required in order to block back navigation.
