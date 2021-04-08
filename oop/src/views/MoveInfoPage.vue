@@ -30,72 +30,113 @@
         
         <h2 class='mt-5 mb-0'>New address</h2>
         <hr/>
+        <p>Do you know your new address?</p>
+        <input type='radio'
+                id='is-new-address-known-y'
+                value='Y'
+                v-model='newAddressIsKnown' />
+        <label for='is-new-address-known-y'
+                class='ml-3'>Yes</label>
+        <br/>
+        <input type='radio'
+                id='is-new-address-known-n'
+                value='N'
+                v-model='newAddressIsKnown' />
+        <label for='is-new-address-known-n'
+                class='ml-3'>No</label>
+        <div class="text-danger"
+              v-if="$v.newAddressIsKnown.$dirty && !$v.newAddressIsKnown.required"
+              aria-live="assertive">Please select one of the options above.</div>
+        <br/>
         <div class="row">
           <div class="col-sm-7">
-            <CountryInput label='Country'
-                  className='mt-3'
-                  class="country"
-                  v-model="country" />
-            <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
-            <div class="row">
-              <div v-for="(addressLine, index) in addressLines"
-                        :key='index'
-                        :set="v = $v.addressLines.$each[index]"
-                        class='col-md-7 mt-3'>
-                <AddressInput :label='"Address line " + (index + 1) + " (optional)"'
+            <div v-if='newAddressIsKnown === "Y"' class="is-new-address-known-y">
+              <CountryInput label='Country'
+                            className='mt-3'
+                            class="country"
+                            v-model="country" />
+              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+              <div class="row">  
+                <div v-for="(addressLine, index) in addressLines"
+                            :key='index'
+                            :set="v = $v.addressLines.$each[index]"
+                            class='col-md-7 mt-3'>
+                  <AddressInput :label='"Address line " + (index + 1)'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
+                </div>
+                <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
+                  <Button label='+'
+                          @click='addAddressField()'
+                          class='add-remove-button mt-5 form-control'/>
+                </div>
+                <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
+                  <Button label='-'
+                          @click='removeAddressField()'
+                          class='add-remove-button mt-5 form-control'/>
+                </div>
               </div>
-              <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
-                <Button label='+'
-                        @click='addAddressField()'
-                        class='add-remove-button mt-5 form-control'/>
+              <div v-if="country === 'Canada'">
+                <ProvinceInput label='Province'
+                      className='mt-3'
+                      class="province"
+                      v-model="province" />
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+                <Input label='City'
+                      className='mt-3'
+                      class="city"
+                      v-model="city"
+                      maxlength='25' />
+                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+                <PostalCodeInput id="postalCode"
+                      label="Postal code"
+                      className='mt-3'
+                      class="postal-code"
+                      v-model="postalCode"/>
+                <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
+                <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.canadaPostalCodeLengthValidator" aria-live="assertive">The postal code you entered is not valid.</div>
+                <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
               </div>
-              <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
-                <Button label='-'
-                        @click='removeAddressField()'
-                        class='add-remove-button mt-5 form-control'/>
+              <div v-else>
+                <Input label='Province/state/region'
+                      className='mt-3'
+                      class="province"
+                      v-model="province"
+                      maxlength='30' />
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <Input label='City/town'
+                      className='mt-3'
+                      class="city"
+                      v-model="city"
+                      maxlength='25' />
+                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+                <Input label='Postal code/zip code'
+                      className='mt-3'
+                      class="postal-code"
+                      v-model="postalCode"
+                      maxlength='7' />
+                <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.required" aria-live="assertive">Postal code is required.</div>
+                <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
               </div>
             </div>
-            <div v-if="country === 'Canada'">
-              <ProvinceInput label='Province'
-                    className='mt-3'
-                    class="province"
-                    v-model="province" />
-              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-              <div class="text-danger" v-if="$v.province.$dirty && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
-              <Input label='City (optional)'
-                    className='mt-3'
-                    class="city"
-                    v-model="city"
-                    maxlength='25' />
-              <PostalCodeInput id="postalCode"
-                    label="Postal code (optional)"
-                    className='mt-3'
-                    class="postal-code"
-                    v-model="postalCode"/>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.canadaPostalCodeLengthValidator" aria-live="assertive">The postal code you entered is not valid.</div>
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
-            </div>
-            <div v-else>
-              <Input label='Province/state/region (optional)'
-                    className='mt-3'
-                    class="province"
-                    v-model="province"
-                    maxlength='30' />
-              <Input label='City/town (optional)'
-                    className='mt-3'
-                    class="city"
-                    v-model="city"
-                    maxlength='25' />
-              <Input label='Postal code/zip code (optional)'
-                    className='mt-3'
-                    class="postal-code"
-                    v-model="postalCode"
-                    maxlength='7' />
-              <div class="text-danger" v-if="$v.postalCode.$dirty && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
+            <div v-else-if="newAddressIsKnown === 'N'" class="is-new-address-known-n">
+              <br/><p>Please verify which country you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
+              <CountryInput label='Country'
+                            className='mt-3'
+                            class="country"
+                            v-model="country" />
+              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+              <div v-if="country === 'Canada'">
+                <ProvinceInput label='Province'
+                      className='mt-3'
+                      class="province"
+                      v-model="province" />
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+              </div>
             </div>
           </div>
-          <div v-if="country === 'Canada'" class="col-sm-5">
+          <div v-if="newAddressIsKnown === 'Y' && country === 'Canada'" class="col-sm-5 mt-3">
             <TipBox title="Tip: find your address">
               <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
               <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
@@ -110,8 +151,8 @@
 <script>
 import pageStateService from '../services/page-state-service';
 import routes from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
-import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator,canadaPostalCodeLengthValidator } from '../helpers/validators';
+import { scrollTo, scrollToError, scrollToElement } from '../helpers/scroll';
+import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -131,6 +172,7 @@ import {
   MODULE_NAME as formModule,
   SET_ADDRESS_LINES,
   SET_ARRIVE_DESTINATION_DATE,
+  SET_NEW_ADDRESS_IS_KNOWN,
   SET_COUNTRY,
   SET_CITY,
   SET_PROVINCE,
@@ -159,6 +201,7 @@ export default {
     return {
       moveFromBCDate: null,
       arriveDestinationDate: null,
+      newAddressIsKnown: null,
       addressLines: [],
       country: null,
       province: null,
@@ -172,6 +215,7 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
+    this.newAddressIsKnown = this.$store.state.form.newAddressIsKnown;
     this.addressLines = this.$store.state.form.addressLines;
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
@@ -205,7 +249,13 @@ export default {
         distantPastValidator,
         afterDateValidator: afterDateValidator('moveFromBCDate'),
       },
+      newAddressIsKnown: {
+        required,
+      },
       country: {
+        required,
+      },
+      province: {
         required,
       },
       addressLines: {
@@ -214,19 +264,32 @@ export default {
         },
       },
     }
-    if (this.country === 'Canada'){
+    if (this.newAddressIsKnown === 'Y'){
+      validations.city = {
+        required,
+      };
+      if (this.country === 'Canada'){
+        validations.province = {
+          required,
+          nonBCValidator,
+        },
+        validations.postalCode = {
+          required,
+          canadaPostalCodeLengthValidator,
+          nonBCPostalCodeValidator
+        };
+      }
+      else {
+        validations.postalCode = {
+          required,
+          invalidCharValidator
+        };
+      }
+    }
+    else if (this.newAddressIsKnown === 'N' && this.country === 'Canada'){
       validations.province = {
         required,
         nonBCValidator,
-      },
-      validations.postalCode = {
-        canadaPostalCodeLengthValidator,
-        nonBCPostalCodeValidator
-      };
-    }
-    else {
-      validations.postalCode = {
-        invalidCharValidator
       };
     }
     return validations;
@@ -251,7 +314,7 @@ export default {
           }
         }
         
-        // If no address lines provided, create an empty address line 1 for Review Page
+        //If no address lines provided, create an empty address line 1 for Review Page
         if(this.addressLines.length == 0){
           this.addressLines[0] = {
               value: null,
@@ -261,6 +324,7 @@ export default {
         
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
+        this.$store.dispatch(formModule + '/' + SET_NEW_ADDRESS_IS_KNOWN, this.newAddressIsKnown);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
         this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, this.addressLines);
         this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
@@ -297,6 +361,22 @@ export default {
         this.postalCode = null;
       }
     },
+    newAddressIsKnown(newValue) {
+      if (this.isPageLoaded && newValue) {
+        if (newValue === 'Y') {
+          setTimeout(() => {
+            const el = document.querySelector('.is-new-address-known-y');
+            scrollToElement(el, true);
+          }, 0);
+        }
+        else if (newValue === 'N') {
+          setTimeout(() => {
+            const el = document.querySelector('.is-new-address-known-n');
+            scrollToElement(el, true);
+          }, 0);
+        }
+      }
+    }
   }
 }
 </script>
