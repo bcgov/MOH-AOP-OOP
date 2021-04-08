@@ -13,7 +13,7 @@ export const SET_PHONE = 'setPhone';
 // Move Info page
 export const SET_MOVE_FROM_BC_DATE = 'setMoveFromBCDate';
 export const SET_ARRIVE_DESTINATION_DATE = 'setArriveDestinationDate';
-export const SET_NEW_ADDRESS_IS_KNOWN = 'setNewAddressIsKnown';
+export const SET_IS_NEW_ADDRESS_KNOWN = 'setIsNewAddressKnown';
 export const SET_COUNTRY = 'setCountry';
 export const SET_ADDRESS_LINES = 'setAddressLines';
 export const SET_PROVINCE = 'setProvince';
@@ -39,7 +39,7 @@ export default {
       phone: null,
       moveFromBCDate: null,
       arriveDestinationDate: null,
-      newAddressIsKnown: null,
+      isNewAddressKnown: null,
       country: null,
       addressLines: [],
       province: null,
@@ -73,8 +73,8 @@ export default {
     setArriveDestinationDate(state, payload) {
       state.arriveDestinationDate = payload;
     },
-    setNewAddressIsKnown(state, payload) {
-      state.newAddressIsKnown = payload;
+    setIsNewAddressKnown(state, payload) {
+      state.isNewAddressKnown = payload;
     },
     setCountry(state, payload) {
       state.country = payload;
@@ -117,7 +117,7 @@ export default {
       commit(SET_PHONE, null);
       commit(SET_MOVE_FROM_BC_DATE, null);
       commit(SET_ARRIVE_DESTINATION_DATE, null);
-      commit(SET_NEW_ADDRESS_IS_KNOWN, null);
+      commit(SET_IS_NEW_ADDRESS_KNOWN, null);
       commit(SET_COUNTRY, null);
       commit(SET_ADDRESS_LINES, null);
       commit(SET_PROVINCE, null);
@@ -141,8 +141,8 @@ export default {
     setArriveDestinationDate({ commit }, arriveDestinationDate) {
       commit(SET_ARRIVE_DESTINATION_DATE, arriveDestinationDate);
     },
-    setNewAddressIsKnown({ commit }, newAddressIsKnown) {
-      commit(SET_NEW_ADDRESS_IS_KNOWN, newAddressIsKnown);
+    setIsNewAddressKnown({ commit }, isNewAddressKnown) {
+      commit(SET_IS_NEW_ADDRESS_KNOWN, isNewAddressKnown);
     },
     setCountry({ commit }, country) {
       commit(SET_COUNTRY, country);

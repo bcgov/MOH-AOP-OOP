@@ -34,23 +34,23 @@
         <input type='radio'
                 id='is-new-address-known-y'
                 value='Y'
-                v-model='newAddressIsKnown' />
+                v-model='isNewAddressKnown' />
         <label for='is-new-address-known-y'
                 class='ml-3'>Yes</label>
         <br/>
         <input type='radio'
                 id='is-new-address-known-n'
                 value='N'
-                v-model='newAddressIsKnown' />
+                v-model='isNewAddressKnown' />
         <label for='is-new-address-known-n'
                 class='ml-3'>No</label>
         <div class="text-danger"
-              v-if="$v.newAddressIsKnown.$dirty && !$v.newAddressIsKnown.required"
+              v-if="$v.isNewAddressKnown.$dirty && !$v.isNewAddressKnown.required"
               aria-live="assertive">Please select one of the options above.</div>
         <br/>
         <div class="row">
           <div class="col-sm-7">
-            <div v-if='newAddressIsKnown === "Y"' class="is-new-address-known-y">
+            <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
               <CountryInput label='Country'
                             className='mt-3'
                             class="country"
@@ -119,7 +119,7 @@
                 <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.invalidCharValidator" aria-live="assertive">Postal code/zip code must contain letters and/or numbers and may include blank characters.</div>
               </div>
             </div>
-            <div v-else-if="newAddressIsKnown === 'N'" class="is-new-address-known-n">
+            <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
               <br/><p>Please verify which country you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
               <CountryInput label='Country'
                             className='mt-3'
@@ -136,7 +136,7 @@
               </div>
             </div>
           </div>
-          <div v-if="newAddressIsKnown === 'Y' && country === 'Canada'" class="col-sm-5 mt-3">
+          <div v-if="isNewAddressKnown === 'Y' && country === 'Canada'" class="col-sm-5 mt-3">
             <TipBox title="Tip: find your address">
               <p>As you type the street address, this form will suggest valid postal addresses. Click an address to automatically enter it.</p>
               <p>Type apartment number or suite  using digits, no spaces, and a dash (-) before the street address (111-215 Sample Road). If the address does not appear in the list of suggestions, type it manually.</p>
@@ -181,7 +181,7 @@ import {
   RESET_FORM,
   SET_ADDRESS_LINES,
   SET_ARRIVE_DESTINATION_DATE,
-  SET_NEW_ADDRESS_IS_KNOWN,
+  SET_IS_NEW_ADDRESS_KNOWN,
   SET_COUNTRY,
   SET_CITY,
   SET_PROVINCE,
@@ -210,7 +210,7 @@ export default {
     return {
       moveFromBCDate: null,
       arriveDestinationDate: null,
-      newAddressIsKnown: null,
+      isNewAddressKnown: null,
       addressLines: [],
       country: null,
       province: null,
@@ -224,7 +224,7 @@ export default {
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
-    this.newAddressIsKnown = this.$store.state.form.newAddressIsKnown;
+    this.isNewAddressKnown = this.$store.state.form.isNewAddressKnown;
     this.addressLines = this.$store.state.form.addressLines || [];
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
@@ -258,7 +258,7 @@ export default {
         distantPastValidator,
         afterDateValidator: afterDateValidator('moveFromBCDate'),
       },
-      newAddressIsKnown: {
+      isNewAddressKnown: {
         required,
       },
       country: {
@@ -273,7 +273,7 @@ export default {
         },
       },
     }
-    if (this.newAddressIsKnown === 'Y'){
+    if (this.isNewAddressKnown === 'Y'){
       validations.city = {
         required,
       };
@@ -295,7 +295,7 @@ export default {
         };
       }
     }
-    else if (this.newAddressIsKnown === 'N' && this.country === 'Canada'){
+    else if (this.isNewAddressKnown === 'N' && this.country === 'Canada'){
       validations.province = {
         required,
         nonBCValidator,
@@ -333,7 +333,7 @@ export default {
         
         this.$store.dispatch(formModule + '/' + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(formModule + '/' + SET_ARRIVE_DESTINATION_DATE, this.arriveDestinationDate);
-        this.$store.dispatch(formModule + '/' + SET_NEW_ADDRESS_IS_KNOWN, this.newAddressIsKnown);
+        this.$store.dispatch(formModule + '/' + SET_IS_NEW_ADDRESS_KNOWN, this.isNewAddressKnown);
         this.$store.dispatch(formModule + '/' + SET_COUNTRY, this.country);
         this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, this.addressLines);
         this.$store.dispatch(formModule + '/' + SET_PROVINCE, this.province);
@@ -371,7 +371,7 @@ export default {
         this.postalCode = null;
       }
     },
-    newAddressIsKnown(newValue) {
+    isNewAddressKnown(newValue) {
       if (this.isPageLoaded && newValue) {
         if (newValue === 'Y') {
           setTimeout(() => {
@@ -386,21 +386,22 @@ export default {
           }, 0);
         }
       }
-  },
-  // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    pageStateService.setPageIncomplete(from.path);
-    if (to.path === routes.HOME_PAGE.path) {
-      this.$store.dispatch(formModule + '/' + RESET_FORM);
-      next();
-    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
-      next();
-    } else {
-      const topScrollPosition = getTopScrollPosition();
-      next(false);
-      setTimeout(() => {
-        scrollTo(topScrollPosition);
-      }, 0);
+    },
+    // Required in order to block back navigation.
+    beforeRouteLeave(to, from, next) {
+      pageStateService.setPageIncomplete(from.path);
+      if (to.path === routes.HOME_PAGE.path) {
+        this.$store.dispatch(formModule + '/' + RESET_FORM);
+        next();
+      } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+        next();
+      } else {
+        const topScrollPosition = getTopScrollPosition();
+        next(false);
+        setTimeout(() => {
+          scrollTo(topScrollPosition);
+        }, 0);
+      }
     }
   }
 }
