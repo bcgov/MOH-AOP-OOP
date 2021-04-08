@@ -127,7 +127,7 @@ export default {
       });
       items.push({
         label: 'Do you know your new address?',
-        value: this.$store.state.form.newAddressIsKnown === 'Y' ? 'Yes' : 'No',
+        value: this.$store.state.form.isNewAddressKnown === 'Y' ? 'Yes' : 'No',
       });
       const addressLines = this.$store.state.form.addressLines;
       for (let i=0; i<addressLines.length; i++) {
