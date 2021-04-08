@@ -59,10 +59,7 @@ import {
   MODULE_NAME as formModule,
   RESET_FORM
 } from '../store/modules/form';
-import {
-  scrollTo,
-  getTopScrollPosition
-} from '../helpers/scroll';
+import { scrollTo } from '../helpers/scroll';
 
 export default {
   name: 'SubmissionPage',
@@ -86,16 +83,15 @@ export default {
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {
     pageStateService.setPageIncomplete(from.path);
+    this.$store.dispatch(formModule + '/' + RESET_FORM);
     if (to.path === routes.HOME_PAGE.path) {
-      this.$store.dispatch(formModule + '/' + RESET_FORM);
       next();
     } else {
-      const topScrollPosition = getTopScrollPosition();
-      next(false);
-      setTimeout(() => {
-        scrollTo(topScrollPosition);
-      }, 0);
+      next({ name: routes.HOME_PAGE.name });
     }
+    setTimeout(() => {
+      scrollTo(0);
+    }, 0);
   }
 }
 </script>
