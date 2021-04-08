@@ -125,6 +125,10 @@ export default {
         label: 'Arrival in new destination:',
         value: formatDate(this.$store.state.form.arriveDestinationDate),
       });
+      items.push({
+        label: 'Do you know your new address?',
+        value: this.$store.state.form.isNewAddressKnown === 'Y' ? 'Yes' : 'No',
+      });
       const addressLines = this.$store.state.form.addressLines;
       for (let i=0; i<addressLines.length; i++) {
         items.push({
