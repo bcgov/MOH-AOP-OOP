@@ -145,9 +145,12 @@ app.use('/', function (req, res, next) {
           nounIndex = pathnameParts.indexOf("aopIntegration");
           console.log('A');
         }
-		    if (nounIndex < 0) {                                                                                                                          
-          nounIndex = pathnameParts.indexOf("bcp");                                                                                  
-        } 
+        if (nounIndex < 0) {
+          nounIndex = pathnameParts.indexOf("oopIntegration");
+        }
+        if (nounIndex < 0) {
+          nounIndex = pathnameParts.indexOf("bcp");
+        }
         
         if (nounIndex < 0 ||
           pathnameParts.length < nounIndex + 2) {
