@@ -47,12 +47,14 @@
 </template>
 
 <script>
+import pageStateService from '../services/page-state-service';
+import { isPastPath } from '../router/routes';
 import { scrollTo } from '../helpers/scroll';
 import environment from '../settings';
 import {
   MODULE_NAME,
   SET_SHOW_MOBILE_STEPPER_DETAILS,
-} from '../store/modules/app'
+} from '../store/modules/app';
 
 export default {
   name: "ProgressBar",
@@ -111,25 +113,17 @@ export default {
       if (this.currentPath !== path && 
         (
           environment.bypassRouteGuards ||
-          this.isPastPath(path)
+          isPastPath(path, this.currentPath)
         )) {
+        pageStateService.setPageIncomplete(this.currentPath);
+        pageStateService.setPageComplete(path);
         this.$router.push(path);
         scrollTo(0);
       }
     },
-    isPastPath(path) {
-      for (let i=0; i<this.routes.length; i++) {
-        if (this.routes[i].path === this.currentPath) {
-          return false;
-        } else if (this.routes[i].path === path) {
-          return true;
-        }
-      }
-      return false;
-    },
     getLinkStyles(path) {
       return {
-        cursor: this.isPastPath(path) ? 'pointer' : 'default'
+        cursor: isPastPath(path, this.currentPath) ? 'pointer' : 'default'
       }
     },
     openDropdown() {

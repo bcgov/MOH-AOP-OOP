@@ -8,7 +8,6 @@ export const RESET_FORM = 'resetForm';
 // Your info page:
 export const SET_LAST_NAME = 'setLastName';
 export const SET_PHN = 'setPhn';
-export const SET_EMAIL = 'setEmail';
 export const SET_PHONE = 'setPhone';
 
 // Move Info page
@@ -37,7 +36,6 @@ export default {
     const state = {
       lastName: null,
       phn: null,
-      email: null,
       phone: null,
       moveFromBCDate: null,
       arriveDestinationDate: null,
@@ -65,9 +63,6 @@ export default {
     },
     setPhn(state, payload) {
       state.phn = payload;
-    },
-    setEmail(state, payload) {
-      state.email = payload;
     },
     setPhone(state, payload) {
       state.phone = payload;
@@ -119,7 +114,6 @@ export default {
     resetForm({ commit }) {
       commit(SET_LAST_NAME, null);
       commit(SET_PHN, null);
-      commit(SET_EMAIL, null);
       commit(SET_PHONE, null);
       commit(SET_MOVE_FROM_BC_DATE, null);
       commit(SET_ARRIVE_DESTINATION_DATE, null);
@@ -137,9 +131,6 @@ export default {
     },
     setPhn({ commit }, phn) {
       commit(SET_PHN, phn);
-    },
-    setEmail({ commit }, email) {
-      commit(SET_EMAIL, email);
     },
     setPhone({ commit }, phone) {
       commit(SET_PHONE, phone);

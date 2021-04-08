@@ -24,7 +24,7 @@ export const scrollToError = () => {
     const el = document.querySelector('.text-danger');
     scrollToElement(el, true);
   }, 0);
-}
+};
 
 export const scrollToElement = (element, smoothScroll) => {
   if (!element) {
@@ -35,4 +35,9 @@ export const scrollToElement = (element, smoothScroll) => {
     const top = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
     scrollTo(top, smoothScroll);
   }, 0);
-}
+};
+
+export const getTopScrollPosition = () => {
+  const doc = document.documentElement;
+  return (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+};

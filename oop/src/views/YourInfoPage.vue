@@ -32,14 +32,6 @@
                 v-if="showServerValidationError"
                 aria-live="assertive">This field does not match our records.</div>
 
-            <Input label='Email (optional)'
-                  v-model='email'
-                  className='mt-3'
-                  maxlength='50'/>
-            <div class="text-danger"
-                v-if="$v.phn.$dirty && !$v.email.emailValidator"
-                aria-live="assertive">Email must have the following format: yourname@example.com.</div>
-
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
                               v-model='phone'
@@ -67,8 +59,15 @@
 
 <script>
 import pageStateService from '../services/page-state-service';
-import routes from '../router/routes';
-import { scrollTo, scrollToError } from '../helpers/scroll';
+import {
+  routes,
+  isPastPath,
+} from '../router/routes';
+import {
+  scrollTo,
+  scrollToError,
+  getTopScrollPosition
+} from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
@@ -81,22 +80,14 @@ import {
 import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
+  RESET_FORM,
   SET_LAST_NAME,
   SET_PHN,
-  SET_EMAIL,
   SET_PHONE,
 } from '../store/modules/form';
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
-  return criteria.test(value);
-};
-
-const emailValidator = (value) => {
-  if (!value) {
-    return true;
-  }
-  const criteria = /^(\S+)@(\S+)\.(\S+)$/;
   return criteria.test(value);
 };
 
@@ -127,7 +118,6 @@ export default {
     return {
       lastName: null,
       phn: null,
-      email: null,
       phone: null,
       isLoading: false,
       showServerValidationError: false,
@@ -136,7 +126,6 @@ export default {
   created() {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
-    this.email = this.$store.state.form.email;
     this.phone = this.$store.state.form.phone;
   },
   validations() {
@@ -148,9 +137,6 @@ export default {
       phn: {
         required,
         phnValidation: phnValidator,
-      },
-      email: {
-        emailValidator,
       },
       phone: {
         phoneValidator,
@@ -172,29 +158,32 @@ export default {
     
         this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
         this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
-        this.$store.dispatch(formModule + '/' + SET_EMAIL, this.email);
         this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
 
-        const path = routes.ACCOUNT_TYPE_PAGE.path;
-        pageStateService.visitPage(path);
-        this.$router.push(path);
+        const toPath = routes.ACCOUNT_TYPE_PAGE.path;
+        pageStateService.setPageComplete(toPath);
+        pageStateService.visitPage(toPath);
+        this.$router.push(toPath);
         scrollTo(0);
       }, 2000);
     }
   },
   // Required in order to block back navigation.
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path === routes.ACCOUNT_TYPE_PAGE.path) {
-  //     next();
-  //   } else if (to.path === routes.HOME_PAGE.path) {
-  //     if (window.confirm(strings.NAVIGATION_CONFIRMATION_PROMPT)) {
-  //       this.$store.dispatch(formModule + '/' + RESET_FORM);
-  //       next();
-  //     } else {
-  //       next(false);
-  //     }
-  //   }
-  // }
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
+  }
 }
 </script>
 
