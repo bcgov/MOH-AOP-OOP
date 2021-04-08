@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "idle-vue": "^2.0.5",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "pdfjs-dist": "^2.6.347",
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "^6.6.3",

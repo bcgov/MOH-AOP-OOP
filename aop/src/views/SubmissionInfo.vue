@@ -11,7 +11,7 @@
         <p>You can upload and send ONLY ONE form at a time.</p>
         <p>
           After submitting your first form, you can submit additional forms from the
-          "Submission Confirmation" screen. The submitter information will populate
+          "Confirmation" screen. The submitter information will populate
           automatically for the second and subsequent submissions.
         </p>
         <div class="form-group">
@@ -604,6 +604,17 @@
                   >
                     Please upload required document
                   </div>
+                  <div
+                    class="text-danger"
+                    v-if="
+                      $v.files.$dirty &&
+                      credentialsRequired &&
+                      $v.files.required && !$v.credentials.hasDistinctFiles
+                    "
+                    aria-live="assertive"
+                  >
+                    Please upload distinct documents for Assignment of Payment form and for credentials
+                  </div>
                   <div class="notice">
                     <strong>Note:</strong>
                     <ul>
@@ -657,6 +668,17 @@
                     aria-live="assertive"
                   >
                     Please upload required document
+                  </div>
+                  <div
+                    class="text-danger"
+                    v-if="
+                      $v.credentials.$dirty &&
+                      credentialsRequired &&
+                      $v.credentials.required && !$v.credentials.hasDistinctFiles
+                    "
+                    aria-live="assertive"
+                  >
+                    Please upload distinct documents for Assignment of Payment form and for credentials
                   </div>
                   <div class="notice">
                     <strong>Note:</strong>
@@ -717,6 +739,7 @@ import {
   isValidSecondaryLastName,
   hasSecondaryNumber,
   hasSecondaryLastName,
+  hasDistinctFiles,
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
@@ -788,6 +811,7 @@ export default {
         },
         credentials: {
           required,
+          hasDistinctFiles
         },
         submissionType: {
           required,

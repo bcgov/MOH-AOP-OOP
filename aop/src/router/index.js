@@ -95,6 +95,26 @@ const router = new VueRouter({
               }
             ]
           }
+        },
+        {
+          path: routes.SUBMISSION_ERROR.path,
+          name: routes.SUBMISSION_ERROR.name,
+          component: routes.SUBMISSION_ERROR.component,
+          meta: {
+            title: "Upload Tool | Error",
+            metaTags: [
+              {
+                name: "description",
+                content:
+                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              },
+              {
+                property: "og:description",
+                content:
+                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              }
+            ]
+          }
         }
       ],
     },
@@ -138,26 +158,6 @@ const router = new VueRouter({
         ]
       }
     },
-    {
-      path: routes.SUBMISSION_ERROR.path,
-      name: routes.SUBMISSION_ERROR.name,
-      component: routes.SUBMISSION_ERROR.component,
-      meta: {
-        title: "Upload Tool | Error",
-        metaTags: [
-          {
-            name: "description",
-            content:
-              "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          },
-          {
-            property: "og:description",
-            content:
-              "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          }
-        ]
-      }
-    }
   ]
 });
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Submission error</h1>
       <div class="success-box container">
@@ -15,14 +15,14 @@
         </div>
       </div>
     </main>
-    <ContinueBar :buttonLabel="'Back to Sign In'" @continue="navigateToSignIn"/>
+    <ContinueBar :buttonLabel="'Back to form select'" @continue="navigateToFormSelect"/>
     <Footer />
   </div>
 </template>
 
 <script>
 import Footer from "../components/Footer";
-import Header from "../components/Header";
+import SignOutHeader from "../components/SignOutHeader";
 import ContinueBar from "../components/ContinueBar";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
@@ -32,7 +32,7 @@ export default {
   name: "SessionEnd",
   components: {
     Footer,
-    Header,
+    SignOutHeader,
     ContinueBar
   },
   mixins: [FocusHeaderMixin],
@@ -45,8 +45,8 @@ export default {
     this.message = this.$store.state.apiResponse.toString();
   },
   methods: {
-    navigateToSignIn() {
-      const path = routes.SIGN_IN.path;
+    navigateToFormSelect() {
+      const path = routes.SUBMISSION_INFO.path;
       this.$router.push(path);
       scrollTo(0);
     }

@@ -6,7 +6,7 @@
           <link-element url="https://www2.gov.bc.ca/gov/content/home/privacy" label="Privacy" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/accessibility" label="Accessibility" />
           <link-element url="https://www2.gov.bc.ca/gov/content/home/copyright" label="Copyright" />
-          <link-element url="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents-contact-us" label="Contact Us" />
+          <link-element url="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents-contact-us" label="Contact us" />
         </ul>
     </div>
   </footer>

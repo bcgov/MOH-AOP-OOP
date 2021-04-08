@@ -14,7 +14,8 @@
       />
       <Button
         label="Select a file"
-        styling="BC-Gov-SecondaryButton"
+        :styling="buttonStyles"
+        :disabled="images && images.length > 0"
         v-on:button-click="openFileDialog()"
       />
       <div v-if="images && images.length > 0" class="ml-3 d-flex">{{ images[0].name.slice(0, -6) }} 
@@ -171,6 +172,12 @@ export default {
       plusIconSvg: plusIconSvg,
       cloudUploadIconSvg: cloudUploadIconSvg
     };
+  },
+
+  computed: {
+    buttonStyles() {
+      return this.images && this.images.length > 0 ? 'BC-Gov-SecondaryButton BC-Gov-SecondaryButton-disabled' : 'BC-Gov-SecondaryButton';
+    }
   },
 
   /*
@@ -909,6 +916,19 @@ export default {
 
 .BC-Gov-SecondaryButton:active {
   opacity: 1;
+}
+
+.BC-Gov-SecondaryButton-disabled {
+    background-color: white;
+    opacity: 0.3;
+    border: 2px solid #003366;
+    cursor: not-allowed;
+}
+
+.BC-Gov-SecondaryButton-disabled:hover {
+  opacity: 0.3;
+  background-color: white;
+  color: #036;
 }
 
 .button-container {

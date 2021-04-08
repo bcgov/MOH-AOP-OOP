@@ -26,6 +26,12 @@ export const hasSecondaryLastName = (value, vm) => {
   return hasNeither || hasLastName;
 }
 
+export const hasDistinctFiles = (value, vm) => {
+  const credentialFileName = value && value[0] && value[0].name;
+  const formFileName = vm.files && vm.files[0] && vm.files[0].name;
+  return credentialFileName !== formFileName;
+}
+
 export const hasNoInvalidJSON = val => {
   return /^[^\\/"]*$/.test(val);
 }

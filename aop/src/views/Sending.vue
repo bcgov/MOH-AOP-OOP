@@ -21,6 +21,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
+import { log } from "../services/logging-service";
 import { SET_API_RESPONSE } from '../store';
 import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
 
@@ -41,21 +42,22 @@ export default {
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.dispatch(SET_API_RESPONSE, res.data.refNumber);
+          log({message: 'Success', error: null}, res.data.uuid, res.data.refNumber);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
           if (res.data.dberrorMessage) {
-            this.$store.dispatch(SET_API_RESPONSE, res.data.dberrorMessage);
+            log({message: 'Error sending application', error: res.data.dberrorMessage}, res.data.uuid);
           } else {
-            this.$store.dispatch(SET_API_RESPONSE, res.data.validationError);
+            log({message: 'Error sending application', error: res.data.validationError}, res.data.uuid);
           }
           this.navigateToErrorPage();
         } else {
-          this.$store.dispatch(SET_API_RESPONSE, "Unknown error");
+          log({message: 'Error sending application', error: 'Unknown error'});
           this.navigateToErrorPage();
         }
       })
       .catch(err => {
-        this.$store.dispatch(SET_API_RESPONSE, err);
+        log({message: 'Error sending application', error: err});
         this.navigateToErrorPage();
       });
   },

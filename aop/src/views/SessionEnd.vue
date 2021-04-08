@@ -6,7 +6,7 @@
       <p>You have successfully closed your secure session with the Diagnostic Facilities upload tool.</p>
       <p>You may close your browser now.</p>
     </main>
-    <ContinueBar :buttonLabel="'Back to Sign In'" @continue="navigateToSignIn" />
+    <ContinueBar :buttonLabel="'Back to sign in'" @continue="navigateToSignIn" />
     <Footer />
   </div>
 </template>
