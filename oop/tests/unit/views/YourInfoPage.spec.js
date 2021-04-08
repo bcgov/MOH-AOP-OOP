@@ -16,7 +16,6 @@ describe('YourInfoPage.vue', () => {
     state ={
       lastName: null,
       phn: null,
-      email: null,
       phone: null,
     };    
 
