@@ -129,32 +129,40 @@ export default {
         label: 'Do you know your new address?',
         value: this.$store.state.form.isNewAddressKnown === 'Y' ? 'Yes' : 'No',
       });
-      const addressLines = this.$store.state.form.addressLines;
-      for (let i=0; i<addressLines.length; i++) {
-        items.push({
-          label: 'Address line ' + (i+1) + ':',
-          value: addressLines[i] == null ? '' : addressLines[i].value,
-        });
-      }
       items.push({
         label: 'Country:',
         value: this.$store.state.form.country,
       });
-      const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
-      items.push({
-        label: provinceLabel,
-        value: this.$store.state.form.province,
-      });
-      const cityLabel = this.$store.state.form.country === 'Canada' ? 'City:' : 'City/town:'
-      items.push({
-        label: cityLabel,
-        value: this.$store.state.form.city,
-      });
-      const postalCodeLabel = this.$store.state.form.country === 'Canada' ? 'Postal code:' : 'Postal code/zip code:'
-      items.push({
-        label: postalCodeLabel,
-        value: this.$store.state.form.postalCode,
-      });
+      const addressLines = this.$store.state.form.addressLines;
+      for (let i=0; i<addressLines.length; i++) {
+        if (addressLines[i].value !== null){
+          items.push({
+            label: 'Address line ' + (i+1) + ':',
+            value: addressLines[i].value,
+          });
+        }
+      }
+      if (this.$store.state.form.province !== null){
+        const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
+        items.push({
+          label: provinceLabel,
+          value: this.$store.state.form.province,
+        });
+      }
+      if (this.$store.state.form.city !== null){
+        const cityLabel = this.$store.state.form.country === 'Canada' ? 'City:' : 'City/town:'
+        items.push({
+          label: cityLabel,
+          value: this.$store.state.form.city,
+        });
+      }
+      if (this.$store.state.form.postalCode !== null){
+        const postalCodeLabel = this.$store.state.form.country === 'Canada' ? 'Postal code:' : 'Postal code/zip code:'
+        items.push({
+          label: postalCodeLabel,
+          value: this.$store.state.form.postalCode,
+        });
+      }
       return items;
     },
     whoIsMoving() {

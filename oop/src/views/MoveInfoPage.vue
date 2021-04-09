@@ -303,6 +303,9 @@ export default {
         };
       }
       else {
+        validations.province = {
+          required,
+        },
         validations.postalCode = {
           required,
           invalidCharValidator
@@ -376,13 +379,31 @@ export default {
     getMinAddressLines() {
       return MIN_ADDRESS_LINES;
     },
+    setFieldsToNull() {
+      // Remove all address lines
+      for (let i=0; i<this.addressLines.length-1; i++) {
+        this.addressLines.pop();
+      }
+      // Set first address line to null
+      if (document.getElementById('inputAddress line 1')){
+        this.addressLines[0].value = null;
+        document.getElementById('inputAddress line 1').value = null;
+      }
+      // Set province to null
+      this.province = null;
+      if (document.getElementById('province')){
+        document.getElementById('province').value = '';
+      }
+      // Set city to null
+      this.city = null;
+      // Set postal code to null
+      this.postalCode = null;
+    },
   },
   watch: {
     country(newValue) {
       if (this.isPageLoaded && newValue){
-        this.province = null;
-        this.city = null;
-        this.postalCode = null;
+        this.setFieldsToNull();
       }
     },
     isNewAddressKnown(newValue) {
@@ -399,20 +420,12 @@ export default {
             scrollToElement(el, true);
           }, 0);
         }
-        for (let i=0; i<this.addressLines.length-1; i++) {
-          this.addressLines.pop();
-        }
-        this.addressLines[0].value = null;
+        this.setFieldsToNull();
+        // Set country to Canada as default
         this.country = 'Canada';
-        if(document.getElementById('country')){
+        if (document.getElementById('country')){
           document.getElementById('country').value = 'Canada';
         }
-        this.province = null;
-        if(document.getElementById('province')){
-          document.getElementById('province').value = '';
-        }
-        this.city = null;
-        this.postalCode = null;
       }
     },
   },
