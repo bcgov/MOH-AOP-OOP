@@ -265,9 +265,7 @@ export default {
       country: {
         required,
       },
-      // province: {
-      //   required,
-      // },
+      province: {},
       addressLines: {
         $each: {
           value: {},
@@ -373,7 +371,7 @@ export default {
       }
     },
     isNewAddressKnown(newValue) {
-      if (this.isPageLoaded && newValue) {
+      if (this.isPageLoaded) {
         if (newValue === 'Y') {
           setTimeout(() => {
             const el = document.querySelector('.is-new-address-known-y');
@@ -386,16 +384,12 @@ export default {
             scrollToElement(el, true);
           }, 0);
         }
-        // this.country = null;
-        // for (let i=0; i<this.currNumOfAddressLines; i++) {
-        //   this.addressLines[i] = {
-        //     value: null,
-        //     isValid: true,
-        //   }
-        // }
-        // this.province = null;
-        // this.city = null;
-        // this.postalCode = null;
+        for (let i=0; i<this.addressLines.length-1; i++) {
+          this.addressLines.pop();
+        }
+        this.province = null;
+        this.city = null;
+        this.postalCode = null;
       }
     },
   },
