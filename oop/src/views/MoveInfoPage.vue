@@ -219,6 +219,7 @@ export default {
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
+      currNumOfAddressLines: null
     }
   },
   created() {
@@ -235,9 +236,9 @@ export default {
       this.isPageLoaded = true;
     }, 0);
 
-    const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
 
-    for (let i=0; i<currNumOfAddressLines; i++) {
+    for (let i=0; i<this.currNumOfAddressLines; i++) {
       this.addressLines[i] = {
           value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
           isValid: true,
@@ -264,9 +265,9 @@ export default {
       country: {
         required,
       },
-      province: {
-        required,
-      },
+      // province: {
+      //   required,
+      // },
       addressLines: {
         $each: {
           value: {},
@@ -385,6 +386,16 @@ export default {
             scrollToElement(el, true);
           }, 0);
         }
+        // this.country = null;
+        // for (let i=0; i<this.currNumOfAddressLines; i++) {
+        //   this.addressLines[i] = {
+        //     value: null,
+        //     isValid: true,
+        //   }
+        // }
+        // this.province = null;
+        // this.city = null;
+        // this.postalCode = null;
       }
     },
     // Required in order to block back navigation.
