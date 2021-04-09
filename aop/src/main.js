@@ -53,6 +53,12 @@ Vue.use(IdleVue, {
 // For a11y, reads new page titles on change
 Vue.use(VueAnnouncer, {}, router);
 
+// For axe a11y testing
+const VueAxe = require('vue-axe').default;
+Vue.use(VueAxe, {
+  auto: false  // Disable auto check. 
+});
+
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);

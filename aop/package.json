@@ -49,10 +49,12 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/test-utils": "^1.0.3",
+    "axe-core": "^4.1.4",
     "chai": "^4.1.2",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
+    "vue-axe": "^2.4.4",
     "vue-template-compiler": "^2.6.11"
   }
 }
