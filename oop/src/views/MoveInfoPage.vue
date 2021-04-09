@@ -63,6 +63,7 @@
                             class='col-md-7 mt-3'>
                   <AddressInput :label='"Address line " + (index + 1)'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
+                  <div class="text-danger" v-if="index === 0 && v.value.$dirty && !$v.addressLines.addressLineOneValidator" aria-live="assertive">Address line 1 is required.</div>             
                 </div>
                 <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                   <Button label='+'
@@ -192,6 +193,15 @@ import {
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
 
+const addressLineOneValidator = (addressLines) => {
+  if (addressLines && addressLines[0]) {
+    if (addressLines[0].value && addressLines[0].value !== '') {
+      return true;
+    }
+  }
+  return false; 
+};
+
 export default {
   name: 'MoveInfoPage',
   components: {
@@ -266,13 +276,14 @@ export default {
         required,
       },
       province: {},
-      addressLines: {
-        $each: {
-          value: {},
-        },
-      },
     }
     if (this.isNewAddressKnown === 'Y'){
+      validations.addressLines = {
+         $each: {
+          value: {},
+        },
+        addressLineOneValidator,
+      },
       validations.city = {
         required,
       };
