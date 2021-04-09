@@ -33,6 +33,7 @@ import {
   RESET_FORM
 } from '../store/modules/form';
 import apiService from '../services/api-service';
+import logService from '../services/log-service';
 
 export default {
   name: 'ReviewPage',
@@ -49,16 +50,18 @@ export default {
   methods: {
     submitForm() {
       this.isLoading = true;
-
+      
       apiService.submitApplication()
         .then(() => {
-          // handle success.
+          // Handle success.
+          logService.logSubmission({ message: 'Success', error: null }, 'TEMP_UUID', 'TEMP_REF_NUMBER');
         })
         .catch(() => {
-          // handle error.
+          // Handle error.
+          logService.logSubmission({ message: 'Error sending application', error: 'TEMP_ERROR' }, 'TEMP_UUID', 'TEMP_REF_NUMBER');
         })
         .then(() => {
-          // always executed.
+          // Always executed.
           this.isLoading = false;
         });
       

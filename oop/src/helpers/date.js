@@ -1,8 +1,13 @@
-import { format } from 'date-fns';
+import { format as formatDateFns } from 'date-fns';
+import { format as formatDateFnsTz } from 'date-fns-tz';
 
 export const formatDate = (date) => {
   if (!date) {
     return null;
   }
-  return format(date, 'MMMM d, y')
+  return formatDateFns(date, 'MMMM d, y')
+};
+
+export const getBCTimestamp = () => {
+  return formatDateFnsTz(new Date(), 'yyyy-MM-dd HH:mm:ss zzz', { timeZone: 'America/Vancouver' });
 };
