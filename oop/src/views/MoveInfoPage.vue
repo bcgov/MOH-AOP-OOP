@@ -387,21 +387,21 @@ export default {
         }
       }
     },
-    // Required in order to block back navigation.
-    beforeRouteLeave(to, from, next) {
-      pageStateService.setPageIncomplete(from.path);
-      if (to.path === routes.HOME_PAGE.path) {
-        this.$store.dispatch(formModule + '/' + RESET_FORM);
-        next();
-      } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
-        next();
-      } else {
-        const topScrollPosition = getTopScrollPosition();
-        next(false);
-        setTimeout(() => {
-          scrollTo(topScrollPosition);
-        }, 0);
-      }
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      next();
+    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      const topScrollPosition = getTopScrollPosition();
+      next(false);
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
     }
   }
 }
