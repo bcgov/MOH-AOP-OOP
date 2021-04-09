@@ -52,6 +52,7 @@
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
               <CountryInput label='Country'
+                            id="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
@@ -78,9 +79,10 @@
               </div>
               <div v-if="country === 'Canada'">
                 <ProvinceInput label='Province'
-                      className='mt-3'
-                      class="province"
-                      v-model="province" />
+                                id="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
                 <Input label='City'
@@ -123,15 +125,17 @@
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
               <br/><p>Please verify which country you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
               <CountryInput label='Country'
+                            id="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
               <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
               <div v-if="country === 'Canada'">
                 <ProvinceInput label='Province'
-                      className='mt-3'
-                      class="province"
-                      v-model="province" />
+                                id="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
@@ -398,7 +402,15 @@ export default {
         for (let i=0; i<this.addressLines.length-1; i++) {
           this.addressLines.pop();
         }
+        this.addressLines[0].value = null;
+        this.country = 'Canada';
+        if(document.getElementById('country')){
+          document.getElementById('country').value = 'Canada';
+        }
         this.province = null;
+        if(document.getElementById('province')){
+          document.getElementById('province').value = '';
+        }
         this.city = null;
         this.postalCode = null;
       }
