@@ -19,6 +19,7 @@
     "common-lib-vue": "^1.0.9",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.1.3",
     "vue": "^2.6.11",
     "vue-country-region-select": "^2.0.14",
     "vue-masked-input": "^0.5.2",
