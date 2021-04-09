@@ -7,6 +7,7 @@ export default {
   isAllDependentsMoving: 'Y',
   moveFromBCDate: new Date('2021-06-01'),
   arriveDestinationDate: new Date('2021-06-02'),
+  isNewAddressKnown: 'N',
   country: 'Canada',
   addressLine1: '123 Main St.',
   province: 'Alberta',
