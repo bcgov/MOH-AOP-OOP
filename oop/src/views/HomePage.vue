@@ -48,7 +48,8 @@
 
 <script>
 import pageStateService from '../services/page-state-service';
-import routes from '../router/routes';
+import spaEnvService from '../services/spa-env-service';
+import { routes } from '../router/routes';
 import {
   scrollTo,
   getTopScrollPosition
@@ -68,6 +69,18 @@ export default {
     return {
       showConsentModal: true,
     }
+  },
+  created() {
+    // Load environment variables, and route to maintenance page.
+    spaEnvService.loadEnvs()
+      .then(() => {
+        if (spaEnvService.values && spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG === 'true') {
+          const toPath = routes.MAINTENANCE_PAGE.path;
+          pageStateService.setPageComplete(toPath);
+          pageStateService.visitPage(toPath);
+          this.$router.push(toPath);
+        }
+      });
   },
   methods: {
     handleCloseConsentModal() {

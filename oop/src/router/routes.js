@@ -34,6 +34,11 @@ export const routes = {
     title: 'Submission Error',
     name: 'SubmissionErrorPage',
   },
+  MAINTENANCE_PAGE: {
+    path: '/maintenance',
+    title: 'Maintenance Mode',
+    name: 'MaintenancePage',
+  },
 };
 
 export const routeStepOrder = [

@@ -9,6 +9,7 @@ import ReviewPage from '../views/ReviewPage.vue';
 import YourInfoPage from '../views/YourInfoPage.vue';
 import SubmissionPage from '../views/SubmissionPage.vue';
 import SubmissionErrorPage from '../views/SubmissionErrorPage.vue';
+import MaintenancePage from '../views/MaintenancePage.vue';
 
 Vue.use(VueRouter);
 pageStateService.importPageRoutes(routes);
@@ -48,6 +49,11 @@ const routeCollection = [
     path: routes.SUBMISSION_ERROR_PAGE.path,
     name: routes.SUBMISSION_ERROR_PAGE.name,
     component: SubmissionErrorPage
+  },
+  {
+    path: routes.MAINTENANCE_PAGE.path,
+    name: routes.MAINTENANCE_PAGE.name,
+    component: MaintenancePage
   }
 ];
 
