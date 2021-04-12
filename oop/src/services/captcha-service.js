@@ -1,23 +1,22 @@
 import axios from 'axios';
 
 const BASE_API_PATH = '/oop/api/';
-const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
-const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
-const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
+const CAPTCHA_URL = BASE_API_PATH + 'captcha/captcha';
+const CAPTCHA_VERIFY_URL = BASE_API_PATH + 'captcha/verify/captcha';
+const CAPTCHA_AUDIO_URL = BASE_API_PATH + 'captcha/captcha/audio';
 
 class ApiService {
-  validateLastNamePhn(lastName, phn) {
+  getCaptcha(nonce) {
     const headers = this.getHeaders(null);
-    return axios.post(VALIDATE_LAST_NAME_PHN_URL, {
-      lastName,
-      phn,
+    return axios.post(CAPTCHA_URL, {
+      nonce
     },
     {
       headers
     });
   }
 
-  validateAhDep() {
+  verifyCaptcha() {
     const headers = this.getHeaders(null);
     return axios.post(VALIDATE_AH_DEP_URL, {}, {
       headers
