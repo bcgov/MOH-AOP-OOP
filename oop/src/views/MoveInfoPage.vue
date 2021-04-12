@@ -52,6 +52,7 @@
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
               <CountryInput label='Country'
+                            ref="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
@@ -63,6 +64,7 @@
                             class='col-md-7 mt-3'>
                   <AddressInput :label='"Address line " + (index + 1)'
                                 v-model="addressLine.value" class="address-line" maxlength='25'/>
+                  <div class="text-danger" v-if="index === 0 && v.value.$dirty && !$v.addressLines.addressLineOneValidator" aria-live="assertive">Address line 1 is required.</div>             
                 </div>
                 <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                   <Button label='+'
@@ -77,9 +79,10 @@
               </div>
               <div v-if="country === 'Canada'">
                 <ProvinceInput label='Province'
-                      className='mt-3'
-                      class="province"
-                      v-model="province" />
+                                ref="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
                 <Input label='City'
@@ -122,15 +125,17 @@
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
               <br/><p>Please verify which country you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
               <CountryInput label='Country'
+                            ref="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
               <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
               <div v-if="country === 'Canada'">
                 <ProvinceInput label='Province'
-                      className='mt-3'
-                      class="province"
-                      v-model="province" />
+                                ref="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
@@ -192,6 +197,15 @@ import {
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
 
+const addressLineOneValidator = (addressLines) => {
+  if (addressLines && addressLines[0]) {
+    if (addressLines[0].value && addressLines[0].value !== '') {
+      return true;
+    }
+  }
+  return false; 
+};
+
 export default {
   name: 'MoveInfoPage',
   components: {
@@ -219,6 +233,7 @@ export default {
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
+      currNumOfAddressLines: null
     }
   },
   created() {
@@ -235,9 +250,9 @@ export default {
       this.isPageLoaded = true;
     }, 0);
 
-    const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
 
-    for (let i=0; i<currNumOfAddressLines; i++) {
+    for (let i=0; i<this.currNumOfAddressLines; i++) {
       this.addressLines[i] = {
           value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
           isValid: true,
@@ -264,16 +279,15 @@ export default {
       country: {
         required,
       },
-      province: {
-        required,
-      },
-      addressLines: {
-        $each: {
-          value: {},
-        },
-      },
+      province: {},
     }
     if (this.isNewAddressKnown === 'Y'){
+      validations.addressLines = {
+         $each: {
+          value: {},
+        },
+        addressLineOneValidator,
+      },
       validations.city = {
         required,
       };
@@ -289,6 +303,9 @@ export default {
         };
       }
       else {
+        validations.province = {
+          required,
+        },
         validations.postalCode = {
           required,
           invalidCharValidator
@@ -362,13 +379,34 @@ export default {
     getMinAddressLines() {
       return MIN_ADDRESS_LINES;
     },
+    setFieldsToNull() {
+      // Remove all current address lines
+      for (let i=0; i<this.addressLines.length; i++) {
+        setTimeout(() => {
+          this.removeAddressField();
+        }, 0);
+      }
+      setTimeout(() => {
+        // Set first address line to null
+        this.addAddressField();
+        // If country is Canada, set province dropdown list to null
+        if (this.country === 'Canada' && this.$refs.province){
+          this.$refs.province.region = null;
+        }
+        else {
+          this.province = null;
+        }
+        // Set city to null
+        this.city = null;
+        // Set postal code to null
+        this.postalCode = null;
+      }, 0);
+    },
   },
   watch: {
     country(newValue) {
       if (this.isPageLoaded && newValue){
-        this.province = null;
-        this.city = null;
-        this.postalCode = null;
+        this.setFieldsToNull();
       }
     },
     isNewAddressKnown(newValue) {
@@ -384,6 +422,10 @@ export default {
             const el = document.querySelector('.is-new-address-known-n');
             scrollToElement(el, true);
           }, 0);
+        }
+        this.setFieldsToNull();
+        if (this.$refs.country){
+          this.$refs.country.country = 'Canada';
         }
       }
     },
