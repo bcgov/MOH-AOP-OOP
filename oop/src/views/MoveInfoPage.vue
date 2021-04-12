@@ -389,11 +389,12 @@ export default {
       setTimeout(() => {
         // Set first address line to null
         this.addAddressField();
-        // Set province to null
-        this.province = null;
-        // If country is Canada, set province to empty
-        if (this.country === 'Canada'){
+        // If country is Canada, set province dropdown list to null
+        if (this.country === 'Canada' && this.$refs.province){
           this.$refs.province.region = null;
+        }
+        else {
+          this.province = null;
         }
         // Set city to null
         this.city = null;
@@ -422,10 +423,10 @@ export default {
             scrollToElement(el, true);
           }, 0);
         }
-        setTimeout(() => {
-          this.setFieldsToNull();
+        this.setFieldsToNull();
+        if (this.$refs.country){
           this.$refs.country.country = 'Canada';
-        }, 0);
+        }
       }
     },
   },
