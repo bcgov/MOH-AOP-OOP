@@ -35,10 +35,11 @@ export default {
   data: () => {
     return {
       hasConfirmedPageLeave: false,
+      SECRET: process.env.VUE_APP_SECRET
     };
   },
   created() {
-    submitApplication(this.$store.state)
+    submitApplication(this.$store.state, this.SECRET)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.dispatch(SET_API_RESPONSE, res.data.refNumber);

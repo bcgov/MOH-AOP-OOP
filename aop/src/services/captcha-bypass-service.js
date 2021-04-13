@@ -1,25 +1,8 @@
-import axios from "axios";
+const jwt = require("jsonwebtoken");
 
-const bypassCaptcha = async uuid => {
-  let token;
-  const captchaUrl = '/api/captcha/captcha';
-  const verifyUrl = '/api/captcha/verify/captcha';
+const bypassCaptcha = (uuid, SECRET) => {
+  return jwt.sign({ data: { nonce: uuid } }, SECRET, { expiresIn: "180m" });
 
-  try {
-    const encryptedCaptcha = await axios.post(captchaUrl, { nonce: uuid });
-    const response = await axios.post(verifyUrl, {
-      nonce: uuid,
-      answer: "irobot",
-      validation: encryptedCaptcha.validation
-    });
-
-    token = response.data.jwt;
-    
-  } catch (error) {
-    console.log(error);
-  }
-
-  return token;
 };
 
 export default bypassCaptcha;

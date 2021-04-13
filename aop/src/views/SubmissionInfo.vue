@@ -609,7 +609,9 @@
                     v-if="
                       $v.files.$dirty &&
                       credentialsRequired &&
-                      $v.files.required && !$v.credentials.hasDistinctFiles
+                      $v.files.required && 
+                      $v.credentials && 
+                      !$v.credentials.hasDistinctFiles
                     "
                     aria-live="assertive"
                   >

@@ -182,9 +182,9 @@ const convertAttachments = images => {
 /********************************************************
  TOP LEVEL FUNCTION
 ********************************************************/
-export const submitApplication = async state => {
+export const submitApplication = async (state, SECRET) => {
   const AOPApplication = prepareAOPApplication(state);
-  const token = await bypassCaptcha(AOPApplication.uuid);
+  const token = await bypassCaptcha(AOPApplication.uuid, SECRET);
 
   return new Promise((resolve, reject) => {
     if (!token) reject("Invalid token");
