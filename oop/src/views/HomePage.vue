@@ -57,6 +57,11 @@ import {
 import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import ConsentModal from '../components/ConsentModal.vue';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  MODULE_NAME as formModule,
+  SET_APPLICATION_UUID
+} from '../store/modules/form';
 
 export default {
   name: 'HomePage',
@@ -81,6 +86,8 @@ export default {
           this.$router.push(toPath);
         }
       });
+    const applicationUuid = uuidv4();
+    this.$store.dispatch(formModule + '/' + SET_APPLICATION_UUID, applicationUuid);
   },
   methods: {
     handleCloseConsentModal() {
