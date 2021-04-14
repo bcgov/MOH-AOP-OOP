@@ -148,6 +148,25 @@ objects:
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
+      name: aop-to-bcsc-service
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to captcha-service
+      podSelector:
+        matchLabels:
+          role: bcscservice
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
       name: msp-service-to-splunk-forwarder
       labels:
         app: msp-service
