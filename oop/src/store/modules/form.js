@@ -4,6 +4,7 @@ import settings from '../../settings';
 export const MODULE_NAME = 'form';
 
 export const RESET_FORM = 'resetForm';
+export const SET_APPLICATION_UUID = 'setApplicationUuid';
 
 // Your info page:
 export const SET_LAST_NAME = 'setLastName';
@@ -34,6 +35,7 @@ export default {
   namespaced: true,
   state: () => {
     const state = {
+      applicationUuid: null,
       lastName: null,
       phn: null,
       phone: null,
@@ -58,6 +60,9 @@ export default {
     return state;
   },
   mutations: {
+    setApplicationUuid(state, payload) {
+      state.applicationUuid = payload;
+    },
     setLastName(state, payload) {
       state.lastName = payload;
     },
@@ -125,6 +130,9 @@ export default {
       commit(SET_POSTAL_CODE, null);
       commit(SET_SUBMISSION_RESPONSE, null);
       commit(SET_SUBMISSION_ERROR, null);
+    },
+    setApplicationUuid({ commit }, applicationUuid) {
+      commit(SET_APPLICATION_UUID, applicationUuid);
     },
     setLastName({ commit }, lastName) {
       commit(SET_LAST_NAME, lastName);

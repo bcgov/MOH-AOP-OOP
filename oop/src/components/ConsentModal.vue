@@ -14,7 +14,9 @@
             <p><b>Keep your personal information secure - especially when using a shared device like a computer at a library, school or café.</b> To delete any information that was entered, either complete the application and submit it or, if you don't finish, close the web browser.</p>
             <p><b>Need to take a break and come back later?</b> The data you enter on this form is saved locally to the computer or device you are using until you close the web browser or submit your application.</p>
             <p>Personal information is collected under the authority of the <em>Medicare Protection Act</em> and section 26 (a), (c) and (e) of the <em>Freedom of Information and Protection of Privacy Act</em> for the purposes of administration of the Medical Services Plan. If you have any questions about the collection and use of your personal information, please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a>.</p>
-            <Captcha :apiBasePath="captchaAPIBasePath" />
+            <Captcha :apiBasePath="captchaAPIBasePath"
+                    :nonce="applicationUuid"
+                    @captcha-loaded="handleCaptchaLoaded()" />
           </div>
           <div class="modal-footer justify-content-center">
             <Button label="Continue"
@@ -46,6 +48,7 @@ export default {
   },
   created() {
     this.applicationUuid = this.$store.state.form.applicationUuid;
+
     window.addEventListener('keydown', this.handleKeyDown);
     document.body.classList.add('no-scroll');
   },
@@ -55,9 +58,16 @@ export default {
   },
   mounted() {
     // Create an array of focusable elements from the contents of the modal
-    this.focusableEls = Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+    this.focusableEls = this.getFocusableEls();
   },
   methods: {
+    getFocusableEls() {
+      return Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+    },
+    handleCaptchaLoaded() {
+      this.focusableEls = this.getFocusableEls();
+      console.log('handleCaptchaLoaded', this.focusableEls.length);
+    },
     closeModal() {
       this.$emit('close', true);
     },
