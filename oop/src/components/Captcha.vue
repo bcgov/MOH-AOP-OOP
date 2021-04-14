@@ -21,8 +21,11 @@
       </defs>
     </svg>
 
-    <div v-if="isLoadingNewCaptcha">Loading...</div>
-    <div v-if="!isLoadingNewCaptcha && isInputValid !== true"
+    <div v-if="isLoadingNewCaptcha">
+      <Loader :color="'#AAA'"
+              :size="'20px'" />
+    </div>
+    <div v-if="!isLoadingNewCaptcha"
         class="captcha-group-container">
       <div v-html="captchaSVG"
           class="captcha-image-container"></div>
@@ -81,7 +84,7 @@
           </svg>
           <span>Play audio</span>
         </button>
-        <button class="captcha-button try-another-image" href="javascript:void(0)" @click="fetchNewCaptcha()" role="button">
+        <button class="captcha-button try-another-image" href="javascript:void(0)" @click="handleTryAnotherImageClick()" role="button">
           <svg class="icon-loop"><use xlink:href="#icon-loop-def"></use></svg>
           <span>Try another image</span>
         </button>
@@ -90,7 +93,7 @@
     <div class="captcha-input-container">
       <label for="input-answer">Enter the text you either see in the box or you hear in the audio</label>
       <input id="input-answer"
-            class="form-control"
+            :class="'form-control input-answer ' + (isInputValid === false ? 'border-danger' : '')"
             v-model="inputAnswer"
             :disabled="(inputAnswer && inputAnswer.length === 6 && isLoadingCaptchaVerification) ? true : false"
             @input="handleInputChange($event)"
@@ -99,22 +102,33 @@
             autocomplete="off"
             autocapitalize="none"
             aria-required="true" />
+      <div v-if="isLoadingCaptchaVerification"
+          class="validation-spinner-container">
+        <Loader :color="'#AAA'"
+                :size="'20px'" />
+      </div>
     </div>
-    <div v-if="errorMessage" class="error-message text-danger">{{errorMessage}}</div>
+    <div v-if="errorMessage"
+        class="error-message mt-2 text-danger">{{errorMessage}}</div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { Loader } from 'common-lib-vue';
 
 const CAPTCHA_IMAGE_URL = '/captcha';
 const CAPTCHA_VERIFY_URL = '/verify/captcha';
 const CAPTCHA_AUDIO_URL = '/captcha/audio';
 const GENERIC_ERROR_MESSAGE = 'Could not connect to captcha service. Please try again later.';
 const AUDIO_ERROR_MESSAGE = 'Could not download audio captcha. Please try again later.';
+const INCORRECT_ANSWER_MESSAGE = 'Incorrect answer, please try again.';
 
 export default {
   name: 'Captcha',
+  components: {
+    Loader,
+  },
   props: {
     apiBasePath: {
       type: String,
@@ -146,7 +160,6 @@ export default {
   methods: {
     fetchNewCaptcha() {
       this.isLoadingNewCaptcha = true;
-      this.errorMessage = null;
 
       axios.post(this.apiBasePath + CAPTCHA_IMAGE_URL, {
         nonce: this.nonce
@@ -189,6 +202,7 @@ export default {
             if (isValid) {
               this.$emit('captcha-verified', token);
             } else {
+              this.errorMessage = INCORRECT_ANSWER_MESSAGE;
               this.inputAnswer = null;
               this.fetchNewCaptcha();
             }
@@ -225,6 +239,11 @@ export default {
             this.errorMessage = AUDIO_ERROR_MESSAGE;
           });
       }
+    },
+    handleTryAnotherImageClick() {
+      this.errorMessage = null;
+      this.isInputValid = null;
+      this.fetchNewCaptcha();
     }
   }
 }
@@ -254,9 +273,7 @@ export default {
   max-width: 150px;
 }
 .svg-defs {
-  width: 0;
-  height: 0;
-  overflow: hidden;
+  display: none;
 }
 .captcha-button {
   background-color: #003366;
@@ -313,5 +330,14 @@ export default {
 }
 .button-container > button > span {
   margin-left: 4px;
+}
+.input-answer {
+  display: inline-block;
+  vertical-align: middle;
+}
+.validation-spinner-container {
+  display: inline-block;
+  margin-left: 15px;
+  vertical-align: middle;
 }
 </style>
