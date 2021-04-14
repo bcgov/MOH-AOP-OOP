@@ -79,7 +79,7 @@ objects:
         metadata:
           labels:
             app: bcsc-service
-            role: captchaservice
+            role: bcscservice
             deploymentconfig: ${API_NAME}
           name: ${API_NAME}
         spec:
