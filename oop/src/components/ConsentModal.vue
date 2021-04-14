@@ -21,11 +21,15 @@
                     @captcha-verified="handleCaptchaVerified($event)" />
             <div v-if="isCaptchaValid"
                 class="text-success">Captcha successfully verified.</div>
-            <input type="checkbox"
-                  id="is-terms-accepted"
-                  v-model="isTermsAccepted" />
-            <label for="is-terms-accepted"
-                  class="mt-3 ml-2"><b>I have read and understand this information</b></label>
+            <div class="mt-3">
+              <input type="checkbox"
+                    id="is-terms-accepted"
+                    class="d-inline"
+                    v-model="isTermsAccepted" />
+              <label for="is-terms-accepted"
+                    class="mt-3 ml-2 d-inline"><b>I have read and understand this information</b></label>
+            </div>
+            
           </div>
           <div class="modal-footer justify-content-center">
             <Button label="Continue"

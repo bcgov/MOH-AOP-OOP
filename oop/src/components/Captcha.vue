@@ -91,7 +91,9 @@
       </div>
     </div>
     <div class="captcha-input-container">
-      <label for="input-answer">Enter the text you either see in the box or you hear in the audio</label>
+      <div>
+        <label for="input-answer">Enter the text you either see in the box or you hear in the audio</label>
+      </div>
       <input id="input-answer"
             :class="'form-control input-answer ' + (isInputValid === false ? 'border-danger' : '')"
             v-model="inputAnswer"
