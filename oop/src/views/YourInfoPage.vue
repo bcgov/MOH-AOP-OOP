@@ -158,9 +158,8 @@ export default {
       const applicationUuid = this.$store.state.form.applicationUuid;
 
       apiService.validateLastNamePhn(token, applicationUuid, this.lastName, this.phn)
-        .then((response) => {
+        .then(() => {
           // handle success.
-          console.log('RESPONSE: ', response.data);
         })
         .catch(() => {
           // handle error.

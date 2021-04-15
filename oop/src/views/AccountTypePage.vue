@@ -281,22 +281,31 @@ export default {
 
       this.isLoading = true;
 
-      apiService.validateAhDep()
-        .then(() => {
-          // handle success.
-        })
-        .catch(() => {
-          // handle error.
-        })
-        .then(() => {
-          // always executed.
-          this.isLoading = false;
-        });
-      
-      // Temporarily calling this outside the ApiService promise until middleware is setup.
-      this.handleValidationSuccess();
+      const token = this.$store.state.form.captchaToken;
+      const applicationUuid = this.$store.state.form.applicationUuid;
+      const phn = this.$store.state.form.phn;
+      const dependentPhns = this.getDependentPhns();
+
+      if (this.accountType === 'AH') {
+        apiService.validateAhDep(token, applicationUuid, phn, dependentPhns)
+          .then(() => {
+            // handle success.
+          })
+          .catch(() => {
+            // handle error.
+          })
+          .then(() => {
+            // always executed.
+          });
+        this.isLoading = false;
+        this.handleValidationSuccess();
+      } else if (this.accountType === 'DEP') {
+        this.isLoading = false;
+        this.handleValidationSuccess();
+      }
     },
     handleValidationSuccess() {
+      this.isLoading = false;
       this.saveValues();
       this.nextPage();
     },
@@ -319,6 +328,15 @@ export default {
         isValid: true,
       });
     },
+    getDependentPhns() {
+      const phns = [];
+      for (let i=0; i<this.dependentPhns.length; i++) {
+        if (this.dependentPhns[i] && this.dependentPhns[i].value) {
+          phns.push(this.dependentPhns[i].value);
+        }
+      }
+      return phns;
+    }
   },
   watch: {
     accountType(newValue) {
