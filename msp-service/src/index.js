@@ -167,7 +167,12 @@ app.use('/', function (req, res, next) {
                 denyAccess("resource id and nonce are not equal: " + pathnameParts[nounIndex + 2] + "; " + decoded.data.nonce, res, req);             
                 return;                                                                                                                            
             } 
-		}
+        }
+        // Bypassing nonce match check for OOP, because it isn't contained in URL path.
+        else if (pathnameParts.indexOf("oopIntegration") > -1) {
+            next();
+            return;
+        }
 		else {
 			// Finally, check that resource ID against the nonce
 			if (pathnameParts[nounIndex + 1] != decoded.data.nonce) {
