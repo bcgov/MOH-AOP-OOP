@@ -154,7 +154,10 @@ export default {
       
       this.isLoading = true;
 
-      apiService.validateLastNamePhn(this.lastName, this.phn)
+      const token = this.$store.state.form.captchaToken;
+      const applicationUuid = this.$store.state.form.applicationUuid;
+
+      apiService.validateLastNamePhn(token, applicationUuid, this.lastName, this.phn)
         .then(() => {
           // handle success.
         })

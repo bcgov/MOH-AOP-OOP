@@ -6,9 +6,10 @@ const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
 const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
 
 class ApiService {
-  validateLastNamePhn(lastName, phn) {
-    const headers = this.getHeaders(null);
+  validateLastNamePhn(token, applicationUuid, lastName, phn) {
+    const headers = this.getHeaders(token);
     return axios.post(VALIDATE_LAST_NAME_PHN_URL, {
+      applicationUuid,
       lastName,
       phn,
     },
@@ -17,16 +18,24 @@ class ApiService {
     });
   }
 
-  validateAhDep() {
-    const headers = this.getHeaders(null);
-    return axios.post(VALIDATE_AH_DEP_URL, {}, {
+  validateAhDep(token, applicationUuid, phn, dependentPHNs) {
+    const headers = this.getHeaders(token);
+    return axios.post(VALIDATE_AH_DEP_URL, {
+      applicationUuid,
+      phn,
+      dependentPHNs,
+    },
+    {
       headers
     });
   }
 
-  submitApplication() {
-    const headers = this.getHeaders(null);
-    return axios.post(SUBMIT_APPLICATION_URL, {}, {
+  submitApplication(token) {
+    const headers = this.getHeaders(token);
+    return axios.post(SUBMIT_APPLICATION_URL, {
+      // Include submission payload here (pass form state as param).
+    },
+    {
       headers
     });
   }
