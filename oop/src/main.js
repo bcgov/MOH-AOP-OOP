@@ -16,7 +16,7 @@ import {
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import 'core-js/es/number';
+import 'core-js/es/number'; // IE polyfill for `Number.isNaN()`.
 import { isIE } from './helpers/user-agent';
 
 library.add(faArrowLeft);

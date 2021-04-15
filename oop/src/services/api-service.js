@@ -6,9 +6,10 @@ const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
 const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
 
 class ApiService {
-  validateLastNamePhn(lastName, phn) {
-    const headers = this.getHeaders(null);
+  validateLastNamePhn(token, applicationUuid, lastName, phn) {
+    const headers = this.getHeaders(token);
     return axios.post(VALIDATE_LAST_NAME_PHN_URL, {
+      applicationUuid,
       lastName,
       phn,
     },
