@@ -81,6 +81,7 @@ import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
+  SET_ACCOUNT_TYPE,
   SET_LAST_NAME,
   SET_PHN,
   SET_PHONE,
@@ -122,6 +123,7 @@ export default {
       phone: null,
       isLoading: false,
       showServerValidationError: false,
+      accountType: null
     }
   },
   created() {
@@ -160,6 +162,10 @@ export default {
       apiService.validateLastNamePhn(token, applicationUuid, this.lastName, this.phn)
         .then(() => {
           // handle success.
+
+          // If account type is account holder based from PHN, assign account type to 'AH'
+
+          // Otherwise, assign account type to 'DEP'
         })
         .catch(() => {
           // handle error.
@@ -169,6 +175,9 @@ export default {
           this.isLoading = false;
         });
 
+      // Temporarily assigns Account type to 'AH' - will be removed once middleware issue has been resolved
+      this.accountType = 'AH';
+
       // Temporarily calling this outside the ApiService promise until middleware is setup.
       this.handleValidationSuccess();
     },
@@ -176,6 +185,7 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
       this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
       this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+      this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
 
       const toPath = routes.ACCOUNT_TYPE_PAGE.path;
       pageStateService.setPageComplete(toPath);

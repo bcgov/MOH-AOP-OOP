@@ -100,17 +100,17 @@ export default {
           label: 'Who is moving out of B.C.?',
           value: this.whoIsMoving
         });
-        if (this.$store.state.form.personMoving === 'AH_DEP' || this.$store.state.form.personMoving === 'DEP_ONLY') {
+        if (this.$store.state.form.personMoving === 'AH_DEP') {
           items.push({
             label: 'Are all of the dependents on your MSP account moving out of B.C.?',
             value: this.$store.state.form.isAllDependentsMoving === 'Y' ? 'Yes' : 'No',
           });
-          if (this.$store.state.form.isAllDependentsMoving === 'N') {
-            items.push({
-              label: 'Dependent PHN(s):',
-              value: this.dependentPhns,
-            });
-          }
+        }
+        if (this.$store.state.form.personMoving === 'DEP_ONLY' || this.$store.state.form.isAllDependentsMoving === 'N') {
+          items.push({
+            label: 'Dependent PHN(s):',
+            value: this.dependentPhns,
+          });
         }
       }
       return items;
