@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const BASE_API_PATH = '/oop/api/';
-const VALIDATE_ACCOUNT_TYPE_URL = BASE_API_PATH + 'oopIntegration/validateAccountType'; //needs to create an endpoint for validating account type
 const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
 const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
 const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
@@ -12,17 +11,6 @@ class ApiService {
     return axios.post(VALIDATE_LAST_NAME_PHN_URL, {
       applicationUuid,
       lastName,
-      phn,
-    },
-    {
-      headers
-    });
-  }
-
-  validateAccountType(token, applicationUuid, phn) {
-    const headers = this.getHeaders(token);
-    return axios.post(VALIDATE_ACCOUNT_TYPE_URL, {
-      applicationUuid,
       phn,
     },
     {

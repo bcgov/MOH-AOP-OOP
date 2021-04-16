@@ -162,22 +162,13 @@ export default {
       apiService.validateLastNamePhn(token, applicationUuid, this.lastName, this.phn)
         .then(() => {
           // handle success.
-        })
-        .catch(() => {
-          // handle error.
-        })
-        .then(() => {
-          // always executed.
-          this.isLoading = false;
-        });
 
-      apiService.validateAccountType(token, applicationUuid, this.phn)
-        .then(() => {
           // If account type is account holder based from PHN, assign account type to 'AH'
+
           // Otherwise, assign account type to 'DEP'
         })
         .catch(() => {
-        // handle error.
+          // handle error.
         })
         .then(() => {
           // always executed.
