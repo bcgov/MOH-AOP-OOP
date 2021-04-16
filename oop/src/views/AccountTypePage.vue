@@ -197,7 +197,6 @@ export default {
       this.isPageLoaded = true;
     }, 0);
 
-    console.log(this.accountType);
     const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
 
     for (let i=0; i<numberOfPhns; i++) {
