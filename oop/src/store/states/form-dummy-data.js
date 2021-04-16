@@ -1,6 +1,6 @@
 export default {
-  lastName: 'Smith',
-  phn: '9999 999 998',
+  lastName: 'SATIN WEAVEXD',
+  phn: '9353166544',
   phone: '250-123-4567',
   accountType: 'AH',
   personMoving: 'AH_DEP',
