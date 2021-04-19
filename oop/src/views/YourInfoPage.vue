@@ -16,7 +16,7 @@
                 v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <div class="text-danger"
-                v-if="showServerValidationError"
+                v-if="isServerValidationErrorShown"
                 aria-live="assertive">This field does not match our records.</div>
             
             <PhnInput label='Personal Health Number (PHN)'
@@ -29,7 +29,7 @@
                 v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
-                v-if="showServerValidationError"
+                v-if="isServerValidationErrorShown"
                 aria-live="assertive">This field does not match our records.</div>
 
             <PhoneNumberInput id='phone-input'
@@ -40,6 +40,10 @@
                 v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
+
+            <div class="text-danger"
+                v-if="isSystemUnavailable"
+                aria-live="assertive">Unable to continue, system unavailable. Please try again later.</div>
           </div>
           <div class="col-sm-5">
             <TipBox title="Tip: PHN number">
@@ -122,7 +126,8 @@ export default {
       phn: null,
       phone: null,
       isLoading: false,
-      showServerValidationError: false,
+      isServerValidationErrorShown: false,
+      isSystemUnavailable: false,
       accountType: null
     }
   },
@@ -148,6 +153,9 @@ export default {
   },
   methods: {
     nextPage() {
+      this.isServerValidationErrorShown = false;
+      this.isSystemUnavailable = false;
+
       this.$v.$touch()
       if (this.$v.$invalid) {
         scrollToError();
@@ -158,28 +166,42 @@ export default {
 
       const token = this.$store.state.form.captchaToken;
       const applicationUuid = this.$store.state.form.applicationUuid;
+      const phn = this.phn.replace(/ /g,'');
 
-      apiService.validateLastNamePhn(token, applicationUuid, this.lastName, this.phn)
-        .then(() => {
-          // handle success.
+      apiService.validateLastNamePhn(token, applicationUuid, this.lastName, phn)
+        .then((response) => {
+          // Handle HTTP success.
+          const returnCode = response.data.returnCode;
 
-          // If account type is account holder based from PHN, assign account type to 'AH'
+          this.isLoading = false;
 
-          // Otherwise, assign account type to 'DEP'
+          switch (returnCode) {
+            case '0': // Validation success.
+              this.accountType = response.data.applicantRole;
+              this.handleValidationSuccess();
+              break;
+            case '2': // Validation incorrect.
+              this.isServerValidationErrorShown = true;
+              scrollToError();
+              break;
+            case '3': // System unavailable.
+              this.isSystemUnavailable = true;
+              scrollToError();
+              break;
+          }
         })
         .catch(() => {
-          // handle error.
-        })
-        .then(() => {
-          // always executed.
+          // Handle HTTP error.
           this.isLoading = false;
+          this.isSystemUnavailable = true;
+          scrollToError();
         });
 
-      // Temporarily assigns Account type to 'AH' - will be removed once middleware issue has been resolved
-      this.accountType = 'AH';
+      // Manually set accountType:
+      // this.accountType = 'AH';
 
-      // Temporarily calling this outside the ApiService promise until middleware is setup.
-      this.handleValidationSuccess();
+      // Uncomment when middleware/RAPID is down.
+      // this.handleValidationSuccess();
     },
     handleValidationSuccess() {
       this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
