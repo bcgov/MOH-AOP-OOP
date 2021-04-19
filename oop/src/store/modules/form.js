@@ -4,6 +4,8 @@ import settings from '../../settings';
 export const MODULE_NAME = 'form';
 
 export const RESET_FORM = 'resetForm';
+export const SET_APPLICATION_UUID = 'setApplicationUuid';
+export const SET_CAPTCHA_TOKEN = 'setCaptchaToken';
 
 // Your info page:
 export const SET_LAST_NAME = 'setLastName';
@@ -34,6 +36,8 @@ export default {
   namespaced: true,
   state: () => {
     const state = {
+      applicationUuid: null,
+      captchaToken: null,
       lastName: null,
       phn: null,
       phone: null,
@@ -58,6 +62,12 @@ export default {
     return state;
   },
   mutations: {
+    setApplicationUuid(state, payload) {
+      state.applicationUuid = payload;
+    },
+    setCaptchaToken(state, payload) {
+      state.captchaToken = payload;
+    },
     setLastName(state, payload) {
       state.lastName = payload;
     },
@@ -112,6 +122,8 @@ export default {
   },
   actions: {
     resetForm({ commit }) {
+      commit(SET_APPLICATION_UUID, null);
+      commit(SET_CAPTCHA_TOKEN, null);
       commit(SET_LAST_NAME, null);
       commit(SET_PHN, null);
       commit(SET_PHONE, null);
@@ -125,6 +137,12 @@ export default {
       commit(SET_POSTAL_CODE, null);
       commit(SET_SUBMISSION_RESPONSE, null);
       commit(SET_SUBMISSION_ERROR, null);
+    },
+    setApplicationUuid({ commit }, applicationUuid) {
+      commit(SET_APPLICATION_UUID, applicationUuid);
+    },
+    setCaptchaToken({ commit }, captchaToken) {
+      commit(SET_CAPTCHA_TOKEN, captchaToken);
     },
     setLastName({ commit }, lastName) {
       commit(SET_LAST_NAME, lastName);

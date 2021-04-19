@@ -2,80 +2,41 @@
   <div>
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
-        <h1>Account holder or dependent</h1>
-        <p>This form must be submitted by the Account Holder for a family move. If submitted by a dependent, coverage will be cancelled for that dependent only.</p>
+        <h1>Who is moving</h1>
+        <p>To report a family move, this form must be submitted by the account holder. If submitted by a dependent, coverage will be cancelled for that dependent only.</p>
         <hr/>
-        <h2>Are you the account holder or a dependent?</h2>
 
-        <!-- Account holder option -->
-        <input type='radio'
-              id='account-type-account-holder'
-              value='AH'
-              v-model='accountType' />
-        <label for='account-type-account-holder'
-              class='ml-3'><strong>I'm the account holder</strong></label>
-        <div class='ml-5'>
-          <p><strong>Who is an Account Holder?</strong></p>
-          <ul>
-            <li>An Account Holder is the primary individual associated with a Medical Services Plan account. An account may also include a spouse and/or one or more children.</li>
-            <li>Learn more</li>
-          </ul>
-        </div>
-
-        <!-- Dependent option -->
-        <input type='radio'
-              id='account-type-dependent'
-              value='DEP' 
-              v-model='accountType' />
-        <label for='account-type-dependent'
-              class='ml-3'><strong>I'm a Dependent</strong></label>
-        <div class='ml-5'>
-          <p><strong>Who is a Dependent?</strong></p>
-          <p>A dependent may be a:</p>
-          <ul>
-            <li>Spouse</li>
-            <li>An Account Holder's child</li>
-            <li>Post secondary student</li>
-            <li>Learn more</li>
-          </ul>
-        </div>
-        <div class="text-danger"
-            v-if="$v.accountType.$dirty && !$v.accountType.required"
-            aria-live="assertive">Please choose an account type.</div>
-
-        <!-- Account holder option chosen -->
+        <!-- Account holder option chosen based from PHN -->
         <div v-if='accountType === "AH"'
             class="account-type">
           <h2 class="mt-4">Who is moving out of B.C.?</h2>
-          <p>Please indicate who is moving out of B.C. If the Account Holder is completing the form on behalf of any dependents, PHNs will be required for each dependent.</p>
-          <hr />
 
           <input type='radio'
                 id='person-moving-ah'
                 value='AH_ONLY'
                 v-model='personMoving' />
           <label for='person-moving-ah'
-                class='ml-3'>Account Holder only</label>
+                class='ml-3'>Account holder only</label>
           <br />
           <input type='radio'
                 id='person-moving-ahad'
                 value='AH_DEP'
                 v-model='personMoving' />
           <label for='person-moving-ahad'
-                class='ml-3'>Account Holder and Dependent(s)</label>
+                class='ml-3'>Account holder and dependent(s)</label>
           <br />
           <input type='radio'
                 id='person-moving-d'
                 value='DEP_ONLY'
                 v-model='personMoving' />
           <label for='person-moving-d'
-                class='ml-3'>Dependent(s) only</label>
+                class='ml-3'>My dependent(s) only</label>
           <div class="text-danger"
               v-if="$v.personMoving.$dirty && !$v.personMoving.required"
               aria-live="assertive">This field is required.</div>
           <br/>
 
-          <div v-if='personMoving === "AH_DEP" || personMoving === "DEP_ONLY"'
+          <div v-if='personMoving === "AH_DEP"'
               class="person-moving">
             <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
 
@@ -96,9 +57,10 @@
                 v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
                 aria-live="assertive">Please select one of the options above.</div>
             <br/>
+          </div>
 
-            <div v-if='isAllDependentsMoving === "N"'
-                class="is-all-dependents-moving">
+          <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
+              class="is-all-dependents-moving">
               <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
 
               <div>
@@ -107,7 +69,7 @@
                       :key='index'
                       :set="v = $v.dependentPhns.$each[index]"
                       class='mt-3'>
-                    <PhnInput :label='"PHN Dependent " + (index + 1)'
+                    <PhnInput :label='"PHN: Dependent " + (index + 1)'
                               v-model='phn.value'/>
                     <div class="text-danger"
                         v-if="v.value.$dirty && !v.value.phnValidator"
@@ -126,8 +88,10 @@
                     v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
                     aria-live="assertive">Personal Health Numbers must be unique.</div>
               </div>
-            </div>
           </div>
+        </div>
+        <div v-if='accountType === "DEP"'>
+          <p>You can only complete this form for yourself. Please press continue to proceed with the Out of Province Move form. </p>
         </div>
       </div>
     </PageContent>
@@ -252,11 +216,12 @@ export default {
       validations.personMoving = {
         required,
       };
-      if (this.personMoving === 'AH_DEP' || this.personMoving === 'DEP_ONLY') {
+      if (this.personMoving === 'AH_DEP') {
         validations.isAllDependentsMoving = {
           required,
         };
-        if (this.isAllDependentsMoving === 'N') {
+      }
+      if (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N') {
           validations.dependentPhns = {
             $each: {
               value: {
@@ -266,7 +231,6 @@ export default {
             atLeastOnePhnValidator,
             phnIsUniqueValidator,
           };
-        }
       }
     }
     return validations;
@@ -281,22 +245,31 @@ export default {
 
       this.isLoading = true;
 
-      apiService.validateAhDep()
-        .then(() => {
-          // handle success.
-        })
-        .catch(() => {
-          // handle error.
-        })
-        .then(() => {
-          // always executed.
-          this.isLoading = false;
-        });
-      
-      // Temporarily calling this outside the ApiService promise until middleware is setup.
-      this.handleValidationSuccess();
+      const token = this.$store.state.form.captchaToken;
+      const applicationUuid = this.$store.state.form.applicationUuid;
+      const phn = this.$store.state.form.phn;
+      const dependentPhns = this.getDependentPhns();
+
+      if (this.accountType === 'AH') {
+        apiService.validateAhDep(token, applicationUuid, phn, dependentPhns)
+          .then(() => {
+            // handle success.
+          })
+          .catch(() => {
+            // handle error.
+          })
+          .then(() => {
+            // always executed.
+          });
+        this.isLoading = false;
+        this.handleValidationSuccess();
+      } else if (this.accountType === 'DEP') {
+        this.isLoading = false;
+        this.handleValidationSuccess();
+      }
     },
     handleValidationSuccess() {
+      this.isLoading = false;
       this.saveValues();
       this.nextPage();
     },
@@ -319,6 +292,15 @@ export default {
         isValid: true,
       });
     },
+    getDependentPhns() {
+      const phns = [];
+      for (let i=0; i<this.dependentPhns.length; i++) {
+        if (this.dependentPhns[i] && this.dependentPhns[i].value) {
+          phns.push(this.dependentPhns[i].value);
+        }
+      }
+      return phns;
+    }
   },
   watch: {
     accountType(newValue) {

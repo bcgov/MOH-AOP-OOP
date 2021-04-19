@@ -28,7 +28,8 @@
           </div>
         </div>
         
-        <h2 class='mt-5 mb-0'>New address</h2>
+        <h2 class='mt-5 mb-3'>New address</h2>
+        <p>A confirmation letter will be sent to your new address following cancellation of coverage.</p>
         <hr/>
         <p>Do you know your new address?</p>
         <input type='radio'

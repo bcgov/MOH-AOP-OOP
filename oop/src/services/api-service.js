@@ -1,24 +1,51 @@
 import axios from 'axios';
 
-const BASE_API_PATH = '/oop/api/oopIntegration/';
-const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'validatePhnName';
-const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'validateAhDep';
-const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'submission';
+const BASE_API_PATH = '/oop/api/';
+const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
+const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
+const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
 
 class ApiService {
-  validateLastNamePhn(lastName, phn) {
+  validateLastNamePhn(token, applicationUuid, lastName, phn) {
+    const headers = this.getHeaders(token);
     return axios.post(VALIDATE_LAST_NAME_PHN_URL, {
+      applicationUuid,
       lastName,
       phn,
+    },
+    {
+      headers
     });
   }
 
-  validateAhDep() {
-    return axios.post(VALIDATE_AH_DEP_URL, {});
+  validateAhDep(token, applicationUuid, phn, dependentPHNs) {
+    const headers = this.getHeaders(token);
+    return axios.post(VALIDATE_AH_DEP_URL, {
+      applicationUuid,
+      phn,
+      dependentPHNs,
+    },
+    {
+      headers
+    });
   }
 
-  submitApplication() {
-    return axios.post(SUBMIT_APPLICATION_URL, {});
+  submitApplication(token) {
+    const headers = this.getHeaders(token);
+    return axios.post(SUBMIT_APPLICATION_URL, {
+      // Include submission payload here (pass form state as param).
+    },
+    {
+      headers
+    });
+  }
+
+  getHeaders(token) {
+    return {
+      "Content-Type": "application/json",
+      "Response-Type": "application/json",
+      "X-Authorization": "Bearer " + token
+    }
   }
 }
 

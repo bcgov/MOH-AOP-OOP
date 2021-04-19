@@ -148,6 +148,25 @@ objects:
   - apiVersion: networking.k8s.io/v1
     kind: NetworkPolicy
     metadata:
+      name: aop-to-bcsc-service
+      labels:
+        app: aop-web
+    spec:
+      #  allow aop frontend to talk to captcha-service
+      podSelector:
+        matchLabels:
+          role: bcscservice
+      ingress:
+        - from:
+            - podSelector:
+                matchLabels:
+                  role: aopfrontend
+          ports:
+            - protocol: TCP
+              port: 8080
+  - apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
       name: msp-service-to-splunk-forwarder
       labels:
         app: msp-service
@@ -164,30 +183,6 @@ objects:
           ports:
             - protocol: TCP
               port: 8080
-  - apiVersion: security.devops.gov.bc.ca/v1alpha1
-    # apporeto any pod to any pod (will go away once they remove apporeto)
-    kind: NetworkSecurityPolicy
-    metadata:
-      name: any-to-any
-    spec:
-      description: |
-        allow all pods to communicate with each other
-      source:
-        - - "$namespace=${NAMESPACE}"
-      destination:
-        - - "$namespace=*"
-  - apiVersion: security.devops.gov.bc.ca/v1alpha1
-    # apporeto any pod to any pod (will go away once they remove apporeto)
-    kind: NetworkSecurityPolicy
-    metadata:
-      name: any-to-external
-    spec:
-      description: |
-        Allow all pods to talk to external systems
-      source:
-        - - "$namespace=${NAMESPACE}"
-      destination:
-        - - "ext:network=any"
 parameters:
   - name: NAMESPACE
     description: |

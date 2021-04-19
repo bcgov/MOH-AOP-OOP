@@ -51,7 +51,9 @@ export default {
     submitForm() {
       this.isLoading = true;
       
-      apiService.submitApplication()
+      const token = this.$store.state.form.captchaToken;
+
+      apiService.submitApplication(token)
         .then(() => {
           // Handle success.
           logService.logSubmission({ message: 'Success', error: null }, 'TEMP_UUID', 'TEMP_REF_NUMBER');

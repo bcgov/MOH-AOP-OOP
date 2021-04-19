@@ -16,7 +16,7 @@
                 v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <div class="text-danger"
-                v-if="showServerValidationError"
+                v-if="isServerValidationErrorShown"
                 aria-live="assertive">This field does not match our records.</div>
             
             <PhnInput label='Personal Health Number (PHN)'
@@ -29,7 +29,7 @@
                 v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
-                v-if="showServerValidationError"
+                v-if="isServerValidationErrorShown"
                 aria-live="assertive">This field does not match our records.</div>
 
             <PhoneNumberInput id='phone-input'
@@ -40,6 +40,10 @@
                 v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
+
+            <div class="text-danger"
+                v-if="isSystemUnavailable"
+                aria-live="assertive">Unable to continue, system unavailable. Please try again later.</div>
           </div>
           <div class="col-sm-5">
             <TipBox title="Tip: PHN number">
@@ -81,6 +85,7 @@ import { required } from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
+  SET_ACCOUNT_TYPE,
   SET_LAST_NAME,
   SET_PHN,
   SET_PHONE,
@@ -121,7 +126,9 @@ export default {
       phn: null,
       phone: null,
       isLoading: false,
-      showServerValidationError: false,
+      isServerValidationErrorShown: false,
+      isSystemUnavailable: false,
+      accountType: null
     }
   },
   created() {
@@ -146,6 +153,9 @@ export default {
   },
   methods: {
     nextPage() {
+      this.isServerValidationErrorShown = false;
+      this.isSystemUnavailable = false;
+
       this.$v.$touch()
       if (this.$v.$invalid) {
         scrollToError();
@@ -154,25 +164,50 @@ export default {
       
       this.isLoading = true;
 
-      apiService.validateLastNamePhn(this.lastName, this.phn)
-        .then(() => {
-          // handle success.
+      const token = this.$store.state.form.captchaToken;
+      const applicationUuid = this.$store.state.form.applicationUuid;
+      const phn = this.phn.replace(/ /g,'');
+
+      apiService.validateLastNamePhn(token, applicationUuid, this.lastName, phn)
+        .then((response) => {
+          // Handle HTTP success.
+          const returnCode = response.data.returnCode;
+
+          this.isLoading = false;
+
+          switch (returnCode) {
+            case '0': // Validation success.
+              this.accountType = response.data.applicantRole;
+              this.handleValidationSuccess();
+              break;
+            case '2': // Validation incorrect.
+              this.isServerValidationErrorShown = true;
+              scrollToError();
+              break;
+            case '3': // System unavailable.
+              this.isSystemUnavailable = true;
+              scrollToError();
+              break;
+          }
         })
         .catch(() => {
-          // handle error.
-        })
-        .then(() => {
-          // always executed.
+          // Handle HTTP error.
           this.isLoading = false;
+          this.isSystemUnavailable = true;
+          scrollToError();
         });
 
-      // Temporarily calling this outside the ApiService promise until middleware is setup.
-      this.handleValidationSuccess();
+      // Manually set accountType:
+      // this.accountType = 'AH';
+
+      // Uncomment when middleware/RAPID is down.
+      // this.handleValidationSuccess();
     },
     handleValidationSuccess() {
       this.$store.dispatch(formModule + '/' + SET_LAST_NAME, this.lastName);
       this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
       this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
+      this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
 
       const toPath = routes.ACCOUNT_TYPE_PAGE.path;
       pageStateService.setPageComplete(toPath);
