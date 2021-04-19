@@ -47,17 +47,21 @@ export default {
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
           if (res.data.dberrorMessage) {
-            log({message: 'Error sending application', error: res.data.dberrorMessage}, res.data.uuid);
+            console.log('#3')
+            log({message: 'Error storing application in db', error: res.data.dberrorMessage}, res.data.uuid);
           } else {
-            log({message: 'Error sending application', error: res.data.validationError}, res.data.uuid);
+            console.log('#4')
+            log({message: 'Error validating application', error: res.data.validationError}, res.data.uuid);
           }
           this.navigateToErrorPage();
         } else {
+          console.log('#5')
           log({message: 'Error sending application', error: 'Unknown error'});
           this.navigateToErrorPage();
         }
       })
       .catch(err => {
+        console.log('#6')
         log({message: 'Error sending application', error: err});
         this.navigateToErrorPage();
       });

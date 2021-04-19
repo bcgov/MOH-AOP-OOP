@@ -184,7 +184,7 @@ const convertAttachments = images => {
 ********************************************************/
 export const submitApplication = async (state, SECRET) => {
   const AOPApplication = prepareAOPApplication(state);
-  const token = await bypassCaptcha(AOPApplication.uuid, SECRET);
+  const token = bypassCaptcha(AOPApplication.uuid, SECRET);
 
   return new Promise((resolve, reject) => {
     if (!token) reject("Invalid token");
@@ -215,10 +215,12 @@ export const submitApplication = async (state, SECRET) => {
               return resolve(applicationResponse);
             })
             .catch(error => {
+              console.log('#1');
               return reject(error);
             });
         })
         .catch(error => {
+          console.log('#2');
           return reject(error);
         });
     });
