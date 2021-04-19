@@ -7,91 +7,109 @@
         <hr/>
 
         <!-- Account holder option chosen based from PHN -->
-        <div v-if='accountType === "AH"'
-            class="account-type">
-          <h2 class="mt-4">Who is moving out of B.C.?</h2>
-
-          <input type='radio'
-                id='person-moving-ah'
-                value='AH_ONLY'
-                v-model='personMoving' />
-          <label for='person-moving-ah'
-                class='ml-3'>Account holder only</label>
-          <br />
-          <input type='radio'
-                id='person-moving-ahad'
-                value='AH_DEP'
-                v-model='personMoving' />
-          <label for='person-moving-ahad'
-                class='ml-3'>Account holder and dependent(s)</label>
-          <br />
-          <input type='radio'
-                id='person-moving-d'
-                value='DEP_ONLY'
-                v-model='personMoving' />
-          <label for='person-moving-d'
-                class='ml-3'>My dependent(s) only</label>
-          <div class="text-danger"
-              v-if="$v.personMoving.$dirty && !$v.personMoving.required"
-              aria-live="assertive">This field is required.</div>
-          <br/>
-
-          <div v-if='personMoving === "AH_DEP"'
-              class="person-moving">
-            <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
+        <div class="row">
+          <div v-if='accountType === "AH"'
+              class="account-type col-sm-7">
+            <h2 class="mt-4">Who is moving out of B.C.?</h2>
 
             <input type='radio'
-                  id='is-all-dependents-moving-y'
-                  value='Y'
-                  v-model='isAllDependentsMoving' />
-            <label for='is-all-dependents-moving-y'
-                  class='ml-3'>Yes</label>
-            <br/>
+                  id='person-moving-ah'
+                  value='AH_ONLY'
+                  v-model='personMoving' />
+            <label for='person-moving-ah'
+                  class='ml-3'>Account holder only</label>
+            <br />
             <input type='radio'
-                  id='is-all-dependents-moving-n'
-                  value='N'
-                  v-model='isAllDependentsMoving' />
-            <label for='is-all-dependents-moving-n'
-                  class='ml-3'>No</label>
+                  id='person-moving-ahad'
+                  value='AH_DEP'
+                  v-model='personMoving' />
+            <label for='person-moving-ahad'
+                  class='ml-3'>Account holder and dependent(s)</label>
+            <br />
+            <input type='radio'
+                  id='person-moving-d'
+                  value='DEP_ONLY'
+                  v-model='personMoving' />
+            <label for='person-moving-d'
+                  class='ml-3'>My dependent(s) only</label>
             <div class="text-danger"
-                v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
-                aria-live="assertive">Please select one of the options above.</div>
+                v-if="$v.personMoving.$dirty && !$v.personMoving.required"
+                aria-live="assertive">This field is required.</div>
             <br/>
-          </div>
 
-          <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
-              class="is-all-dependents-moving">
-              <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
+            <div v-if='personMoving === "AH_DEP"'
+                class="person-moving">
+              <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
 
-              <div>
-                <div class='mb-3'>
-                  <div v-for="(phn, index) in dependentPhns"
-                      :key='index'
-                      :set="v = $v.dependentPhns.$each[index]"
-                      class='mt-3'>
-                    <PhnInput :label='"PHN: Dependent " + (index + 1)'
-                              v-model='phn.value'/>
-                    <div class="text-danger"
-                        v-if="v.value.$dirty && !v.value.phnValidator"
-                        aria-live="assertive">This is not a valid Personal Health Number.</div>
-                    <div class="text-danger"
-                        v-if="v.value.$dirty && index === 0 && !$v.dependentPhns.atLeastOnePhnValidator"
-                        aria-live="assertive">Dependent Personal Health Number is required.</div>
+              <input type='radio'
+                    id='is-all-dependents-moving-y'
+                    value='Y'
+                    v-model='isAllDependentsMoving' />
+              <label for='is-all-dependents-moving-y'
+                    class='ml-3'>Yes</label>
+              <br/>
+              <input type='radio'
+                    id='is-all-dependents-moving-n'
+                    value='N'
+                    v-model='isAllDependentsMoving' />
+              <label for='is-all-dependents-moving-n'
+                    class='ml-3'>No</label>
+              <div class="text-danger"
+                  v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
+                  aria-live="assertive">Please select one of the options above.</div>
+              <br/>
+            </div>
+
+            <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
+                class="is-all-dependents-moving">
+                <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
+
+                <div>
+                  <div class='mb-3'>
+                    <div v-for="(phn, index) in dependentPhns"
+                        :key='index'
+                        :set="v = $v.dependentPhns.$each[index]"
+                        class='mt-3'>
+                      <PhnInput :label='"PHN: Dependent " + (index + 1)'
+                                v-model='phn.value'
+                                class='phn-input'/>
+                      <div class="text-danger"
+                          v-if="v.value.$dirty && !v.value.phnValidator"
+                          aria-live="assertive">This is not a valid Personal Health Number.</div>
+                      <div class="text-danger"
+                          v-if="v.value.$dirty && index === 0 && !$v.dependentPhns.atLeastOnePhnValidator"
+                          aria-live="assertive">Dependent Personal Health Number is required.</div>
+                    </div>
                   </div>
+
+                  <Button label='+ Add dependent'
+                          @click='addDependentField()'
+                          className='mb-3'/>
+
+                  <div class="text-danger"
+                      v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
+                      aria-live="assertive">Personal Health Numbers must be unique.</div>
                 </div>
-
-                <Button label='+ Add dependent'
-                        @click='addDependentField()'
-                        className='mb-3'/>
-
-                <div class="text-danger"
-                    v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
-                    aria-live="assertive">Personal Health Numbers must be unique.</div>
-              </div>
+            </div>
           </div>
-        </div>
-        <div v-if='accountType === "DEP"'>
-          <p>You can only complete this form for yourself. Please press continue to proceed with the Out of Province Move form. </p>
+          <div v-if='accountType === "DEP"' class="col-sm-7 mt-3">
+            <p>You can only complete this form for yourself. Please press continue to proceed with the Out of Province Move form. </p>
+          </div>
+          <div class="col-sm-5 mt-3">
+              <TipBox title="Tip: Account type">
+                <b>Who is an account holder?</b>
+                <p>An account holder is the primary individual associated with an MSP account. An account may also include a spouse and/or one or more children.</p>
+                <b>Who is a dependent?</b>
+                <p>A dependent may be a:
+                  <ul>
+                    <li>A spouse</li>
+                    <li>An account holder’s child</li>
+                    <li>A dependent post-secondary student</li>
+                  </ul>
+                </p>
+                <p>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</p>
+              </TipBox>
+          </div>
         </div>
       </div>
     </PageContent>
@@ -128,6 +146,7 @@ import {
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 import apiService from '../services/api-service';
+import TipBox from '../components/TipBox.vue';
 
 const localPhnValidator = (value) => {
   if (!value) {
@@ -176,6 +195,7 @@ export default {
     ContinueBar,
     PageContent,
     PhnInput,
+    TipBox
   },
   data: () => {
     return {
@@ -358,3 +378,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.phn-input {
+  max-width: 100%;
+  width: 350px;
+}
+</style>
