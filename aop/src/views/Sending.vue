@@ -39,6 +39,7 @@ export default {
     };
   },
   created() {
+    console.log('env:', this.SECRET);
     submitApplication(this.$store.state, this.SECRET)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
