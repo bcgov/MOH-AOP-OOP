@@ -382,7 +382,6 @@ export default {
 <style scoped>
 h2 {
   font-size: 1.5rem;
-  font-weight: bold;
 }
 
 .phn-input {
