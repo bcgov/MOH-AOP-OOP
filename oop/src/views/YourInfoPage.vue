@@ -8,7 +8,8 @@
           <div class="col-sm-7">
             <Input label='Last name'
                   v-model='lastName'
-                  maxlength='30'/>
+                  maxlength='30'
+                  class='last-name'/>
             <div class="text-danger"
                 v-if="$v.lastName.$dirty && !$v.lastName.required"
                 aria-live="assertive">Last name is required.</div>
@@ -21,7 +22,8 @@
             
             <PhnInput label='Personal Health Number (PHN)'
                       v-model='phn'
-                      className='mt-3' />
+                      className='mt-3'
+                      class='phn-input' />
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.phn.required"
                 aria-live="assertive">Personal Health Number is required.</div>
@@ -35,7 +37,8 @@
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
                               v-model='phone'
-                              className='mt-3' />
+                              className='mt-3'
+                              class='phone-number' />
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
@@ -241,5 +244,15 @@ export default {
   width: auto;
   max-width: 100%;
   height: auto;
+}
+
+.last-name {
+  max-width: 100%;
+  width: 540px;
+}
+
+.phn-input, .phone-number {
+  max-width: 100%;
+  width: 350px;
 }
 </style>
