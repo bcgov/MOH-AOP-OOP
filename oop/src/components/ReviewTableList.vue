@@ -15,20 +15,22 @@
     <ReviewTable :elements='yourInfoTableData'
                 :backgroundColor='tableBackgroundColor'/>
 
-    <div class="row align-items-end mt-5">
-      <div class="col-9">
-        <h2 class="mb-2">Account type</h2>
+    <div v-if="this.$store.state.form.accountType === 'AH'">
+      <div class="row align-items-end mt-5">
+        <div class="col-9">
+          <h2 class="mb-2">Who is moving</h2>
+        </div>
+        <div v-if='showEditButtons'
+            class="col-3 text-right">
+          <a href="javascript:void(0)"
+            @click="navigateToAccountTypePage()">Edit
+            <font-awesome-icon icon="pencil-alt" />
+          </a>
+        </div>
       </div>
-      <div v-if='showEditButtons'
-          class="col-3 text-right">
-        <a href="javascript:void(0)"
-           @click="navigateToAccountTypePage()">Edit
-          <font-awesome-icon icon="pencil-alt" />
-        </a>
-      </div>
+      <ReviewTable :elements='accountTypeTableData'
+                  :backgroundColor='tableBackgroundColor' />
     </div>
-    <ReviewTable :elements='accountTypeTableData'
-                :backgroundColor='tableBackgroundColor' />
 
     <div class="row align-items-end mt-5">
       <div class="col-9">
@@ -92,26 +94,20 @@ export default {
     accountTypeTableData() {
       const items = [];
       items.push({
-        label: 'Are you the account holder or a dependent?',
-        value: this.$store.state.form.accountType === 'AH' ? 'I\'m the account holder' : 'I\'m a dependent'
+        label: 'Who is moving out of B.C.?',
+        value: this.whoIsMoving
       });
-      if (this.$store.state.form.accountType === 'AH') {
+      if (this.$store.state.form.personMoving === 'AH_DEP') {
         items.push({
-          label: 'Who is moving out of B.C.?',
-          value: this.whoIsMoving
+          label: 'Are all of the dependents on your MSP account moving out of B.C.?',
+          value: this.$store.state.form.isAllDependentsMoving === 'Y' ? 'Yes' : 'No',
         });
-        if (this.$store.state.form.personMoving === 'AH_DEP') {
-          items.push({
-            label: 'Are all of the dependents on your MSP account moving out of B.C.?',
-            value: this.$store.state.form.isAllDependentsMoving === 'Y' ? 'Yes' : 'No',
-          });
-        }
-        if (this.$store.state.form.personMoving === 'DEP_ONLY' || this.$store.state.form.isAllDependentsMoving === 'N') {
-          items.push({
-            label: 'Dependent PHN(s):',
-            value: this.dependentPhns,
-          });
-        }
+      }
+      if (this.$store.state.form.personMoving === 'DEP_ONLY' || this.$store.state.form.isAllDependentsMoving === 'N') {
+        items.push({
+          label: 'Dependent PHN(s):',
+          value: this.dependentPhns,
+        });
       }
       return items;
     },
