@@ -6,7 +6,10 @@
   "scripts": {
     "build": "NODE_ENV=production gulp",
     "start": "node ./src/index.js",
-    "dev": "npx nodemon --watch src --watch .env --exec node ./src/index.js server"
+    "dev": "npx nodemon --watch src --watch .env --exec node ./src/index.js server",
+    "test:coverage": "echo \"WARNING: No test specified\" && exit 0",
+    "test:lint": "echo \"WARNING: No LINTer specified\" && exit 0",
+    "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
   },
   "author": "",
   "license": "ISC",
