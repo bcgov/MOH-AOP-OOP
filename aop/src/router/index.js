@@ -158,6 +158,26 @@ const router = new VueRouter({
         ]
       }
     },
+    {
+      path: routes.MAINTENANCE.path,
+      name: routes.MAINTENANCE.name,
+      component: routes.MAINTENANCE.component,
+      meta: {
+        title: "Upload Tool | Maintenance",
+        metaTags: [
+          {
+            name: "description",
+            content:
+              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+          },
+          {
+            property: "og:description",
+            content:
+              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+          }
+        ]
+      }
+    },
   ]
 });
 
