@@ -23,6 +23,7 @@ export const SET_COMMENTS = "setComments";
 export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
+export const SET_SECRET = "setSecret";
 
 Vue.use(Vuex);
 
@@ -48,6 +49,7 @@ export default new Vuex.Store({
     uploadedForms: [],
     uploadedCredentials: [],
     apiResponse: '',
+    secret: '',
   },
   mutations: {
     setShowSignOutModal(state, payload) {
@@ -109,6 +111,9 @@ export default new Vuex.Store({
     },
     setApiResponse(state, payload) {
       state.apiResponse = payload;
+    },
+    setSecret(state, payload) {
+      state.secret = payload;
     },
   },
   actions: {
@@ -212,6 +217,9 @@ export default new Vuex.Store({
     },
     setApiResponse({ commit }, response) {
       commit(SET_API_RESPONSE, response);
+    },
+    setSecret({ commit }, secret) {
+      commit(SET_SECRET, secret);
     },
   },
   getters: {}

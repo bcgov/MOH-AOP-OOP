@@ -35,12 +35,10 @@ export default {
   data: () => {
     return {
       hasConfirmedPageLeave: false,
-      SECRET: process.env.VUE_APP_SECRET
     };
   },
   created() {
-    console.log('env:', this.SECRET);
-    submitApplication(this.$store.state, this.SECRET)
+    submitApplication(this.$store.state)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.dispatch(SET_API_RESPONSE, res.data.refNumber);
@@ -48,21 +46,17 @@ export default {
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
           if (res.data.dberrorMessage) {
-            console.log('#3')
             log({message: 'Error storing application in db', error: res.data.dberrorMessage}, res.data.uuid);
           } else {
-            console.log('#4')
             log({message: 'Error validating application', error: res.data.validationError}, res.data.uuid);
           }
           this.navigateToErrorPage();
         } else {
-          console.log('#5')
           log({message: 'Error sending application', error: 'Unknown error'});
           this.navigateToErrorPage();
         }
       })
       .catch(err => {
-        console.log('#6')
         log({message: 'Error sending application', error: err});
         this.navigateToErrorPage();
       });
