@@ -1,5 +1,7 @@
 # OpenShift
 
+https://console.apps.silver.devops.gov.bc.ca/k8s/cluster/projects/
+
 ## Build Setup for Jenkins 2.x with pipelines
 
 Go to your openshift console and get the login token.  
