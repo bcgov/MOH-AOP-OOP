@@ -777,6 +777,7 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
+      BCSC_SERVICE_URI: "localhost:8000/userinfo",
     };
   },
   validations() {
@@ -977,8 +978,21 @@ export default {
     }
   },
   created() {
-    this.firstName = "John";
-    this.lastName = "Smith";
+    if(this.$route.params.user_id){
+      const userId = this.$route.params.user_id;
+      axios.get(this.BCSC_SERVICE_URI + `?user_id=${userId}`)
+        .then((res) => {
+          this.firstName = res.data.given_name;
+          this.lastName = res.data.family_name; 
+        })
+        .catch((e) => {
+          console.log("error retrieving ID:" + e);
+        })
+    } else {
+      const path = routes.SIGN_IN.path;
+      this.$router.push(path);
+      scrollTo(0);
+    }
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;

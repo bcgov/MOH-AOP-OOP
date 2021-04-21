@@ -49,14 +49,14 @@ export default {
   mixins: [FocusHeaderMixin],
   data: () => {
     return {
-      stepRoutes
+      stepRoutes,
+      BCSC_SERVICE_URI: "localhost:8000/auth"
     }
   },
   methods: {
     nextPage() {
-      const path = routes.SUBMISSION_INFO.path;
-      this.$router.push(path);
-      scrollTo(0);
+      const path = this.BCSC_SERVICE_URI;
+      window.location.href = path;
     }
   }
 };
