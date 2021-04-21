@@ -7,6 +7,9 @@
         <hr/>
         <ReviewTableList :showEditButtons='true' 
                         tableBackgroundColor='#EEE'/>
+        <div v-if="isSystemUnavailable"
+            class="text-danger mt-3 mb-5"
+            aria-live="assertive">Unable to continue, system unavailable. Please try again later.</div>
       </div>
     </PageContent>
     <ContinueBar @continue='submitForm()'
@@ -26,11 +29,14 @@ import {
 } from '../router/routes';
 import {
   scrollTo,
+  scrollToError,
   getTopScrollPosition
 } from '../helpers/scroll';
 import {
   MODULE_NAME as formModule,
-  RESET_FORM
+  RESET_FORM,
+  SET_REFERENCE_NUMBER,
+SET_SUBMISSION_DATE
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
@@ -44,31 +50,58 @@ export default {
   },
   data: () => {
     return {
-      isLoading: false
+      isLoading: false,
+      isSystemUnavailable: false,
     }
   },
   methods: {
     submitForm() {
       this.isLoading = true;
-      
-      const token = this.$store.state.form.captchaToken;
+      this.isSystemUnavailable = false;
 
-      apiService.submitApplication(token)
-        .then(() => {
-          // Handle success.
-          logService.logSubmission({ message: 'Success', error: null }, 'TEMP_UUID', 'TEMP_REF_NUMBER');
-        })
-        .catch(() => {
-          // Handle error.
-          logService.logSubmission({ message: 'Error sending application', error: 'TEMP_ERROR' }, 'TEMP_UUID', 'TEMP_REF_NUMBER');
-        })
-        .then(() => {
-          // Always executed.
+      this.$store.dispatch(formModule + '/' + SET_SUBMISSION_DATE, new Date());
+
+      const token = this.$store.state.form.captchaToken;
+      const applicationUuid = this.$store.state.form.applicationUuid;
+      const formState = this.$store.state.form;
+
+      apiService.submitApplication(token, formState)
+        .then((response) => {
+          // Handle HTTP success.
+          const returnCode = response.data.returnCode;
+          const referenceNumber = response.data.referenceNumber;
+          const errorMessage = response.data.message;
+
           this.isLoading = false;
+
+          switch (returnCode) {
+            case '0': // Submission successful.
+              logService.logSubmission({ message: 'Success', error: null }, applicationUuid, referenceNumber);
+              this.$store.dispatch(formModule + '/' + SET_REFERENCE_NUMBER, referenceNumber);
+              this.navigateToSubmissionPage();
+              break;
+            case '1': // Submission failed.
+              logService.logSubmission({ message: 'Submission failure', error: errorMessage }, applicationUuid, 'N/A');
+              this.navigateToSubmissionErrorPage();
+              break;
+            case '3': // System unavailable.
+              this.isSystemUnavailable = true;
+              logService.logSubmission({ message: 'Submission failure', error: errorMessage }, applicationUuid, 'N/A');
+              scrollToError();
+              break;
+          }
+        })
+        .catch((error) => {
+          // Handle HTTP error.
+          const httpStatusCode = error && error.response ? error.response.status : null;
+          this.isLoading = false;
+          this.isSystemUnavailable = true;
+          logService.logSubmission({ message: 'HTTP error while sending application', error: httpStatusCode }, applicationUuid, 'N/A');
+          scrollToError();
         });
       
-      // Temporarily calling this outside the ApiService promise until middleware is setup.
-      this.navigateToSubmissionPage();
+      // Manually navigate to submission success page when middleware/RAPID is down.
+      // this.navigateToSubmissionPage();
     },
     navigateToSubmissionPage() {
       const path = routes.SUBMISSION_PAGE.path;
