@@ -12,6 +12,10 @@
               @click="printPage()">Print or Save as PDF
               <font-awesome-icon icon="print" />
             </a>
+            <div class="tip-container">
+              <font-awesome-icon class="ml-2" icon="info-circle" />
+              <div class="tip">To save as a PDF, in the print window, select “Save as PDF”</div>
+            </div>
           </div>
         </div>
         <hr/>
@@ -99,6 +103,35 @@ export default {
 <style scoped>
 .fa-check-circle {
   color: rgba(46, 133, 64, 1);
+}
+
+.tip-container {
+  position: relative;
+  display: inline-block;
+  color: black;
+}
+
+/* Tooltip text */
+.tip-container .tip {
+  visibility: hidden;
+  width: 220px;
+  background-color: #f2f2f2;
+  color: #606060;
+  text-align: center;
+  padding: 2px 4px;
+  border: 2px solid #606060;
+  font-weight: normal;
+  font-size: 16px;
+  right: 25px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tip-container:hover .tip {
+  visibility: visible;
 }
 
 .success-box {
