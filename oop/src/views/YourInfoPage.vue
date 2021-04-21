@@ -186,6 +186,7 @@ export default {
               this.accountType = response.data.applicantRole;
               this.handleValidationSuccess();
               break;
+            case '1': // PHN does not match with the lastname
             case '2': // Validation incorrect.
               this.isServerValidationErrorShown = true;
               scrollToError();
