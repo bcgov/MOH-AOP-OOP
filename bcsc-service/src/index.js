@@ -11,6 +11,10 @@ app.get('/health', (req, res) => {
   res.end("ok");
 });
 
+app.get('/hello', (req, res) => {
+  res.end("ok");
+});
+
 app.get('/auth', (req, res) => {
   const url = auth.getAuthUrl(config);
   res.redirect(url);
