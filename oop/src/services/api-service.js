@@ -44,6 +44,7 @@ class ApiService {
         addressLines.push(addressLine.value);
       }
     });
+    const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
     const jsonPayload = {
       uuid: formState.applicationUuid,
       submissionDate: formatISODate(formState.submissionDate),
@@ -52,7 +53,7 @@ class ApiService {
         phn: formState.phn,
         phoneNumber: formState.phone,
         applicantRole: formState.accountType,
-        whoIsMoving: formState.personMoving,
+        whoIsMoving: whoIsMoving,
         allDependentsMoving: formState.isAllDependentsMoving === 'Y' ? true : false,
         dependentPHNs: dependentPhns,
         moveFromBCDate: formatISODate(formState.moveFromBCDate),
