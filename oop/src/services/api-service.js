@@ -32,26 +32,39 @@ class ApiService {
   }
 
   submitApplication(token, formState) {
+    const phn = formState.phn.replace(/ /g, '');
+    const postalCode = formState.postalCode ? formState.postalCode.replace(/ /g, '') : null;
     const dependentPhns = [];
+    const addressLines = [];
+    let phoneNumber = null;
+
     formState.dependentPhns.forEach((phn) => {
       if (phn.value) {
-        dependentPhns.push(phn.value);
+        const dependentPhn = phn.value.replace(/ /g, '');
+        dependentPhns.push(dependentPhn);
       }
     });
-    const addressLines = [];
     formState.addressLines.forEach((addressLine) => {
       if (addressLine.value) {
         addressLines.push(addressLine.value);
       }
     });
+    if (formState.phone) {
+      phoneNumber = formState.phone
+        .replace(/_/g, '') // remove underlines
+        .replace(/ /g, '') // spaces
+        .replace(/\+|-/g, '') // + or - symbol
+        .replace('(', '')
+        .replace(')', '');
+    }
     const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
     const jsonPayload = {
       uuid: formState.applicationUuid,
       submissionDate: formatISODate(formState.submissionDate),
       outOfProvinceMove: {
         lastName: formState.lastName,
-        phn: formState.phn,
-        phoneNumber: formState.phone,
+        phn: phn,
+        phoneNumber: phoneNumber,
         applicantRole: formState.accountType,
         whoIsMoving: whoIsMoving,
         allDependentsMoving: formState.isAllDependentsMoving === 'Y' ? true : false,
@@ -64,7 +77,7 @@ class ApiService {
           addressLines: addressLines,
           province: formState.province,
           city: formState.city,
-          postalCode: formState.postalCode
+          postalCode: postalCode
         }
       }
     };
