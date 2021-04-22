@@ -34,7 +34,6 @@ app.post('/api/logout', (req, res) => {
 app.get('/api/userinfo', (req, res) => {
   // console.log("session = ", req.session);
   const token = req.session.token;
-
   if (!token) {
     res.json({ error: "auth" });
     return;
@@ -53,6 +52,10 @@ app.get('/api/userinfo', (req, res) => {
 
 app.get('/callback', (req, res) => {
   const code = req.query.code;
+  if (!code) {
+    res.json({ error: "auth" });
+    return;
+  }
 
   auth.getToken(config, code)
     .then(token => {
