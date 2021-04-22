@@ -744,6 +744,7 @@ import {
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
+import axios from "axios";
 
 export default {
   name: "SubmissionInfo",
@@ -777,7 +778,7 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
-      BCSC_SERVICE_URI: "localhost:8000/userinfo",
+      BCSC_SERVICE_URI: "http://localhost:8000/userinfo",
     };
   },
   validations() {
@@ -978,21 +979,23 @@ export default {
     }
   },
   created() {
-    if(this.$route.params.user_id){
-      const userId = this.$route.params.user_id;
-      axios.get(this.BCSC_SERVICE_URI + `?user_id=${userId}`)
-        .then((res) => {
-          this.firstName = res.data.given_name;
-          this.lastName = res.data.family_name; 
-        })
-        .catch((e) => {
-          console.log("error retrieving ID:" + e);
-        })
-    } else {
-      const path = routes.SIGN_IN.path;
-      this.$router.push(path);
-      scrollTo(0);
-    }
+    console.log("user info reqested")
+    axios.get(this.BCSC_SERVICE_URI)
+      .then((res) => {
+        console.log("res.data", res.data)
+        this.firstName = res.data.given_name;
+        this.lastName = res.data.family_name; 
+        console.log("firstName:", this.firstName);
+        console.log("lastName:", this.lastName);
+      })
+      .catch((e) => {
+        console.log("error retrieving ID:" + e);
+      })
+    // } else {
+    //   const path = routes.SIGN_IN.path;
+    //   this.$router.push(path);
+    //   scrollTo(0);
+    // }
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;

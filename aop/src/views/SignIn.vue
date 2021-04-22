@@ -50,7 +50,7 @@ export default {
   data: () => {
     return {
       stepRoutes,
-      BCSC_SERVICE_URI: "localhost:8000/auth"
+      BCSC_SERVICE_URI: "http://localhost:8000/auth"
     }
   },
   methods: {
