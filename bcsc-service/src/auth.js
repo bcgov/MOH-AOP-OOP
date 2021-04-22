@@ -9,7 +9,7 @@ const getAuthUrl = function (config) {
   return client_url;
 };
 
-const getToken = function (code, config) {
+const getToken = function (config, code) {
 
   const template = `&redirect_uri=${config.redirect_uri}&client_id=${config.client_id}&client_secret=${config.client_secret}&grant_type=${config.grant_type}`;
   const data = `code=${code}${template}`;
@@ -25,7 +25,6 @@ const getToken = function (code, config) {
     });
 };
 
-
 const getInfo = function (url, token,) {
 
   return axios.get(url, {
@@ -35,8 +34,8 @@ const getInfo = function (url, token,) {
       return res.data;
     })
     .catch(err => {
-      console.log(err.response.data);
-      throw (err.response.status);
+      console.log(err);
+      throw ("error");
     });
 };
 
