@@ -29,11 +29,11 @@
               <p>Your application has been submitted.</p>
               <div class="row">
                 <div class="col-md-4 col-lg-3">Date of Submission:</div>
-                <div class="col-md-8 col-lg-9"><b>{{ dateToday }}</b></div>
+                <div class="col-md-8 col-lg-9"><b>{{ submissionDate }}</b></div>
               </div>
               <div class="row">
                 <div class="col-md-4 col-lg-3">Reference Number:</div>
-                <div class="col-md-8 col-lg-9"><b>Unknown</b></div>
+                <div class="col-md-8 col-lg-9"><b>{{referenceNumber}}</b></div>
               </div>
             </div>
           </div>
@@ -73,11 +73,13 @@ export default {
   },
   data: () => {
     return {
-      dateToday: ''
+      submissionDate: '',
+      referenceNumber: '',
     };
   },
   created() {
-    this.dateToday = formatDate(new Date());
+    this.submissionDate = formatDate(this.$store.state.form.submissionDate);
+    this.referenceNumber = this.$store.state.form.referenceNumber || 'Unknown';
   },
   methods: {
     printPage() {

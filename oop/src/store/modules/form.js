@@ -6,6 +6,8 @@ export const MODULE_NAME = 'form';
 export const RESET_FORM = 'resetForm';
 export const SET_APPLICATION_UUID = 'setApplicationUuid';
 export const SET_CAPTCHA_TOKEN = 'setCaptchaToken';
+export const SET_SUBMISSION_DATE = 'setSubmissionDate';
+export const SET_REFERENCE_NUMBER = 'setReferenceNumber';
 
 // Your info page:
 export const SET_LAST_NAME = 'setLastName';
@@ -53,6 +55,8 @@ export default {
       personMoving: null,
       isAllDependentsMoving: null,
       dependentPhns: [],
+      submissionDate: null,
+      referenceNumber: null,
       submissionResponse: null,
       submissionError: null,
     };
@@ -67,6 +71,12 @@ export default {
     },
     setCaptchaToken(state, payload) {
       state.captchaToken = payload;
+    },
+    setSubmissionDate(state, payload) {
+      state.submissionDate = payload;
+    },
+    setReferenceNumber(state, payload) {
+      state.referenceNumber = payload;
     },
     setLastName(state, payload) {
       state.lastName = payload;
@@ -124,6 +134,8 @@ export default {
     resetForm({ commit }) {
       commit(SET_APPLICATION_UUID, null);
       commit(SET_CAPTCHA_TOKEN, null);
+      commit(SET_SUBMISSION_DATE, null);
+      commit(SET_REFERENCE_NUMBER, null);
       commit(SET_LAST_NAME, null);
       commit(SET_PHN, null);
       commit(SET_PHONE, null);
@@ -143,6 +155,12 @@ export default {
     },
     setCaptchaToken({ commit }, captchaToken) {
       commit(SET_CAPTCHA_TOKEN, captchaToken);
+    },
+    setSubmissionDate({ commit }, submissionDate) {
+      commit(SET_SUBMISSION_DATE, submissionDate);
+    },
+    setReferenceNumber({ commit }, referenceNumber) {
+      commit(SET_REFERENCE_NUMBER, referenceNumber);
     },
     setLastName({ commit }, lastName) {
       commit(SET_LAST_NAME, lastName);

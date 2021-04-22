@@ -95,6 +95,9 @@ import {
   SET_LAST_NAME,
   SET_PHN,
   SET_PHONE,
+  SET_PERSON_MOVING,
+  SET_IS_ALL_DEPENDENTS_MOVING,
+  SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 
@@ -215,6 +218,12 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_PHN, this.phn);
       this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
       this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
+
+      if (this.accountType === 'DEP') {
+        this.$store.dispatch(formModule + '/' + SET_PERSON_MOVING, null);
+        this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, null);
+        this.$store.dispatch(formModule + '/' + SET_DEPENDENT_PHNS, []);
+      } 
 
       const toPath = routes.ACCOUNT_TYPE_PAGE.path;
       pageStateService.setPageComplete(toPath);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { formatISODate } from '../helpers/date';
 
 const BASE_API_PATH = '/oop/api/';
 const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
@@ -30,14 +31,45 @@ class ApiService {
     });
   }
 
-  submitApplication(token) {
-    const headers = this.getHeaders(token);
-    return axios.post(SUBMIT_APPLICATION_URL, {
-      // Include submission payload here (pass form state as param).
-    },
-    {
-      headers
+  submitApplication(token, formState) {
+    const dependentPhns = [];
+    formState.dependentPhns.forEach((phn) => {
+      if (phn.value) {
+        dependentPhns.push(phn.value);
+      }
     });
+    const addressLines = [];
+    formState.addressLines.forEach((addressLine) => {
+      if (addressLine.value) {
+        addressLines.push(addressLine.value);
+      }
+    });
+    const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
+    const jsonPayload = {
+      uuid: formState.applicationUuid,
+      submissionDate: formatISODate(formState.submissionDate),
+      outOfProvinceMove: {
+        lastName: formState.lastName,
+        phn: formState.phn,
+        phoneNumber: formState.phone,
+        applicantRole: formState.accountType,
+        whoIsMoving: whoIsMoving,
+        allDependentsMoving: formState.isAllDependentsMoving === 'Y' ? true : false,
+        dependentPHNs: dependentPhns,
+        moveFromBCDate: formatISODate(formState.moveFromBCDate),
+        arriveDestinationDate: formatISODate(formState.arriveDestinationDate),
+        isNewAddressKnown: formState.isNewAddressKnown === 'Y' ? true : false,
+        newAddress: {
+          country: formState.country,
+          addressLines: addressLines,
+          province: formState.province,
+          city: formState.city,
+          postalCode: formState.postalCode
+        }
+      }
+    };
+    const headers = this.getHeaders(token);
+    return axios.post(SUBMIT_APPLICATION_URL, jsonPayload, { headers });
   }
 
   getHeaders(token) {
