@@ -81,6 +81,7 @@ export default {
               this.navigateToSubmissionPage();
               break;
             case '1': // Submission failed.
+            case '2': // Unknown case, but not '0', so failing the the submission.
               logService.logSubmission({ message: 'Submission failure', error: errorMessage }, applicationUuid, 'N/A');
               this.navigateToSubmissionErrorPage();
               break;
