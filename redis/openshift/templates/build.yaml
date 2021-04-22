@@ -84,7 +84,7 @@ parameters:
 - description: The openshift project where builds and target images are stored.
   displayName: Build Project
   name: SOURCE_IMAGE_NAMESPACE
-  value: 'rhel8'
+  value: 'openshift'
   required: true
 - description: The name of the source image.
   displayName: Source Image Name
