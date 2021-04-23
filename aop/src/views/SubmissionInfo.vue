@@ -980,22 +980,10 @@ export default {
   },
   created() {
     console.log("user info reqested", this.$route.query.code)
-
-    // axios.get(this.BCSC_SERVICE_URI)
-    //   .then((res) => {
-    //     console.log("res.data", res.data)
-    //     this.firstName = res.data.given_name;
-    //     this.lastName = res.data.family_name; 
-    //     console.log("firstName:", this.firstName);
-    //     console.log("lastName:", this.lastName);
-    //   })
-    //   .catch((e) => {
-    //     console.log("error retrieving ID:" + e);
-    //   })
     if(this.$route.query.code){
       const code = this.$route.query.code;
       const state = this.$route.query.state;
-      axios.get(this.BCSC_SERVICE_URI + `/api/auth/${code}`)//how are we going to send state???
+      axios.get(this.BCSC_SERVICE_URI + `/api/auth/${code}`)
         .then((res) => {
           console.log("code get success");
           this.firstName = res.data.given_name;
