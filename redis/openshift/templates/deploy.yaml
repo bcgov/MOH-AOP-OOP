@@ -77,7 +77,7 @@ objects:
       name: redis
     spec:
       strategy:
-        type: Recreate
+        type: Rolling
       triggers:
         - type: ConfigChange
         - type: ImageChange
@@ -111,9 +111,10 @@ objects:
               readinessProbe:
                 exec:
                   command:
-                    - >-
-                      bin/sh -i -c test "$(redis-cli -h 127.0.0.1 -a
-                      $REDIS_PASSWORD ping)" == "PONG"
+                    - /bin/sh 
+                    - '-i'
+                    - '-c'
+                    - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
                 initialDelaySeconds: 10
                 timeoutSeconds: 2
               terminationMessagePath: /dev/termination-log
