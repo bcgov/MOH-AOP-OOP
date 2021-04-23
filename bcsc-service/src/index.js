@@ -29,13 +29,16 @@ app.get('/auth', (req, res) => {
 
 app.get('/callback', (req, res) => {
   const code = req.query.code;
+  if (!code) {
+    return res.json({ error: "code" });
+  }
   const url = `/api/auth/${code}`;
   res.redirect(url);
 });
 
 app.get('/api/url', (req, res) => {
   const url = auth.getAuthUrl(config);
-  res.json({url});
+  res.json({ url });
 });
 
 app.post('/api/logout', (req, res) => {
@@ -57,7 +60,7 @@ app.get('/api/userinfo', (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.json({err});
+      res.json({ err });
     });
 });
 
@@ -70,10 +73,11 @@ app.get('/api/auth/:code', (req, res) => {
   auth.getToken(config, code)
     .then(token => {
       req.session.token = token;
-      return res.json({auth: true});
+      return res.json({ auth: true });
     })
     .catch(err => {
       console.log(err);
+      return res.json(err);
     });
 });
 

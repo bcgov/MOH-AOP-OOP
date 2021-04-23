@@ -21,8 +21,8 @@ const getToken = function (config, code) {
       return res.data.access_token;
     })
     .catch(err => {
-      console.log(err.response.data);
-      throw (err.response.status);
+      console.log("getToken: ", err.response.data);
+      throw (err.response.data);
     });
 };
 
@@ -35,8 +35,8 @@ const getInfo = function (config, token,) {
       return res.data;
     })
     .catch(err => {
-      console.log(err);
-      throw ("error");
+      console.log("getInfo: ", err);
+      throw (err);
     });
 };
 
