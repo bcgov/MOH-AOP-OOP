@@ -80,7 +80,8 @@ app.get('/api/auth/:code', (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      return res.json(err);
+      const error = err.error ? err.error : err
+      return res.json({error});
     });
 });
 
