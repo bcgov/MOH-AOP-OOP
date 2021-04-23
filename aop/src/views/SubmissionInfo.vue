@@ -778,7 +778,7 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
-      BCSC_SERVICE_URI: "http://localhost:8000",
+      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca",
     };
   },
   validations() {
@@ -979,7 +979,7 @@ export default {
     }
   },
   created() {
-    console.log("user info reqested")
+    console.log("user info reqested", this.$route.query.code)
 
     // axios.get(this.BCSC_SERVICE_URI)
     //   .then((res) => {
@@ -992,18 +992,16 @@ export default {
     //   .catch((e) => {
     //     console.log("error retrieving ID:" + e);
     //   })
-    if(this.$route.params.code){
-      const code = this.$route.params.code;
-      const state = this.$route.params.state;
-      axios.get(this.BCSC_SERVICE_URI + `/api/auth/:${code}`)//how are we going to send state???
+    if(this.$route.query.code){
+      const code = this.$route.query.code;
+      const state = this.$route.query.state;
+      axios.get(this.BCSC_SERVICE_URI + `/api/auth/${code}`)//how are we going to send state???
         .then((res) => {
-          axios.get(this.BCSC_SERVICE_URI + `/api/userinfo`)
-            .then((res) => {
-              this.firstName = res.data.given_name;
-              console.log("firstName:", this.firstName);
-              this.lastName = res.data.family_name;
-              console.log("lastName:", this.lastName);
-            })
+          console.log("code get success");
+          this.firstName = res.data.given_name;
+          console.log("firstName:", this.firstName);
+          this.lastName = res.data.family_name;
+          console.log("lastName:", this.lastName);
         })
         .catch((e) => {
           console.log("error retrieving ID:" + e);

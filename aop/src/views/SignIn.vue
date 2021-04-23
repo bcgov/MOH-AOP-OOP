@@ -50,7 +50,7 @@ export default {
   data: () => {
     return {
       stepRoutes,
-      BCSC_SERVICE_URI: "http://localhost:8000/auth"
+      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca/auth"
     }
   },
   methods: {
