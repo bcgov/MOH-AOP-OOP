@@ -778,7 +778,7 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
-      BCSC_SERVICE_URI: "http://localhost:8000/userinfo",
+      BCSC_SERVICE_URI: "http://localhost:8000",
     };
   },
   validations() {
@@ -980,22 +980,43 @@ export default {
   },
   created() {
     console.log("user info reqested")
-    axios.get(this.BCSC_SERVICE_URI)
-      .then((res) => {
-        console.log("res.data", res.data)
-        this.firstName = res.data.given_name;
-        this.lastName = res.data.family_name; 
-        console.log("firstName:", this.firstName);
-        console.log("lastName:", this.lastName);
-      })
-      .catch((e) => {
-        console.log("error retrieving ID:" + e);
-      })
-    // } else {
-    //   const path = routes.SIGN_IN.path;
-    //   this.$router.push(path);
-    //   scrollTo(0);
-    // }
+
+    // axios.get(this.BCSC_SERVICE_URI)
+    //   .then((res) => {
+    //     console.log("res.data", res.data)
+    //     this.firstName = res.data.given_name;
+    //     this.lastName = res.data.family_name; 
+    //     console.log("firstName:", this.firstName);
+    //     console.log("lastName:", this.lastName);
+    //   })
+    //   .catch((e) => {
+    //     console.log("error retrieving ID:" + e);
+    //   })
+    if(this.$route.params.code){
+      const code = this.$route.params.code;
+      const state = this.$route.params.state;
+      axios.get(this.BCSC_SERVICE_URI + `/api/auth/:${code}`)//how are we going to send state???
+        .then((res) => {
+          axios.get(this.BCSC_SERVICE_URI + `/api/userinfo`)
+            .then((res) => {
+              this.firstName = res.data.given_name;
+              console.log("firstName:", this.firstName);
+              this.lastName = res.data.family_name;
+              console.log("lastName:", this.lastName);
+            })
+        })
+        .catch((e) => {
+          console.log("error retrieving ID:" + e);
+          const path = routes.SIGN_IN.path;
+          this.$router.push(path);
+          scrollTo(0);
+        })
+    } else {
+      const path = routes.SIGN_IN.path;
+      this.$router.push(path);
+      scrollTo(0);
+    }
+
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
