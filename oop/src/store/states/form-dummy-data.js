@@ -10,7 +10,7 @@ export default {
   isNewAddressKnown: 'N',
   country: 'Canada',
   addressLine1: '123 Main St.',
-  province: 'Alberta',
+  province: 'AB',
   city: 'Victoria',
   postalCode: 'A8V 8V8',
 };
