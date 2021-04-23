@@ -55,8 +55,8 @@ app.get('/api/userinfo', (req, res) => {
   // console.log("token=", token);
 
   auth.getInfo(config, token)
-    .then(data => {
-      res.json(data);
+    .then(info => {
+      res.json(info);
     })
     .catch(err => {
       console.log(err);
@@ -73,7 +73,10 @@ app.get('/api/auth/:code', (req, res) => {
   auth.getToken(config, code)
     .then(token => {
       req.session.token = token;
-      return res.json({ auth: true });
+      return auth.getInfo(config, token);
+    })
+    .then(info => {
+      return res.json(info);
     })
     .catch(err => {
       console.log(err);
