@@ -68,7 +68,7 @@
             Field is required
           </div>
         </div>
-        <div v-if="uploadType === 'AOP'">
+        <div class="mt-5" v-if="uploadType === 'AOP'">
           <h3>
             Do you need to submit confirmation of credentials for this Assignment of
             Payment?
@@ -110,8 +110,7 @@
             Field is required
           </div>
         </div>
-        <br />
-        <div v-if="uploadType === 'AOP' && credentialsRequired !== ''">
+        <div class="mt-5" v-if="uploadType === 'AOP' && credentialsRequired !== ''">
           <h2 v-if="credentialsRequired === 'true'">
             Submit your Assignment of Payment and Medical Director Authorization
             form with Confirmation of Practitioner Credentials
@@ -129,7 +128,7 @@
             forms can be processed.
           </p>
         </div>
-        <div v-if="uploadType === 'COAOP'">
+        <div class="mt-5" v-if="uploadType === 'COAOP'">
           <h2>Submit your Cancellation of Assignment of Payment</h2>
           <hr />
           <p>
@@ -139,7 +138,7 @@
             Assignment of Payment forms can be processed.
           </p>
         </div>
-        <div v-if="uploadType === 'OOPA'">
+        <div class="mt-5" v-if="uploadType === 'OOPA'">
           <h2>
             Laboratory Services: Submit your Outpatient Operator Payment
             Administration form
@@ -195,7 +194,7 @@
             uploadType === 'OOPA'
           "
         >
-          <h3><em>Submitter information</em></h3>
+          <h3 class="mt-5"><em>Submitter information</em></h3>
           <hr />
           <p>
             Provide details below about the person submitting the form (clerk,
@@ -340,7 +339,7 @@
             </div>
           </div>
 
-          <h3><em>Information about this submission</em></h3>
+          <h3 class="mt-5"><em>Information about this submission</em></h3>
           <hr />
 
           <div
@@ -588,7 +587,7 @@
             </div>
           </div>
 
-          <div class="mt-3 mb">
+          <div class="mt-5">
             <h3>
               <em>Attach completed {{ uploadTitle }} form</em>
             </h3>
@@ -621,8 +620,8 @@
                     <strong>Note:</strong>
                     <ul>
                       <li>
-                        For system security purposes, form must be saved in PDF file
-                        format only
+                        For system security purposes, form must be saved in <strong>PDF file
+                        format only</strong>
                       </li>
                       <li>
                         File must be named for the practitioner who is named on the
@@ -651,7 +650,7 @@
               </div>
             </div>
           </div>
-          <div v-if="credentialsRequired === 'true'" class="mb">
+          <div v-if="credentialsRequired === 'true'" class="mt-5">
             <h3>
               <em>Attach confirmation of practitioner credentials documents</em>
             </h3>
@@ -689,7 +688,7 @@
                       <li>The entire document, from corner to corner</li>
                       <li>Rotated correctly (not upside down or sideways)</li>
                       <li>In focus and easy to read</li>
-                      <li>Documents must be uploaded in PDF file format only</li>
+                      <li>Documents must be uploaded in <strong>PDF file format only</strong></li>
                     </ul>
                   </div>
                 </div>

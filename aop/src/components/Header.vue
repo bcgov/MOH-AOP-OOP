@@ -8,9 +8,15 @@
         <a href="http://www2.gov.bc.ca/" tabindex="0">
           <img
             alt="BC Logo"
-            classNames="img-fluid d-none d-md-block pointer"
+            class="pointer horizontal"
             :width="181"
             :src="bcidLogoRev"
+          />
+          <img
+            alt="BC Logo"
+            class="pointer vertical pr-3"
+            :width="90"
+            :src="bcidLogoVert"
           />
         </a>
         <div id="title" class="navbar-brand">
@@ -33,7 +39,8 @@ export default {
   data() {
     return {
       bcidSymbol: "/images/bcid-symbol-rev.svg",
-      bcidLogoRev: "/images/bcid-logo-rev-en.svg"
+      bcidLogoRev: "/images/bcid-logo-rev-en.svg",
+      bcidLogoVert: "/images/BCID_V_rgb_rev_trimmed.png"
     };
   }
 };
@@ -58,7 +65,43 @@ header {
   cursor: pointer;
 }
 
-@media (min-width: 992px) {
-  
+.logo-and-title {
+  display: flex;
+  align-items: center;
 }
+
+@media (max-width: 991px) {
+  .sign-out {
+    width: auto;
+    padding-right: 12px;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (min-width: 481px) {
+  img.horizontal {
+    display: block;
+  }
+
+  img.vertical {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  img.horizontal {
+    display: none;
+  }
+
+  img.vertical {
+    display: block;
+  }
+}
+
 </style>

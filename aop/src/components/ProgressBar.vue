@@ -121,10 +121,18 @@ export default {
 <style scoped>
 .component-container {
   flex: 1;
-  padding: 1em 2em;
+  padding: 1em 0;
   min-height: 2em;
+  margin-top: 0;
   /* min-width: 650px; */
 }
+
+@media (min-width: 481px) {
+  .component-container {
+    margin-top: 24px;
+  }
+}
+
 .progress-bar-container {
   background-color: #606060;
   border-radius: 0.25rem;
@@ -140,14 +148,12 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-.step-container a {
-  cursor: pointer;
-}
 .step {
   position: relative;
   -webkit-transform: translateX(-0.5em);
   transform: translateX(-0.5em);
   margin-top: 0.25rem;
+  cursor: default;
 }
 .step:before {
   content: " ";
@@ -164,6 +170,9 @@ export default {
 }
 .step-selected:before {
   border: 2px solid #036;
+}
+.step-passed {
+  cursor: pointer;
 }
 .step-passed:before {
   border: 2px solid #036;
@@ -223,12 +232,10 @@ export default {
   position: absolute;
   height: 60%;
 }
-.v-step-container a {
-  cursor: pointer;
-}
 .v-step {
   position: relative;
   margin-top: 0.25rem;
+  cursor: default;
 }
 .v-step:before {
   content: " ";
@@ -245,6 +252,9 @@ export default {
 }
 .v-step-selected:before {
   border: 2px solid #036;
+}
+.v-step-passed {
+  cursor: pointer;
 }
 .v-step-passed:before {
   border: 2px solid #036;

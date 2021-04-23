@@ -16,7 +16,7 @@ const router = new VueRouter({
       name: routes.SIGN_IN.name,
       component: routes.SIGN_IN.component,
       meta: {
-        title: "Upload Tool | Sign In",
+        title: "Sign In | Upload Tool",
         metaTags: [
           {
             name: "description",
@@ -41,7 +41,7 @@ const router = new VueRouter({
           name: routes.SUBMISSION_INFO.name,
           component: routes.SUBMISSION_INFO.component,
           meta: {
-            title: "Upload Tool | Select a Form",
+            title: "Select a Form | Upload Tool",
             metaTags: [
               {
                 name: "description",
@@ -61,7 +61,7 @@ const router = new VueRouter({
           name: routes.REVIEW.name,
           component: routes.REVIEW.component,
           meta: {
-            title: "Upload Tool | Review",
+            title: "Review | Upload Tool",
             metaTags: [
               {
                 name: "description",
@@ -81,7 +81,7 @@ const router = new VueRouter({
           name: routes.CONFIRMATION.name,
           component: routes.CONFIRMATION.component,
           meta: {
-            title: "Upload Tool | Confirmation",
+            title: "Confirmation | Upload Tool",
             metaTags: [
               {
                 name: "description",
@@ -101,7 +101,7 @@ const router = new VueRouter({
           name: routes.SUBMISSION_ERROR.name,
           component: routes.SUBMISSION_ERROR.component,
           meta: {
-            title: "Upload Tool | Error",
+            title: "Error | Upload Tool",
             metaTags: [
               {
                 name: "description",
@@ -123,7 +123,7 @@ const router = new VueRouter({
       name: routes.SENDING.name,
       component: routes.SENDING.component,
       meta: {
-        title: "Upload Tool | Sending",
+        title: "Sending | Upload Tool",
         metaTags: [
           {
             name: "description",
@@ -143,7 +143,7 @@ const router = new VueRouter({
       name: routes.SESSION_END.name,
       component: routes.SESSION_END.component,
       meta: {
-        title: "Upload Tool | Session End",
+        title: "Session End | Upload Tool",
         metaTags: [
           {
             name: "description",
@@ -163,7 +163,7 @@ const router = new VueRouter({
       name: routes.MAINTENANCE.name,
       component: routes.MAINTENANCE.component,
       meta: {
-        title: "Upload Tool | Maintenance",
+        title: "Maintenance | Upload Tool",
         metaTags: [
           {
             name: "description",

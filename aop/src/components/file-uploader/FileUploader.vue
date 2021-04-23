@@ -942,6 +942,8 @@ export default {
   color: #D8292F;
   background: none;
   border: none;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .fa-times {
