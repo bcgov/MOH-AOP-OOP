@@ -143,10 +143,14 @@ export default {
       commit(SET_ARRIVE_DESTINATION_DATE, null);
       commit(SET_IS_NEW_ADDRESS_KNOWN, null);
       commit(SET_COUNTRY, null);
-      commit(SET_ADDRESS_LINES, null);
+      commit(SET_ADDRESS_LINES, []);
       commit(SET_PROVINCE, null);
       commit(SET_CITY, null);
       commit(SET_POSTAL_CODE, null);
+      commit(SET_ACCOUNT_TYPE, null);
+      commit(SET_PERSON_MOVING, null);
+      commit(SET_IS_ALL_DEPENDENTS_MOVING, null);
+      commit(SET_DEPENDENT_PHNS, []);
       commit(SET_SUBMISSION_RESPONSE, null);
       commit(SET_SUBMISSION_ERROR, null);
     },
