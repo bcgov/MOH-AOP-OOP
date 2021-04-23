@@ -17,6 +17,7 @@ const getToken = function (config, code) {
 
   return axios.post(config.token_uri, data)
     .then(res => {
+      console.log(res.data);
       return res.data.access_token;
     })
     .catch(err => {
@@ -25,9 +26,9 @@ const getToken = function (config, code) {
     });
 };
 
-const getInfo = function (url, token,) {
+const getInfo = function (config, token,) {
 
-  return axios.get(url, {
+  return axios.get(config.info_uri, {
     headers: { Authorization: 'bearer ' + token }
   })
     .then(res => {

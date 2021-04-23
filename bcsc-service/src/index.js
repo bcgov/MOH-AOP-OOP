@@ -27,31 +27,42 @@ app.get('/auth', (req, res) => {
   res.redirect(url);
 });
 
+app.get('/callback', (req, res) => {
+  const code = req.query.code;
+  const url = `/api/auth/${code}`;
+  res.redirect(url);
+});
+
+app.get('/api/url', (req, res) => {
+  const url = auth.getAuthUrl(config);
+  res.json({url});
+});
+
 app.post('/api/logout', (req, res) => {
   req.session.destroy();
   res.status(204).end("");
 });
 
 app.get('/api/userinfo', (req, res) => {
-  // console.log("session = ", req.session);
+  console.log("session = ", req.session);
   const token = req.session.token;
   if (!token) {
     return res.json({ error: "auth" });
   }
-
   // console.log("token=", token);
 
-  auth.getInfo(config.info_uri, token)
+  auth.getInfo(config, token)
     .then(data => {
       res.json(data);
     })
     .catch(err => {
       console.log(err);
+      res.json({err});
     });
 });
 
-app.get('/callback', (req, res) => {
-  const code = req.query.code;
+app.get('/api/auth/:code', (req, res) => {
+  const code = req.params.code;
   if (!code) {
     return res.json({ error: "code" });
   }
@@ -59,7 +70,7 @@ app.get('/callback', (req, res) => {
   auth.getToken(config, code)
     .then(token => {
       req.session.token = token;
-      res.redirect(process.env.HOME_URI);
+      return res.json({auth: true});
     })
     .catch(err => {
       console.log(err);
