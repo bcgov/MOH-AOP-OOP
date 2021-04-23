@@ -55,6 +55,7 @@ import routes from '../router/routes';
 import { scrollTo } from '../helpers/scroll';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
+import { getProvinceNameFromCode } from './ProvinceInput.vue';
 
 export default {
   name: 'ReviewTableList',
@@ -142,7 +143,7 @@ export default {
         const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
         items.push({
           label: provinceLabel,
-          value: this.$store.state.form.province,
+          value: this.$store.state.form.country === 'Canada' ? getProvinceNameFromCode(this.$store.state.form.province) : this.$store.state.form.province,
         });
       }
       if (this.$store.state.form.city !== null){

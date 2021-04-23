@@ -9,7 +9,7 @@ const getAuthUrl = function (config) {
   return client_url;
 };
 
-const getToken = function (code, config) {
+const getToken = function (config, code) {
 
   const template = `&redirect_uri=${config.redirect_uri}&client_id=${config.client_id}&client_secret=${config.client_secret}&grant_type=${config.grant_type}`;
   const data = `code=${code}${template}`;
@@ -17,26 +17,26 @@ const getToken = function (code, config) {
 
   return axios.post(config.token_uri, data)
     .then(res => {
+      console.log(res.data);
       return res.data.access_token;
     })
     .catch(err => {
-      console.log(err.response.data);
-      throw (err.response.status);
+      console.log("getToken: ", err.response.data);
+      throw (err.response.data);
     });
 };
 
+const getInfo = function (config, token,) {
 
-const getInfo = function (url, token,) {
-
-  return axios.get(url, {
+  return axios.get(config.info_uri, {
     headers: { Authorization: 'bearer ' + token }
   })
     .then(res => {
       return res.data;
     })
     .catch(err => {
-      console.log(err.response.data);
-      throw (err.response.status);
+      console.log("getInfo: ", err);
+      throw (err);
     });
 };
 

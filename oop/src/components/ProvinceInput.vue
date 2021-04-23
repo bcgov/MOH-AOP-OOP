@@ -9,7 +9,6 @@
       :country="country"
       :region="region"
       :countryName="true"
-      :regionName="true"
       placeholder="Select Province" />
   </div>
 </template>
@@ -18,6 +17,28 @@
 import Vue from 'vue';
 import vueCountryRegionSelect from 'vue-country-region-select';
 Vue.use(vueCountryRegionSelect);
+
+export const getProvinceNameFromCode = (provinceCode) => {
+  const provinceMap = {
+    AB: 'Alberta',
+    BC: 'British Columbia',
+    MB: 'Manitoba',
+    NB: 'New Brunswick',
+    NL: 'Newfoundland and Labrador',
+    NT: 'Northwest Territories',
+    NS: 'Nova Scotia',
+    NU: 'Nunavut',
+    ON: 'Ontario',
+    PE: 'Prince Edward Island',
+    QC: 'Quebec',
+    SK: 'Saskatchewan',
+    YT: 'Yukon'
+  };
+  if (provinceCode && provinceMap[provinceCode]) {
+    return provinceMap[provinceCode];
+  }
+  return provinceCode;
+};
 
 export default {
   name: 'ProvinceInput',

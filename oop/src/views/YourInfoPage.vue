@@ -9,7 +9,8 @@
             <Input label='Last name'
                   v-model='lastName'
                   maxlength='30'
-                  class='last-name'/>
+                  class='last-name'
+                  @input="handleLastNameInputChange"/>
             <div class="text-danger"
                 v-if="$v.lastName.$dirty && !$v.lastName.required"
                 aria-live="assertive">Last name is required.</div>
@@ -23,7 +24,9 @@
             <PhnInput label='Personal Health Number (PHN)'
                       v-model='phn'
                       className='mt-3'
-                      class='phn-input' />
+                      class='phn-input'
+                      @input="handlePhnInputChange"
+                      ref="phnInput" />
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.phn.required"
                 aria-live="assertive">Personal Health Number is required.</div>
@@ -76,10 +79,10 @@ import {
   getTopScrollPosition
 } from '../helpers/scroll';
 import ContinueBar from '../components/ContinueBar.vue';
-import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
 import {
+  Input,
   PhnInput,
   PhoneNumberInput,
   phnValidator
@@ -92,6 +95,9 @@ import {
   SET_LAST_NAME,
   SET_PHN,
   SET_PHONE,
+  SET_PERSON_MOVING,
+  SET_IS_ALL_DEPENDENTS_MOVING,
+  SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 
@@ -183,6 +189,7 @@ export default {
               this.accountType = response.data.applicantRole;
               this.handleValidationSuccess();
               break;
+            case '1': // PHN does not match with the lastname
             case '2': // Validation incorrect.
               this.isServerValidationErrorShown = true;
               scrollToError();
@@ -212,11 +219,27 @@ export default {
       this.$store.dispatch(formModule + '/' + SET_PHONE, this.phone);
       this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
 
+      if (this.accountType === 'DEP') {
+        this.$store.dispatch(formModule + '/' + SET_PERSON_MOVING, null);
+        this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, null);
+        this.$store.dispatch(formModule + '/' + SET_DEPENDENT_PHNS, []);
+      } 
+
       const toPath = routes.ACCOUNT_TYPE_PAGE.path;
       pageStateService.setPageComplete(toPath);
       pageStateService.visitPage(toPath);
       this.$router.push(toPath);
       scrollTo(0);
+    },
+    handleLastNameInputChange() {
+      this.isServerValidationErrorShown = false;
+    },
+    handlePhnInputChange() {
+      this.isServerValidationErrorShown = false;
+      // Refocus on element when backspacing on PHN. This is a bug with the 'vue-text-mask', where it loses focus when triggering a Vue rerender caused by an 'input' event.
+      setTimeout(() => {
+        this.$refs.phnInput.focus();
+      }, 0);
     }
   },
   // Required in order to block back navigation.
