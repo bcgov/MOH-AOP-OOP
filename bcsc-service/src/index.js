@@ -18,11 +18,13 @@ app.use("/api", apiRoutes(config));
 // Session Test Route
 app.get('/time', (req, res) => {
   const time = req.session.time;
-  if (!time) {
-    time = new Date().toLocaleString();
-    req.session.time = time;
-  };
-  res.end(time);
+  if (time) {
+    return res.end(time);
+  }
+
+  time = new Date().toLocaleString();
+  req.session.time = time;
+  return res.end(time + " (NEW)");
 });
 
 app.get('/hello', (req, res) => {
