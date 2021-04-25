@@ -5,6 +5,7 @@ const session = require('express-session');
 const http = require('http');
 const auth = require('./auth');
 const config = require('./config');
+const apiRoutes = require('./routes/api');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -17,6 +18,7 @@ app.use(session({
 }));
 
 app.use(express.static("public"));
+app.use("/api", apiRoutes(config));
 
 app.get('/hello', (req, res) => {
   res.end("ok");
@@ -34,55 +36,6 @@ app.get('/callback', (req, res) => {
   }
   const url = `/api/auth/${code}`;
   res.redirect(url);
-});
-
-app.get('/api/url', (req, res) => {
-  const url = auth.getAuthUrl(config);
-  res.json({ url });
-});
-
-app.post('/api/logout', (req, res) => {
-  req.session.destroy();
-  res.status(204).end("");
-});
-
-app.get('/api/userinfo', (req, res) => {
-  console.log("session = ", req.session);
-  const token = req.session.token;
-  if (!token) {
-    return res.json({ error: "auth" });
-  }
-  // console.log("token=", token);
-
-  auth.getInfo(config, token)
-    .then(info => {
-      res.json(info);
-    })
-    .catch(err => {
-      console.log(err);
-      res.json({ err });
-    });
-});
-
-app.get('/api/auth/:code', (req, res) => {
-  const code = req.params.code;
-  if (!code) {
-    return res.json({ error: "code" });
-  }
-
-  auth.getToken(config, code)
-    .then(token => {
-      req.session.token = token;
-      return auth.getInfo(config, token);
-    })
-    .then(info => {
-      return res.json(info);
-    })
-    .catch(err => {
-      console.log(err);
-      const error = err.error ? err.error : err
-      return res.json({error});
-    });
 });
 
 // Optional https server
