@@ -16,7 +16,7 @@ module.exports = function (config) {
   });
 
   router.get('/userinfo', (req, res) => {
-    console.log("session = ", req.session);
+    // console.log("session = ", req.session);
     const token = req.session.token;
     if (!token) {
       return res.json({ error: "auth" });
