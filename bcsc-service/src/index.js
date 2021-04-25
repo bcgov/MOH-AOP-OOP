@@ -17,7 +17,7 @@ app.use("/api", apiRoutes(config));
 
 // Session Test Route
 app.get('/time', (req, res) => {
-  const time = req.session.time;
+  let time = req.session.time;
   if (time) {
     return res.end(time);
   }
