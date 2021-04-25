@@ -15,10 +15,18 @@ app.use(express.static("public"));
 app.use(session(config.session_options));
 app.use("/api", apiRoutes(config));
 
+// Session Test Route
+app.get('/time', (req, res) => {
+  const time = req.session.time;
+  if (!time) {
+    time = new Date().toLocaleString();
+    req.session.time = time;
+  };
+  res.end(time);
+});
+
 app.get('/hello', (req, res) => {
-  const text = req.session.hello;
-  if (!text) { req.session.hello = new Date().toLocaleString(); }
-  res.end(text);
+  res.end();
 });
 
 // Convenience route for redirect
