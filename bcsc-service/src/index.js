@@ -1,34 +1,33 @@
 require('dotenv').config();
-const cors = require('cors');
 const express = require('express');
-const session = require('express-session');
+const cors = require('cors');
 const http = require('http');
 const auth = require('./auth');
 const config = require('./config');
+const session = require('./redis-session');
 const apiRoutes = require('./routes/api');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
+
 app.use(cors());
-
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-  secret: ['veryimportantsecret', 'notsoimportantsecret', 'highlyprobablysecret'],
-}));
-
 app.use(express.static("public"));
+app.use(session(config.session_options));
 app.use("/api", apiRoutes(config));
 
 app.get('/hello', (req, res) => {
-  res.end("ok");
+  const text = req.session.hello;
+  if (!text) { req.session.hello = new Date().toLocaleString(); }
+  res.end(text);
 });
 
+// Convenience route for redirect
 app.get('/auth', (req, res) => {
   const url = auth.getAuthUrl(config);
   res.redirect(url);
 });
 
+// Test route for callback to here
 app.get('/callback', (req, res) => {
   const code = req.query.code;
   if (!code) {

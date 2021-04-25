@@ -8,6 +8,12 @@ const config = {
   token_uri: process.env.TOKEN_URI,
   auth_uri: process.env.AUTH_URI,
   info_uri: process.env.INFO_URI,
+  session_options: {
+    host: process.env.SESSION_HOST || undefined,
+    password: process.env.SESSION_HOST_PASSWORD || undefined,
+    secret: process.env.SESSION_SECRET,
+    ttl: process.env.SESSION_TTL || 2600,
+  }
 };
 
 module.exports = config;
