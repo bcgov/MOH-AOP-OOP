@@ -15,17 +15,6 @@ app.use(express.static("public"));
 app.use(session(config.session_options));
 app.use("/api", apiRoutes(config));
 
-// Session Test Route
-app.get('/time', (req, res) => {
-  let time = req.session.time;
-  if (time) {
-    return res.end(time);
-  }
-
-  time = new Date().toLocaleString();
-  req.session.time = time;
-  return res.end(time + " (NEW)");
-});
 
 app.get('/hello', (req, res) => {
   res.end();
@@ -37,21 +26,35 @@ app.get('/auth', (req, res) => {
   res.redirect(url);
 });
 
-// Test Only !! - enabled by TEST_CONFIG env
+// Test config - enabled by TEST_CONFIG env
 process.env.TEST_CONFIG === "enabled" &&
   app.get('/config', (req, res) => {
     res.json(config);
   });
 
-// Test route for callback to here
-app.get('/callback', (req, res) => {
-  const code = req.query.code;
-  if (!code) {
-    return res.json({ error: "code" });
-  }
-  const url = `/api/auth/${code}`;
-  res.redirect(url);
-});
+// Test route - enabled by TEST_CALLBACK
+process.env.TEST_CALLBACK === "enabled" &&
+  app.get('/callback', (req, res) => {
+    const code = req.query.code;
+    if (!code) {
+      return res.json({ error: "code" });
+    }
+    const url = `/api/auth/${code}`;
+    res.redirect(url);
+  });
+
+// Session Test Route
+process.env.TEST_SESSION === "enabled" &&
+  app.get('/session', (req, res) => {
+    let time = req.session.time;
+    if (time) {
+      return res.end(time);
+    }
+
+    time = new Date().toLocaleString();
+    req.session.time = time;
+    return res.end(time + " (NEW)");
+  });
 
 // Optional https server
 const SSL_PORT = process.env.SSL_PORT;
