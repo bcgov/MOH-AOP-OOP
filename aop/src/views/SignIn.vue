@@ -64,6 +64,7 @@ export default {
       })
       .catch((e) => {
         console.log("failed to retrieve bcsc url", e);
+        
       })
   },
   methods: {
