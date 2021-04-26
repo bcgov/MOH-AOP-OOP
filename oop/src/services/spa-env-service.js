@@ -33,7 +33,7 @@ const stringifiedEnvs = JSON.stringify(serverEnvs);
  */
 class SpaEnvService {
   
-  values = null;
+  values = {};
 
   loadEnvs() {
     const headers = {
@@ -45,6 +45,9 @@ class SpaEnvService {
     axiosPromise
       .then((response) => {
         this.values = response.data;
+      })
+      .catch(() => {
+        this.values = {};
       });
     return axiosPromise;
   }

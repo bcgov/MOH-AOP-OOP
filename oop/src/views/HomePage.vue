@@ -62,6 +62,7 @@ import {
   MODULE_NAME as formModule,
   SET_APPLICATION_UUID
 } from '../store/modules/form';
+import logService from '../services/log-service';
 
 export default {
   name: 'HomePage',
@@ -76,6 +77,9 @@ export default {
     }
   },
   created() {
+    const applicationUuid = uuidv4();
+    this.$store.dispatch(formModule + '/' + SET_APPLICATION_UUID, applicationUuid);
+
     // Load environment variables, and route to maintenance page.
     spaEnvService.loadEnvs()
       .then(() => {
@@ -85,9 +89,10 @@ export default {
           pageStateService.visitPage(toPath);
           this.$router.push(toPath);
         }
+      })
+      .catch(() => {
+        logService.logError({ message: 'Error getting values from spa-env-server' }, applicationUuid);
       });
-    const applicationUuid = uuidv4();
-    this.$store.dispatch(formModule + '/' + SET_APPLICATION_UUID, applicationUuid);
   },
   methods: {
     handleCloseConsentModal() {

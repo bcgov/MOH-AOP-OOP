@@ -29,6 +29,32 @@ class LogService {
       .then(() => {})
       .catch(() => {});
   }
+
+  logError(logBody, uuid) {
+    const headers = {
+      'Content-Type': 'application/json',
+      logsource: window.location.hostname,
+      timestamp: getBCTimestamp(),
+      program: 'oop',
+      severity: 'error',
+      referenceNumber: 'N/A',
+      applicationId: uuid,
+    };
+  
+    const options = {
+      headers: headers,
+      responseType: 'text'
+    };
+  
+    const body = {
+      body: logBody
+    };
+  
+    return axios.post(LOG_SERVICE_URL, body, options)
+      // Use below then for troubleshooting if needed
+      .then(() => {})
+      .catch(() => {});
+  }
 }
 
 export default new LogService();
