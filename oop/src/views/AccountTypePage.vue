@@ -81,11 +81,11 @@
                           aria-live="assertive">Dependent Personal Health Number is required.</div>
                     </div>
                   </div>
-
-                  <Button label='+ Add dependent'
-                          @click='addDependentField()'
-                          className='mb-3'/>
-
+                  <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
+                    <Button label='+ Add dependent'
+                            @click='addDependentField()'
+                            className='mb-3'/>
+                  </div>
                   <div class="text-danger"
                       v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
                       aria-live="assertive">Personal Health Numbers must be unique.</div>
@@ -187,6 +187,7 @@ const phnIsUniqueValidator = (phns) => {
 };
 
 const MIN_PHN_DEPENDENT_FIELDS = 5;
+const MAX_PHN_DEPENDENT_FIELDS = 9;
 
 export default {
   name: 'AccountTypePage',
@@ -320,6 +321,9 @@ export default {
         }
       }
       return phns;
+    },
+    getMaxPHNDependentFields() {
+      return MAX_PHN_DEPENDENT_FIELDS;
     }
   },
   watch: {
