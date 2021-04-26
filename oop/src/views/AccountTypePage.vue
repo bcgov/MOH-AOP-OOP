@@ -362,7 +362,6 @@ export default {
   },
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {
-    debugger;
     pageStateService.setPageIncomplete(from.path);
     if (to.path === routes.HOME_PAGE.path) {
       this.$store.dispatch(formModule + '/' + RESET_FORM);
@@ -370,6 +369,7 @@ export default {
     } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
       next();
     } else {
+      // Navigate to self.
       const topScrollPosition = getTopScrollPosition();
       next({
         path: routes.ACCOUNT_TYPE_PAGE.path,
