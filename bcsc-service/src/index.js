@@ -37,6 +37,11 @@ app.get('/auth', (req, res) => {
   res.redirect(url);
 });
 
+// Test Only !! - delete
+app.get('/config', (req, res) => {
+  res.json(config);
+});
+
 // Test route for callback to here
 app.get('/callback', (req, res) => {
   const code = req.query.code;
