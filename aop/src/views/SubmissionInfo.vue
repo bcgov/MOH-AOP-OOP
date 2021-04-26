@@ -744,6 +744,7 @@ import {
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
+import axios from "axios";
 
 export default {
   name: "SubmissionInfo",
@@ -777,6 +778,7 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
+      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca",
     };
   },
   validations() {
@@ -977,8 +979,30 @@ export default {
     }
   },
   created() {
-    this.firstName = "John";
-    this.lastName = "Smith";
+    console.log("user info reqested", this.$route.query.code)
+    if(this.$route.query.code){
+      const code = this.$route.query.code;
+      const state = this.$route.query.state;
+      axios.get(this.BCSC_SERVICE_URI + `/api/auth/${code}`)
+        .then((res) => {
+          console.log("code get success");
+          this.firstName = res.data.given_name;
+          console.log("firstName:", this.firstName);
+          this.lastName = res.data.family_name;
+          console.log("lastName:", this.lastName);
+        })
+        .catch((e) => {
+          console.log("error retrieving ID:" + e);
+          const path = routes.SIGN_IN.path;
+          this.$router.push(path);
+          scrollTo(0);
+        })
+    } else {
+      const path = routes.SIGN_IN.path;
+      this.$router.push(path);
+      scrollTo(0);
+    }
+
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
