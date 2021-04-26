@@ -37,6 +37,7 @@ import Footer from "../components/Footer";
 import { routes, stepRoutes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
+import axios from "axios";
 
 export default {
   name: "SignIn",
@@ -50,13 +51,24 @@ export default {
   data: () => {
     return {
       stepRoutes,
-      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca/auth"
+      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca/api/url",
+      bcscRedirect: "",
     }
+  },
+  created() {
+    console.log("getting url" )
+    axios.get(this.BCSC_SERVICE_URI)
+      .then((res) => {
+        this.bcscRedirect=res.data.url;
+        console.log("url retrieved:", this.bcscRedirect)
+      })
+      .catch((e) => {
+        console.log("failed to retrieve bcsc url", e);
+      })
   },
   methods: {
     nextPage() {
-      const path = this.BCSC_SERVICE_URI;
-      window.location.href = path;
+      window.location.href = this.bcscRedirect;
     }
   }
 };
