@@ -88,7 +88,16 @@
                   </div>
                   <div class="text-danger"
                       v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
-                      aria-live="assertive">Personal Health Numbers must be unique.</div>
+                      aria-live="assertive">Personal Health Numbers must be unique.
+                  </div>
+                  <div class="text-danger"
+                      v-if="isServerValidationErrorShown"
+                      aria-live="assertive">At least one of the Personal Health Numbers does not match our records.
+                  </div>
+                  <div class="text-danger"
+                      v-if="isSystemUnavailable"
+                      aria-live="assertive">Unable to continue, system unavailable. Please try again later.
+                  </div>
                 </div>
             </div>
           </div>
@@ -206,6 +215,8 @@ export default {
       dependentPhns: [],
       isPageLoaded: false,
       isLoading: false,
+      isServerValidationErrorShown: false,
+      isSystemUnavailable: false,
     }
   },
   created() {
@@ -258,6 +269,9 @@ export default {
   },
   methods: {
     validateFields() {
+      this.isServerValidationErrorShown = false;
+      this.isSystemUnavailable = false;
+
       this.$v.$touch()
       if (this.$v.$invalid) {
         scrollToError();
@@ -272,18 +286,36 @@ export default {
       const dependentPhns = this.getDependentPhns();
 
       if (this.accountType === 'AH') {
-        apiService.validateAhDep(token, applicationUuid, phn, dependentPhns)
-          .then(() => {
-            // handle success.
+        apiService.validateDep(token, applicationUuid, phn, dependentPhns)
+          .then((response) => {
+            console.log(response);
+            // Handle HTTP success.
+            const returnCode = response.data.returnCode;
+            console.log(returnCode);
+            
+            this.isLoading = false;
+
+            switch (returnCode) {
+              case '0': // Validation success.
+                this.handleValidationSuccess();
+                break;
+              case '1': // Dependent does not match the reccords
+              case '2': // PHN not found
+                this.isServerValidationErrorShown = true;
+                scrollToError();
+                break;
+              case '3': // System unavailable.
+                this.isSystemUnavailable = true;
+                scrollToError();
+                break;
+            }
           })
           .catch(() => {
-            // handle error.
-          })
-          .then(() => {
-            // always executed.
+            // Handle HTTP error.
+            this.isLoading = false;
+            this.isSystemUnavailable = true;
+            scrollToError();
           });
-        this.isLoading = false;
-        this.handleValidationSuccess();
       } else if (this.accountType === 'DEP') {
         this.isLoading = false;
         this.handleValidationSuccess();
