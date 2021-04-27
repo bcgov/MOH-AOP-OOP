@@ -291,7 +291,6 @@ export default {
             console.log(response);
             // Handle HTTP success.
             const returnCode = response.data.returnCode;
-            console.log(returnCode);
             
             this.isLoading = false;
 
