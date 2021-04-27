@@ -734,6 +734,8 @@ import {
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION,
   SET_LOADING,
+  SET_BCSC_SERVICE_URI,
+  SET_SECRET,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
@@ -748,6 +750,7 @@ import {
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
+import spaEnvService from "../services/spa-env-service";
 
 export default {
   name: "SubmissionInfo",
