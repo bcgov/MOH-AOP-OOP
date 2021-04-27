@@ -5,11 +5,8 @@ const router = express.Router();
 
 module.exports = function (config) {
 
-  // Test config - enabled by TEST_CONFIG env
-  process.env.TEST_CONFIG === "enabled" &&
-    router.get('/config', (req, res) => {
-      res.json(config);
-    });
+  process.env.TEST_PAGES === "enabled" &&
+    router.use(express.static("public"));
 
   // Test route - enabled by TEST_CALLBACK
   process.env.TEST_CALLBACK === "enabled" &&
@@ -33,6 +30,12 @@ module.exports = function (config) {
       time = new Date().toLocaleString();
       req.session.time = time;
       return res.end(time + " (NEW)");
+    });
+
+  // Test config - (danger!!  Shows secrets)
+  process.env.TEST_CONFIG === "enabled" &&
+    router.get('/config', (req, res) => {
+      res.json(config);
     });
 
 

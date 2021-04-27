@@ -17,7 +17,7 @@ const getToken = function (config, code) {
 
   return axios.post(config.token_uri, data)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       return res.data.access_token;
     })
     .catch(err => {
