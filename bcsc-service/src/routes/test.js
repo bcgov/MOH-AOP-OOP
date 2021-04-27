@@ -8,8 +8,15 @@ module.exports = function (config) {
   process.env.TEST_PAGES === "enabled" &&
     router.use(express.static("public"));
 
-  // Test route - enabled by TEST_CALLBACK
-  process.env.TEST_CALLBACK === "enabled" &&
+  // Convenience test route for get URL and Redirect combined
+  process.env.TEST_PAGES === "enabled" &&
+    router.get('/auth', (req, res) => {
+      const url = auth.getAuthUrl(config);
+      res.redirect(url);
+    });
+
+  // Test route - enabled by TEST_PAGES
+  process.env.TEST_PAGES === "enabled" &&
     router.get('/callback', (req, res) => {
       const code = req.query.code;
       if (!code) {

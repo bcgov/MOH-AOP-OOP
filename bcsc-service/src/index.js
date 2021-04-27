@@ -20,12 +20,6 @@ app.get('/hello', (req, res) => {
   res.end();
 });
 
-// Convenience route for redirect
-app.get('/auth', (req, res) => {
-  const url = auth.getAuthUrl(config);
-  res.redirect(url);
-});
-
 // Optional https server
 const SSL_PORT = process.env.SSL_PORT;
 if (SSL_PORT) {
