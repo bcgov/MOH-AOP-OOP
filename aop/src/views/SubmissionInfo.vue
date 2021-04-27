@@ -2,7 +2,8 @@
   <div>
     <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
     <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
-    <main>
+    <Loader v-if="$store.state.loading" />
+    <main v-else>
       <form class="container py-5 px-2">
         <h1>Select a form</h1>
         <br />
@@ -706,6 +707,7 @@
 <script>
 import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
+import Loader from "../components/Loader";
 import ContinueBar from "../components/ContinueBar";
 import Input from "../components/Input";
 import MaskedInput from "vue-text-mask";
@@ -731,6 +733,7 @@ import {
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION,
+  SET_LOADING,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
@@ -754,6 +757,7 @@ export default {
     ContinueBar,
     FileUploader,
     Input,
+    Loader,
     MaskedInput,
     Footer
   },
@@ -778,7 +782,6 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
-      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca",
     };
   },
   validations() {
@@ -978,24 +981,39 @@ export default {
       };
     }
   },
-  created() {
-    console.log("user info reqested", this.$route.query.code)
+  async created() {
+    this.$store.dispatch(SET_LOADING, true);
+    await spaEnvService.loadEnvs()
+      .then(() => {
+        if (spaEnvService.values) {
+          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
+          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
+          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
+            const path = routes.MAINTENANCE_PAGE.path;
+            this.$router.push(path);
+          }
+        } else {
+          const path = routes.MAINTENANCE_PAGE.path;
+          this.$router.push(path);
+        }
+      });
+
+    const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
     if(this.$route.query.code){
       const code = this.$route.query.code;
       const state = this.$route.query.state;
-      axios.get(this.BCSC_SERVICE_URI + `/api/auth/${code}`)
+      axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
         .then((res) => {
-          console.log("code get success");
           this.firstName = res.data.given_name;
-          console.log("firstName:", this.firstName);
           this.lastName = res.data.family_name;
-          console.log("lastName:", this.lastName);
         })
         .catch((e) => {
-          console.log("error retrieving ID:" + e);
           const path = routes.SIGN_IN.path;
           this.$router.push(path);
           scrollTo(0);
+        })
+        .finally(()=> {
+          this.$store.dispatch(SET_LOADING, false);
         })
     } else {
       const path = routes.SIGN_IN.path;

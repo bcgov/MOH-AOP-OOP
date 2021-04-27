@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+export const SET_LOADING = "setLoading";
 export const SET_SHOW_SIGN_OUT_MODAL = "setShowSignOutModal";
 export const SET_SHOW_MOBILE_PROGRESS = "setShowMobileProgress";
 export const RESET_FORM = "resetForm";
@@ -24,11 +25,13 @@ export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
 export const SET_SECRET = "setSecret";
+export const SET_BCSC_SERVICE_URI = "setBCSC_SERVICE_URI";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    loading: true,
     showSignOutModal: false,
     showMobileProgress: false,
     uploadType: '',
@@ -50,8 +53,12 @@ export default new Vuex.Store({
     uploadedCredentials: [],
     apiResponse: '',
     secret: '',
+    BCSC_SERVICE_URI: ''
   },
   mutations: {
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
     setShowSignOutModal(state, payload) {
       state.showSignOutModal = payload;
     },
@@ -115,8 +122,14 @@ export default new Vuex.Store({
     setSecret(state, payload) {
       state.secret = payload;
     },
+    setBCSC_SERVICE_URI(state, payload) {
+      state.BCSC_SERVICE_URI = payload;
+    },
   },
   actions: {
+    setLoading({ commit }, loading) {
+      commit(SET_LOADING, loading);
+    },
     showSignOutModal({ commit }) {
       commit(SET_SHOW_SIGN_OUT_MODAL, true);
     },
@@ -220,6 +233,9 @@ export default new Vuex.Store({
     },
     setSecret({ commit }, secret) {
       commit(SET_SECRET, secret);
+    },
+    setBCSC_SERVICE_URI({ commit }, uri) {
+      commit(SET_BCSC_SERVICE_URI, uri);
     },
   },
   getters: {}

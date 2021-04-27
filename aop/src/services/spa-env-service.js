@@ -12,7 +12,8 @@ const serverEnvs = {
   SPA_ENV_AOP_MAINTENANCE_START: '',
   SPA_ENV_AOP_MAINTENANCE_END: '',
   SPA_ENV_AOP_MAINTENANCE_MESSAGE: '',
-  SPA_ENV_AOP_SECRET: ''
+  SPA_ENV_AOP_SECRET: '',
+  SPA_ENV_AOP_URI: '',
 };
 
 // Used in HTTP request

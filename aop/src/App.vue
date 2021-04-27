@@ -7,29 +7,12 @@
 <script>
 import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
 import 'common-lib-vue/dist/common-lib-vue.css';
-import spaEnvService from './services/spa-env-service';
-import { routes } from "./router/routes";
-import { SET_SECRET } from './store';
 
 export default {
   name: "App",
   created() {
     const { version: projectVersion } = require('../package.json');
     console.log('Canonical Version:', projectVersion);
-
-    spaEnvService.loadEnvs()
-      .then(() => {
-        if (spaEnvService.values) {
-          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
-          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
-            const path = routes.MAINTENANCE_PAGE.path;
-            this.$router.push(path);
-          }
-        } else {
-          const path = routes.MAINTENANCE_PAGE.path;
-          this.$router.push(path);
-        }
-      });
   }
 };
 </script>

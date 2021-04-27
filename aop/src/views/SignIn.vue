@@ -17,7 +17,9 @@
           Sign in with a BC Services Card enabled Diagnostic Facilities Services
           user ID
         </h3>
+        <Loader v-if="$store.state.loading" />
         <Button
+          v-else
           label="Log in with a BC Services Card"
           styling="bcgov-normal-blue btn"
           v-on:button-click="nextPage"
@@ -32,18 +34,21 @@
 <script>
 import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
+import Loader from "../components/Loader";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
-import { routes, stepRoutes } from "../router/routes";
-import { scrollTo } from "../helpers/scroll";
+import { stepRoutes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
+import spaEnvService from "../services/spa-env-service";
+import { SET_BCSC_SERVICE_URI, SET_LOADING, SET_SECRET } from '../store';
 
 export default {
   name: "SignIn",
   components: {
     Header,
     ProgressBar,
+    Loader,
     Button,
     Footer
   },
@@ -51,20 +56,36 @@ export default {
   data: () => {
     return {
       stepRoutes,
-      BCSC_SERVICE_URI: "https://bcsc-service-a3c641-dev.apps.silver.devops.gov.bc.ca/api/url",
-      bcscRedirect: "",
+      bcscRedirect: ""
     }
   },
-  created() {
-    console.log("getting url" )
-    axios.get(this.BCSC_SERVICE_URI)
+  async created() {
+    await spaEnvService.loadEnvs()
+      .then(() => {
+        if (spaEnvService.values) {
+          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
+          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
+          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
+            const path = routes.MAINTENANCE_PAGE.path;
+            this.$router.push(path);
+          }
+        } else {
+          const path = routes.MAINTENANCE_PAGE.path;
+          this.$router.push(path);
+        }
+      })
+      .finally(() => {
+        this.$store.dispatch(SET_LOADING, false);
+      })
+
+    const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI + '/api/url';
+
+    axios.get(BCSC_SERVICE_URI)
       .then((res) => {
-        this.bcscRedirect=res.data.url;
-        console.log("url retrieved:", this.bcscRedirect)
+        this.bcscRedirect = res.data.url;
       })
       .catch((e) => {
         console.log("failed to retrieve bcsc url", e);
-        
       })
   },
   methods: {
