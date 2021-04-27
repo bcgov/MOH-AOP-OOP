@@ -5,14 +5,18 @@ const router = express.Router();
 
 module.exports = function (config) {
 
-  // Test config - enabled by TEST_CONFIG env
-  process.env.TEST_CONFIG === "enabled" &&
-    router.get('/config', (req, res) => {
-      res.json(config);
+  process.env.TEST_PAGES === "enabled" &&
+    router.use(express.static("public"));
+
+  // Convenience test route for get URL and Redirect combined
+  process.env.TEST_PAGES === "enabled" &&
+    router.get('/auth', (req, res) => {
+      const url = auth.getAuthUrl(config);
+      res.redirect(url);
     });
 
-  // Test route - enabled by TEST_CALLBACK
-  process.env.TEST_CALLBACK === "enabled" &&
+  // Test route - enabled by TEST_PAGES
+  process.env.TEST_PAGES === "enabled" &&
     router.get('/callback', (req, res) => {
       const code = req.query.code;
       if (!code) {
@@ -35,6 +39,11 @@ module.exports = function (config) {
       return res.end(time + " (NEW)");
     });
 
+  // Test config - (danger!!  Shows secrets)
+  process.env.TEST_CONFIG === "enabled" &&
+    router.get('/config', (req, res) => {
+      res.json(config);
+    });
 
   return router;
 };

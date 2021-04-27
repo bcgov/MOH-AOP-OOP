@@ -9,7 +9,7 @@ $(function () {
 const logout = function () {
   $.post("/api/logout")
     .then(res => {
-      window.location.replace("/login");
+      window.location.replace("/test/login");
     });
 };
 
@@ -17,7 +17,7 @@ const loadInfo = function () {
   $.get("/api/userinfo")
     .then(res => {
       if (res.error) {
-        return window.location.replace("/login");
+        return window.location.replace("/test/login");
       }
       console.log(res.display_name);
       console.log(res.birthdate);

@@ -12,19 +12,12 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
-app.use(express.static("public"));
 app.use(session(config.session_options));
 app.use("/api", apiRoutes(config));
 app.use("/test", testRoutes(config));
 
 app.get('/hello', (req, res) => {
   res.end();
-});
-
-// Convenience route for redirect
-app.get('/auth', (req, res) => {
-  const url = auth.getAuthUrl(config);
-  res.redirect(url);
 });
 
 // Optional https server
