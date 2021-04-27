@@ -81,14 +81,23 @@
                           aria-live="assertive">Dependent Personal Health Number is required.</div>
                     </div>
                   </div>
-
-                  <Button label='+ Add dependent'
-                          @click='addDependentField()'
-                          className='mb-3'/>
-
+                  <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
+                    <Button label='+ Add dependent'
+                            @click='addDependentField()'
+                            className='mb-3'/>
+                  </div>
                   <div class="text-danger"
                       v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
-                      aria-live="assertive">Personal Health Numbers must be unique.</div>
+                      aria-live="assertive">Personal Health Numbers must be unique.
+                  </div>
+                  <div class="text-danger"
+                      v-if="isServerValidationErrorShown"
+                      aria-live="assertive">At least one of the Personal Health Numbers does not match our records.
+                  </div>
+                  <div class="text-danger"
+                      v-if="isSystemUnavailable"
+                      aria-live="assertive">Unable to continue, system unavailable. Please try again later.
+                  </div>
                 </div>
             </div>
           </div>
@@ -187,6 +196,7 @@ const phnIsUniqueValidator = (phns) => {
 };
 
 const MIN_PHN_DEPENDENT_FIELDS = 5;
+const MAX_PHN_DEPENDENT_FIELDS = 9;
 
 export default {
   name: 'AccountTypePage',
@@ -205,6 +215,8 @@ export default {
       dependentPhns: [],
       isPageLoaded: false,
       isLoading: false,
+      isServerValidationErrorShown: false,
+      isSystemUnavailable: false,
     }
   },
   created() {
@@ -257,6 +269,9 @@ export default {
   },
   methods: {
     validateFields() {
+      this.isServerValidationErrorShown = false;
+      this.isSystemUnavailable = false;
+
       this.$v.$touch()
       if (this.$v.$invalid) {
         scrollToError();
@@ -269,21 +284,37 @@ export default {
       const applicationUuid = this.$store.state.form.applicationUuid;
       const phn = this.$store.state.form.phn;
       const dependentPhns = this.getDependentPhns();
+      
+      if (this.accountType === 'AH' && (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N')) {
+        apiService.validateDep(token, applicationUuid, phn, dependentPhns)
+          .then((response) => {
+            // Handle HTTP success.
+            const returnCode = response.data.returnCode;
+            
+            this.isLoading = false;
 
-      if (this.accountType === 'AH') {
-        apiService.validateAhDep(token, applicationUuid, phn, dependentPhns)
-          .then(() => {
-            // handle success.
+            switch (returnCode) {
+              case '0': // Validation success.
+                this.handleValidationSuccess();
+                break;
+              case '1': // Dependent does not match the reccords
+              case '2': // PHN not found
+                this.isServerValidationErrorShown = true;
+                scrollToError();
+                break;
+              case '3': // System unavailable.
+                this.isSystemUnavailable = true;
+                scrollToError();
+                break;
+            }
           })
           .catch(() => {
-            // handle error.
-          })
-          .then(() => {
-            // always executed.
+            // Handle HTTP error.
+            this.isLoading = false;
+            this.isSystemUnavailable = true;
+            scrollToError();
           });
-        this.isLoading = false;
-        this.handleValidationSuccess();
-      } else if (this.accountType === 'DEP') {
+      } else {
         this.isLoading = false;
         this.handleValidationSuccess();
       }
@@ -320,6 +351,18 @@ export default {
         }
       }
       return phns;
+    },
+    getMaxPHNDependentFields() {
+      return MAX_PHN_DEPENDENT_FIELDS;
+    },
+    resetDependentFields(){
+      const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
+      for (let i=0; i<numberOfPhns; i++) {
+        this.dependentPhns[i] = {
+          value: null,
+          isValid: true,
+        }
+      }
     }
   },
   watch: {
@@ -337,20 +380,14 @@ export default {
       }
     },
     personMoving(newValue) {
-      if (this.isPageLoaded) {
-        if (newValue === 'AH_ONLY') {
-          this.isAllDependentsMoving = null;
-        }
-        if (newValue === 'AH_DEP' || newValue === 'DEP_ONLY') {
-          setTimeout(() => {
-            const el = document.querySelector('.person-moving');
-            scrollToElement(el, true);
-          }, 0);
-        }
+      if (this.isPageLoaded && newValue) {
+        this.isAllDependentsMoving = null;
+        this.resetDependentFields();
       }
     },
     isAllDependentsMoving(newValue) {
       if (this.isPageLoaded) {
+        this.resetDependentFields();
         if (newValue === 'N') {
           setTimeout(() => {
             const el = document.querySelector('.is-all-dependents-moving');
@@ -358,7 +395,7 @@ export default {
           }, 0);
         }
       }
-    }
+    },
   },
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {

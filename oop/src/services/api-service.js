@@ -3,7 +3,7 @@ import { formatISODate } from '../helpers/date';
 
 const BASE_API_PATH = '/oop/api/';
 const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
-const VALIDATE_AH_DEP_URL = BASE_API_PATH + 'oopIntegration/validateAhDep';
+const VALIDATE_DEP_URL = BASE_API_PATH + 'oopIntegration/validateDep';
 const SUBMIT_APPLICATION_URL = BASE_API_PATH + 'oopIntegration/submission';
 
 class ApiService {
@@ -19,9 +19,9 @@ class ApiService {
     });
   }
 
-  validateAhDep(token, applicationUuid, phn, dependentPHNs) {
+  validateDep(token, applicationUuid, phn, dependentPHNs) {
     const headers = this.getHeaders(token);
-    return axios.post(VALIDATE_AH_DEP_URL, {
+    return axios.post(VALIDATE_DEP_URL, {
       applicationUuid,
       phn,
       dependentPHNs,
