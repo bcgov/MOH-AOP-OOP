@@ -285,10 +285,10 @@ export default {
       const phn = this.$store.state.form.phn;
       const dependentPhns = this.getDependentPhns();
 
-      if (this.accountType === 'AH') {
+      console.log(dependentPhns);
+      if (this.accountType === 'AH' && (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N')) {
         apiService.validateDep(token, applicationUuid, phn, dependentPhns)
           .then((response) => {
-            console.log(response);
             // Handle HTTP success.
             const returnCode = response.data.returnCode;
             
@@ -315,7 +315,7 @@ export default {
             this.isSystemUnavailable = true;
             scrollToError();
           });
-      } else if (this.accountType === 'DEP') {
+      } else {
         this.isLoading = false;
         this.handleValidationSuccess();
       }
@@ -355,6 +355,15 @@ export default {
     },
     getMaxPHNDependentFields() {
       return MAX_PHN_DEPENDENT_FIELDS;
+    },
+    resetDependentFields(){
+      const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
+      for (let i=0; i<numberOfPhns; i++) {
+        this.dependentPhns[i] = {
+          value: null,
+          isValid: true,
+        }
+      }
     }
   },
   watch: {
@@ -372,20 +381,14 @@ export default {
       }
     },
     personMoving(newValue) {
-      if (this.isPageLoaded) {
-        if (newValue === 'AH_ONLY') {
-          this.isAllDependentsMoving = null;
-        }
-        if (newValue === 'AH_DEP' || newValue === 'DEP_ONLY') {
-          setTimeout(() => {
-            const el = document.querySelector('.person-moving');
-            scrollToElement(el, true);
-          }, 0);
-        }
+      if (this.isPageLoaded && newValue) {
+        this.isAllDependentsMoving = null;
+        this.resetDependentFields();
       }
     },
     isAllDependentsMoving(newValue) {
       if (this.isPageLoaded) {
+        this.resetDependentFields();
         if (newValue === 'N') {
           setTimeout(() => {
             const el = document.querySelector('.is-all-dependents-moving');
@@ -393,7 +396,7 @@ export default {
           }, 0);
         }
       }
-    }
+    },
   },
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {
