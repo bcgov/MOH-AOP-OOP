@@ -440,8 +440,12 @@ export default {
     } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
       next();
     } else {
+      // Navigate to self.
       const topScrollPosition = getTopScrollPosition();
-      next(false);
+      next({
+        path: routes.MOVE_INFO_PAGE.path,
+        replace: true
+      });
       setTimeout(() => {
         scrollTo(topScrollPosition);
       }, 0);

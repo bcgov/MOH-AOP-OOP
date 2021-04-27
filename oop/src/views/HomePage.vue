@@ -112,8 +112,12 @@ export default {
     if (pageStateService.isPageComplete(to.path)) {
       next();
     } else {
+      // Navigate to self.
       const topScrollPosition = getTopScrollPosition();
-      next(false);
+      next({
+        path: routes.HOME_PAGE.path,
+        replace: true
+      });
       setTimeout(() => {
         scrollTo(topScrollPosition);
       }, 0);
