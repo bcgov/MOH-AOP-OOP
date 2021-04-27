@@ -45,6 +45,5 @@ module.exports = function (config) {
       res.json(config);
     });
 
-
   return router;
 };
