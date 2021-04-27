@@ -284,8 +284,7 @@ export default {
       const applicationUuid = this.$store.state.form.applicationUuid;
       const phn = this.$store.state.form.phn;
       const dependentPhns = this.getDependentPhns();
-
-      console.log(dependentPhns);
+      
       if (this.accountType === 'AH' && (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N')) {
         apiService.validateDep(token, applicationUuid, phn, dependentPhns)
           .then((response) => {
