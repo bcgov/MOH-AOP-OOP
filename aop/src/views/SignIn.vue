@@ -41,8 +41,7 @@ import { stepRoutes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
-import { SET_BCSC_SERVICE_URI, SET_LAST_NAME, SET_LOADING, SET_SECRET } from '../store';
-import { SET_FIRST_NAME } from '../../../oop-backup/src/store/modules/enrolment';
+import { SET_BCSC_SERVICE_URI, SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from '../store';
 
 export default {
   name: "SignIn",
@@ -93,7 +92,6 @@ export default {
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
-          const state = this.$route.query.state;
           axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
             .then((res) => {
               this.$store.dispatch(SET_FIRST_NAME, res.data.given_name);
@@ -119,7 +117,7 @@ export default {
   },
   methods: {
     nextPage() {
-      //BCSC: send user for authentication when they click the button
+      // BCSC: send user for authentication when they click the button
       window.location.href = this.bcscRedirect;
     }
   }
