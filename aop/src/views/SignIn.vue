@@ -56,12 +56,15 @@ export default {
   data: () => {
     return {
       stepRoutes,
-      bcscRedirect: ""
+      bcscRedirect: "",
+      given_name: "",
+      family_name: "",
     }
   },
   async created() {
     await spaEnvService.loadEnvs()
       .then(() => {
+        //START load env variables from spa-env-server
         if (spaEnvService.values) {
           this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
           this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
@@ -73,23 +76,53 @@ export default {
           const path = routes.MAINTENANCE_PAGE.path;
           this.$router.push(path);
         }
+        //END load env variables from spa-env-server
+      })
+      .then(() => {
+        //START Handle BCSC
+        const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
+        if(!this.$route.query.code){
+          //STAGE1: get the bcsc url and show the user the signIn page
+          axios.get(BCSC_SERVICE_URI + '/api/url')
+            .then((res) => {
+              this.bcscRedirect = res.data.url;
+            })
+            .catch((e) => {
+              console.log("failed to retrieve bcsc url", e);
+            })
+        } else {
+          //STAGE2: user is authenticated get their info and load submissionInfo
+          const code = this.$route.query.code;
+          const state = this.$route.query.state;
+          axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
+            .then((res) => {
+              //********************* pass to submissionInfo ********************************* */
+              this.firstName = res.data.given_name;
+              this.lastName = res.data.family_name;
+              //********************* pass to submissionInfo ********************************* */
+              const path = routes.SUBMISSION_INFO.path;
+              this.$router.push(path);
+              scrollTo(0);
+            })
+            .catch((e) => {
+              axios.get(BCSC_SERVICE_URI + '/api/url')
+                .then((res) => {
+                  this.bcscRedirect = res.data.url;
+                })
+                .catch((e) => {
+                  console.log("failed to retrieve bcsc url", e);
+                })
+            })
+        }
+        //END Handle BCSC
       })
       .finally(() => {
         this.$store.dispatch(SET_LOADING, false);
       })
-
-    const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI + '/api/url';
-
-    axios.get(BCSC_SERVICE_URI)
-      .then((res) => {
-        this.bcscRedirect = res.data.url;
-      })
-      .catch((e) => {
-        console.log("failed to retrieve bcsc url", e);
-      })
   },
   methods: {
     nextPage() {
+      //BCSC: send user for authentication when they click the button
       window.location.href = this.bcscRedirect;
     }
   }

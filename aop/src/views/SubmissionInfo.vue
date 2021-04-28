@@ -985,44 +985,6 @@ export default {
     }
   },
   async created() {
-    this.$store.dispatch(SET_LOADING, true);
-    await spaEnvService.loadEnvs()
-      .then(() => {
-        if (spaEnvService.values) {
-          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
-          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
-          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
-            const path = routes.MAINTENANCE_PAGE.path;
-            this.$router.push(path);
-          }
-        } else {
-          const path = routes.MAINTENANCE_PAGE.path;
-          this.$router.push(path);
-        }
-      });
-
-    const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
-    if(this.$route.query.code){
-      const code = this.$route.query.code;
-      const state = this.$route.query.state;
-      axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
-        .then((res) => {
-          this.firstName = res.data.given_name;
-          this.lastName = res.data.family_name;
-        })
-        .catch((e) => {
-          const path = routes.SIGN_IN.path;
-          this.$router.push(path);
-          scrollTo(0);
-        })
-        .finally(()=> {
-          this.$store.dispatch(SET_LOADING, false);
-        })
-    } else {
-      const path = routes.SIGN_IN.path;
-      this.$router.push(path);
-      scrollTo(0);
-    }
 
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
