@@ -61,8 +61,8 @@ export default {
       family_name: "",
     }
   },
-  created() {
-    spaEnvService.loadEnvs()
+  async created() {
+    await spaEnvService.loadEnvs()
       .then(() => {
         // load env variables from spa-env-server
         if (spaEnvService.values) {
