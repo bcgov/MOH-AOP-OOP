@@ -85,6 +85,7 @@ export default {
           axios.get(BCSC_SERVICE_URI + '/api/url')
             .then((res) => {
               this.bcscRedirect = res.data.url;
+              console.log("bcscRedirect=", this.bcscRedirect);
             })
             .catch((e) => {
               console.log("failed to retrieve bcsc url", e);
@@ -92,6 +93,7 @@ export default {
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
+          console.log("code=", code);
           axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
             .then((res) => {
               this.$store.dispatch(SET_FIRST_NAME, res.data.given_name);
@@ -101,6 +103,7 @@ export default {
               scrollTo(0);
             })
             .catch((e) => {
+              console.log("code load failure, loading sign in")
               axios.get(BCSC_SERVICE_URI + '/api/url')
                 .then((res) => {
                   this.bcscRedirect = res.data.url;
