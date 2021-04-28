@@ -716,8 +716,6 @@ import Footer from "../components/Footer";
 import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
 import { routes, stepRoutes } from "../router/routes";
 import {
-  SET_FIRST_NAME,
-  SET_LAST_NAME,
   SET_EMAIL_ADDRESS,
   SET_PHONE_NUMBER,
   SET_PHONE_EXTENSION,
@@ -733,9 +731,6 @@ import {
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION,
-  SET_LOADING,
-  SET_BCSC_SERVICE_URI,
-  SET_SECRET,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
@@ -749,8 +744,7 @@ import {
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
-import axios from "axios";
-import spaEnvService from "../services/spa-env-service";
+
 
 export default {
   name: "SubmissionInfo",
@@ -986,7 +980,7 @@ export default {
   },
   created() {
     this.firstName = this.$store.state.firstName;
-    this.lastName = this.$store.state.firstName;
+    this.lastName = this.$store.state.lastName;
     if (!this.firstName || !this.lastName) {
       const path = routes.SIGN_IN.path;
       this.$router.push(path);
