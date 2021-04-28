@@ -984,8 +984,14 @@ export default {
       };
     }
   },
-  async created() {
-
+  created() {
+    this.firstName = this.$store.state.firstName;
+    this.lastName = this.$store.state.firstName;
+    if (!this.firstName || !this.lastName) {
+      const path = routes.SIGN_IN.path;
+      this.$router.push(path);
+      scrollTo(0);
+    }
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
@@ -1016,8 +1022,6 @@ export default {
 
       this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
       this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
-      this.$store.dispatch(SET_FIRST_NAME, this.firstName);
-      this.$store.dispatch(SET_LAST_NAME, this.lastName);
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
       this.$store.dispatch(SET_PHONE_EXTENSION, this.phoneExtension);

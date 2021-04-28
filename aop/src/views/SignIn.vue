@@ -41,7 +41,8 @@ import { stepRoutes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
-import { SET_BCSC_SERVICE_URI, SET_LOADING, SET_SECRET } from '../store';
+import { SET_BCSC_SERVICE_URI, SET_LAST_NAME, SET_LOADING, SET_SECRET } from '../store';
+import { SET_FIRST_NAME } from '../../../oop-backup/src/store/modules/enrolment';
 
 export default {
   name: "SignIn",
@@ -61,13 +62,13 @@ export default {
       family_name: "",
     }
   },
-  async created() {
-    await spaEnvService.loadEnvs()
+  created() {
+    spaEnvService.loadEnvs()
       .then(() => {
-        //START load env variables from spa-env-server
+        // load env variables from spa-env-server
         if (spaEnvService.values) {
-          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
-          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
+          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AUTH_SERVICE_URL);
+          this.$store.dispatch(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
           if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
             const path = routes.MAINTENANCE_PAGE.path;
             this.$router.push(path);
@@ -76,13 +77,12 @@ export default {
           const path = routes.MAINTENANCE_PAGE.path;
           this.$router.push(path);
         }
-        //END load env variables from spa-env-server
       })
       .then(() => {
-        //START Handle BCSC
+        // Handle BCSC
         const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
         if(!this.$route.query.code){
-          //STAGE1: get the bcsc url and show the user the signIn page
+          // STAGE 1: get the bcsc url and show the user the signIn page
           axios.get(BCSC_SERVICE_URI + '/api/url')
             .then((res) => {
               this.bcscRedirect = res.data.url;
@@ -91,15 +91,13 @@ export default {
               console.log("failed to retrieve bcsc url", e);
             })
         } else {
-          //STAGE2: user is authenticated get their info and load submissionInfo
+          // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
           const state = this.$route.query.state;
           axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
             .then((res) => {
-              //********************* pass to submissionInfo ********************************* */
-              this.firstName = res.data.given_name;
-              this.lastName = res.data.family_name;
-              //********************* pass to submissionInfo ********************************* */
+              this.$store.dispatch(SET_FIRST_NAME, res.data.given_name);
+              this.$store.dispatch(SET_LAST_NAME, res.data.family_name);
               const path = routes.SUBMISSION_INFO.path;
               this.$router.push(path);
               scrollTo(0);
@@ -114,7 +112,6 @@ export default {
                 })
             })
         }
-        //END Handle BCSC
       })
       .finally(() => {
         this.$store.dispatch(SET_LOADING, false);

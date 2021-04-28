@@ -24,7 +24,7 @@ export const SET_COMMENTS = "setComments";
 export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
-export const SET_SECRET = "setSecret";
+export const SET_SALT = "setSalt";
 export const SET_BCSC_SERVICE_URI = "setBCSC_SERVICE_URI";
 
 Vue.use(Vuex);
@@ -52,7 +52,7 @@ export default new Vuex.Store({
     uploadedForms: [],
     uploadedCredentials: [],
     apiResponse: '',
-    secret: '',
+    salt: '',
     BCSC_SERVICE_URI: ''
   },
   mutations: {
@@ -119,8 +119,8 @@ export default new Vuex.Store({
     setApiResponse(state, payload) {
       state.apiResponse = payload;
     },
-    setSecret(state, payload) {
-      state.secret = payload;
+    setSalt(state, payload) {
+      state.salt = payload;
     },
     setBCSC_SERVICE_URI(state, payload) {
       state.BCSC_SERVICE_URI = payload;
@@ -231,8 +231,8 @@ export default new Vuex.Store({
     setApiResponse({ commit }, response) {
       commit(SET_API_RESPONSE, response);
     },
-    setSecret({ commit }, secret) {
-      commit(SET_SECRET, secret);
+    setSalt({ commit }, salt) {
+      commit(SET_SALT, salt);
     },
     setBCSC_SERVICE_URI({ commit }, uri) {
       commit(SET_BCSC_SERVICE_URI, uri);
