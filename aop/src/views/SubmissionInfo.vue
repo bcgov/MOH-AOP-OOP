@@ -716,8 +716,6 @@ import Footer from "../components/Footer";
 import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
 import { routes, stepRoutes } from "../router/routes";
 import {
-  SET_FIRST_NAME,
-  SET_LAST_NAME,
   SET_EMAIL_ADDRESS,
   SET_PHONE_NUMBER,
   SET_PHONE_EXTENSION,
@@ -733,9 +731,6 @@ import {
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION,
-  SET_LOADING,
-  SET_BCSC_SERVICE_URI,
-  SET_SECRET,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
@@ -749,8 +744,7 @@ import {
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
-import axios from "axios";
-import spaEnvService from "../services/spa-env-service";
+
 
 export default {
   name: "SubmissionInfo",
@@ -984,46 +978,14 @@ export default {
       };
     }
   },
-  async created() {
-    this.$store.dispatch(SET_LOADING, true);
-    await spaEnvService.loadEnvs()
-      .then(() => {
-        if (spaEnvService.values) {
-          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AOP_URI);
-          this.$store.dispatch(SET_SECRET, spaEnvService.values.SPA_ENV_AOP_SECRET);
-          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
-            const path = routes.MAINTENANCE_PAGE.path;
-            this.$router.push(path);
-          }
-        } else {
-          const path = routes.MAINTENANCE_PAGE.path;
-          this.$router.push(path);
-        }
-      });
-
-    const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
-    if(this.$route.query.code){
-      const code = this.$route.query.code;
-      const state = this.$route.query.state;
-      axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
-        .then((res) => {
-          this.firstName = res.data.given_name;
-          this.lastName = res.data.family_name;
-        })
-        .catch((e) => {
-          const path = routes.SIGN_IN.path;
-          this.$router.push(path);
-          scrollTo(0);
-        })
-        .finally(()=> {
-          this.$store.dispatch(SET_LOADING, false);
-        })
-    } else {
+  created() {
+    this.firstName = this.$store.state.firstName;
+    this.lastName = this.$store.state.lastName;
+    if (!this.firstName || !this.lastName) {
       const path = routes.SIGN_IN.path;
       this.$router.push(path);
       scrollTo(0);
     }
-
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
@@ -1054,8 +1016,6 @@ export default {
 
       this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
       this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
-      this.$store.dispatch(SET_FIRST_NAME, this.firstName);
-      this.$store.dispatch(SET_LAST_NAME, this.lastName);
       this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
       this.$store.dispatch(SET_PHONE_EXTENSION, this.phoneExtension);
