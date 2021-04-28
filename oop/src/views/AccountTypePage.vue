@@ -282,7 +282,7 @@ export default {
 
       const token = this.$store.state.form.captchaToken;
       const applicationUuid = this.$store.state.form.applicationUuid;
-      const phn = this.$store.state.form.phn;
+      const phn = this.$store.state.form.phn.replace(/ /g,'');
       const dependentPhns = this.getDependentPhns();
       
       if (this.accountType === 'AH' && (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N')) {
@@ -290,7 +290,7 @@ export default {
           .then((response) => {
             // Handle HTTP success.
             const returnCode = response.data.returnCode;
-            
+
             this.isLoading = false;
 
             switch (returnCode) {
@@ -347,7 +347,7 @@ export default {
       const phns = [];
       for (let i=0; i<this.dependentPhns.length; i++) {
         if (this.dependentPhns[i] && this.dependentPhns[i].value) {
-          phns.push(this.dependentPhns[i].value);
+          phns.push(this.dependentPhns[i].value.replace(/ /g,''));
         }
       }
       return phns;
