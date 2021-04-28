@@ -175,6 +175,7 @@ export default {
   height: 1em;
   border-radius: 100%;
   background: #fff;
+  color: #000;
   border: 2px solid #606060;
   right: 0;
   left: 0;
@@ -193,7 +194,8 @@ export default {
   -webkit-transform: translateX(-37%);
   transform: translateX(-37%);
   white-space: nowrap;
-  color: #494949;
+  color: #000;
+  background: #FFF;
   font-weight: normal;
 }
 .step-text-selected {
@@ -256,6 +258,7 @@ export default {
   height: 1em;
   border-radius: 100%;
   background: #fff;
+  color: #000;
   border: 2px solid #606060;
   right: 0;
   left: 0;
@@ -274,7 +277,7 @@ export default {
   -webkit-transform: translateY(-80%);
   transform: translateY(-80%);
   white-space: nowrap;
-  color: #494949;
+  color: #000;
   left: 30px;
   font-weight: normal;
 }
