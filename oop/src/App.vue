@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <Header :title='pageTitle' />
-    <div class="container stepper">
-      <ProgressBar :currentPath='$router.currentRoute.path'
-                  :routes='stepRoutes'/>
-    </div>
-    <router-view/>
+    <main>
+      <div class="container stepper">
+        <ProgressBar :currentPath='$router.currentRoute.path'
+                    :routes='stepRoutes'/>
+      </div>
+      <router-view/>
+    </main>
     <Footer :version='version' />
   </div>
 </template>

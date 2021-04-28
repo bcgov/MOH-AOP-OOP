@@ -1,7 +1,7 @@
 <template>
   <div :class="'tip-container rounded p-3' + className">
     <div>
-      <h4>{{ title }}</h4>
+      <p class="title">{{ title }}</p>
     </div>
     <div>
       <slot></slot>
@@ -28,5 +28,8 @@ export default {
 <style scoped>
 .tip-container {
   background: #f2f2f2;
+}
+.title {
+  font-weight: bold;
 }
 </style>
