@@ -22,6 +22,7 @@
                 aria-live="assertive">This field does not match our records.</div>
             
             <PhnInput label='Personal Health Number (PHN)'
+                      id="phn"
                       v-model='phn'
                       className='mt-3'
                       class='phn-input'
