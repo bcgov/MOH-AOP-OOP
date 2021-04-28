@@ -1,14 +1,22 @@
 <template>
   <div :class="'date-picker no-select ' + className">
     <div class="title-container">
-      <div class="arrow left"
+      <div class="year-arrow left"
+          @click="previousYear()">
+        <img src="/images/icon-chevron-double-left.svg" />
+      </div>
+      <div class="month-arrow left"
           @click="previousMonth()">
-        <font-awesome-icon icon="arrow-left" />
+        <font-awesome-icon icon="chevron-left" />
       </div>
       <div class="date-label">{{ monthLabel }} {{ year }}</div>
-      <div class="arrow right"
+      <div class="month-arrow right"
           @click="nextMonth()">
-        <font-awesome-icon icon="arrow-right" />
+        <font-awesome-icon icon="chevron-right" />
+      </div>
+      <div class="year-arrow right"
+          @click="nextYear()">
+          <img src="/images/icon-chevron-double-right.svg" />
       </div>
     </div>
     <div class="date-container">
@@ -134,6 +142,12 @@ export default {
         this.month--;
       }
     },
+    nextYear() {
+      this.year++;
+    },
+    previousYear() {
+      this.year--;
+    },
     isSelectedDate(date) {
       if (date
         && this.year === date.getFullYear()
@@ -158,15 +172,16 @@ export default {
   border: solid thin #CCC;
   border-radius: 5px;
   box-shadow: 0px 0px 20px 0px #CCC;
-  width: 282px;
+  width: 342px;
 }
 body.ie .date-picker {
-  width: 292px;
+  width: 352px;
 }
 .date-container {
   display: flex;
   flex-wrap: wrap;
   max-width: 280px;
+  margin: 30px;
 }
 .date-header-cell {
   text-align: center;
@@ -192,23 +207,36 @@ body.ie .date-picker {
   display: flex;
   flex-wrap: wrap;
 }
-.arrow {
+.month-arrow {
   flex: 0 0 40px;
   width: 40px;
   height: 40px;
   font-size: 28px;
   cursor: pointer;
 }
-.arrow.left {
+.month-arrow.left {
+  text-align: right;
+}
+.month-arrow.right {
+  text-align: left;
+}
+.year-arrow {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  font-size: 25px;
+  cursor: pointer;
+}
+.year-arrow.left {
   padding-left: 5px;
 }
-.arrow.right {
+.year-arrow.right {
   text-align: right;
   padding-right: 5px;
 }
 .date-label {
-  width: 200px;
-  flex: 0 0 200px;
+  width: 180px;
+  flex: 0 0 180px;
   padding-top: 10px;
   text-align:center;
   font-weight: bold;
