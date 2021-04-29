@@ -37,7 +37,7 @@ import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
-import { stepRoutes } from "../router/routes";
+import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
