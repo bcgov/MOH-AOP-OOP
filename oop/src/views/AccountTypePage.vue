@@ -14,6 +14,7 @@
 
             <input type='radio'
                   id='person-moving-ah'
+                  name='personMoving'
                   value='AH_ONLY'
                   v-model='personMoving' />
             <label for='person-moving-ah'
@@ -21,6 +22,7 @@
             <br />
             <input type='radio'
                   id='person-moving-ahad'
+                  name='personMoving'
                   value='AH_DEP'
                   v-model='personMoving' />
             <label for='person-moving-ahad'
@@ -28,6 +30,7 @@
             <br />
             <input type='radio'
                   id='person-moving-d'
+                  name='personMoving'
                   value='DEP_ONLY'
                   v-model='personMoving' />
             <label for='person-moving-d'
@@ -43,6 +46,7 @@
 
               <input type='radio'
                     id='is-all-dependents-moving-y'
+                    name='isAllDependentsMoving'
                     value='Y'
                     v-model='isAllDependentsMoving' />
               <label for='is-all-dependents-moving-y'
@@ -50,6 +54,7 @@
               <br/>
               <input type='radio'
                     id='is-all-dependents-moving-n'
+                    name='isAllDependentsMoving'
                     value='N'
                     v-model='isAllDependentsMoving' />
               <label for='is-all-dependents-moving-n'
@@ -71,6 +76,7 @@
                         :set="v = $v.dependentPhns.$each[index]"
                         class='mt-3'>
                       <PhnInput :label='"PHN: Dependent " + (index + 1)'
+                                :id='"phn" + index'
                                 v-model='phn.value'
                                 class='phn-input'/>
                       <div class="text-danger"
