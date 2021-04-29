@@ -116,7 +116,7 @@ objects:
                 - name: SESSION_HOST
                   value: redis
                 - name: SESSION_TTL
-                  value: 2600
+                  value: "2600"
                 - name: TEST_CONFIG
                   value: disabled
                 - name: TEST_CALLBACK
@@ -125,19 +125,19 @@ objects:
                   value: enabled
                 - name: CLIENT_SECRET
                   valueFrom:
-                    SecretKeyRef:
+                    secretKeyRef:
                       name: auth-client-secret
                       key: CLIENT_SECRET
                 - name: SESSION_SECRET
                   valueFrom:
-                    SecretKeyRef: 
+                    secretKeyRef: 
                       name: auth-session-secret
                       key: SESSION_SECRET
                 - name: SESSION_HOST_PASSWORD
                   valueFrom:
-                    SecretKeyRef:
+                    secretKeyRef:
                       name: redis
-                      key: SESSION_HOST_PASSWORD
+                      key: database-password
               resources:
                 limits:
                   cpu: 200m
