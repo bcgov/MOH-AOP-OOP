@@ -76,7 +76,7 @@
                         :set="v = $v.dependentPhns.$each[index]"
                         class='mt-3'>
                       <PhnInput :label='"PHN: Dependent " + (index + 1)'
-                                id='phn'
+                                :id='"phn" + index'
                                 v-model='phn.value'
                                 class='phn-input'/>
                       <div class="text-danger"
