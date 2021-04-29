@@ -57,8 +57,6 @@ export default {
     return {
       stepRoutes,
       bcscRedirect: "",
-      given_name: "",
-      family_name: "",
     }
   },
   async created() {
@@ -79,10 +77,9 @@ export default {
       })
       .then(() => {
         // Handle BCSC
-        const BCSC_SERVICE_URI = this.$store.state.BCSC_SERVICE_URI;
         if(!this.$route.query.code){
           // STAGE 1: get the bcsc url and show the user the signIn page
-          axios.get(BCSC_SERVICE_URI + '/api/url')
+          axios.get('/api/auth/api/url')
             .then((res) => {
               this.bcscRedirect = res.data.url;
               console.log("bcscRedirect=", this.bcscRedirect);
@@ -93,8 +90,8 @@ export default {
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
-          console.log("code=", code);
-          axios.get(BCSC_SERVICE_URI + `/api/auth/${code}`)
+          console.log("code:", code);
+          axios.get(`api/auth/api/auth/${code}`)
             .then((res) => {
               this.$store.dispatch(SET_FIRST_NAME, res.data.given_name);
               this.$store.dispatch(SET_LAST_NAME, res.data.family_name);
@@ -103,8 +100,8 @@ export default {
               scrollTo(0);
             })
             .catch((e) => {
-              console.log("code load failure, loading sign in")
-              axios.get(BCSC_SERVICE_URI + '/api/url')
+              console.log("code load failure:", e);
+              axios.get('/api/auth/api/url')
                 .then((res) => {
                   this.bcscRedirect = res.data.url;
                 })
