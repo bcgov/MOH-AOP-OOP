@@ -42,6 +42,7 @@ import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
 import { SET_BCSC_SERVICE_URI, SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from '../store';
+import { scrollTo } from "../helpers/scroll";
 
 export default {
   name: "SignIn",
