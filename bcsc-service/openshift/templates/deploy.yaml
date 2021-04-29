@@ -101,18 +101,43 @@ objects:
                   value: "8080"
                 - name: SERVICE_PORT
                   value: ${SERVICE_PORT}
-                - name: SECRET
-                  value: ${SECRET}
-                - name: PRIVATE_KEY
-                  value: ${PRIVATE_KEY}
-                - name: SYSLOG_PORT
-                  value: ${SYSLOG_PORT}
-                - name: BYPASS_ANSWER
-                  value: ${BYPASS_ANSWER}
-                - name: CORS_ALLOW_ALL
-                  value: ${CORS_ALLOW_ALL}
-                - name: JWT_SIGN_EXPIRY
-                  value: ${JWT_SIGN_EXPIRY}
+                - name: CLIENT_ID
+                  value: urn.ca.bc.gov.maximus.aopform.dev
+                - name: REDIRECT_URI
+                  value: https://aop-web-a3c641-dev.apps.silver.devops.gov.bc.ca/sign-in
+                - name: AUTH_URI
+                  value: https://idtest.gov.bc.ca/login/oidc/authorize
+                - name: TOKEN_URI
+                  value: https://idtest.gov.bc.ca/oauth2/token
+                - name: INFO_URI
+                  value: https://idtest.gov.bc.ca/oauth2/userinfo
+                - name: AUTH_SCOPE
+                  value: openid%20profile
+                - name: SESSION_HOST
+                  value: redis
+                - name: SESSION_TTL
+                  value: 2600
+                - name: TEST_CONFIG
+                  value: disabled
+                - name: TEST_CALLBACK
+                  value: enabled
+                - name: TEST_SESSION
+                  value: enabled
+                - name: CLIENT_SECRET
+                  valueFrom:
+                    SecretKeyRef:
+                      name: auth-client-secret
+                      key: CLIENT_SECRET
+                - name: SESSION_SECRET
+                  valueFrom:
+                    SecretKeyRef: 
+                      name: auth-session-secret
+                      key: SESSION_SECRET
+                - name: SESSION_HOST_PASSWORD
+                  valueFrom:
+                    SecretKeyRef:
+                      name: redis
+                      key: SESSION_HOST_PASSWORD
               resources:
                 limits:
                   cpu: 200m
@@ -159,14 +184,6 @@ parameters:
     description: The IP address this service will bind to.
     displayName: SERVICE_IP
     value: "0.0.0.0"
-  - name: SECRET
-    description: SECRET
-    displayName: SECRET
-    required: true
-  - name: PRIVATE_KEY
-    description: PRIVATE_KEY
-    displayName: PRIVATE_KEY
-    required: true
   - name: SYSLOG_PORT
     description: SYSLOG_PORT
     displayName: SYSLOG_PORT
@@ -177,15 +194,9 @@ parameters:
     displayName: LOG_LEVEL
     required: true
     value: "info"
-  - name: BYPASS_ANSWER
-    description: BYPASS_ANSWER
-    displayName: BYPASS_ANSWER
-    required: false
-  - name: CORS_ALLOW_ALL
-    description: CORS_ALLOW_ALL
-    displayName: CORS_ALLOW_ALL
-    required: false 
-  - name: JWT_SIGN_EXPIRY
-    description: JWT_SIGN_EXPIRY
-    displayName: JWT_SIGN_EXPIRY
-    required: false
+  - name: LOG_LEVEL
+    value: ${LOG_LEVEL}
+  - name: PORT
+    value: "8080"
+  - name: SERVICE_PORT
+    value: ${SERVICE_PORT}
