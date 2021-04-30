@@ -10,13 +10,13 @@
             alt="BC Logo"
             class="pointer horizontal"
             :width="181"
-            :src="bcidLogoRev"
+            src="@/assets/images/bcid-logo-rev-en.svg"
           />
           <img
             alt="BC Logo"
             class="pointer vertical pr-3"
             :width="90"
-            :src="bcidLogoVert"
+            src="@/assets/images/BCID_V_rgb_rev_trimmed.png"
           />
         </a>
         <div id="title" class="navbar-brand">
@@ -36,13 +36,6 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      bcidSymbol: "/images/bcid-symbol-rev.svg",
-      bcidLogoRev: "/images/bcid-logo-rev-en.svg",
-      bcidLogoVert: "/images/BCID_V_rgb_rev_trimmed.png"
-    };
-  }
 };
 </script>
 
