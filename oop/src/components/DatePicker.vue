@@ -1,6 +1,7 @@
 <template>
   <div :class="'date-picker no-select ' + className">
-    <div class="title-container">
+    <div v-if="isYearArrowsShown"
+        class="title-container">
       <div class="year-arrow left"
           @click="previousYear()">
         <IconChevronDoubleLeft />
@@ -17,6 +18,18 @@
       <div class="year-arrow right"
           @click="nextYear()">
         <IconChevronDoubleRight />
+      </div>
+    </div>
+    <div v-if="!isYearArrowsShown"
+        class="title-container month-arrows-only">
+      <div class="month-arrow left"
+          @click="previousMonth()">
+        <IconChevronSingleLeft />
+      </div>
+      <div class="date-label">{{ monthLabel }} {{ year }}</div>
+      <div class="month-arrow right"
+          @click="nextMonth()">
+        <IconChevronSingleRight />
       </div>
     </div>
     <div class="date-container">
@@ -43,7 +56,6 @@
 </template>
 <script>
 import {
-//  startOfDay,
   getDaysInMonth,
   getDay,
   startOfToday,
@@ -83,6 +95,10 @@ export default {
     className: {
       type: String,
       default: '',
+    },
+    isYearArrowsShown: {
+      type: Boolean,
+      default: true,
     }
   },
   data: () => {
@@ -95,7 +111,6 @@ export default {
   },
   created() {
     this.dateToday = startOfToday();
-    this.dateToday = new Date(2021, 3, 15);
     
     if (this.value) {
       this.setDateValue(this.value);
@@ -209,14 +224,14 @@ export default {
   font-weight: bold;
   padding: 6px;
   width: 38px;
-  height: 38px;
+  height: 30px;
   max-width: 38px; /* Needed for IE */
   flex: 0 0 38px;
 }
 .date-cell {
   text-align: center;
   width: 38px;
-  height: 38px;
+  height: 34px;
   max-width: 38px; /* Needed for IE */
   flex: 0 0 38px;
   padding: 2px;
@@ -237,7 +252,7 @@ export default {
 }
 .month-arrow svg {
   width: 20px;
-  height: 20px;
+  height: 24px;
   margin: 10px 5px;
 }
 .month-arrow.left {
@@ -257,7 +272,7 @@ export default {
 }
 .year-arrow svg {
   width: 20px;
-  height: 20px;
+  height: 24px;
   margin: 10px;
 }
 .year-arrow.left {
@@ -268,9 +283,20 @@ export default {
 .date-label {
   width: 142px;
   flex: 0 0 142px;
-  margin-top: 8px;
+  margin-top: 10px;
   text-align: center;
   font-weight: bold;
+}
+.month-arrows-only .date-label {
+  width: 202px;
+  flex: 0 0 202px;
+}
+.month-arrows-only .month-arrow {
+  flex: 0 0 40px;
+  width: 40px;
+}
+.month-arrows-only .month-arrow svg {
+  margin: 10px;
 }
 .date-cell .circle {
   border-radius: 50%;
