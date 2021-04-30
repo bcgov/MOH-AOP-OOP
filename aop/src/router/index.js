@@ -10,6 +10,7 @@ window.onpopstate = function (event) {
 
 const router = new VueRouter({
   mode: "history",
+  base: '/aop/',
   routes: [
     {
       path: routes.SIGN_IN.path,
