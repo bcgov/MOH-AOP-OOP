@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SPA_ENV_SERVER_URL = '/api/env';
+const SPA_ENV_SERVER_URL = '/aop/api/env';
 
 /**
  * The list of all server envs we expect back from the spa-env-server. By adding
@@ -12,7 +12,6 @@ const serverEnvs = {
   SPA_ENV_AOP_MAINTENANCE_START: '',
   SPA_ENV_AOP_MAINTENANCE_END: '',
   SPA_ENV_AOP_MAINTENANCE_MESSAGE: '',
-  SPA_ENV_AUTH_SERVICE_URL: '',
   SPA_ENV_AOP_SALT: '',
 };
 

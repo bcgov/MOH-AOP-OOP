@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment-timezone";
 
 export const log = (logItem, uuid, refNumber) => {
-  const baseUrl = "/api/logging";
+  const baseUrl = "/aop/api/logging";
 
   const headers = {
     "Content-Type": "application/json",
