@@ -142,10 +142,11 @@ import { scrollTo } from "../helpers/scroll";
 import { NEW_FORM } from '../store/index';
 import SummaryMixin from "../mixins/SummaryMixin";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
+import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
 
 export default {
   name: "Confirmation",
-  mixins: [SummaryMixin, FocusHeaderMixin],
+  mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   components: {
     SignOutHeader,
     Table,

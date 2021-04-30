@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { HIDE_MOBILE_PROGRESS, SHOW_MOBILE_PROGRESS, SHOW_SIGN_OUT_MODAL } from '../store';
 export default {
   name: "ProgressBar",
   components: {},
@@ -99,7 +100,7 @@ export default {
         // If they click on sign out
         if (index === 0) {
           // pop up window
-          this.$store.dispatch("showSignOutModal");
+          this.$store.dispatch(SHOW_SIGN_OUT_MODAL);
         } else {
           // otherwise navigate
           this.$router.push(path);
@@ -108,10 +109,10 @@ export default {
       }
     },
     openDropdown() {
-      this.$store.dispatch('showMobileProgress');
+      this.$store.dispatch(SHOW_MOBILE_PROGRESS);
     },
     closeDropdown() {
-      this.$store.dispatch('hideMobileProgress');
+      this.$store.dispatch(HIDE_MOBILE_PROGRESS);
     }
   }
 };

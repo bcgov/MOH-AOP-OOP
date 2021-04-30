@@ -32,8 +32,7 @@
 </template>
 
 <script>
-import { routes } from "../router/routes";
-import { scrollTo } from "../helpers/scroll";
+import { SHOW_SIGN_OUT_MODAL } from '../store';
 
 export default {
   name: "SignOutHeader",
@@ -52,7 +51,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.$store.dispatch("showSignOutModal");
+      this.$store.dispatch(SHOW_SIGN_OUT_MODAL);
     }
   }
 };

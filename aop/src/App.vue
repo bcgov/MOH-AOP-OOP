@@ -7,12 +7,15 @@
 <script>
 import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
 import 'common-lib-vue/dist/common-lib-vue.css';
+import { v4 as uuidv4 } from "uuid";
+import { SET_UUID } from './store';
 
 export default {
   name: "App",
   created() {
     const { version: projectVersion } = require('../package.json');
     console.log('Canonical Version:', projectVersion);
+    this.$store.commit(SET_UUID, uuidv4());
   }
 };
 </script>

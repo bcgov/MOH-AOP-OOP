@@ -37,6 +37,7 @@
 import Button from "./Button";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
+import { RESET_FORM } from '../store';
 
 export default {
   name: "TimeoutModal",
@@ -93,7 +94,7 @@ export default {
       // Delete session cookie
       // Navigate to session end
       clearInterval(this.interval);
-      this.$store.dispatch('resetForm');
+      this.$store.dispatch(RESET_FORM);
       const path = routes.SESSION_END.path;
       this.$router.push(path);
       scrollTo(0);

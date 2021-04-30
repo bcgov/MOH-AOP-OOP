@@ -1,6 +1,5 @@
 import axios from "axios";
 import validate from "../services/validation-service";
-import { v4 as uuidv4 } from "uuid";
 import bypassCaptcha from "./captcha-bypass-service";
 
 /********************************************************
@@ -115,7 +114,7 @@ const prepareAOPApplication = state => {
       ...state.uploadedForms,
       ...state.uploadedCredentials
     ]),
-    uuid: uuidv4()
+    uuid: state.uuid
   };
 
   return preparedApp;

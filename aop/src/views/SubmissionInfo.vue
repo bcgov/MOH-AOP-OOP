@@ -744,7 +744,7 @@ import {
   hasNoInvalidJSON
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
-
+import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 
 export default {
   name: "SubmissionInfo",
@@ -758,7 +758,7 @@ export default {
     MaskedInput,
     Footer
   },
-  mixins: [FocusHeaderMixin],
+  mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
     return {
       stepRoutes: stepRoutes,
@@ -981,11 +981,6 @@ export default {
   created() {
     this.firstName = this.$store.state.firstName;
     this.lastName = this.$store.state.lastName;
-    if (!this.firstName || !this.lastName) {
-      const path = routes.SIGN_IN.path;
-      this.$router.push(path);
-      scrollTo(0);
-    }
     this.uploadType = this.$store.state.uploadType;
     this.credentialsRequired = this.$store.state.credentialsRequired;
     this.emailAddress = this.$store.state.emailAddress;
@@ -1014,23 +1009,23 @@ export default {
         return;
       }
 
-      this.$store.dispatch(SET_UPLOAD_TYPE, this.uploadType);
-      this.$store.dispatch(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
-      this.$store.dispatch(SET_EMAIL_ADDRESS, this.emailAddress);
-      this.$store.dispatch(SET_PHONE_NUMBER, this.phoneNumber);
-      this.$store.dispatch(SET_PHONE_EXTENSION, this.phoneExtension);
-      this.$store.dispatch(SET_ORGANIZATION, this.organization);
-      this.$store.dispatch(SET_FACILITY, this.facility);
-      this.$store.dispatch(SET_SUBMISSION_TYPE, this.submissionType);
-      this.$store.dispatch(SET_PRIMARY_NUMBER, this.primaryNumber);
-      this.$store.dispatch(SET_PRIMARY_LAST_NAME, this.primaryLastName);
-      this.$store.dispatch(SET_SECONDARY_NUMBER, this.secondaryNumber);
-      this.$store.dispatch(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
-      this.$store.dispatch(SET_COMMENTS, this.comments);
+      this.$store.commit(SET_UPLOAD_TYPE, this.uploadType);
+      this.$store.commit(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
+      this.$store.commit(SET_EMAIL_ADDRESS, this.emailAddress);
+      this.$store.commit(SET_PHONE_NUMBER, this.phoneNumber);
+      this.$store.commit(SET_PHONE_EXTENSION, this.phoneExtension);
+      this.$store.commit(SET_ORGANIZATION, this.organization);
+      this.$store.commit(SET_FACILITY, this.facility);
+      this.$store.commit(SET_SUBMISSION_TYPE, this.submissionType);
+      this.$store.commit(SET_PRIMARY_NUMBER, this.primaryNumber);
+      this.$store.commit(SET_PRIMARY_LAST_NAME, this.primaryLastName);
+      this.$store.commit(SET_SECONDARY_NUMBER, this.secondaryNumber);
+      this.$store.commit(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
+      this.$store.commit(SET_COMMENTS, this.comments);
       this.files.forEach(x => (x.documentType = "AOPFORM"));
-      this.$store.dispatch(SET_UPLOADED_FORMS, this.files);
+      this.$store.commit(SET_UPLOADED_FORMS, this.files);
       this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
-      this.$store.dispatch(SET_UPLOADED_CREDENTIALS, this.credentials);
+      this.$store.commit(SET_UPLOADED_CREDENTIALS, this.credentials);
 
       const path = routes.REVIEW.path;
       this.$router.push(path);

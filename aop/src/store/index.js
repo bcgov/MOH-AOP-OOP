@@ -1,9 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+export const SET_UUID = 'setUUID';
 export const SET_LOADING = "setLoading";
 export const SET_SHOW_SIGN_OUT_MODAL = "setShowSignOutModal";
+export const HIDE_SIGN_OUT_MODAL = "hideSignOutModal";
+export const SHOW_SIGN_OUT_MODAL = "showSignOutModal";
 export const SET_SHOW_MOBILE_PROGRESS = "setShowMobileProgress";
+export const SHOW_MOBILE_PROGRESS = "showMobileProgress";
+export const HIDE_MOBILE_PROGRESS = "hideMobileProgress";
 export const RESET_FORM = "resetForm";
 export const NEW_FORM = "newForm";
 export const SET_UPLOAD_TYPE = "setUploadType";
@@ -25,12 +30,12 @@ export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
 export const SET_SALT = "setSalt";
-export const SET_BCSC_SERVICE_URI = "setBCSC_SERVICE_URI";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    uuid: '',
     loading: true,
     showSignOutModal: false,
     showMobileProgress: false,
@@ -53,9 +58,11 @@ export default new Vuex.Store({
     uploadedCredentials: [],
     apiResponse: '',
     salt: '',
-    BCSC_SERVICE_URI: ''
   },
   mutations: {
+    setUUID(state, payload) {
+      state.uuid = payload;
+    },
     setLoading(state, payload) {
       state.loading = payload;
     },
@@ -122,14 +129,8 @@ export default new Vuex.Store({
     setSalt(state, payload) {
       state.salt = payload;
     },
-    setBCSC_SERVICE_URI(state, payload) {
-      state.BCSC_SERVICE_URI = payload;
-    },
   },
   actions: {
-    setLoading({ commit }, loading) {
-      commit(SET_LOADING, loading);
-    },
     showSignOutModal({ commit }) {
       commit(SET_SHOW_SIGN_OUT_MODAL, true);
     },
@@ -173,69 +174,6 @@ export default new Vuex.Store({
       commit(SET_COMMENTS, '');
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
-    },
-    setHasAcceptedTerms({ commit }, hasAcceptedTerms) {
-      commit(SET_HAS_ACCEPTED_TERMS, hasAcceptedTerms);
-    },
-    setUploadType({ commit }, uploadType) {
-      commit(SET_UPLOAD_TYPE, uploadType);
-    },
-    setCredentialsRequired({ commit }, credentialsRequired) {
-      commit(SET_CREDENTIALS_REQUIRED, credentialsRequired);
-    },
-    setFirstName({ commit }, firstName) {
-      commit(SET_FIRST_NAME, firstName);
-    },
-    setLastName({ commit }, lastName) {
-      commit(SET_LAST_NAME, lastName);
-    },
-    setEmailAddress({ commit }, emailAddress) {
-      commit(SET_EMAIL_ADDRESS, emailAddress);
-    },
-    setPhoneNumber({ commit }, phoneNumber) {
-      commit(SET_PHONE_NUMBER, phoneNumber);
-    },
-    setPhoneExtension({ commit }, phoneExtension) {
-      commit(SET_PHONE_EXTENSION, phoneExtension);
-    },
-    setOrganization({ commit }, setOrganization) {
-      commit(SET_ORGANIZATION, setOrganization);
-    },
-    setFacility({ commit }, setFacility) {
-      commit(SET_FACILITY, setFacility);
-    },
-    setSubmissionType({ commit }, setSubmissionType) {
-      commit(SET_SUBMISSION_TYPE, setSubmissionType);
-    },
-    setPrimaryNumber({ commit }, setPrimaryNumber) {
-      commit(SET_PRIMARY_NUMBER, setPrimaryNumber);
-    },
-    setPrimaryLastName({ commit }, setPrimaryLastName) {
-      commit(SET_PRIMARY_LAST_NAME, setPrimaryLastName);
-    },
-    setSecondaryNumber({ commit }, setSecondaryNumber) {
-      commit(SET_SECONDARY_NUMBER, setSecondaryNumber);
-    },
-    setSecondaryLastName({ commit }, setSecondaryLastName) {
-      commit(SET_SECONDARY_LAST_NAME, setSecondaryLastName);
-    },
-    setComments({ commit }, setComments) {
-      commit(SET_COMMENTS, setComments);
-    },
-    setUploadedForms({ commit }, forms) {
-      commit(SET_UPLOADED_FORMS, forms);
-    },
-    setUploadedCredentials({ commit }, credentials) {
-      commit(SET_UPLOADED_CREDENTIALS, credentials);
-    },
-    setApiResponse({ commit }, response) {
-      commit(SET_API_RESPONSE, response);
-    },
-    setSalt({ commit }, salt) {
-      commit(SET_SALT, salt);
-    },
-    setBCSC_SERVICE_URI({ commit }, uri) {
-      commit(SET_BCSC_SERVICE_URI, uri);
     },
   },
   getters: {}

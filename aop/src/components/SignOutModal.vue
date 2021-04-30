@@ -37,6 +37,7 @@
 import Button from "./Button";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
+import { HIDE_SIGN_OUT_MODAL, RESET_FORM } from '../store';
 
 export default {
   name: "SignOutModal",
@@ -70,14 +71,13 @@ export default {
   methods: {
     continueSession() {
       // Close modal
-      this.$store.dispatch('hideSignOutModal');
+      this.$store.dispatch(HIDE_SIGN_OUT_MODAL);
       this.$emit('close', true);
     },
     endSession() {
-      // Delete session cookie
       // Navigate to session end
-      this.$store.dispatch('hideSignOutModal');
-      this.$store.dispatch('resetForm');
+      this.$store.dispatch(HIDE_SIGN_OUT_MODAL);
+      this.$store.dispatch(RESET_FORM);
       const path = routes.SESSION_END.path;
       this.$router.push(path);
       scrollTo(0);

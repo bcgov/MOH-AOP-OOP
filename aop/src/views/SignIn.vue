@@ -41,7 +41,7 @@ import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
-import { SET_BCSC_SERVICE_URI, SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from '../store';
+import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from '../store';
 import { scrollTo } from "../helpers/scroll";
 
 export default {
@@ -65,8 +65,7 @@ export default {
       .then(() => {
         // load env variables from spa-env-server
         if (spaEnvService.values) {
-          this.$store.dispatch(SET_BCSC_SERVICE_URI, spaEnvService.values.SPA_ENV_AUTH_SERVICE_URL);
-          this.$store.dispatch(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
+          this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
           if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === 'true') {
             const path = routes.MAINTENANCE_PAGE.path;
             this.$router.push(path);
@@ -79,41 +78,42 @@ export default {
       .then(() => {
         // Handle BCSC
         if(!this.$route.query.code){
-          // STAGE 1: get the bcsc url and show the user the signIn page
+          // STAGE 1: get the bcsc url and show the user the sign in page
+          // api/auth is the proxy pass url, api/url is the BCSC service route 
           axios.get('/api/auth/api/url')
             .then((res) => {
               this.bcscRedirect = res.data.url;
-              console.log("bcscRedirect=", this.bcscRedirect);
             })
             .catch((e) => {
-              console.log("failed to retrieve bcsc url", e);
+              log({message: 'Error fetching BCSC URL', error: e}, this.$store.state.uuid);
             })
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
-          console.log("code:", code);
+          // api/auth is the proxy pass url, api/auth/${code} is the BCSC service route 
           axios.get(`api/auth/api/auth/${code}`)
             .then((res) => {
-              this.$store.dispatch(SET_FIRST_NAME, res.data.given_name);
-              this.$store.dispatch(SET_LAST_NAME, res.data.family_name);
+              this.$store.commit(SET_FIRST_NAME, res.data.given_name);
+              this.$store.commit(SET_LAST_NAME, res.data.family_name);
               const path = routes.SUBMISSION_INFO.path;
               this.$router.push(path);
               scrollTo(0);
             })
             .catch((e) => {
-              console.log("code load failure:", e);
+              log({message: `Error fetching BCSC PI with code ${code}`, error: e}, this.$store.state.uuid);
+              // api/auth is the proxy pass url, api/url is the BCSC service route 
               axios.get('/api/auth/api/url')
                 .then((res) => {
                   this.bcscRedirect = res.data.url;
                 })
-                .catch((e) => {
-                  console.log("failed to retrieve bcsc url", e);
+                .catch((err) => {
+                  log({message: 'Error fetching BCSC URL', error: err}, this.$store.state.uuid);
                 })
             })
         }
       })
       .finally(() => {
-        this.$store.dispatch(SET_LOADING, false);
+        this.$store.commit(SET_LOADING, false);
       })
   },
   methods: {

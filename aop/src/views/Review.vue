@@ -77,6 +77,7 @@ import { scrollTo } from "../helpers/scroll";
 import SummaryMixin from '../mixins/SummaryMixin';
 import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
 import { routes, stepRoutes } from "../router/routes";
+import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
 
 export default {
   name: "Review",
@@ -87,7 +88,7 @@ export default {
     Table,
     Footer
   },
-  mixins: [SummaryMixin, FocusHeaderMixin],
+  mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
     return {
       stepRoutes: stepRoutes,

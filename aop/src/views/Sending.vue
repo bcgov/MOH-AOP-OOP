@@ -24,6 +24,7 @@ import { submitApplication } from "../services/submission-service";
 import { log } from "../services/logging-service";
 import { SET_API_RESPONSE } from '../store';
 import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
+import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
 
 export default {
   name: "Sending",
@@ -31,7 +32,7 @@ export default {
     Footer,
     Header,
   },
-  mixins: [FocusHeaderMixin],
+  mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
     return {
       hasConfirmedPageLeave: false,
@@ -41,7 +42,7 @@ export default {
     submitApplication(this.$store.state)
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
-          this.$store.dispatch(SET_API_RESPONSE, res.data.refNumber);
+          this.$store.commit(SET_API_RESPONSE, res.data.refNumber);
           log({message: 'Success', error: null}, res.data.uuid, res.data.refNumber);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure"){
