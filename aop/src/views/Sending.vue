@@ -22,9 +22,10 @@ import Header from "../components/Header";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { log } from "../services/logging-service";
-import { SET_API_RESPONSE } from '../store';
+import { SET_API_RESPONSE, SET_UUID } from '../store';
 import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
 import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Sending",
@@ -60,6 +61,10 @@ export default {
       .catch(err => {
         log({message: 'Error sending application', error: err});
         this.navigateToErrorPage();
+      })
+      .finally(() => {
+        // Create a new UUID for further submissions
+        this.$store.commit(SET_UUID, uuidv4());
       });
   },
   methods: {
