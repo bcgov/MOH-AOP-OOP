@@ -64,8 +64,15 @@
                             :set="v = $v.addressLines.$each[index]"
                             class='col-md-7 mt-3'>
                   <AddressInput :label='"Address line " + (index + 1)'
-                                v-model="addressLine.value" class="address-line" maxlength='25'/>
-                  <div class="text-danger" v-if="index === 0 && v.value.$dirty && !$v.addressLines.addressLineOneValidator" aria-live="assertive">Address line 1 is required.</div>             
+                                v-model="addressLine.value"
+                                class="address-line"
+                                maxlength='25'/>
+                  <div class="text-danger"
+                      v-if="index === 0 && v.value.$dirty && !$v.addressLines.addressLineOneValidator"
+                      aria-live="assertive">Address line 1 is required.</div>             
+                  <div class="text-danger"
+                      v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                      aria-live="assertive">Address cannot include special characters.</div>             
                 </div>
                 <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                   <Button label='+'
@@ -92,6 +99,9 @@
                       v-model="city"
                       maxlength='25' />
                 <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+                <div class="text-danger"
+                      v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
+                      aria-live="assertive">City cannot include special characters.</div>             
                 <PostalCodeInput id="postalCode"
                       label="Postal code"
                       className='mt-3'
@@ -108,12 +118,18 @@
                       v-model="province"
                       maxlength='30' />
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger"
+                      v-if="$v.province.$dirty && $v.province.required && !$v.province.specialCharacterValidator"
+                      aria-live="assertive">Province/state/region cannot include special characters.</div>             
                 <Input label='City/town'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='25' />
                 <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
+                <div class="text-danger"
+                      v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
+                      aria-live="assertive">City/town cannot include special characters.</div>             
                 <Input label='Postal code/zip code'
                       className='mt-3'
                       class="postal-code"
@@ -207,6 +223,14 @@ const addressLineOneValidator = (addressLines) => {
   return false; 
 };
 
+const specialCharacterValidator = (value) => {
+  if (!value) {
+    return true;
+  }
+  const criteria = /^[0-9a-zA-Z-.'# ]*$/;
+  return criteria.test(value);
+};
+
 export default {
   name: 'MoveInfoPage',
   components: {
@@ -284,13 +308,16 @@ export default {
     }
     if (this.isNewAddressKnown === 'Y'){
       validations.addressLines = {
-         $each: {
-          value: {},
+        $each: {
+          value: {
+            specialCharacterValidator
+          },
         },
         addressLineOneValidator,
       },
       validations.city = {
         required,
+        specialCharacterValidator,
       };
       if (this.country === 'Canada'){
         validations.province = {
@@ -306,6 +333,7 @@ export default {
       else {
         validations.province = {
           required,
+          specialCharacterValidator,
         },
         validations.postalCode = {
           required,
