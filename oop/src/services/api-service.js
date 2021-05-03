@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { formatISODate } from '../helpers/date';
+import { replaceSpecialCharacters } from '../helpers/string';
 
 const BASE_API_PATH = '/oop/api/';
 const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
@@ -73,7 +74,7 @@ class ApiService {
         arriveDestinationDate: formatISODate(formState.arriveDestinationDate),
         isNewAddressKnown: formState.isNewAddressKnown === 'Y' ? true : false,
         newAddress: {
-          country: formState.country,
+          country: replaceSpecialCharacters(formState.country),
           addressLines: addressLines,
           province: formState.province,
           city: formState.city,
