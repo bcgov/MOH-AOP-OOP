@@ -14,13 +14,13 @@
       <hr>
       <div class="card">
         <h3>
-          Sign in with a BC Services Card enabled Diagnostic Facilities Services
+          Log in with a BC Services Card enabled Diagnostic Facilities Services
           user ID
         </h3>
         <Loader v-if="$store.state.loading" />
         <Button
           v-else
-          label="Log in with a BC Services Card"
+          label="Log in with BC Services Card"
           styling="bcgov-normal-blue btn"
           v-on:button-click="nextPage"
         />
