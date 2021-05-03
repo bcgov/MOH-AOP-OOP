@@ -10,6 +10,8 @@ import {
   faCalendarAlt,
   faCheckCircle,
   faChevronDown,
+  faChevronLeft,
+  faChevronRight,
   faChevronUp,
   faPencilAlt,
   faPrint,
@@ -25,6 +27,8 @@ library.add(faArrowRight);
 library.add(faCalendarAlt);
 library.add(faCheckCircle);
 library.add(faChevronDown);
+library.add(faChevronLeft);
+library.add(faChevronRight);
 library.add(faChevronUp);
 library.add(faPencilAlt);
 library.add(faPrint);

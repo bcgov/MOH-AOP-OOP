@@ -1,43 +1,69 @@
 <template>
   <div :class="'date-picker no-select ' + className">
-    <div class="title-container">
-      <div class="arrow left"
+    <div v-if="isYearArrowsShown"
+        class="title-container">
+      <div class="year-arrow left"
+          @click="previousYear()">
+        <IconChevronDoubleLeft />
+      </div>
+      <div class="month-arrow left"
           @click="previousMonth()">
-        <font-awesome-icon icon="arrow-left" />
+        <IconChevronSingleLeft />
       </div>
       <div class="date-label">{{ monthLabel }} {{ year }}</div>
-      <div class="arrow right"
+      <div class="month-arrow right"
           @click="nextMonth()">
-        <font-awesome-icon icon="arrow-right" />
+        <IconChevronSingleRight />
+      </div>
+      <div class="year-arrow right"
+          @click="nextYear()">
+        <IconChevronDoubleRight />
+      </div>
+    </div>
+    <div v-if="!isYearArrowsShown"
+        class="title-container month-arrows-only">
+      <div class="month-arrow left"
+          @click="previousMonth()">
+        <IconChevronSingleLeft />
+      </div>
+      <div class="date-label">{{ monthLabel }} {{ year }}</div>
+      <div class="month-arrow right"
+          @click="nextMonth()">
+        <IconChevronSingleRight />
       </div>
     </div>
     <div class="date-container">
-      <div class="date-header-cell">S</div>
-      <div class="date-header-cell">M</div>
-      <div class="date-header-cell">T</div>
-      <div class="date-header-cell">W</div>
-      <div class="date-header-cell">T</div>
-      <div class="date-header-cell">F</div>
-      <div class="date-header-cell">S</div>
+      <div class="date-header-cell">Su</div>
+      <div class="date-header-cell">Mo</div>
+      <div class="date-header-cell">Tu</div>
+      <div class="date-header-cell">We</div>
+      <div class="date-header-cell">Th</div>
+      <div class="date-header-cell">Fr</div>
+      <div class="date-header-cell">Sa</div>
       <div class="date-cell empty"
           v-for="index in paddedSquares"
           :key="'index' + index"></div>
-      <div :class="'date-cell ' + (isSelectedDate(date) ? 'selected' : '')"
+      <div :class="'date-cell ' +
+                  (isSelectedDate(date) ? 'selected ' : '') +
+                  (isDateToday(date) ? 'date-today ' : '')"
           v-for="(date, index) in datesInMonth"
-          :key="index"
-          @click="handleDaySelect(date)">
-        <div class="circle">{{date.getDate()}}</div>
+          :key="index">
+        <div class="circle"
+            @click="handleDaySelect(date)">{{date.getDate()}}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import {
-//  startOfDay,
   getDaysInMonth,
   getDay,
   startOfToday,
 } from 'date-fns';
+import IconChevronDoubleLeft from './IconChevronDoubleLeft.vue';
+import IconChevronDoubleRight from './IconChevronDoubleRight.vue';
+import IconChevronSingleLeft from './IconChevronSingleLeft.vue';
+import IconChevronSingleRight from './IconChevronSingleRight.vue';
 
 const MONTHS = [
   'January',
@@ -56,6 +82,12 @@ const MONTHS = [
 
 export default {
   name: 'DatePicker',
+  components: {
+    IconChevronDoubleLeft,
+    IconChevronDoubleRight,
+    IconChevronSingleLeft,
+    IconChevronSingleRight,
+  },
   props: {
     value: {
       type: Date,
@@ -63,6 +95,10 @@ export default {
     className: {
       type: String,
       default: '',
+    },
+    isYearArrowsShown: {
+      type: Boolean,
+      default: true,
     }
   },
   data: () => {
@@ -70,18 +106,19 @@ export default {
       year: null,
       month: null,
       day: null,
+      dateToday: null,
     };
   },
   created() {
+    this.dateToday = startOfToday();
+    
     if (this.value) {
       this.setDateValue(this.value);
     } else {
-      const dateToday = startOfToday();
-      this.year = dateToday.getFullYear();
-      this.month = dateToday.getMonth();
-      this.day = dateToday.getDate();
+      this.year = this.dateToday.getFullYear();
+      this.month = this.dateToday.getMonth();
+      this.day = this.dateToday.getDate();
     }
-    
   },
   computed: {
     datesInMonth() {
@@ -134,11 +171,26 @@ export default {
         this.month--;
       }
     },
+    nextYear() {
+      this.year++;
+    },
+    previousYear() {
+      this.year--;
+    },
     isSelectedDate(date) {
+      if (date && this.value
+        && this.value.getFullYear() === date.getFullYear()
+        && this.value.getMonth() === date.getMonth()
+        && this.value.getDate() === date.getDate()) {
+        return true;
+      }
+      return false;
+    },
+    isDateToday(date) {
       if (date
-        && this.year === date.getFullYear()
-        && this.month === date.getMonth()
-        && this.day === date.getDate()) {
+        && this.dateToday.getFullYear() === date.getFullYear()
+        && this.dateToday.getMonth() === date.getMonth()
+        && this.dateToday.getDate() === date.getDate()) {
         return true;
       }
       return false;
@@ -155,76 +207,114 @@ export default {
 <style scoped>
 .date-picker {
   background: #FFF;
-  border: solid thin #CCC;
-  border-radius: 5px;
+  color: #313132;
+  border: solid thin #606060;
+  border-radius: 4px;
   box-shadow: 0px 0px 20px 0px #CCC;
-  width: 282px;
-}
-body.ie .date-picker {
-  width: 292px;
+  width: 320px;
 }
 .date-container {
   display: flex;
   flex-wrap: wrap;
   max-width: 280px;
+  margin: 10px 25px 25px 25px;
 }
 .date-header-cell {
   text-align: center;
   font-weight: bold;
-  padding: 7px;
-  width: 40px;
-  height: 40px;
-  max-width: 40px; /* Needed for IE */
-  flex: 0 0 40px;
+  padding: 6px;
+  width: 38px;
+  height: 30px;
+  max-width: 38px; /* Needed for IE */
+  flex: 0 0 38px;
 }
 .date-cell {
   text-align: center;
-  width: 40px;
-  height: 40px;
-  max-width: 40px; /* Needed for IE */
-  flex: 0 0 40px;
+  width: 38px;
+  height: 34px;
+  max-width: 38px; /* Needed for IE */
+  flex: 0 0 38px;
   padding: 2px;
 }
-.date-cell:not(.empty) {
+.date-cell:not(.empty) .circle {
   cursor: pointer;
 }
 .title-container {
   display: flex;
   flex-wrap: wrap;
+  margin: 12px 18px;
 }
-.arrow {
+.month-arrow {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+}
+.month-arrow svg {
+  width: 20px;
+  height: 24px;
+  margin: 10px 5px;
+}
+.month-arrow.left {
+  text-align: right;
+}
+.month-arrow.right {
+  text-align: left;
+}
+.month-arrow.right svg {
+  margin: 10px 0 10px 10px;
+}
+.year-arrow {
   flex: 0 0 40px;
   width: 40px;
   height: 40px;
-  font-size: 28px;
   cursor: pointer;
 }
-.arrow.left {
-  padding-left: 5px;
+.year-arrow svg {
+  width: 20px;
+  height: 24px;
+  margin: 10px;
 }
-.arrow.right {
+.year-arrow.left {
+}
+.year-arrow.right {
   text-align: right;
-  padding-right: 5px;
 }
 .date-label {
-  width: 200px;
-  flex: 0 0 200px;
-  padding-top: 10px;
-  text-align:center;
+  width: 142px;
+  flex: 0 0 142px;
+  margin-top: 10px;
+  text-align: center;
   font-weight: bold;
+}
+.month-arrows-only .date-label {
+  width: 202px;
+  flex: 0 0 202px;
+}
+.month-arrows-only .month-arrow {
+  flex: 0 0 40px;
+  width: 40px;
+}
+.month-arrows-only .month-arrow svg {
+  margin: 10px;
 }
 .date-cell .circle {
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  padding: 5px 0;
+  width: 30px;
+  height: 30px;
+  padding: 2px 0;
+  margin: 5px;
 }
 .date-cell.selected .circle {
-  background: #BBB;
-}
-.date-cell:hover .circle {
   color: #FFF;
   background: #036;
+}
+.date-cell.date-today .circle {
+  border: solid thin #154373;
+}
+.date-cell .circle:hover {
+  background: #b3c2d2;
+  color: #000;
 }
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */
