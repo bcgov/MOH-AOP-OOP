@@ -72,7 +72,7 @@
                       aria-live="assertive">Address line 1 is required.</div>             
                   <div class="text-danger"
                       v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                      aria-live="assertive">Address cannot include special characters.</div>             
+                      aria-live="assertive">Address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 </div>
                 <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
                   <Button label='+'
@@ -101,7 +101,7 @@
                 <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
                 <div class="text-danger"
                       v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
-                      aria-live="assertive">City cannot include special characters.</div>             
+                      aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <PostalCodeInput id="postalCode"
                       label="Postal code"
                       className='mt-3'
@@ -120,7 +120,7 @@
                 <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger"
                       v-if="$v.province.$dirty && $v.province.required && !$v.province.specialCharacterValidator"
-                      aria-live="assertive">Province/state/region cannot include special characters.</div>             
+                      aria-live="assertive">Province/state/region cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <Input label='City/town'
                       className='mt-3'
                       class="city"
@@ -129,7 +129,7 @@
                 <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
                 <div class="text-danger"
                       v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
-                      aria-live="assertive">City/town cannot include special characters.</div>             
+                      aria-live="assertive">City/town cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <Input label='Postal code/zip code'
                       className='mt-3'
                       class="postal-code"
