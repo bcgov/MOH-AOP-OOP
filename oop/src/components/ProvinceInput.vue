@@ -3,6 +3,7 @@
     <label :for="id">{{label}}</label><br/>
     <region-select 
       :id="id" 
+      aria-label='Region'
       name="region"
       class="form-control" 
       v-model="region"

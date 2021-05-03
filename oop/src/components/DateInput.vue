@@ -3,8 +3,8 @@
     <fieldset>
       <legend class="date--legend">{{label}}</legend>
       <div class="date-row">
-        <label for="monthSelect">Month:</label>
-        <select id="monthSelect"
+        <label v-bind:for="'monthSelect' + label">Month:</label>
+        <select :id="'monthSelect' + label"
                 class="form-control monthSelect"
                 v-model="month"
                 @blur="onBlurMonth($event.target.value)"
