@@ -3,6 +3,7 @@
     <label :for="id">{{label}}</label><br/>
     <country-select 
       :id="id" 
+      aria-label='Country'
       name="country"
       class="form-control" 
       v-model="country"
