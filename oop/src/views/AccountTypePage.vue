@@ -68,7 +68,7 @@
             <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
                 class="is-all-dependents-moving">
                 <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
-
+                <p> You can submit up to nine (9) Dependents to move as well as the Account Holder. If there are more Dependents, please submit them individually on separate Out of Province Move forms. </p>
                 <div>
                   <div class='mb-3'>
                     <div v-for="(phn, index) in dependentPhns"
