@@ -7,7 +7,7 @@
     "build": "NODE_ENV=production gulp",
     "start": "node ./src/index.js",
     "dev": "npx nodemon --watch src --watch .env --exec node ./src/index.js server",
-    "test:coverage": "echo \"WARNING: No test specified\" && exit 0",
+    "test:unit": "jest",
     "test:lint": "echo \"WARNING: No LINTer specified\" && exit 0",
     "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
   },
@@ -26,7 +26,8 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
-    "gulp-sourcemaps": "^2.6.5"
+    "gulp-sourcemaps": "^2.6.5",
+    "jest": "^26.6.3"
   },
   "engines": {
     "node": ">=10.20.0"
