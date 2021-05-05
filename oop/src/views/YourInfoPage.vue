@@ -10,7 +10,8 @@
                   v-model='lastName'
                   maxlength='30'
                   class='last-name'
-                  @input="handleLastNameInputChange"/>
+                  @input="handleLastNameInputChange"
+                  :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
                 v-if="$v.lastName.$dirty && !$v.lastName.required"
                 aria-live="assertive">Last name is required.</div>
@@ -27,7 +28,8 @@
                       className='mt-3'
                       class='phn-input'
                       @input="handlePhnInputChange"
-                      ref="phnInput" />
+                      ref="phnInput"
+                      :inputStyle='phnInputStyle' />
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.phn.required"
                 aria-live="assertive">Personal Health Number is required.</div>
@@ -42,7 +44,8 @@
                               label='Phone number (optional)'
                               v-model='phone'
                               className='mt-3'
-                              class='phone-number' />
+                              class='phone-number'
+                              :inputStyle='phoneInputStyle' />
             <div class="text-danger"
                 v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
@@ -138,7 +141,19 @@ export default {
       isLoading: false,
       isServerValidationErrorShown: false,
       isSystemUnavailable: false,
-      accountType: null
+      accountType: null,
+      lastNameInputStyle: {
+        width: '350px',
+        maxWidth: '100%',
+      },
+      phnInputStyle: {
+        width: '160px',
+        maxWidth: '100%',
+      },
+      phoneInputStyle: {
+        width: '160px',
+        maxWidth: '100%',
+      }
     }
   },
   created() {
@@ -271,15 +286,5 @@ export default {
   width: auto;
   max-width: 100%;
   height: auto;
-}
-
-.last-name {
-  max-width: 100%;
-  width: 540px;
-}
-
-.phn-input, .phone-number {
-  max-width: 100%;
-  width: 350px;
 }
 </style>
