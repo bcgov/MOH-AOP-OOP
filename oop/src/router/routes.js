@@ -1,7 +1,7 @@
 export const routes = {
   ACCOUNT_TYPE_PAGE: {
     path: '/account-type',
-    title: 'Account Type',
+    title: 'Who is moving',
     name: 'AccountTypePage',
   },
   HOME_PAGE: {
@@ -11,7 +11,7 @@ export const routes = {
   },
   MOVE_INFO_PAGE: {
     path: '/move-info',
-    title: 'Move Information',
+    title: 'Move information',
     name: 'MoveInfoPage',
   },
   REVIEW_PAGE: {
@@ -21,7 +21,7 @@ export const routes = {
   },
   YOUR_INFO_PAGE: {
     path: '/your-info',
-    title: 'Your Information',
+    title: 'Your information',
     name: 'YourInfoPage',
   },
   SUBMISSION_PAGE: {
@@ -31,12 +31,12 @@ export const routes = {
   },
   SUBMISSION_ERROR_PAGE: {
     path: '/submission-error',
-    title: 'Submission Error',
+    title: 'Submission error',
     name: 'SubmissionErrorPage',
   },
   MAINTENANCE_PAGE: {
     path: '/maintenance',
-    title: 'Maintenance Mode',
+    title: 'Maintenance mode',
     name: 'MaintenancePage',
   },
 };
