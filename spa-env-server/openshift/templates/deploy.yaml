@@ -127,16 +127,26 @@ objects:
                   value: ${MAX_BYTE_SIZE_PER_FILE}
                 - name: CURRENT_TIMEZONE
                   value: ${CURRENT_TIMEZONE}
-                - name: SPA_ENV_MSP_MAINTENANCE_FLAG
-                  value: ${SPA_ENV_MSP_MAINTENANCE_FLAG}
-                - name: SPA_ENV_MSP_MAINTENANCE_START
-                  value: ${SPA_ENV_MSP_MAINTENANCE_START}
-                - name: SPA_ENV_MSP_MAINTENANCE_END
-                  value: ${SPA_ENV_MSP_MAINTENANCE_END}
-                - name: SPA_ENV_MSP_TIME_FORMAT
-                  value: ${SPA_ENV_MSP_TIME_FORMAT}
-                - name: SPA_ENV_MSP_MAINTENANCE_MESSAGE
-                  value: ${SPA_ENV_MSP_MAINTENANCE_MESSAGE}
+                - name: SPA_ENV_OOP_MAINTENANCE_FLAG
+                  value: ${SPA_ENV_OOP_MAINTENANCE_FLAG}
+                - name: SPA_ENV_OOP_MAINTENANCE_START
+                  value: ${SPA_ENV_OOP_MAINTENANCE_START}
+                - name: SPA_ENV_OOP_MAINTENANCE_END
+                  value: ${SPA_ENV_OOP_MAINTENANCE_END}
+                - name: SPA_ENV_OOP_TIME_FORMAT
+                  value: ${SPA_ENV_OOP_TIME_FORMAT}
+                - name: SPA_ENV_OOP_MAINTENANCE_MESSAGE
+                  value: ${SPA_ENV_OOP_MAINTENANCE_MESSAGE}
+                - name: SPA_ENV_AOP_MAINTENANCE_FLAG
+                  value: ${SPA_ENV_AOP_MAINTENANCE_FLAG}
+                - name: SPA_ENV_AOP_MAINTENANCE_START
+                  value: ${SPA_ENV_AOP_MAINTENANCE_START}
+                - name: SPA_ENV_AOP_MAINTENANCE_END
+                  value: ${SPA_ENV_AOP_MAINTENANCE_END}
+                - name: SPA_ENV_AOP_TIME_FORMAT
+                  value: ${SPA_ENV_AOP_TIME_FORMAT}
+                - name: SPA_ENV_AOP_MAINTENANCE_MESSAGE
+                  value: ${SPA_ENV_AOP_MAINTENANCE_MESSAGE}
               resources:
                 limits:
                   cpu: 200m
@@ -235,35 +245,67 @@ parameters:
     displayName: CURRENT_TIMEZONE
     required: false
     value: America/Vancouver
-  - name: SPA_ENV_MSP_MAINTENANCE_FLAG
+  - name: SPA_ENV_OOP_MAINTENANCE_FLAG
     description: |
       Placeholder for the Calculated Maintenance flag based on start and
       end times
-    displayName: SPA_ENV_MSP_MAINTENANCE_FLAG
+    displayName: SPA_ENV_OOP_MAINTENANCE_FLAG
     required: false
     value: "false"
-  - name: SPA_ENV_MSP_MAINTENANCE_START
+  - name: SPA_ENV_OOP_MAINTENANCE_START
     description: |
       Start time for maintenance window in the specified Time Format and
       for the specified Current Local Timezone
-    displayName: SPA_ENV_MSP_MAINTENANCE_START
+    displayName: SPA_ENV_OOP_MAINTENANCE_START
     required: false
     value: ""
-  - name: SPA_ENV_MSP_MAINTENANCE_END
+  - name: SPA_ENV_OOP_MAINTENANCE_END
     description: |
       End time for maintenance window in the specified Time Format and for
       the specified Current Local Timezone
-    displayName: SPA_ENV_MSP_MAINTENANCE_END
+    displayName: SPA_ENV_OOP_MAINTENANCE_END
     required: false
     value: ""
-  - name: SPA_ENV_MSP_TIME_FORMAT
+  - name: SPA_ENV_OOP_TIME_FORMAT
     description: Format of DateTime specified for Maintenance tasks
-    displayName: SPA_ENV_MSP_TIME_FORMAT
+    displayName: SPA_ENV_OOP_TIME_FORMAT
     required: false
     value: YYYY-MM-DD h:mm:ss A
-  - name: SPA_ENV_MSP_MAINTENANCE_MESSAGE
+  - name: SPA_ENV_OOP_MAINTENANCE_MESSAGE
     description: Maintenance message to be displayed
-    displayName: SPA_ENV_MSP_MAINTENANCE_MESSAGE
+    displayName: SPA_ENV_OOP_MAINTENANCE_MESSAGE
+    required: false
+    value: System will be done from time A to time B
+  
+  - name: SPA_ENV_AOP_MAINTENANCE_FLAG
+    description: |
+      Placeholder for the Calculated Maintenance flag based on start and
+      end times
+    displayName: SPA_ENV_AOP_MAINTENANCE_FLAG
+    required: false
+    value: "false"
+  - name: SPA_ENV_AOP_MAINTENANCE_START
+    description: |
+      Start time for maintenance window in the specified Time Format and
+      for the specified Current Local Timezone
+    displayName: SPA_ENV_AOP_MAINTENANCE_START
+    required: false
+    value: ""
+  - name: SPA_ENV_AOP_MAINTENANCE_END
+    description: |
+      End time for maintenance window in the specified Time Format and for
+      the specified Current Local Timezone
+    displayName: SPA_ENV_AOP_MAINTENANCE_END
+    required: false
+    value: ""
+  - name: SPA_ENV_AOP_TIME_FORMAT
+    description: Format of DateTime specified for Maintenance tasks
+    displayName: SPA_ENV_AOP_TIME_FORMAT
+    required: false
+    value: YYYY-MM-DD h:mm:ss A
+  - name: SPA_ENV_AOP_MAINTENANCE_MESSAGE
+    description: Maintenance message to be displayed
+    displayName: SPA_ENV_AOP_MAINTENANCE_MESSAGE
     required: false
     value: System will be done from time A to time B
   - name: SERVICE_PORT
