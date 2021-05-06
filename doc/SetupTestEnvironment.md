@@ -27,7 +27,7 @@ And obtain names, then delete, ie:
 oc delete en addressdoctor cloudflare maximus-servers
 ```
 
-3. apply the quickstart msp web (for test, make sure your default oc project is test):
+3. apply the quickstart aop web (for test, make sure your default oc project is test):
 cd /openshift/templates
 ```console
 oc process -f quickaopweb-toall.yaml NAMESPACE=a3c641-test | oc apply -f -
@@ -41,11 +41,11 @@ allow-all-internal                <none>                 47h
 allow-from-openshift-ingress      <none>                 23h
 deny-by-default                   <none>                 23h
 msp-service-to-splunk-forwarder   role=splunkforwarder   23h
-msp-to-address-service            role=addressservice    23h
-msp-to-captcha-service            role=captchaservice    23h
-msp-to-msp-service                role=mspservice        23h
-msp-to-spa-env-server             role=spaenv            23h
-msp-to-splunk-forwarder           role=splunkforwarder   23h
+aop-to-address-service            role=addressservice    23h
+aop-to-captcha-service            role=captchaservice    23h
+aop-to-msp-service                role=mspservice        23h
+aop-to-spa-env-server             role=spaenv            23h
+aop-to-splunk-forwarder           role=splunkforwarder   23h
 oc get nsp
 NAME              AGE
 any-to-any        8m23s

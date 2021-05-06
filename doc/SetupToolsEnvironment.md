@@ -118,23 +118,23 @@ oc process -f spa-env-server/openshift/templates/deploy.yaml \
 
 **Pro Tip**: Add `params-*.txt` to .gitignore to make sure sensitive prod values are never stored in a repo.
 
-## `msp` Component
+## `aop` Component
 
-7. The following instructions are for the build and deployment of the `msp` component. The build uses the on-cluster `nodejs:10` S2I image to run any scripts from `package.json` which require node. This step produces an artifacts image (msp-web-artifacts) that used as part of chained build. These artifacts are (from `npm run build`) are then consumed by the NGINX image which is pulled in from the RedHat Container Registry. This results in an image named `msp-web` that can be deployed.
+7. The following instructions are for the build and deployment of the `aop` component. The build uses the on-cluster `nodejs:10` S2I image to run any scripts from `package.json` which require node. This step produces an artifacts image (aop-web-artifacts) that used as part of chained build. These artifacts are (from `npm run build`) are then consumed by the NGINX image which is pulled in from the RedHat Container Registry. This results in an image named `aop-web` that can be deployed.
 
 The deployment mounts a `ConfigMap` containing the necessary NGINX config.
 
 ### Build
 
-8. The GitHub Workflow (Actions) will use `oc` to trigger commands on-cluster. This workflow is located [here](../.github/workflows/msp.yml) in the `.github/workflows` folder of this project.
+8. The GitHub Workflow (Actions) will use `oc` to trigger commands on-cluster. This workflow is located [here](../.github/workflows/aop-web.yml) in the `.github/workflows` folder of this project.
 
 This workflow is setup to **automatically run** whenever files in these paths are changed:
 
 ```yaml
     paths:
-      - "msp/src/**/*.html"
-      - "msp/src/**/*.ts"
-      - "msp/package*.json"
+      - "aop/src/**/*.html"
+      - "aop/src/**/*.ts"
+      - "aop/package*.json"
 ```
 
 This workflow is triggered whenever files change in these paths for a PR or direct merge to the `main` branch. Also, for demonstration purposes, this workflow can be triggered manually.
@@ -146,23 +146,23 @@ When the entire workflow triggers, it will create a new image and automatically 
 Create the OCP image `BuildConfig` using the provided OCP template:
 
 ```console
-oc process -f msp/openshift/templates/build.yaml | \
+oc process -f aop/openshift/templates/build.yaml | \
   oc create -f -
 ```
 
 ### Deploy
 
-9. The deployment for the `msp` component is straight forward as it has little to no environment variables. The first step in the deploument is to create a `ConfigMap` with the necessary NGINX config:
+9. The deployment for the `aop` component is straight forward as it has little to no environment variables. The first step in the deploument is to create a `ConfigMap` with the necessary NGINX config:
 
 ```console
-oc process -f msp/openshift/templates/config.yaml | \
+oc process -f aop/openshift/templates/config.yaml | \
   oc create -f -
 ```
 
 Once created deploy the web application:
 
 ```console
-oc process -f msp/openshift/templates/deploy.yaml \
+oc process -f aop/openshift/templates/deploy.yaml \
   -p NAMESPACE=$(oc project --short) \
   -p SOURCE_IMAGE_NAMESPACE=a3c641-tools \
   -p SOURCE_IMAGE_TAG=dev | \
@@ -177,7 +177,7 @@ oc process -f msp/openshift/templates/deploy.yaml \
 
 ## Additional Components
 
-10. The work done on the `spa-env-server` component can be leveraged for the remanding components of this project. For example, to apply them to the `MyGovBC-MSP-Service` component the following steps will help:
+10. The work done on the `spa-env-server` component can be leveraged for the remanding components of this project. For example, to apply them to the `msp-service` component the following steps will help:
 
 1) Copy the `gulpfile.js` with the build tasks;
 2) Install the packages with `npm -i -D NAME` that are located at the top of the gulpfile in the `require` lines.

@@ -192,14 +192,10 @@ export const submitApplication = async (state) => {
     validate(AOPApplication).then(async validator => {
       
       const valid = await validator(AOPApplication);
-
       if (!valid) {
-
         // if there are multiple errors only show one
         const error = `Invalid value in field '${ validator.errors[0].dataPath}'`; 
-        
         return reject(error);
-        
       }
 
       // send attachments first, then the application if the attachments are sent successfully
@@ -214,11 +210,11 @@ export const submitApplication = async (state) => {
               return resolve(applicationResponse);
             })
             .catch(error => {
-              return reject(error);
+              return reject('error in sendAOPApplication:', error);
             });
         })
         .catch(error => {
-          return reject(error);
+          return reject('error in sendAttachments:', error);
         });
     });
   });
