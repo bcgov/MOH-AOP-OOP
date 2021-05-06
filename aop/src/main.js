@@ -46,7 +46,7 @@ if (isIE()) {
 const eventsHub = new Vue();
 Vue.use(IdleVue, {
   eventEmitter: eventsHub,
-  idleTime: 60000,
+  idleTime: 900000,
   store
 });
 
