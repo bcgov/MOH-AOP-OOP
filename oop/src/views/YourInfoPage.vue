@@ -291,11 +291,6 @@ export default {
 </script>
 
 <style scoped>
-.phn-input, .phone-number {
-  max-width: 100%;
-  width: 350px;
-}
-
 .bcid {
   width: auto;
   max-width: 100%;
