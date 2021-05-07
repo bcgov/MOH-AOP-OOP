@@ -2,7 +2,7 @@
   <div>
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
-        <h1>Your Information</h1>
+        <h1>Your information</h1>
         <hr/>
         <div class="row">
           <div class="col-sm-7">
