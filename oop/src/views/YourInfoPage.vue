@@ -2,7 +2,7 @@
   <div>
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
-        <h1>Your Information</h1>
+        <h1>Your information</h1>
         <hr/>
         <div class="row">
           <div class="col-sm-7">
@@ -291,6 +291,11 @@ export default {
 </script>
 
 <style scoped>
+.phn-input, .phone-number {
+  max-width: 100%;
+  width: 350px;
+}
+
 .bcid {
   width: auto;
   max-width: 100%;
