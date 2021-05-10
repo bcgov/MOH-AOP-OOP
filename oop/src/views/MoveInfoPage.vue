@@ -117,9 +117,8 @@
                       class="province"
                       v-model="province"
                       maxlength='30' />
-                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger"
-                      v-if="$v.province.$dirty && $v.province.required && !$v.province.specialCharacterValidator"
+                      v-if="$v.province.$dirty && !$v.province.specialCharacterValidator"
                       aria-live="assertive">Province/state/region cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <Input label='City/town'
                       className='mt-3'
@@ -153,7 +152,7 @@
                                 className='mt-3'
                                 class="province"
                                 v-model="province" />
-                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
             </div>
@@ -220,7 +219,7 @@ const addressLineOneValidator = (addressLines) => {
       return true;
     }
   }
-  return false; 
+  return false;
 };
 
 const specialCharacterValidator = (value) => {
@@ -332,7 +331,6 @@ export default {
       }
       else {
         validations.province = {
-          required,
           specialCharacterValidator,
         },
         validations.postalCode = {
