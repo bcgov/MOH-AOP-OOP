@@ -139,7 +139,8 @@ export default {
           });
         }
       }
-      if (this.$store.state.form.province !== null){
+      if (this.$store.state.form.isNewAddressKnown === 'Y'
+        || this.$store.state.form.country === 'Canada'){
         const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
         items.push({
           label: provinceLabel,
