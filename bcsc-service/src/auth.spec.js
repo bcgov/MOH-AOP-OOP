@@ -32,12 +32,14 @@ describe("getToken", () => {
         const data = { data: {access_token: 'TOKEN'} };
         axios.post.mockImplementationOnce(() => Promise.resolve(data));
         await expect(getToken(config, code)).resolves.toEqual('TOKEN');
-        expect(axios.post).toHaveBeenCalledWith( config.token_uri,
-            `code=${code}` + 
-            `&redirect_uri=${config.redirect_uri}` +
-            `&client_id=${config.client_id}` +
-            `&client_secret=${config.client_secret}` +
-            `&grant_type=${config.grant_type}`);
+        expect(axios.post)
+            .toHaveBeenCalledWith( config.token_uri,
+                `code=${code}` + 
+                `&redirect_uri=${config.redirect_uri}` +
+                `&client_id=${config.client_id}` +
+                `&client_secret=${config.client_secret}` +
+                `&grant_type=${config.grant_type}`
+            );
     })
 })
 
@@ -47,8 +49,9 @@ describe("getInfo", () => {
         const res = { data: {testData: 'TEST_DATA'}};
         axios.get.mockImplementationOnce(() => Promise.resolve(res));
         await expect(getInfo(config, token)).resolves.toEqual(res.data);
-        expect(axios.get).toHaveBeenCalledWith( config.info_uri, {
-            headers: { Authorization: 'bearer ' + token }
-        });
+        expect(axios.get)
+            .toHaveBeenCalledWith( config.info_uri, {
+                headers: { Authorization: 'bearer ' + token }
+            });
     })
 })
