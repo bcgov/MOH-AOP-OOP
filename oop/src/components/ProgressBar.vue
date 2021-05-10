@@ -197,6 +197,7 @@ export default {
   color: #000;
   background: #FFF;
   font-weight: normal;
+  font-size: 13.33px;
 }
 .step-text-selected {
   font-weight: bold;
@@ -220,8 +221,11 @@ export default {
   .step-container {
     display: none;
   }
-  .mobile-progress-bar-container,
   .mobile-step-container {
+    display: block;
+    font-size: 13.33px;
+  }
+  .mobile-progress-bar-container {
     display: block;
   }
 }
@@ -280,6 +284,7 @@ export default {
   color: #000;
   left: 30px;
   font-weight: normal;
+  font-size: 13.33px;
 }
 .v-step-text-selected {
   font-weight: bold;
