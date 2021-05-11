@@ -3,7 +3,10 @@
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Under maintenance</h1>
-      <p>This application is currently down for maintenance. Please try again in a few hours.</p>
+      <p>
+        This application is currently down for maintenance. Please try again in
+        a few hours.
+      </p>
     </main>
     <Footer />
   </div>
@@ -20,7 +23,7 @@ export default {
     Footer,
     Header,
   },
-  mixins: [FocusHeaderMixin]
+  mixins: [FocusHeaderMixin],
 };
 </script>
 

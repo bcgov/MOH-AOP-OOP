@@ -10,12 +10,24 @@
           </div>
 
           <div class="col-md-10">
-            <p class="py-3">An error has occured with your submission. Please close this form and wait a few minutes before trying again. If the error persists, please contact <a class="HIBC-link" href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/msp/contact-us">Health Insurance BC</a>.</p>
+            <p class="py-3">
+              An error has occured with your submission. Please close this form
+              and wait a few minutes before trying again. If the error persists,
+              please contact
+              <a
+                class="HIBC-link"
+                href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/msp/contact-us"
+                >Health Insurance BC</a
+              >.
+            </p>
           </div>
         </div>
       </div>
     </main>
-    <ContinueBar :buttonLabel="'Back to form select'" @continue="navigateToFormSelect"/>
+    <ContinueBar
+      :buttonLabel="'Back to form select'"
+      @continue="navigateToFormSelect"
+    />
     <Footer />
   </div>
 </template>
@@ -33,15 +45,15 @@ export default {
   components: {
     Footer,
     SignOutHeader,
-    ContinueBar
+    ContinueBar,
   },
   mixins: [FocusHeaderMixin],
   data: () => {
     return {
-      message: ''
+      message: "",
     };
   },
-  created(){
+  created() {
     this.message = this.$store.state.apiResponse.toString();
   },
   methods: {
@@ -49,8 +61,8 @@ export default {
       const path = routes.SUBMISSION_INFO.path;
       this.$router.push(path);
       scrollTo(0);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -61,12 +73,12 @@ main.container {
 }
 
 .fa-times-circle {
-  color: #D8292F;
+  color: #d8292f;
 }
 
 .success-box {
   border-radius: 10px;
-  border: 5px solid #D8292F;
+  border: 5px solid #d8292f;
   padding: 10px;
 }
 

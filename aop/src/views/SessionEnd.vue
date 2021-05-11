@@ -3,10 +3,16 @@
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Secure session ended</h1>
-      <p>You have successfully closed your secure session with the Diagnostic Facilities upload tool.</p>
+      <p>
+        You have successfully closed your secure session with the Diagnostic
+        Facilities upload tool.
+      </p>
       <p>You may close your browser now.</p>
     </main>
-    <ContinueBar :buttonLabel="'Back to sign in'" @continue="navigateToSignIn" />
+    <ContinueBar
+      :buttonLabel="'Back to sign in'"
+      @continue="navigateToSignIn"
+    />
     <Footer />
   </div>
 </template>
@@ -24,7 +30,7 @@ export default {
   components: {
     Footer,
     Header,
-    ContinueBar
+    ContinueBar,
   },
   mixins: [FocusHeaderMixin],
   data: () => {
@@ -35,8 +41,8 @@ export default {
       const path = routes.SIGN_IN.path;
       this.$router.push(path);
       scrollTo(0);
-    }
-  }
+    },
+  },
 };
 </script>
 

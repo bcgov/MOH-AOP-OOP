@@ -11,8 +11,8 @@
         <hr />
         <p>You can upload and send ONLY ONE form at a time.</p>
         <p>
-          After submitting your first form, you can submit additional forms from the
-          "Confirmation" screen. The submitter information will populate
+          After submitting your first form, you can submit additional forms from
+          the "Confirmation" screen. The submitter information will populate
           automatically for the second and subsequent submissions.
         </p>
         <div class="form-group">
@@ -43,8 +43,8 @@
               @change="resetFiles"
             />&nbsp;
             <label for="COAOP"
-              >Diagnostic Facility Services Cancellation of Assignment of Payment
-              (HLTH 1926)</label
+              >Diagnostic Facility Services Cancellation of Assignment of
+              Payment (HLTH 1926)</label
             >
           </div>
           <br />
@@ -58,8 +58,8 @@
               @change="resetFiles"
             />&nbsp;
             <label for="OOPA"
-              >Laboratory Services Outpatient Operator Payment Administration (HLTH
-              2999)</label
+              >Laboratory Services Outpatient Operator Payment Administration
+              (HLTH 2999)</label
             >
           </div>
           <div
@@ -71,8 +71,8 @@
         </div>
         <div class="mt-5" v-if="uploadType === 'AOP'">
           <h3>
-            Do you need to submit confirmation of credentials for this Assignment of
-            Payment?
+            Do you need to submit confirmation of credentials for this
+            Assignment of Payment?
           </h3>
           <hr />
           <div class="radio-group">
@@ -111,7 +111,10 @@
             Field is required
           </div>
         </div>
-        <div class="mt-5" v-if="uploadType === 'AOP' && credentialsRequired !== ''">
+        <div
+          class="mt-5"
+          v-if="uploadType === 'AOP' && credentialsRequired !== ''"
+        >
           <h2 v-if="credentialsRequired === 'true'">
             Submit your Assignment of Payment and Medical Director Authorization
             form with Confirmation of Practitioner Credentials
@@ -133,8 +136,8 @@
           <h2>Submit your Cancellation of Assignment of Payment</h2>
           <hr />
           <p>
-            When submitting a Cancellation of Assignment of Payment, please ensure
-            the form is complete and signed by the practitioner and payee
+            When submitting a Cancellation of Assignment of Payment, please
+            ensure the form is complete and signed by the practitioner and payee
             representative. Only fully completed and authorized Cancellation of
             Assignment of Payment forms can be processed.
           </p>
@@ -146,8 +149,8 @@
           </h2>
           <hr />
           <p>
-            Please use the below fields to submit your completed Operator Payment
-            Administration form.
+            Please use the below fields to submit your completed Operator
+            Payment Administration form.
           </p>
           <p>
             Ensure your form is complete and appropriately authorized prior to
@@ -174,18 +177,19 @@
             </li>
             <li>Complete all contact information fields below</li>
             <li>
-              Click "Select a file" or "Add" and locate the scanned PDF form on your
-              computer
+              Click "Select a file" or "Add" and locate the scanned PDF form on
+              your computer
             </li>
             <li>Once the file has been uploaded, click the "Submit" button</li>
             <li>
-              A "Confirmation" window will display on your computer with the result
-              of the transaction
+              A "Confirmation" window will display on your computer with the
+              result of the transaction
             </li>
           </ol>
         </div>
         <p v-if="uploadType === 'OOPA'">
-          To report any issues with the secure upload tool, please send an email to
+          To report any issues with the secure upload tool, please send an email
+          to
           <a href="mailto:labfacilities@phsa.ca">labfacilities@phsa.ca</a>
         </p>
         <div
@@ -202,7 +206,12 @@
             administrator, etc.)
           </p>
           <Input :label="'First name'" v-model="firstName" :disabled="true" />
-          <Input :label="'Last name'" :className="'mt-3'" v-model="lastName" :disabled="true" />
+          <Input
+            :label="'Last name'"
+            :className="'mt-3'"
+            v-model="lastName"
+            :disabled="true"
+          />
           <Input
             :label="'Email address'"
             :className="'mt-3'"
@@ -292,7 +301,10 @@
             </masked-input>
           </div>
 
-          <div class="mb-3" v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
+          <div
+            class="mb-3"
+            v-if="uploadType === 'AOP' || uploadType === 'COAOP'"
+          >
             <Input
               :label="'Organization'"
               :className="'mt-3'"
@@ -309,7 +321,11 @@
             </div>
             <div
               class="text-danger"
-              v-if="$v.organization.$dirty && $v.organization.required && !$v.organization.hasNoInvalidJSON"
+              v-if="
+                $v.organization.$dirty &&
+                $v.organization.required &&
+                !$v.organization.hasNoInvalidJSON
+              "
               aria-live="assertive"
             >
               Invalid organization
@@ -333,7 +349,11 @@
             </div>
             <div
               class="text-danger"
-              v-if="$v.facility.$dirty && $v.facility.required && !$v.facility.hasNoInvalidJSON"
+              v-if="
+                $v.facility.$dirty &&
+                $v.facility.required &&
+                !$v.facility.hasNoInvalidJSON
+              "
               aria-live="assertive"
             >
               Invalid facility name
@@ -564,8 +584,8 @@
               "
               aria-live="assertive"
             >
-              Secondary practitioner last name is required if supplying a secondary
-              practitioner number
+              Secondary practitioner last name is required if supplying a
+              secondary practitioner number
             </div>
           </div>
 
@@ -609,36 +629,39 @@
                     v-if="
                       $v.files.$dirty &&
                       credentialsRequired &&
-                      $v.files.required && 
-                      $v.credentials && 
+                      $v.files.required &&
+                      $v.credentials &&
                       !$v.credentials.hasDistinctFiles
                     "
                     aria-live="assertive"
                   >
-                    Please upload distinct documents for Assignment of Payment form and for credentials
+                    Please upload distinct documents for Assignment of Payment
+                    form and for credentials
                   </div>
                   <div class="notice">
                     <strong>Note:</strong>
                     <ul>
                       <li>
-                        For system security purposes, form must be saved in <strong>PDF file
-                        format only</strong>
+                        For system security purposes, form must be saved in
+                        <strong>PDF file format only</strong>
                       </li>
                       <li>
-                        File must be named for the practitioner who is named on the
-                        Assignment of Payment form
+                        File must be named for the practitioner who is named on
+                        the Assignment of Payment form
                       </li>
                       <li>In naming files, please:</li>
                       <ul>
-                        <li>Use the practitioner's last name then first name</li>
+                        <li>
+                          Use the practitioner's last name then first name
+                        </li>
                         <li>Use lower case letters only</li>
                         <li>
                           Use dashes "-" to separate names (do not use spaces or
                           underscores)
                         </li>
                         <li>
-                          Do not use special characters including spaces, commas,
-                          underscores or periods
+                          Do not use special characters including spaces,
+                          commas, underscores or periods
                         </li>
                         <li>
                           Example of proper naming convention: smith-john;
@@ -676,20 +699,28 @@
                     v-if="
                       $v.credentials.$dirty &&
                       credentialsRequired &&
-                      $v.credentials.required && !$v.credentials.hasDistinctFiles
+                      $v.credentials.required &&
+                      !$v.credentials.hasDistinctFiles
                     "
                     aria-live="assertive"
                   >
-                    Please upload distinct documents for Assignment of Payment form and for credentials
+                    Please upload distinct documents for Assignment of Payment
+                    form and for credentials
                   </div>
                   <div class="notice">
                     <strong>Note:</strong>
-                    <p>Scan the document, or take a photo of it. Make sure that it's:</p>
+                    <p>
+                      Scan the document, or take a photo of it. Make sure that
+                      it's:
+                    </p>
                     <ul>
                       <li>The entire document, from corner to corner</li>
                       <li>Rotated correctly (not upside down or sideways)</li>
                       <li>In focus and easy to read</li>
-                      <li>Documents must be uploaded in <strong>PDF file format only</strong></li>
+                      <li>
+                        Documents must be uploaded in
+                        <strong>PDF file format only</strong>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -699,7 +730,7 @@
         </div>
       </form>
     </main>
-    <ContinueBar @continue='nextPage()'/>
+    <ContinueBar @continue="nextPage()" />
     <Footer />
   </div>
 </template>
@@ -741,7 +772,7 @@ import {
   hasSecondaryNumber,
   hasSecondaryLastName,
   hasDistinctFiles,
-  hasNoInvalidJSON
+  hasNoInvalidJSON,
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
@@ -756,7 +787,7 @@ export default {
     Input,
     Loader,
     MaskedInput,
-    Footer
+    Footer,
   },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
@@ -807,14 +838,14 @@ export default {
         },
         organization: {
           required,
-          hasNoInvalidJSON
+          hasNoInvalidJSON,
         },
         files: {
           required,
         },
         credentials: {
           required,
-          hasDistinctFiles
+          hasDistinctFiles,
         },
         submissionType: {
           required,
@@ -829,8 +860,8 @@ export default {
           isValidLastName,
         },
         comments: {
-          hasNoInvalidJSON
-        }
+          hasNoInvalidJSON,
+        },
       };
     } else if (this.uploadType === "AOP") {
       return {
@@ -857,7 +888,7 @@ export default {
         },
         organization: {
           required,
-          hasNoInvalidJSON
+          hasNoInvalidJSON,
         },
         files: {
           required,
@@ -875,8 +906,8 @@ export default {
           isValidLastName,
         },
         comments: {
-          hasNoInvalidJSON
-        }
+          hasNoInvalidJSON,
+        },
       };
     } else if (this.uploadType === "COAOP") {
       return {
@@ -900,7 +931,7 @@ export default {
         },
         organization: {
           required,
-          hasNoInvalidJSON
+          hasNoInvalidJSON,
         },
         files: {
           required,
@@ -915,8 +946,8 @@ export default {
           isValidLastName,
         },
         comments: {
-          hasNoInvalidJSON
-        }
+          hasNoInvalidJSON,
+        },
       };
     } else if (this.uploadType === "OOPA") {
       return {
@@ -968,7 +999,7 @@ export default {
         },
         comments: {
           hasNoInvalidJSON,
-        }
+        },
       };
     } else {
       return {
@@ -1057,8 +1088,8 @@ export default {
         default:
           return "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -1088,7 +1119,7 @@ h6 {
 }
 
 .upload-container {
-  display:flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
 }
@@ -1111,9 +1142,9 @@ h6 {
   }
 }
 
-@media (min-width: 576px){
+@media (min-width: 576px) {
   input.form-control {
-      width: 50%;
+    width: 50%;
   }
 }
 </style>

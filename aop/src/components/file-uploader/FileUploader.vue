@@ -42,8 +42,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const loadImage = require("blueimp-load-image");
 const sha1 = require("sha1");
-const PDFJS = require("pdfjs-dist/build/pdf");
-const pdfJsWorker = require("pdfjs-dist/build/pdf.worker.entry");
+const PDFJS = require("pdfjs-dist/es5/build/pdf");
+const pdfJsWorker = require("pdfjs-dist/es5/build/pdf.worker.entry");
 PDFJS.workerSrc = pdfJsWorker;
 
 export var CommonImageError;

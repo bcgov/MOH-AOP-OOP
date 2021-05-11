@@ -8,11 +8,14 @@
         <hr />
 
         <div class="relative">
-            <h2>Selected form</h2>
-            <hr />
-            <a class="edit-link" href="javascript:void(0)" @click="navigateToSubmissionInfoPage()"
-              >Edit <font-awesome-icon icon="pencil-alt" /></a
-            >
+          <h2>Selected form</h2>
+          <hr />
+          <a
+            class="edit-link"
+            href="javascript:void(0)"
+            @click="navigateToSubmissionInfoPage()"
+            >Edit <font-awesome-icon icon="pencil-alt"
+          /></a>
         </div>
         <div class="selected-form mb-4">
           {{ selectedForm }} {{ withCredentials }}
@@ -26,21 +29,19 @@
         <hr />
         <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
           <div class="name">
-            <div>
-              Submission Type:
-            </div>
+            <div>Submission Type:</div>
           </div>
           <div class="radios">
             <div class="radio-group">
               <input
-                  type="radio"
-                  id="new"
-                  value="New Submission"
-                  name="submissionType"
-                  v-model="$store.state.submissionType"
-                  disabled
-                />&nbsp;
-                <label for="new"><strong>New submission</strong></label>
+                type="radio"
+                id="new"
+                value="New Submission"
+                name="submissionType"
+                v-model="$store.state.submissionType"
+                disabled
+              />&nbsp;
+              <label for="new"><strong>New submission</strong></label>
             </div>
             <div class="radio-group">
               <input
@@ -61,7 +62,7 @@
         <hr />
         <Table :elements="supportingDocuments" />
       </div>
-      <ContinueBar @continue='nextPage()' :buttonLabel="'Submit'" />
+      <ContinueBar @continue="nextPage()" :buttonLabel="'Submit'" />
     </main>
     <Footer />
   </div>
@@ -74,10 +75,10 @@ import ContinueBar from "../components/ContinueBar";
 import Footer from "../components/Footer";
 import Table from "../components/Table";
 import { scrollTo } from "../helpers/scroll";
-import SummaryMixin from '../mixins/SummaryMixin';
-import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
+import SummaryMixin from "../mixins/SummaryMixin";
+import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import { routes, stepRoutes } from "../router/routes";
-import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
+import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 
 export default {
   name: "Review",
@@ -86,20 +87,23 @@ export default {
     ProgressBar,
     ContinueBar,
     Table,
-    Footer
+    Footer,
   },
   mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
     return {
       stepRoutes: stepRoutes,
-      withCredentials: ''
-    }
+      withCredentials: "",
+    };
   },
   created() {
-    this.withCredentials = this.$store.state.credentialsRequired === "true" ? "with credentials" : "";
+    this.withCredentials =
+      this.$store.state.credentialsRequired === "true"
+        ? "with credentials"
+        : "";
   },
   methods: {
-    nextPage: function() {
+    nextPage: function () {
       const path = routes.SENDING.path;
       this.$router.push(path);
       scrollTo(0);
@@ -108,7 +112,7 @@ export default {
       const path = routes.SUBMISSION_INFO.path;
       this.$router.push(path);
       scrollTo(0);
-    }
+    },
   },
 };
 </script>

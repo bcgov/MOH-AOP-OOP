@@ -22,9 +22,9 @@ import Header from "../components/Header";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { log } from "../services/logging-service";
-import { SET_API_RESPONSE, SET_UUID } from '../store';
-import FocusHeaderMixin from '../mixins/FocusHeaderMixin';
-import NoNameLogoutMixin from '../mixins/NoNameLogoutMixin';
+import { SET_API_RESPONSE, SET_UUID } from "../store";
+import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
+import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
@@ -44,22 +44,38 @@ export default {
       .then(res => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.commit(SET_API_RESPONSE, res.data.refNumber);
-          log({message: 'Success', error: null}, res.data.uuid, res.data.refNumber);
+          log(
+            { message: "Success", error: null },
+            res.data.uuid,
+            res.data.refNumber
+          );
           this.nextPage();
-        } else if (res.data && res.data.returnCode === "failure"){
+        } else if (res.data && res.data.returnCode === "failure") {
           if (res.data.dberrorMessage) {
-            log({message: 'Error storing application in db', error: res.data.dberrorMessage}, res.data.uuid);
+            log(
+              {
+                message: "Error storing application in db",
+                error: res.data.dberrorMessage,
+              },
+              res.data.uuid
+            );
           } else {
-            log({message: 'Error validating application', error: res.data.validationError}, res.data.uuid);
+            log(
+              {
+                message: "Error validating application",
+                error: res.data.validationError,
+              },
+              res.data.uuid
+            );
           }
           this.navigateToErrorPage();
         } else {
-          log({message: 'Error sending application', error: 'Unknown error'});
+          log({ message: "Error sending application", error: "Unknown error" });
           this.navigateToErrorPage();
         }
       })
       .catch(err => {
-        log({message: 'Error sending application', error: err});
+        log({ message: "Error sending application", error: err });
         this.navigateToErrorPage();
       })
       .finally(() => {
