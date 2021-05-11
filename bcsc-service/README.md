@@ -14,3 +14,6 @@ https://console.apps.silver.devops.gov.bc.ca/k8s/ns/a3c641-dev/deploymentconfigs
 
 All Pods:
 https://console.apps.silver.devops.gov.bc.ca/k8s/ns/a3c641-dev/pods/
+
+Example JWKS generator
+ https://mkjwk.org/

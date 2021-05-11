@@ -5,7 +5,7 @@ const router = express.Router();
 
 module.exports = function (config) {
 
-  router.get('/url', (req, res) => {
+  router.get('/url', (_, res) => {
     const url = auth.getAuthUrl(config);
     res.json({ url });
   });
@@ -15,6 +15,11 @@ module.exports = function (config) {
       req.session.destroy();
     res.status(204).end();
   });
+
+  router.get('/jwks', (_, res) => {
+    res.json({ keys: [config.jwks_public] });
+  });
+
 
   // Returns user info using token saved in session, if any
   router.get('/userinfo', (req, res) => {

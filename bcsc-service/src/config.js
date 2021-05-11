@@ -8,6 +8,7 @@ const config = {
   token_uri: process.env.TOKEN_URI,
   auth_uri: process.env.AUTH_URI,
   info_uri: process.env.INFO_URI,
+  jwks_public: process.env.JWKS_PUBLIC,
   sessions: process.env.SESSIONS || undefined,
   session_options: {
     host: process.env.SESSION_HOST || undefined,
