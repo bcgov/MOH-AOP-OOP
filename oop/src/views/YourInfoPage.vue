@@ -2,7 +2,7 @@
   <div>
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
-        <h1>Your Information</h1>
+        <h1>Your information</h1>
         <hr/>
         <div class="row">
           <div class="col-sm-7">
@@ -58,9 +58,18 @@
           <div class="col-sm-5">
             <TipBox title="Tip: PHN number">
               <p>The 10 digit number that can be found on the back of your <a href="https://www2.gov.bc.ca/gov/content/health/health-drug-coverage/msp/bc-residents/personal-health-identification/your-bc-services-card" target="_blank">BC Services Card</a> (or front of the CareCard if you still have one).</p>
-              <img src="/images/bcid-sample.jpg"
-                   alt="BC Services Card Sample"
-                   class="bcid"/>
+              <div class="bcid-container">
+                <div class="bcid-image-container">
+                  <img src="/oop/images/bcid-sample-front.png"
+                      alt="BC Services Card sample front"
+                      class="bcid"/>
+                </div>
+                <div class="bcid-image-container">
+                  <img src="/oop/images/bcid-sample-back.png"
+                      alt="BC Services Card sample back"
+                      class="bcid"/>
+                </div>
+              </div>
             </TipBox>
           </div>
         </div>
@@ -286,5 +295,13 @@ export default {
   width: auto;
   max-width: 100%;
   height: auto;
+}
+.bcid-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+.bcid-image-container {
+  width: 50%;
+  padding: 5px;
 }
 </style>

@@ -82,7 +82,7 @@ export default {
   methods: {
     getFocusableEls() {
       // Create an array of focusable elements from the contents of the modal
-      return Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+      return Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button, [tabindex="0"]'));
     },
     handleCaptchaLoaded() {
       this.focusableEls = this.getFocusableEls();
@@ -90,6 +90,9 @@ export default {
     handleCaptchaVerified(captchaToken) {
       this.$store.dispatch(formModule + '/' + SET_CAPTCHA_TOKEN, captchaToken);
       this.isCaptchaValid = true;
+      setTimeout(() => {
+        this.focusableEls = this.getFocusableEls();
+      }, 0);
     },
     closeModal() {
       this.$emit('close', true);

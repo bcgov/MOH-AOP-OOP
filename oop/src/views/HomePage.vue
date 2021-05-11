@@ -21,7 +21,7 @@
           <div class="col-md-6">
             <img
             alt="BC Services Card Sample"
-            src="/images/bcid-sample.jpg"
+            src="/oop/images/bcid-sample.jpg"
             class="bcid"
             />
           </div>

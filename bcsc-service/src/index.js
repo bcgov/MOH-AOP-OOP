@@ -2,17 +2,19 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const auth = require('./auth');
 const config = require('./config');
-const session = require('./redis-session');
 const apiRoutes = require('./routes/api');
 const testRoutes = require('./routes/test');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
+if(config.sessions === "enabled")
+  {
+  const session = require('./redis-session');
+  app.use(session(config.session_options));
+  }
 
 app.use(cors());
-app.use(session(config.session_options));
 app.use("/api", apiRoutes(config));
 app.use("/test", testRoutes(config));
 

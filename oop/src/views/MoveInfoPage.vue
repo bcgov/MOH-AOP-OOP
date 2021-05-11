@@ -2,7 +2,7 @@
   <div>
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
-        <h1>Move Information</h1>
+        <h1>Move information</h1>
         <p><b>If you are moving within Canada,</b> coverage is provided for the remainder of the month in which you leave the province plus the next two months. If required, your coverage may be extended for up to three extra months to cover you while in transit. Upon arrival, you should immediately apply to the health plan of the new province or territory.
         <p><b>If you are moving outside Canada,</b> coverage is provided for the remainder of the month in which you leave the province.</p>
         <hr/>
@@ -32,23 +32,13 @@
         <p>A confirmation letter will be sent to your new address following cancellation of coverage.</p>
         <hr/>
         <p>Do you know your new address?</p>
-        <input type='radio'
-                id='is-new-address-known-y'
-                value='Y'
-                v-model='isNewAddressKnown' />
-        <label for='is-new-address-known-y'
-                class='ml-3'>Yes</label>
-        <br/>
-        <input type='radio'
-                id='is-new-address-known-n'
-                value='N'
-                v-model='isNewAddressKnown' />
-        <label for='is-new-address-known-n'
-                class='ml-3'>No</label>
+        <Radio v-model="isNewAddressKnown"
+              :items="isNewAddressKnownRadioItems"
+              name='isNewAddressKnown' />
         <div class="text-danger"
               v-if="$v.isNewAddressKnown.$dirty && !$v.isNewAddressKnown.required"
               aria-live="assertive">Please select one of the options above.</div>
-        <br/>
+
         <div class="row">
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
@@ -117,9 +107,8 @@
                       class="province"
                       v-model="province"
                       maxlength='30' />
-                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
                 <div class="text-danger"
-                      v-if="$v.province.$dirty && $v.province.required && !$v.province.specialCharacterValidator"
+                      v-if="$v.province.$dirty && !$v.province.specialCharacterValidator"
                       aria-live="assertive">Province/state/region cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <Input label='City/town'
                       className='mt-3'
@@ -153,7 +142,7 @@
                                 className='mt-3'
                                 class="province"
                                 v-model="province" />
-                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
                 <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
             </div>
@@ -193,7 +182,11 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import AddressInput from '../components/AddressInput.vue';
-import { PostalCodeInput, Button } from 'common-lib-vue';
+import {
+  PostalCodeInput,
+  Button,
+  Radio,
+} from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
@@ -220,7 +213,7 @@ const addressLineOneValidator = (addressLines) => {
       return true;
     }
   }
-  return false; 
+  return false;
 };
 
 const specialCharacterValidator = (value) => {
@@ -244,6 +237,7 @@ export default {
     TipBox,
     AddressInput,
     Button,
+    Radio,
   },
   data: () => {
     return {
@@ -258,7 +252,19 @@ export default {
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
-      currNumOfAddressLines: null
+      currNumOfAddressLines: null,
+      isNewAddressKnownRadioItems: [
+        {
+          id: 'is-new-address-known-y',
+          label: 'Yes',
+          value: 'Y'
+        },
+        {
+          id: 'is-new-address-known-n',
+          label: 'No',
+          value: 'N'
+        }
+      ]
     }
   },
   created() {
@@ -332,7 +338,6 @@ export default {
       }
       else {
         validations.province = {
-          required,
           specialCharacterValidator,
         },
         validations.postalCode = {

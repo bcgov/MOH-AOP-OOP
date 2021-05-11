@@ -11,58 +11,22 @@
           <div v-if='accountType === "AH"'
               class="account-type col-sm-7">
             <h2 class="mt-4">Who is moving out of B.C.?</h2>
-
-            <input type='radio'
-                  id='person-moving-ah'
-                  name='personMoving'
-                  value='AH_ONLY'
-                  v-model='personMoving' />
-            <label for='person-moving-ah'
-                  class='ml-3'>Account holder only</label>
-            <br />
-            <input type='radio'
-                  id='person-moving-ahad'
-                  name='personMoving'
-                  value='AH_DEP'
-                  v-model='personMoving' />
-            <label for='person-moving-ahad'
-                  class='ml-3'>Account holder and dependent(s)</label>
-            <br />
-            <input type='radio'
-                  id='person-moving-d'
-                  name='personMoving'
-                  value='DEP_ONLY'
-                  v-model='personMoving' />
-            <label for='person-moving-d'
-                  class='ml-3'>My dependent(s) only</label>
+            <Radio v-model="personMoving"
+                  :items="personMovingRadioItems"
+                  name='personMoving' />
             <div class="text-danger"
                 v-if="$v.personMoving.$dirty && !$v.personMoving.required"
                 aria-live="assertive">This field is required.</div>
-            <br/>
 
             <div v-if='personMoving === "AH_DEP"'
                 class="person-moving">
               <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
-
-              <input type='radio'
-                    id='is-all-dependents-moving-y'
-                    name='isAllDependentsMoving'
-                    value='Y'
-                    v-model='isAllDependentsMoving' />
-              <label for='is-all-dependents-moving-y'
-                    class='ml-3'>Yes</label>
-              <br/>
-              <input type='radio'
-                    id='is-all-dependents-moving-n'
-                    name='isAllDependentsMoving'
-                    value='N'
-                    v-model='isAllDependentsMoving' />
-              <label for='is-all-dependents-moving-n'
-                    class='ml-3'>No</label>
+              <Radio v-model="isAllDependentsMoving"
+                    :items="isAllDependentsMovingRadioItems"
+                    name='isAllDependentsMoving' />
               <div class="text-danger"
                   v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
                   aria-live="assertive">Please select one of the options above.</div>
-              <br/>
             </div>
 
             <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
@@ -149,6 +113,7 @@ import PageContent from '../components/PageContent.vue';
 import {
   Button,
   PhnInput,
+  Radio,
   phnValidator
 } from 'common-lib-vue';
 import {
@@ -211,6 +176,7 @@ export default {
     ContinueBar,
     PageContent,
     PhnInput,
+    Radio,
     TipBox
   },
   data: () => {
@@ -223,6 +189,35 @@ export default {
       isLoading: false,
       isServerValidationErrorShown: false,
       isSystemUnavailable: false,
+      personMovingRadioItems: [
+        {
+          id: 'person-moving-ah',
+          label: 'Account holder only',
+          value: 'AH_ONLY'
+        },
+        {
+          id: 'person-moving-ahad',
+          label: 'Account holder and dependent(s)',
+          value: 'AH_DEP'
+        },
+        {
+          id: 'person-moving-d',
+          label: 'My dependent(s) only',
+          value: 'DEP_ONLY'
+        }
+      ],
+      isAllDependentsMovingRadioItems: [
+        {
+          id: 'is-all-dependents-moving-y',
+          label: 'Yes',
+          value: 'Y'
+        },
+        {
+          id: 'is-all-dependents-moving-n',
+          label: 'No',
+          value: 'N'
+        }
+      ]
     }
   },
   created() {
@@ -428,7 +423,8 @@ export default {
 
 <style scoped>
 h2 {
-  font-size: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5em;
 }
 
 .phn-input {
