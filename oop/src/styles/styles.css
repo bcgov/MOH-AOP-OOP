@@ -11,3 +11,7 @@
 body.no-scroll {
   overflow: hidden;
 }
+
+.text-danger {
+  font-size: 13.33px;
+}

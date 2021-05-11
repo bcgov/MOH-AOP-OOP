@@ -123,7 +123,7 @@ export default {
   padding: 2px 4px;
   border: 2px solid #606060;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 13.33px;
   right: 25px;
  
   /* Position the tooltip text - see examples below! */

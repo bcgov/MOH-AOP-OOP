@@ -32,23 +32,13 @@
         <p>A confirmation letter will be sent to your new address following cancellation of coverage.</p>
         <hr/>
         <p>Do you know your new address?</p>
-        <input type='radio'
-                id='is-new-address-known-y'
-                value='Y'
-                v-model='isNewAddressKnown' />
-        <label for='is-new-address-known-y'
-                class='ml-3'>Yes</label>
-        <br/>
-        <input type='radio'
-                id='is-new-address-known-n'
-                value='N'
-                v-model='isNewAddressKnown' />
-        <label for='is-new-address-known-n'
-                class='ml-3'>No</label>
+        <Radio v-model="isNewAddressKnown"
+              :items="isNewAddressKnownRadioItems"
+              name='isNewAddressKnown' />
         <div class="text-danger"
               v-if="$v.isNewAddressKnown.$dirty && !$v.isNewAddressKnown.required"
               aria-live="assertive">Please select one of the options above.</div>
-        <br/>
+
         <div class="row">
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
@@ -192,7 +182,11 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import AddressInput from '../components/AddressInput.vue';
-import { PostalCodeInput, Button } from 'common-lib-vue';
+import {
+  PostalCodeInput,
+  Button,
+  Radio,
+} from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
@@ -243,6 +237,7 @@ export default {
     TipBox,
     AddressInput,
     Button,
+    Radio,
   },
   data: () => {
     return {
@@ -257,7 +252,19 @@ export default {
       showServerValidationError: false,
       isPageLoaded: false,
       isLoading: false,
-      currNumOfAddressLines: null
+      currNumOfAddressLines: null,
+      isNewAddressKnownRadioItems: [
+        {
+          id: 'is-new-address-known-y',
+          label: 'Yes',
+          value: 'Y'
+        },
+        {
+          id: 'is-new-address-known-n',
+          label: 'No',
+          value: 'N'
+        }
+      ]
     }
   },
   created() {
