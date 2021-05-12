@@ -34,8 +34,8 @@
 <script>
 import Button from "../Button";
 import Thumbnail from "./Thumbnail.vue";
-import { Observable, fromEvent, merge } from "rxjs";
-import { map, filter, flatMap, scan, delay, retryWhen } from "rxjs/operators";
+import { Observable, fromEvent, merge } from "rxjs/_esm5";
+import { map, filter, flatMap, scan, delay, retryWhen } from "rxjs/_esm5/operators";
 import plusIconSvg from "./images/plus.svg";
 import cloudUploadIconSvg from "./images/cloud-upload-alt.svg";
 import { v4 as uuidv4 } from "uuid";
