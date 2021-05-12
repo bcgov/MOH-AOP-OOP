@@ -7,7 +7,7 @@
     "build": "NODE_ENV=production gulp",
     "start": "node ./src/index.js",
     "dev": "npx nodemon --watch src --watch .env --exec node ./src/index.js server",
-    "test:unit": "jest",
+    "test": "jest --coverage",
     "test:lint": "echo \"WARNING: No LINTer specified\" && exit 0",
     "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
   },

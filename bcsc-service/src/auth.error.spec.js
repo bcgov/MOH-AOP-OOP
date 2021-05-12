@@ -37,11 +37,11 @@ const config = {
 };
 
 describe("getToken", () => {
-    it('sends the correct POST request and returns the correct data', async () => {
+    it('sends the correct POST request and throws the returned error', async () => {
         const code = "CODE";
         await getToken(config, code)
             .catch((err) => {
-                expect(err).toEqual(mockError.response.data);
+                expect(err).toEqual(mockError);
             });
         
         expect(axios.post)
@@ -56,7 +56,7 @@ describe("getToken", () => {
 })
 
 describe("getInfo", () => {
-    it('sends the correct POST request and returns the correct data', async () => {
+    it('sends the correct GET request and throws the returned error', async () => {
         const token = "TOKEN";
         await getInfo(config, token)
             .catch((err) => {

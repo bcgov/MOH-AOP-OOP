@@ -22,7 +22,7 @@ const getToken = function (config, code) {
     })
     .catch(err => {
       console.log("getToken: ", err.response.data);
-      throw (err.response.data);
+      throw (err);
     });
 };
 

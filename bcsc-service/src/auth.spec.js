@@ -44,7 +44,7 @@ describe("getToken", () => {
 })
 
 describe("getInfo", () => {
-    it('sends the correct POST request and returns the correct data', async () => {
+    it('sends the correct GET request and returns the correct data', async () => {
         const token = "TOKEN";
         const res = { data: {testData: 'TEST_DATA'}};
         axios.get.mockImplementationOnce(() => Promise.resolve(res));

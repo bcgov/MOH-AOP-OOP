@@ -55,19 +55,19 @@ app.use("/api", apiRoutes(config));
 
 describe('api routes', () => {
 
-    it('should return the error data when get "/api/auth/:code" ', async (done) => {
+    it('should return the recieved axios error when get "/api/auth/:code" ', async (done) => {
         const code = "CODE";
         request(app)
             .get(`/api/auth/${code}`)
-            .expect({ error: mockError.response.data })
+            .expect({ error: mockError })
             .expect(200, done)
     })
 
-    it('should return user info when get "/api/userinfo" with a token', async (done) => {
+    it('should return the recieved axios error when get "/api/userinfo" with a token', async (done) => {
         // the token is set in the app setup
         request(app)
             .get(`/api/userinfo`)
-            .expect({ err: mockError })
+            .expect({ error: mockError })
             .expect(200, done)
     })
 })
