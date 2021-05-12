@@ -75,7 +75,7 @@ var winstonLogger = new winston.Logger({
 });
 
 winstonLogger.error = function (err, context) {
-    winstonLogger.error(`SplunkLogger error:` + err + `  context:` + context);
+    console.error(`SplunkLogger error:` + err + `  context:` + context);
 };
 
 // remove console if not in debug mode
