@@ -102,7 +102,7 @@
                 <div class="text-danger" v-if="$v.postalCode.$dirty && $v.postalCode.required && !$v.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
               </div>
               <div v-else>
-                <Input label='Province/state/region'
+                <Input label='Province/state/region (optional)'
                       className='mt-3'
                       class="province"
                       v-model="province"
