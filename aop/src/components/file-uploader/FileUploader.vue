@@ -291,9 +291,7 @@ export default {
 
     /** Opens the file upload dialog from the browser. */
     openFileDialog: function() {
-      console.log('================= FILE UPLOADER #1 ================')
       this.$refs.browseFileRef.dispatchEvent(new MouseEvent("click"));
-      console.log('================= FILE UPLOADER #2 ================')
     },
 
     /**
