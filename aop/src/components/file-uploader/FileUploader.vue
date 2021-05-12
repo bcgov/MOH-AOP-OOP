@@ -39,6 +39,7 @@ import { map, filter, flatMap, scan, delay, retryWhen } from "rxjs/_esm5/operato
 import plusIconSvg from "./images/plus.svg";
 import cloudUploadIconSvg from "./images/cloud-upload-alt.svg";
 import { v4 as uuidv4 } from "uuid";
+import 'mdn-polyfills/MouseEvent';
 
 const loadImage = require("blueimp-load-image");
 const sha1 = require("sha1");
