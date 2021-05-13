@@ -24,7 +24,7 @@
         </div>
       </div>
       <button class="sign-out" @click="showModal">
-        <span>Sign out</span>
+        <span>Log out</span>
         <font-awesome-icon icon="sign-out-alt" />
       </button>
     </div>

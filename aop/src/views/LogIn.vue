@@ -20,19 +20,18 @@
         </li>
       </ul>
       <strong
-        >Please sign in as a first step to uploading one or more of these
+        >Please log in as a first step to uploading one or more of these
         forms.</strong
       >
       <hr />
       <div class="card">
         <h3>
-          Log in with a BC Services Card enabled Diagnostic Facilities Services
-          user ID
+          Diagnostic Services secure upload tool - log in
         </h3>
         <Loader v-if="$store.state.loading" />
         <Button
           v-else
-          label="Log in with BC Services Card"
+          label="Log in with your mobile BC Services Card"
           styling="bcgov-normal-blue btn"
           v-on:button-click="nextPage"
         />
@@ -45,8 +44,8 @@
           provides secure access to provincial government services and access to
           Diagnostic Facilities Services.
           <a
-            href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/log-in-with-card/help"
-            >Learn how to use your BC Services Card to log in.</a
+            href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/log-in-with-card"
+            >Learn how to use your mobile BC Services Card to log in.</a
           >
         </p>
       </div>
@@ -69,7 +68,7 @@ import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from "../store";
 import { scrollTo } from "../helpers/scroll";
 
 export default {
-  name: "SignIn",
+  name: "LogIn",
   components: {
     Header,
     ProgressBar,
@@ -103,7 +102,7 @@ export default {
       .then(() => {
         // Handle BCSC
         if (!this.$route.query.code) {
-          // STAGE 1: get the bcsc url and show the user the sign in page
+          // STAGE 1: get the bcsc url and show the user the log in page
           // api/auth is the proxy pass url, api/url is the BCSC service route
           axios
             .get("/aop/api/auth/api/url")

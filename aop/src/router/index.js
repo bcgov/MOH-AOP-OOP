@@ -17,17 +17,17 @@ const router = new VueRouter({
       name: routes.SIGN_IN.name,
       component: routes.SIGN_IN.component,
       meta: {
-        title: "Sign In | Upload Tool",
+        title: "Log In | Upload Tool",
         metaTags: [
           {
             name: "description",
             content:
-              "Sign in page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
           },
           {
             property: "og:description",
             content:
-              "Sign in page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
           }
         ]
       }

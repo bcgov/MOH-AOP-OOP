@@ -1,4 +1,4 @@
-import SignIn from "../views/SignIn.vue";
+import LogIn from "../views/LogIn.vue";
 import SubmissionInfo from "../views/SubmissionInfo.vue";
 import Review from "../views/Review.vue";
 import Sending from "../views/Sending.vue";
@@ -10,9 +10,9 @@ import Maintenance from "../views/Maintenance.vue";
 export const routes = {
   SIGN_IN: {
     path: "/sign-in",
-    title: "Sign in",
-    name: "SignIn",
-    component: SignIn
+    title: "Log in",
+    name: "LogIn",
+    component: LogIn
   },
   SUBMISSION_INFO: {
     path: "/submission-info",

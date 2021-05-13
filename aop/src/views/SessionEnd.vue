@@ -10,7 +10,7 @@
       <p>You may close your browser now.</p>
     </main>
     <ContinueBar
-      :buttonLabel="'Back to sign in'"
+      :buttonLabel="'Back to log in'"
       @continue="navigateToSignIn"
     />
     <Footer />

@@ -97,7 +97,7 @@ export default {
       const index = this.routes.findIndex(el => el.path.includes(path));
       const isPrevRoute = index + 1 < this.currentStepNumber;
       if (isPrevRoute) {
-        // If they click on sign out
+        // If they click on log out
         if (index === 0) {
           // pop up window
           this.$store.dispatch(SHOW_SIGN_OUT_MODAL);

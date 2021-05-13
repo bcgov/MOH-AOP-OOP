@@ -10,7 +10,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title" id="exampleModalLabel">Are you sure you want to sign out?</h2>
+            <h2 class="modal-title" id="exampleModalLabel">Are you sure you want to log out?</h2>
           </div>
           <div class="modal-body">
             <p>All progress in this session will be lost.</p>
@@ -22,7 +22,7 @@
               @button-click="continueSession"
             />
             <Button
-              label="Sign out"
+              label="Log out"
               styling="bcgov-normal-blue btn"
               @button-click="endSession"
             />
