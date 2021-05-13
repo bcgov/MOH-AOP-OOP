@@ -303,23 +303,39 @@ export default {
 
             switch (returnCode) {
               case '0': // Validation success.
+                logService.logInfo(applicationUuid, {
+                  event: 'validation success (validateDep)',
+                  response: response.data,
+                });
                 this.handleValidationSuccess();
                 break;
               case '1': // Dependent does not match the reccords
               case '2': // PHN not found
                 this.isServerValidationErrorShown = true;
+                logService.logInfo(applicationUuid, {
+                  event: 'validation failure (validateDep)',
+                  response: response.data,
+                });
                 scrollToError();
                 break;
               case '3': // System unavailable.
                 this.isSystemUnavailable = true;
+                logService.logError(applicationUuid, {
+                  event: 'validation failure (validateDep endpoint unavailable)',
+                  response: response.data,
+                });
                 scrollToError();
                 break;
             }
           })
-          .catch(() => {
+          .catch((error) => {
             // Handle HTTP error.
             this.isLoading = false;
             this.isSystemUnavailable = true;
+            logService.logError(applicationUuid, {
+              event: 'HTTP error (validateDep endpoint unavailable)',
+              status: error.response.status,
+            });
             scrollToError();
           });
       } else {

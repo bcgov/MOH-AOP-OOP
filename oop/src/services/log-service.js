@@ -13,6 +13,10 @@ class LogService {
     return this._sendLog('error', uuid, message);
   }
 
+  logInfo(uuid, message) {
+    return this._sendLog('info', uuid, message);
+  }
+
   logNavigation(uuid, path, pageTitle) {
     const message = {
       event: 'navigation',

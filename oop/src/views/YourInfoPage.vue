@@ -219,23 +219,39 @@ export default {
           switch (returnCode) {
             case '0': // Validation success.
               this.accountType = response.data.applicantRole;
+              logService.logInfo(applicationUuid, {
+                event: 'validation success (validatePhnName)',
+                response: response.data,
+              });
               this.handleValidationSuccess();
               break;
             case '1': // PHN does not match with the lastname
             case '2': // Validation incorrect.
               this.isServerValidationErrorShown = true;
+              logService.logInfo(applicationUuid, {
+                event: 'validation failure (validatePhnName)',
+                response: response.data,
+              });
               scrollToError();
               break;
             case '3': // System unavailable.
               this.isSystemUnavailable = true;
+              logService.logError(applicationUuid, {
+                event: 'validation failure (validatePhnName endpoint unavailable)',
+                response: response.data,
+              });
               scrollToError();
               break;
           }
         })
-        .catch(() => {
+        .catch((error) => {
           // Handle HTTP error.
           this.isLoading = false;
           this.isSystemUnavailable = true;
+          logService.logError(applicationUuid, {
+            event: 'HTTP error (validatePhnName endpoint unavailable)',
+            status: error.response.status,
+          });
           scrollToError();
         });
 
