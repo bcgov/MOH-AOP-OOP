@@ -31,11 +31,19 @@ import {
   RESET_FORM
 } from '../store/modules/form';
 import { scrollTo } from '../helpers/scroll';
+import logService from '../services/log-service';
 
 export default {
   name: 'SubmissionErrorPage',
   components: {
     PageContent,
+  },
+  created() {
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.SUBMISSION_ERROR_PAGE.path,
+      routes.SUBMISSION_ERROR_PAGE.title
+    );
   },
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {

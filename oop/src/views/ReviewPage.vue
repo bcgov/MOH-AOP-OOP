@@ -54,6 +54,13 @@ export default {
       isSystemUnavailable: false,
     }
   },
+  created() {
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.REVIEW_PAGE.path,
+      routes.REVIEW_PAGE.title
+    );
+  },
   methods: {
     submitForm() {
       this.isLoading = true;
@@ -70,24 +77,32 @@ export default {
           // Handle HTTP success.
           const returnCode = response.data.returnCode;
           const referenceNumber = response.data.referenceNumber;
-          const errorMessage = response.data.message;
 
           this.isLoading = false;
 
           switch (returnCode) {
             case '0': // Submission successful.
-              logService.logSubmission({ message: 'Success', error: null }, applicationUuid, referenceNumber);
+              logService.logSubmission(applicationUuid, {
+                event: 'submission',
+                response: response.data,
+              }, referenceNumber);
               this.$store.dispatch(formModule + '/' + SET_REFERENCE_NUMBER, referenceNumber);
               this.navigateToSubmissionPage();
               break;
             case '1': // Submission failed.
             case '2': // Unknown case, but not '0', so failing the the submission.
-              logService.logSubmission({ message: 'Submission failure', error: errorMessage }, applicationUuid, 'N/A');
+              logService.logError(applicationUuid, {
+                event: 'submission failure',
+                response: response.data,
+              });
               this.navigateToSubmissionErrorPage();
               break;
             case '3': // System unavailable.
               this.isSystemUnavailable = true;
-              logService.logSubmission({ message: 'Submission failure', error: errorMessage }, applicationUuid, 'N/A');
+              logService.logError(applicationUuid, {
+                event: 'submission failure',
+                response: response.data,
+              });
               scrollToError();
               break;
           }
@@ -97,7 +112,10 @@ export default {
           const httpStatusCode = error && error.response ? error.response.status : null;
           this.isLoading = false;
           this.isSystemUnavailable = true;
-          logService.logSubmission({ message: 'HTTP error while sending application', error: httpStatusCode }, applicationUuid, 'N/A');
+          logService.logError(applicationUuid, {
+            event: 'HTTP error while sending application',
+            status: httpStatusCode
+          });
           scrollToError();
         });
       

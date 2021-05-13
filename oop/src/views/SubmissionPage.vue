@@ -64,6 +64,7 @@ import {
   RESET_FORM
 } from '../store/modules/form';
 import { scrollTo } from '../helpers/scroll';
+import logService from '../services/log-service';
 
 export default {
   name: 'SubmissionPage',
@@ -80,6 +81,12 @@ export default {
   created() {
     this.submissionDate = formatDate(this.$store.state.form.submissionDate);
     this.referenceNumber = this.$store.state.form.referenceNumber || 'Unknown';
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.SUBMISSION_PAGE.path,
+      routes.SUBMISSION_PAGE.title
+    );
   },
   methods: {
     printPage() {

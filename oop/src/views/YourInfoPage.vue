@@ -113,6 +113,7 @@ import {
   SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import apiService from '../services/api-service';
+import logService from '../services/log-service';
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
@@ -169,6 +170,12 @@ export default {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
     this.phone = this.$store.state.form.phone;
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.YOUR_INFO_PAGE.path,
+      routes.YOUR_INFO_PAGE.title
+    );
   },
   validations() {
     return {

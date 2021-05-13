@@ -126,6 +126,7 @@ import {
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 import apiService from '../services/api-service';
+import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';
 
 const localPhnValidator = (value) => {
@@ -238,6 +239,12 @@ export default {
         isValid: true,
       }
     }
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.ACCOUNT_TYPE_PAGE.path,
+      routes.ACCOUNT_TYPE_PAGE.title
+    );
   },
   validations() {
     const validations = {
