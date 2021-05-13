@@ -113,6 +113,7 @@ import {
   SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
 import apiService from '../services/api-service';
+import logService from '../services/log-service';
 
 const nameValidator = (value) => {
   const criteria = /^[a-zA-Z][a-zA-Z-.' ]*$/;
@@ -169,6 +170,12 @@ export default {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
     this.phone = this.$store.state.form.phone;
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.YOUR_INFO_PAGE.path,
+      routes.YOUR_INFO_PAGE.title
+    );
   },
   validations() {
     return {
@@ -212,23 +219,39 @@ export default {
           switch (returnCode) {
             case '0': // Validation success.
               this.accountType = response.data.applicantRole;
+              logService.logInfo(applicationUuid, {
+                event: 'validation success (validatePhnName)',
+                response: response.data,
+              });
               this.handleValidationSuccess();
               break;
             case '1': // PHN does not match with the lastname
             case '2': // Validation incorrect.
               this.isServerValidationErrorShown = true;
+              logService.logInfo(applicationUuid, {
+                event: 'validation failure (validatePhnName)',
+                response: response.data,
+              });
               scrollToError();
               break;
             case '3': // System unavailable.
               this.isSystemUnavailable = true;
+              logService.logError(applicationUuid, {
+                event: 'validation failure (validatePhnName endpoint unavailable)',
+                response: response.data,
+              });
               scrollToError();
               break;
           }
         })
-        .catch(() => {
+        .catch((error) => {
           // Handle HTTP error.
           this.isLoading = false;
           this.isSystemUnavailable = true;
+          logService.logError(applicationUuid, {
+            event: 'HTTP error (validatePhnName endpoint unavailable)',
+            status: error.response.status,
+          });
           scrollToError();
         });
 

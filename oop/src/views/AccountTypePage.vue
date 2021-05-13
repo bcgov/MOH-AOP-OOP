@@ -126,6 +126,7 @@ import {
 } from '../store/modules/form';
 import { required } from 'vuelidate/lib/validators';
 import apiService from '../services/api-service';
+import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';
 
 const localPhnValidator = (value) => {
@@ -238,6 +239,12 @@ export default {
         isValid: true,
       }
     }
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.ACCOUNT_TYPE_PAGE.path,
+      routes.ACCOUNT_TYPE_PAGE.title
+    );
   },
   validations() {
     const validations = {
@@ -296,23 +303,39 @@ export default {
 
             switch (returnCode) {
               case '0': // Validation success.
+                logService.logInfo(applicationUuid, {
+                  event: 'validation success (validateDep)',
+                  response: response.data,
+                });
                 this.handleValidationSuccess();
                 break;
               case '1': // Dependent does not match the reccords
               case '2': // PHN not found
                 this.isServerValidationErrorShown = true;
+                logService.logInfo(applicationUuid, {
+                  event: 'validation failure (validateDep)',
+                  response: response.data,
+                });
                 scrollToError();
                 break;
               case '3': // System unavailable.
                 this.isSystemUnavailable = true;
+                logService.logError(applicationUuid, {
+                  event: 'validation failure (validateDep endpoint unavailable)',
+                  response: response.data,
+                });
                 scrollToError();
                 break;
             }
           })
-          .catch(() => {
+          .catch((error) => {
             // Handle HTTP error.
             this.isLoading = false;
             this.isSystemUnavailable = true;
+            logService.logError(applicationUuid, {
+              event: 'HTTP error (validateDep endpoint unavailable)',
+              status: error.response.status,
+            });
             scrollToError();
           });
       } else {

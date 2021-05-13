@@ -203,6 +203,7 @@ import {
   SET_POSTAL_CODE,
   SET_MOVE_FROM_BC_DATE,
 } from '../store/modules/form';
+import logService from '../services/log-service';
 
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
@@ -289,6 +290,12 @@ export default {
           isValid: true,
       }
     }
+
+    logService.logNavigation(
+      this.$store.state.form.applicationUuid,
+      routes.MOVE_INFO_PAGE.path,
+      routes.MOVE_INFO_PAGE.title
+    );
   },
   validations() {
     const validations = {

@@ -1,5 +1,5 @@
 export default {
-  lastName: 'SATIN WEAVEXD',
+  lastName: 'PICKET BOATXE',
   phn: '9353 166 544',
   phone: '250-123-4567',
   accountType: 'AH',

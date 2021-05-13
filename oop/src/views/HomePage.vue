@@ -90,9 +90,17 @@ export default {
           this.$router.push(toPath);
         }
       })
-      .catch(() => {
-        logService.logError({ message: 'Error getting values from spa-env-server' }, applicationUuid);
+      .catch((error) => {
+        logService.logError(applicationUuid, {
+          event: 'HTTP error getting values from spa-env-server',
+          status: error.response.status,
+        });
       });
+    logService.logNavigation(
+      applicationUuid,
+      routes.HOME_PAGE.path,
+      routes.HOME_PAGE.title
+    );
   },
   methods: {
     handleCloseConsentModal() {
