@@ -102,7 +102,10 @@ objects:
                 - name: SERVICE_PORT
                   value: ${SERVICE_PORT}
                 - name: SECRET
-                  value: ${SECRET}
+                  valueFrom:
+                    secretKeyRef:
+                      name: captcha-service-secret
+                      key: secret
                 - name: PRIVATE_KEY
                   value: ${PRIVATE_KEY}
                 - name: SYSLOG_PORT

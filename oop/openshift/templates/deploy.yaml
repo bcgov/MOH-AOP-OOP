@@ -136,9 +136,15 @@ objects:
               - name: HTTP_BASIC_PASSWORD
                 value: ${HTTP_BASIC_PASSWORD}
               - name: SPLUNK_AUTH_TOKEN
-                value: ${SPLUNK_AUTH_TOKEN}
+                valueFrom:
+                  secretKeyRef:
+                    name: oop-web-splunk-auth-token
+                    key: token
               - name: SPA_ENV_AUTH_TOKEN
-                value: ${USE_SPLUNK_FORWARDER}
+                valueFrom:
+                  secretKeyRef:
+                    name: oop-web-spa-env-auth-token
+                    key: token
               - name: OOP_ENV
                 value: ${OOP_ENV}
               - name: OOP_VERSION
