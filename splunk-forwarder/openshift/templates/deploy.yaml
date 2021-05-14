@@ -108,7 +108,10 @@ objects:
                 - name: SERVICE_USE_AUTH
                   value: ${SERVICE_USE_AUTH}
                 - name: SERVICE_AUTH_TOKEN
-                  value: ${SERVICE_AUTH_TOKEN}
+                  valueFrom:
+                    secretKeyRef:
+                      name: splunk-forwarder-service-auth-token
+                      key: token
                 - name: LOG_DIR_NAME
                   value: ${LOG_DIR_NAME}
                 - name: FILE_LOG_LEVEL
@@ -116,9 +119,15 @@ objects:
                 - name: APPEND_POD_NAME_TO_FILE
                   value: ${APPEND_POD_NAME_TO_FILE}
                 - name: MONITOR_USERNAME
-                  value: ${MONITOR_USERNAME}
+                  valueFrom:
+                    secretKeyRef:
+                      name: splunk-forwarder-monitor-username
+                      key: username
                 - name: MONITOR_PASSWORD
-                  value: ${MONITOR_PASSWORD}
+                  valueFrom:
+                    secretKeyRef:
+                      name: splunk-forwarder-monitor-password
+                      key: password
                 - name: MAX_FILES
                   value: ${MAX_FILES}
                 - name: MAX_BYTE_SIZE_PER_FILE
@@ -128,11 +137,17 @@ objects:
                 - name: SPLUNK_URL
                   value: ${SPLUNK_URL}
                 - name: SPLUNK_AUTH_TOKEN
-                  value: ${SPLUNK_AUTH_TOKEN}
+                  valueFrom:
+                    secretKeyRef:
+                      name: splunk-forwarder-splunk-auth-token
+                      key: token
                 - name: ONLY_LOG_WHEN_SPLUNK_FAILS
                   value: ${ONLY_LOG_WHEN_SPLUNK_FAILS}
                 - name: CA_CERT
-                  value: ${CA_CERT}
+                  valueFrom:
+                    secretKeyRef:
+                      name: splunk-forwarder-ca-cert
+                      key: cert
                 - name: RETRY_COUNT
                   value: ${RETRY_COUNT}
               resources:

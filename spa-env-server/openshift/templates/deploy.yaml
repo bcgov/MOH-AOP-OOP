@@ -108,7 +108,10 @@ objects:
                 - name: SERVICE_USE_AUTH
                   value: ${SERVICE_USE_AUTH}
                 - name: SERVICE_AUTH_TOKEN
-                  value: ${SERVICE_AUTH_TOKEN}
+                  valueFrom:
+                    secretKeyRef:
+                      name: spa-env-server-service-auth-token
+                      key: token
                 - name: USE_AUDIT_LOGS
                   value: ${USE_AUDIT_LOGS}
                 - name: LOG_DIR_NAME
@@ -118,9 +121,15 @@ objects:
                 - name: APPEND_POD_NAME_TO_FILE
                   value: ${APPEND_POD_NAME_TO_FILE}
                 - name: MONITOR_USERNAME
-                  value: ${MONITOR_USERNAME}
+                  valueFrom:
+                    secretKeyRef:
+                      name: spa-env-server-monitor-username
+                      key: username
                 - name: MONITOR_PASSWORD
-                  value: ${MONITOR_PASSWORD}
+                  valueFrom:
+                    secretKeyRef:
+                      name: spa-env-server-monitor-password
+                      key: password
                 - name: MAX_FILES
                   value: ${MAX_FILES}
                 - name: MAX_BYTE_SIZE_PER_FILE

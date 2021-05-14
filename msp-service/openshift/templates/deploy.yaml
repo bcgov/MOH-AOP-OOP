@@ -102,19 +102,34 @@ objects:
                 - name: TARGET_URL
                   value: ${TARGET_URL}
                 - name: TARGET_USERNAME_PASSWORD
-                  value: ${TARGET_USERNAME_PASSWORD}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-target-username-password
+                      key: credentials
                 - name: MUTUAL_TLS_PEM_KEY_BASE64
-                  value: ${MUTUAL_TLS_PEM_KEY_BASE64}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-tls-key
+                      key: key
                 - name: MUTUAL_TLS_PEM_KEY_PASSPHRASE
-                  value: ${MUTUAL_TLS_PEM_KEY_PASSPHRASE}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-tls-phrase
+                      key: phrase
                 - name: MUTUAL_TLS_PEM_CERT
-                  value: ${MUTUAL_TLS_PEM_CERT}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-tls-cert
+                      key: cert
                 - name: SECURE_MODE
                   value: ${SECURE_MODE}
                 - name: USE_MUTUAL_TLS
                   value: ${USE_MUTUAL_TLS}
                 - name: AUTH_TOKEN_KEY
-                  value: ${AUTH_TOKEN_KEY}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-auth-token-key
+                      key: key
                 - name: USE_AUTH_TOKEN
                   value: ${USE_AUTH_TOKEN}
                 - name: LOGGER_HOST
@@ -122,7 +137,10 @@ objects:
                 - name: LOGGER_PORT
                   value: ${LOGGER_PORT}
                 - name: SPLUNK_AUTH_TOKEN
-                  value: ${SPLUNK_AUTH_TOKEN}
+                  valueFrom:
+                    secretKeyRef:
+                      name: msp-service-splunk-auth-token
+                      key: token
               resources:
                 limits:
                   cpu: 200m
