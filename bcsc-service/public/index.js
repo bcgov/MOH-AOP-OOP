@@ -16,7 +16,7 @@ const logout = function () {
 const loadInfo = function () {
   $.get("/api/userinfo")
     .then(res => {
-      if (res.error) {
+      if (!res.display_name) {
         return window.location.replace("/test/login");
       }
       console.log(res.display_name);
