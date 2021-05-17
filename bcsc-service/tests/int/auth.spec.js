@@ -1,4 +1,4 @@
-const { getAuthUrl, getToken, getInfo } = require('./auth');
+const { getAuthUrl, getToken, getInfo } = require('../../src/auth');
 const axios = require('axios');
 jest.mock('axios', () => ({
     post: jest.fn(),
