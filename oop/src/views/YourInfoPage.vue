@@ -19,8 +19,11 @@
                 v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <div class="text-danger"
-                v-if="isServerValidationErrorShown"
+                v-if="isValidationCode1Shown"
                 aria-live="assertive">This field does not match our records.</div>
+            <div class="text-danger"
+                v-if="isValidationCode2Shown"
+                aria-live="assertive">This field does not match our records. Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</div>
             
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
@@ -37,8 +40,11 @@
                 v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
-                v-if="isServerValidationErrorShown"
+                v-if="isValidationCode1Shown"
                 aria-live="assertive">This field does not match our records.</div>
+            <div class="text-danger"
+                v-if="isValidationCode2Shown"
+                aria-live="assertive">This field does not match our records. Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</div>
 
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
@@ -149,7 +155,8 @@ export default {
       phn: null,
       phone: null,
       isLoading: false,
-      isServerValidationErrorShown: false,
+      isValidationCode1Shown: false,
+      isValidationCode2Shown: false,
       isSystemUnavailable: false,
       accountType: null,
       lastNameInputStyle: {
@@ -194,7 +201,8 @@ export default {
   },
   methods: {
     nextPage() {
-      this.isServerValidationErrorShown = false;
+      this.isValidationCode1Shown = false;
+      this.isValidationCode2Shown = false;
       this.isSystemUnavailable = false;
 
       this.$v.$touch()
@@ -225,9 +233,16 @@ export default {
               });
               this.handleValidationSuccess();
               break;
-            case '1': // PHN does not match with the lastname
+            case '1': // PHN does not match with the lastname.
+              this.isValidationCode1Shown = true;
+              logService.logInfo(applicationUuid, {
+                event: 'validation failure (validatePhnName)',
+                response: response.data,
+              });
+              scrollToError();
+              break;
             case '2': // Validation incorrect.
-              this.isServerValidationErrorShown = true;
+              this.isValidationCode2Shown = true;
               logService.logInfo(applicationUuid, {
                 event: 'validation failure (validatePhnName)',
                 response: response.data,
@@ -280,10 +295,12 @@ export default {
       scrollTo(0);
     },
     handleLastNameInputChange() {
-      this.isServerValidationErrorShown = false;
+      this.isValidationCode1Shown = false;
+      this.isValidationCode2Shown = false;
     },
     handlePhnInputChange() {
-      this.isServerValidationErrorShown = false;
+      this.isValidationCode1Shown = false;
+      this.isValidationCode2Shown = false;
       // Refocus on element when backspacing on PHN. This is a bug with the 'vue-text-mask', where it loses focus when triggering a Vue rerender caused by an 'input' event.
       setTimeout(() => {
         this.$refs.phnInput.focus();
