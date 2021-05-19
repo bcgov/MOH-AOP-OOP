@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const config = require('./config');
-const apiRoutes = require('./routes/api');
-const debugRoutes = require('./routes/debugRoutes');
+const apiRoutes = require('./routes/apiRoutes');
+const pageRoutes = require('./routes/pageRoutes');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -16,7 +16,7 @@ if(config.sessions === "enabled")
 
 app.use(cors());
 app.use("/api", apiRoutes(config));
-app.use("/test", debugRoutes(config));
+app.use("/test", pageRoutes(config));
 
 app.get('/hello', (req, res) => {
   res.end();
