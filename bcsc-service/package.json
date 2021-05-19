@@ -20,6 +20,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "jwt-decode": "^3.1.2",
+    "node-jose": "^2.0.0",
     "prefix": "^1.0.0",
     "redis": "^3.1.2"
   },

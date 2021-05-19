@@ -1,5 +1,6 @@
 const express = require('express');
 const auth = require('../auth');
+const { getKey } = require('../jwt');
 
 const router = express.Router();
 
@@ -17,7 +18,10 @@ module.exports = function (config) {
   });
 
   router.get('/jwks', (_, res) => {
-    res.json({ keys: [config.jwks_public] });
+    getKey(config.jwk)
+      .then(public => {
+        res.json({ keys: [public] });
+      });
   });
 
 
@@ -32,7 +36,6 @@ module.exports = function (config) {
     if (!token) {
       return res.json({ error: "auth" });
     }
-    // console.log("token=", token);
 
     auth.getInfo(config, token)
       .then(info => {
