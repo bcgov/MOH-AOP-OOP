@@ -1,5 +1,5 @@
 const request = require('supertest');
-const apiRoutes = require('../../src/routes/api');
+const apiRoutes = require('../../src/routes/apiRoutes');
 const express = require("express");
 const session = require("express-session");
 const app = express();

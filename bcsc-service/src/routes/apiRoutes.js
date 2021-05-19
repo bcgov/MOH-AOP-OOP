@@ -19,8 +19,8 @@ module.exports = function (config) {
 
   router.get('/jwks', (_, res) => {
     getKey(config.jwk)
-      .then(public => {
-        res.json({ keys: [public] });
+      .then(pub => {
+        res.json({ keys: [pub] });
       });
   });
 

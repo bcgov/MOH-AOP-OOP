@@ -21,10 +21,10 @@ const decrypt = function (jwk, input) {
 
 };
 
-const getKey = function (jwk, private = false) {
+const getKey = function (jwk, priv = false) {
   return jose.JWK.asKey(jwk).
     then(function (key) {
-      return key.toJSON(private);
+      return key.toJSON(priv);
     });
 };
 
