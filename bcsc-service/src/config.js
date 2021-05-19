@@ -1,5 +1,7 @@
 
 const readJwk = function (base64) {
+  if (!base64)
+    return {};
   const json = Buffer.from(base64, 'base64');
   return JSON.parse(json);
 };
