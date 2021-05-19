@@ -63,8 +63,8 @@ module.exports = function (config) {
         return res.json(info);
       })
       .catch(err => {
-        console.log(err);
-        const error = err.error ? err.error : err;
+        const error = err.error ? err.error : err.message;
+        console.log(error);
         return res.json({ error });
       });
   });
