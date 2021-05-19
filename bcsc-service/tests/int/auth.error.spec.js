@@ -5,7 +5,8 @@ const mockError = { status: 500,
     response: { title: 'mock error',
         description: 'mock error details',
         data: "ERROR_DATA"
-    }
+    },
+    message: "error message"
 };
 
 jest.mock('axios', () => ({

@@ -9,7 +9,8 @@ const mockError = { status: 500,
     response: { title: 'mock error',
         description: 'mock error details',
         data: "ERROR_DATA"
-    }
+    },
+    message: "error message"
 };
 
 jest.mock('axios', () => ({
@@ -59,7 +60,7 @@ describe('api routes', () => {
         const code = "CODE";
         request(app)
             .get(`/api/auth/${code}`)
-            .expect({ error: mockError })
+            .expect({ error: mockError.message })
             .expect(200, done)
     })
 
@@ -67,7 +68,7 @@ describe('api routes', () => {
         // the token is set in the app setup
         request(app)
             .get(`/api/userinfo`)
-            .expect({ error: mockError })
+            .expect({ error: mockError.message })
             .expect(200, done)
     })
 })

@@ -41,9 +41,10 @@ module.exports = function (config) {
       .then(info => {
         res.json(info);
       })
-      .catch(error => {
+      .catch(err => {
+        const error = err.error ? err.error : err.message;
         console.log(error);
-        res.json({ error });
+        return res.json({ error });
       });
   });
 
