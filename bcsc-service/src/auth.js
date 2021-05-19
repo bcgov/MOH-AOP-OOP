@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { decrypt } = require('./jwt');
 
 const getAuthUrl = function (config) {
 
@@ -33,6 +34,14 @@ const getInfo = function (config, token,) {
   })
     .then(res => {
       return res.data;
+    })
+    .then(info => {
+      console.log(info);
+      return config.jwe ? decrypt(config.jwk, info) : info;
+    })
+    .then(info => {
+      console.log(info);
+      return info;
     })
     .catch(err => {
       console.log("getInfo: ", err);
