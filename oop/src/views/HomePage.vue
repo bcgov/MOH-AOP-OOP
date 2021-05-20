@@ -76,15 +76,14 @@ export default {
       showConsentModal: true,
     }
   },
-  created() {
+  async created() {
     const applicationUuid = uuidv4();
     this.$store.dispatch(formModule + '/' + SET_APPLICATION_UUID, applicationUuid);
-
     // Load environment variables, and route to maintenance page.
-    spaEnvService.loadEnvs()
+    await spaEnvService.loadEnvs()
       .then(() => {
-        console.log(spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG);
-        if (spaEnvService.values && spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG === 'true') {
+        console.log('Maintenance flag: ' ,spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG);
+        if (spaEnvService.values && spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG === "true") {
           const toPath = routes.MAINTENANCE_PAGE.path;
           pageStateService.setPageComplete(toPath);
           pageStateService.visitPage(toPath);
