@@ -5,12 +5,18 @@
             name="addressLine"
            class='form-control'
            :maxlength='maxlength'
-           v-model="query" />
-    <div class="results-container">
-      <div class="result-item-container">
-        <div v-for="address in data"
+           v-model="query"
+           @keydown="inputKeyDownHandler($event)" />
+    <div class="results-container"
+        ref="resultsContainer">
+      <div v-if="data && data.length > 0"
+          class="result-item-container">
+        <div v-for="(address, index) in data"
             :key="address.postalCode"
-            class="result-item">{{address.fullAddress}}</div>
+            :class="'result-item ' + (selectedItemIndex === index ? 'selected' : '')"
+            @mouseenter="itemMouseEnterHandler($event, index)"
+            @mouseleave="itemMouseLeaveHandler($event, index)"
+            @click="selectItemIndex(index)">{{address.fullAddress}}</div>
       </div>
     </div>
   </div>
@@ -52,10 +58,19 @@ export default {
     return {
       query: null,
       data: [],
+      selectedItemIndex: null,
     }
   },
   created() {
     this.query = this.value;
+  },
+  mounted() {
+    window.addEventListener('click', this.blurResultsContainer);
+    this.$refs.resultsContainer.addEventListener('click', this.stopPropagation);
+  },
+  beforeUnmount() {
+    window.removeEventListener('click', this.blurResultsContainer);
+    this.$refs.resultsContainer.removeEventListener('click', this.stopPropagation);
   },
   methods: {
     lookup(query) {
@@ -67,10 +82,9 @@ export default {
       url.searchParams.set('address', query);
 
       axios.get(url.href).then((response) => {
-        this.data = this.processResponse(response.data);
-      }).catch((error) => {
+        this.data = this.processResponse(response.data).slice(0, 5);
+      }).catch(() => {
         this.data = [];
-        console.log('Error: ', error);
       });
     },
     processResponse(data) {
@@ -80,7 +94,7 @@ export default {
         const province = address.Province;
         const country = 'Canada'; // ALWAYS return Canada
         const postalCode = address.PostalCode;
-        const fullAddress = 'FULL ADDRESS HERE';
+        const fullAddress = address.AddressComplete;
 
         return {
           fullAddress,
@@ -91,7 +105,66 @@ export default {
           country
         };
       });
-    }
+    },
+    inputKeyDownHandler(event) {
+      const keyCode = event.keyCode;
+
+      switch (keyCode) {
+        case 40: // Down arrow.
+          if (this.selectedItemIndex !== null) {
+            if (this.selectedItemIndex < this.data.length - 1) {
+              this.selectedItemIndex++;
+            } else {
+              this.selectedItemIndex = 0;
+            }
+          } else {
+            this.selectedItemIndex = 0;
+          }
+          break;
+        case 38: // Up arrow.
+          if (this.selectedItemIndex !== null) {
+            if (this.selectedItemIndex > 0) {
+              this.selectedItemIndex--;
+            } else {
+              this.selectedItemIndex = this.data.length - 1;
+            }
+          } else {
+            this.selectedItemIndex = this.data.length - 1;
+          }
+          break;
+        case 13: // Enter.
+          if (this.selectedItemIndex !== null) {
+            this.selectItemIndex(this.selectedItemIndex);
+          }
+          break;
+        case 27: // Escape.
+          this.data = [];
+          this.selectedItemIndex = null;
+          break;
+        default:
+          this.data = [];
+          this.selectedItemIndex = null;
+          break;
+      }
+    },
+    itemMouseEnterHandler(event, index) {
+      this.selectedItemIndex = index;
+    },
+    itemMouseLeaveHandler() {
+      this.selectedItemIndex = null;
+    },
+    selectItemIndex(index) {
+      this.$emit('address-selected', this.data[index]);
+      this.data = [];
+      this.selectedItemIndex = null;
+    },
+    blurResultsContainer() {
+      this.data = [];
+      this.selectedItemIndex = null;
+    },
+    stopPropagation(event) {
+      event.stopPropagation();
+    },
   },
   watch: {
     query: _.debounce(function(newValue) {
@@ -114,5 +187,16 @@ export default {
   right: 0;
   background: #FFF;
   border: #CCC;
+  z-index: 1;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 0.25rem;
+}
+.result-item {
+  padding: 0.25rem 1.5rem;
+  cursor: pointer;
+}
+.result-item.selected {
+  background: #036;
+  color: #FFF;
 }
 </style>

@@ -60,7 +60,8 @@
                                     v-model="addressLine.value"
                                     id="address-line-1"
                                     class="address-line"
-                                    serviceUrl="/oop/api/address" />
+                                    serviceUrl="/oop/api/address"
+                                    @address-selected="addressSelectedHandler($event)" />
                   <AddressInput v-else
                                 :label='"Address line " + (index + 1)'
                                 v-model="addressLine.value"
@@ -431,6 +432,12 @@ export default {
     },
     getMinAddressLines() {
       return MIN_ADDRESS_LINES;
+    },
+    addressSelectedHandler(address) {
+      console.log('Address selected: ', address);
+      this.city = address.city;
+      this.province = address.province;
+      this.postalCode = address.postalCode;
     },
     setFieldsToNull() {
       // Remove all current address lines
