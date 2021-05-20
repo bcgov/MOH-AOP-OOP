@@ -91,11 +91,12 @@ export default {
         if (spaEnvService.values) {
           this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
           if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === "true") {
-            const path = routes.MAINTENANCE_PAGE.path;
+            const path = routes.MAINTENANCE.path;
+            
             this.$router.push(path);
           }
         } else {
-          const path = routes.MAINTENANCE_PAGE.path;
+          const path = routes.MAINTENANCE.path;
           this.$router.push(path);
         }
       })
