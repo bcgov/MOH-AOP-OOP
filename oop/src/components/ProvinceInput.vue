@@ -6,11 +6,12 @@
       aria-label='Region'
       name="region"
       class="form-control" 
-      v-model="region"
+      :value="value"
       :country="country"
-      :region="region"
+      :region="value"
       :countryName="true"
-      placeholder="Select Province" />
+      placeholder="Select Province"
+      @input="inputHandler($event)" />
   </div>
 </template>
 
@@ -45,10 +46,21 @@ export default {
   name: 'ProvinceInput',
   components: {},
   props: {
-    id: String,
-    value: String,
-    label: String,
-    className: String,
+    id: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    className: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -56,12 +68,9 @@ export default {
       region: ''
     }
   },
-  created() {
-    this.region = this.value;
-  },
-  watch: {
-    region(newValue) {
-      this.$emit('input', newValue);
+  methods: {
+    inputHandler(value) {
+      this.$emit('input', value);
     }
   }
 }

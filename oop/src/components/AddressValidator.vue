@@ -26,6 +26,8 @@
 import axios from 'axios';
 import _ from 'underscore';
 
+const QUERY_REQUEST_DEBOUNCE_TIME = 500;
+
 export default {
   name: 'AddressValidator',
   props: {
@@ -59,10 +61,15 @@ export default {
       query: null,
       data: [],
       selectedItemIndex: null,
+      isComponentLoaded: false,
     }
   },
   created() {
     this.query = this.value;
+
+    setTimeout(() => {
+      this.isComponentLoaded = true;
+    }, QUERY_REQUEST_DEBOUNCE_TIME + 50);
   },
   mounted() {
     window.addEventListener('click', this.blurResultsContainer);
@@ -167,10 +174,12 @@ export default {
     },
   },
   watch: {
-    query: _.debounce(function(newValue) {
-      this.$emit('input', newValue);
-      this.lookup(newValue);
-    }, 500)
+    query: _.debounce(function (newValue) {
+      if (this.isComponentLoaded) {
+        this.$emit('input', newValue);
+        this.lookup(newValue);
+      }
+    }, QUERY_REQUEST_DEBOUNCE_TIME)
   }
 }
 </script>
