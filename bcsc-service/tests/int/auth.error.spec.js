@@ -57,7 +57,7 @@ describe("getToken", () => {
 })
 
 describe("getInfo", () => {
-    it('sends the correct GET request and throws the returned error', async () => {
+    xit('sends the correct GET request and throws the returned error', async () => {
         const token = "TOKEN";
         await getInfo(config, token)
             .catch((err) => {
