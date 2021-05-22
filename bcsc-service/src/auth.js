@@ -28,10 +28,13 @@ const getToken = function (config, code) {
 };
 
 const getInfo = function (config, token,) {
+  const headers = {
+    "Cache-Control": 'no-cache',
+    Authorization: 'bearer ' + token
+  };
+  // console.log(headers);
 
-  return axios.get(config.info_uri, {
-    headers: { Authorization: 'bearer ' + token }
-  })
+  return axios.get(config.info_uri, { headers })
     .then(res => {
       return res.data;
     })
@@ -40,7 +43,7 @@ const getInfo = function (config, token,) {
       return config.jwe ? decrypt(config.jwk, info) : info;
     })
     .then(info => {
-      console.log(info);
+      // console.log(info);
       return info;
     })
     .catch(err => {
