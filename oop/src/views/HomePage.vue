@@ -82,7 +82,6 @@ export default {
     // Load environment variables, and route to maintenance page.
     await spaEnvService.loadEnvs()
       .then(() => {
-        console.log('Maintenance flag: ' ,spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG);
         if (spaEnvService.values && spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG === "true") {
           const toPath = routes.MAINTENANCE_PAGE.path;
           pageStateService.setPageComplete(toPath);
