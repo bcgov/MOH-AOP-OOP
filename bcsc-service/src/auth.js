@@ -29,7 +29,7 @@ const getToken = function (config, code) {
 
 const getInfo = function (config, token,) {
   const headers = {
-    "Cache-Control": 'no-cache',
+    Accept: config.jwe ? 'application/jwt' : 'application/json',
     Authorization: 'bearer ' + token
   };
   // console.log(headers);
@@ -43,7 +43,7 @@ const getInfo = function (config, token,) {
       return config.jwe ? decrypt(config.jwk, info) : info;
     })
     .then(info => {
-      // console.log(info);
+      console.log(info);
       return info;
     })
     .catch(err => {
