@@ -17,7 +17,7 @@ const config = {
   info_uri: process.env.INFO_URI,
   jwe: process.env.JWE === 'true',
   jwk: readJwk(process.env.JWK),
-  sessions: process.env.SESSIONS || undefined,
+  sessions: process.env.SESSIONS === 'true',
   session_options: {
     host: process.env.SESSION_HOST || undefined,
     password: process.env.SESSION_HOST_PASSWORD || undefined,

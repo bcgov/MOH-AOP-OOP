@@ -8,7 +8,7 @@ const pageRoutes = require('./routes/pageRoutes');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
-if(config.sessions === "enabled")
+if(config.sessions)
   {
   const session = require('./redis-session');
   app.use(session(config.session_options));
