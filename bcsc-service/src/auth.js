@@ -43,7 +43,7 @@ const getInfo = function (config, token,) {
       return config.jwe ? decrypt(config.jwk, info) : info;
     })
     .then(info => {
-      console.log(info);
+      console.log("final:", info);
       return info;
     })
     .catch(err => {
