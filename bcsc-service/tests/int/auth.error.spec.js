@@ -57,7 +57,7 @@ describe("getToken", () => {
 })
 
 describe("getInfo", () => {
-    xit('sends the correct GET request and throws the returned error', async () => {
+    it('sends the correct GET request and throws the returned error', async () => {
         const token = "TOKEN";
         await getInfo(config, token)
             .catch((err) => {
@@ -65,7 +65,10 @@ describe("getInfo", () => {
             });
         expect(axios.get)
             .toHaveBeenCalledWith( config.info_uri, {
-                headers: { Authorization: 'bearer ' + token }
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: 'bearer ' + token 
+                }
             });
     })
 })
