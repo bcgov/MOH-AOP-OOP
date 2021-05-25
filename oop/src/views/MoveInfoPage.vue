@@ -56,7 +56,7 @@
                   <AddressValidator v-if="isAddressValidatorEnabled &&
                                           index === 0 &&
                                           country === 'Canada'"
-                                    :label='"Address line 1 (lookup)"'
+                                    label="Address line 1"
                                     v-model="addressLine.value"
                                     id="address-line-1"
                                     class="address-line"
@@ -434,7 +434,17 @@ export default {
       return MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
-      console.log('Address selected: ', address);
+      // Remove all but first address line.
+      for (let i=this.addressLines.length-1; i>0; i--) {
+        this.addressLines.pop();
+      }
+      // Add address lines and set value to the model.
+      for (let i=0; i<address.addressLines.length; i++) {
+        if (i !== 0) {
+          this.addAddressField();
+        }
+        this.addressLines[i].value = address.addressLines[i];
+      }
       this.city = address.city;
       this.province = address.province;
       this.postalCode = address.postalCode;

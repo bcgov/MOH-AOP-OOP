@@ -5,14 +5,15 @@
             name="addressLine"
            class='form-control'
            :maxlength='maxlength'
-           v-model="query"
-           @keydown="inputKeyDownHandler($event)" />
+           :value="value"
+           @keydown="inputKeyDownHandler($event)"
+           @input="inputHandler($event)" />
     <div class="results-container"
         ref="resultsContainer">
       <div v-if="data && data.length > 0"
           class="result-item-container">
         <div v-for="(address, index) in data"
-            :key="address.postalCode"
+            :key="index"
             :class="'result-item ' + (selectedItemIndex === index ? 'selected' : '')"
             @mouseenter="itemMouseEnterHandler($event, index)"
             @mouseleave="itemMouseLeaveHandler($event, index)"
@@ -27,6 +28,7 @@ import axios from 'axios';
 import _ from 'underscore';
 
 const QUERY_REQUEST_DEBOUNCE_TIME = 500;
+const MIN_LOOKUP_LENGTH = 3;
 
 export default {
   name: 'AddressValidator',
@@ -62,6 +64,8 @@ export default {
       data: [],
       selectedItemIndex: null,
       isComponentLoaded: false,
+      isPerformingLookup: false,
+      isPerformingLookupCancelTimeout: null,
     }
   },
   created() {
@@ -151,6 +155,7 @@ export default {
         default:
           this.data = [];
           this.selectedItemIndex = null;
+          this.isPerformingLookup = true;
           break;
       }
     },
@@ -172,11 +177,23 @@ export default {
     stopPropagation(event) {
       event.stopPropagation();
     },
+    inputHandler(event) {
+      this.$emit('input', event.target.value);
+
+      if (this.isPerformingLookupCancelTimeout) {
+        clearTimeout(this.isPerformingLookupCancelTimeout);
+      }
+      this.isPerformingLookupCancelTimeout = setTimeout(() => {
+        this.isPerformingLookup = false;
+      }, QUERY_REQUEST_DEBOUNCE_TIME + 50);
+    },
   },
   watch: {
-    query: _.debounce(function (newValue) {
-      if (this.isComponentLoaded) {
-        this.$emit('input', newValue);
+    value: _.debounce(function (newValue) {
+      if (this.isComponentLoaded &&
+        this.isPerformingLookup &&
+        newValue &&
+        newValue.length >= MIN_LOOKUP_LENGTH) {
         this.lookup(newValue);
       }
     }, QUERY_REQUEST_DEBOUNCE_TIME)
@@ -199,6 +216,7 @@ export default {
   z-index: 1;
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 0.25rem;
+  font-size: 14px;
 }
 .result-item {
   padding: 0.25rem 1.5rem;
