@@ -1,6 +1,6 @@
 {
   "name": "oop",
-  "version": "0.1.45",
+  "version": "0.1.46",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -16,9 +16,10 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.21.1",
-    "common-lib-vue": "^1.0.16",
+    "common-lib-vue": "^1.0.17",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "underscore": "^1.13.1",
     "uuid": "^8.3.2",
     "vue": "^2.6.11",
     "vue-country-region-select": "^2.0.14",
