@@ -47,7 +47,7 @@ class ApiService {
     });
     formState.addressLines.forEach((addressLine) => {
       if (addressLine.value) {
-        addressLines.push(addressLine.value);
+        addressLines.push(replaceSpecialCharacters(addressLine.value));
       }
     });
     if (formState.phone) {
@@ -76,8 +76,8 @@ class ApiService {
         newAddress: {
           country: replaceSpecialCharacters(formState.country),
           addressLines: addressLines,
-          province: formState.province,
-          city: formState.city,
+          province: replaceSpecialCharacters(formState.province),
+          city: replaceSpecialCharacters(formState.city),
           postalCode: postalCode
         }
       }
