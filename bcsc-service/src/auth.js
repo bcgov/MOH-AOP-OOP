@@ -39,7 +39,7 @@ const getInfo = function (config, token,) {
       return res.data;
     })
     .then(info => {
-      console.log(info);
+      console.log("raw:", info);
       return config.jwe ? decrypt(config.jwk, info) : info;
     })
     .then(info => {
