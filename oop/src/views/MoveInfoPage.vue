@@ -53,7 +53,17 @@
                             :key='index'
                             :set="v = $v.addressLines.$each[index]"
                             class='col-md-7 mt-3'>
-                  <AddressInput :label='"Address line " + (index + 1)'
+                  <AddressValidator v-if="isAddressValidatorEnabled &&
+                                          index === 0 &&
+                                          country === 'Canada'"
+                                    label="Address line 1"
+                                    v-model="addressLine.value"
+                                    id="address-line-1"
+                                    class="address-line"
+                                    serviceUrl="/oop/api/address"
+                                    @address-selected="addressSelectedHandler($event)" />
+                  <AddressInput v-else
+                                :label='"Address line " + (index + 1)'
                                 v-model="addressLine.value"
                                 class="address-line"
                                 maxlength='25'/>
@@ -182,6 +192,7 @@ import DateInput, {
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import AddressInput from '../components/AddressInput.vue';
+import AddressValidator from '@/components/AddressValidator.vue';
 import {
   PostalCodeInput,
   Button,
@@ -204,6 +215,7 @@ import {
   SET_MOVE_FROM_BC_DATE,
 } from '../store/modules/form';
 import logService from '../services/log-service';
+import spaEnvService from '@/services/spa-env-service';
 
 const MIN_ADDRESS_LINES = 1;
 const MAX_ADDRESS_LINES = 3;
@@ -237,6 +249,7 @@ export default {
     ProvinceInput,
     TipBox,
     AddressInput,
+    AddressValidator,
     Button,
     Radio,
   },
@@ -420,6 +433,22 @@ export default {
     getMinAddressLines() {
       return MIN_ADDRESS_LINES;
     },
+    addressSelectedHandler(address) {
+      // Remove all but first address line.
+      for (let i=this.addressLines.length-1; i>0; i--) {
+        this.addressLines.pop();
+      }
+      // Add address lines and set value to the model.
+      for (let i=0; i<address.addressLines.length; i++) {
+        if (i !== 0) {
+          this.addAddressField();
+        }
+        this.addressLines[i].value = address.addressLines[i];
+      }
+      this.city = address.city;
+      this.province = address.province;
+      this.postalCode = address.postalCode;
+    },
     setFieldsToNull() {
       // Remove all current address lines
       for (let i=0; i<this.addressLines.length; i++) {
@@ -443,6 +472,11 @@ export default {
         this.postalCode = null;
       }, 0);
     },
+  },
+  computed: {
+    isAddressValidatorEnabled() {
+      return spaEnvService.values.SPA_ENV_OOP_ENABLE_ADDRESS_VALIDATOR === 'true';
+    }
   },
   watch: {
     country(newValue) {

@@ -5,7 +5,8 @@
             name="addressLine"
            class='form-control'
            :maxlength='maxlength'
-           v-model="localValue" />
+           :value="value"
+           @input="inputHandler($event)" />
   </div>
 </template>
 
@@ -14,22 +15,25 @@ export default {
   name: 'AddressInput',
   components: {},
   props: {
-    value: String,
-    label: String,
-    className: String,
-    maxlength: String,
+    value: {
+      type: String,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    className: {
+      type: String,
+      default: '',
+    },
+    maxlength: {
+      type: String,
+      default: '1000'
+    },
   },
-  data() {
-    return {
-      localValue: null,
-    }
-  },
-  created() {
-    this.localValue = this.value;
-  },
-  watch: {
-    localValue(newValue) {
-      this.$emit('input', newValue);
+  methods: {
+    inputHandler(event) {
+      this.$emit('input', event.target.value);
     }
   }
 }
