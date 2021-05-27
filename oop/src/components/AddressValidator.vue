@@ -1,6 +1,8 @@
 <template>
   <div :class="className">
     <label :for="'input' + label">{{label}}</label><br/>
+    <p class="subtitle">Note: if you have a unit number, enter it before the street address followed by a dash (-)</p>
+    <p class="subtitle">Example: 111-123 Street name</p>
     <input :id="'input' + label"
             name="addressLine"
            class='form-control'
@@ -93,7 +95,7 @@ export default {
       url.searchParams.set('address', query);
 
       axios.get(url.href).then((response) => {
-        this.data = this.processResponse(response.data).slice(0, 5);
+        this.data = this.processResponse(response.data);
       }).catch(() => {
         this.data = [];
       });
@@ -225,5 +227,9 @@ export default {
 .result-item.selected {
   background: #036;
   color: #FFF;
+}
+.subtitle {
+  font-size: 13.33px;
+  margin-bottom: 0.5rem;
 }
 </style>
