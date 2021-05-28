@@ -130,37 +130,66 @@ export default {
         label: 'Country:',
         value: this.$store.state.form.country,
       });
-      const addressLines = this.$store.state.form.addressLines;
-      for (let i=0; i<addressLines.length; i++) {
-        if (addressLines[i].value !== null){
+      if (this.$store.state.form.country === 'Canada') {
+        const addressLines = this.$store.state.form.addressLines;
+        for (let i=0; i<addressLines.length; i++) {
+          if (addressLines[i].value !== null){
+            items.push({
+              label: 'Address line ' + (i+1) + ':',
+              value: addressLines[i].value,
+            });
+          }
+        }
+        if (this.$store.state.form.isNewAddressKnown === 'Y'){
+          const provinceLabel = 'Province:';
           items.push({
-            label: 'Address line ' + (i+1) + ':',
-            value: addressLines[i].value,
+            label: provinceLabel,
+            value: getProvinceNameFromCode(this.$store.state.form.province),
+          });
+        }
+        if (this.$store.state.form.city !== null){
+          const cityLabel = 'City:';
+          items.push({
+            label: cityLabel,
+            value: this.$store.state.form.city,
+          });
+        }
+        if (this.$store.state.form.postalCode !== null){
+          const postalCodeLabel = 'Postal code:';
+          items.push({
+            label: postalCodeLabel,
+            value: this.$store.state.form.postalCode,
           });
         }
       }
-      if (this.$store.state.form.isNewAddressKnown === 'Y'
-        || this.$store.state.form.country === 'Canada'){
-        const provinceLabel = this.$store.state.form.country === 'Canada' ? 'Province:' : 'Province/state/region:'
-        items.push({
-          label: provinceLabel,
-          value: this.$store.state.form.country === 'Canada' ? getProvinceNameFromCode(this.$store.state.form.province) : this.$store.state.form.province,
-        });
+      else {
+        const addressLines = this.$store.state.form.addressLines;
+        if (addressLines[0] && addressLines[0].value !== null){
+          items.push({
+            label: 'Street address:',
+            value: addressLines[0].value,
+          });
+        }
+        if (addressLines[1] && addressLines[1].value !== null){
+          items.push({
+            label: this.$store.state.form.country === 'United States' ? 'City, State:' : 'City, province:',
+            value: addressLines[1].value,
+          });
+        }
+        if (addressLines[2] && addressLines[2].value !== null){
+          items.push({
+            label: 'Zip code (optional):',
+            value: addressLines[2].value,
+          });
+        }
+        if (this.$store.state.form.city !== null){
+          items.push({
+            label: 'Zip/postal code:',
+            value: this.$store.state.form.city,
+          });
+        }
       }
-      if (this.$store.state.form.city !== null){
-        const cityLabel = this.$store.state.form.country === 'Canada' ? 'City:' : 'City/town:'
-        items.push({
-          label: cityLabel,
-          value: this.$store.state.form.city,
-        });
-      }
-      if (this.$store.state.form.postalCode !== null){
-        const postalCodeLabel = this.$store.state.form.country === 'Canada' ? 'Postal code:' : 'Postal code/zip code:'
-        items.push({
-          label: postalCodeLabel,
-          value: this.$store.state.form.postalCode,
-        });
-      }
+      
       return items;
     },
     whoIsMoving() {
