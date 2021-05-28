@@ -471,11 +471,21 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
         
-        //If no address lines provided, create an empty address line 1 for Review Page
-        if(this.addressLines.length == 0){
-          this.addressLines[0] = {
-              value: null,
-              isValid: true,
+        // Only eliminate empty address lines if country is Canada
+        if (this.country === 'Canada'){
+          const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+          for (let i=currNumOfAddressLines-1; i>=0; i--){
+            if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
+              this.addressLines.splice(i,1);
+            }
+          }
+          
+          //If no address lines provided, create an empty address line 1 for Review Page
+          if(this.addressLines.length == 0){
+            this.addressLines[0] = {
+                value: null,
+                isValid: true,
+            }
           }
         }
         
