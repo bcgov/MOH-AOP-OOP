@@ -94,11 +94,14 @@ objects:
             add_header X-Content-Type-Options "nosniff";
             add_header X-XSS-Protection 1;
             add_header X-Frame-Options DENY;
+            add_header Cache-Control "no-store";
+            add_header Pragma "no-cache";
+            add_header Access-Control-Allow-Origin "*";
 
             # uncomment for test2
             # index index.html index.htm;
 
-            # serve our angular app here
+            # serve our vue app here
             location / {
               rewrite ^/aop(/.*)$ $1;
 
