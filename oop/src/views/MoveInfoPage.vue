@@ -128,7 +128,7 @@
                                   class="address-line"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !$v.addressLines.required"
+                              v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -140,7 +140,7 @@
                                   class="address-line"
                                   maxlength='18'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !$v.addressLines.required"
+                               v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and State are required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -151,9 +151,9 @@
                                   v-model="addressLine.value"
                                   class="address-line"
                                   maxlength='6'/>
-                       <div class="text-danger"
-                               v-if="v.value.$dirty && !$v.addressLines.required"
-                              aria-live="assertive">Zip code is required.</div>             
+                        <div class="text-danger"
+                               v-if="v.value.$dirty && !v.value.required"
+                              aria-live="assertive">Zip code is required.</div>         
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
                             aria-live="assertive">Zip code is cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
@@ -174,7 +174,7 @@
                                   class="address-line"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !$v.addressLines.required"
+                              v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -186,7 +186,7 @@
                                   class="address-line"
                                   maxlength='18'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !$v.addressLines.required"
+                               v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and province are required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -430,20 +430,20 @@ export default {
         validations.addressLines = {
           $each: {
             value: {
-              specialCharacterValidator
+              specialCharacterValidator,
+              required
             },
           },
-          required,
         };
       }
       else {
         validations.addressLines = {
           $each: {
             value: {
-              specialCharacterValidator
+              specialCharacterValidator,
+              required
             },
           },
-          required,
         },
         validations.city = {
           required,
