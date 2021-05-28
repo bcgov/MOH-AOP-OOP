@@ -475,7 +475,7 @@ export default {
         if (this.country === 'Canada'){
           const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
           for (let i=currNumOfAddressLines-1; i>=0; i--){
-            if ((this.addressLines[i].value == null || this.addressLines[i].value == '') && currNumOfAddressLines > 1){
+            if ((this.addressLines[i].value === null || this.addressLines[i].value === '') && currNumOfAddressLines > 1){
               this.addressLines.splice(i,1);
             }
           }
