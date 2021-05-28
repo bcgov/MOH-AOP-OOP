@@ -76,12 +76,12 @@
                         v-if="v.value.$dirty && !v.value.specialCharacterValidator"
                         aria-live="assertive">Address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                   </div>
-                  <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin">
+                  <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='+'
                             @click='addAddressField()'
                             class='add-remove-button mt-5 form-control'/>
                   </div>
-                  <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin">
+                  <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='-'
                             @click='removeAddressField()'
                             class='add-remove-button mt-5 form-control'/>
@@ -103,6 +103,9 @@
                 <div class="text-danger"
                       v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
                       aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
+                <div class="text-danger"
+                      v-if="$v.city.$dirty && $v.city.required && !$v.city.maxLength"
+                      aria-live="assertive">City exceeds the maximum number of allowable characters.</div>             
                 <PostalCodeInput id="postalCode"
                       label="Postal code"
                       className='mt-3'
@@ -242,6 +245,8 @@ import {
   getTopScrollPosition,
   scrollToElement
 } from '../helpers/scroll';
+import { replaceSpecialCharacters } from '../helpers/string';
+import { truncateAddressLines } from '../helpers/address';
 import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
@@ -262,7 +267,10 @@ import {
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
-import { required } from 'vuelidate/lib/validators';
+import {
+  required,
+  maxLength,
+} from 'vuelidate/lib/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
@@ -406,6 +414,7 @@ export default {
         validations.city = {
           required,
           specialCharacterValidator,
+          maxLength: maxLength(25),
         };
         validations.province = {
           required,
@@ -505,20 +514,22 @@ export default {
       return MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
+      const addressLines = truncateAddressLines(address.addressLines, 25);
+
       // Remove all but first address line.
       for (let i=this.addressLines.length-1; i>0; i--) {
         this.addressLines.pop();
       }
       // Add address lines and set value to the model.
-      for (let i=0; i<address.addressLines.length; i++) {
+      for (let i=0; i<addressLines.length; i++) {
         if (i !== 0) {
           this.addAddressField();
         }
-        this.addressLines[i].value = address.addressLines[i];
+        this.addressLines[i].value = replaceSpecialCharacters(addressLines[i]);
       }
-      this.city = address.city;
-      this.province = address.province;
-      this.postalCode = address.postalCode;
+      this.city = replaceSpecialCharacters(address.city);
+      this.province = replaceSpecialCharacters(address.province);
+      this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
       // Remove all current address lines
