@@ -98,7 +98,7 @@
                       className='mt-3'
                       class="city"
                       v-model="city"
-                      maxlength='25' />
+                      maxlength='22' />
                 <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">City is required.</div>
                 <div class="text-danger"
                       v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
@@ -414,7 +414,7 @@ export default {
         validations.city = {
           required,
           specialCharacterValidator,
-          maxLength: maxLength(25),
+          maxLength: maxLength(22),
         };
         validations.province = {
           required,
