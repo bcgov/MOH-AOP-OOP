@@ -13,7 +13,8 @@
     <div class="results-container"
         ref="resultsContainer">
       <div v-if="data && data.length > 0"
-          class="result-item-container">
+          class="result-item-container"
+          ref="resultItemContainer">
         <div v-for="(address, index) in data"
             :key="index"
             :class="'result-item ' + (selectedItemIndex === index ? 'selected' : '')"
@@ -133,6 +134,7 @@ export default {
           } else {
             this.selectedItemIndex = 0;
           }
+          this.scrollDownToSelectedItem();
           break;
         case 38: // Up arrow.
           if (this.selectedItemIndex !== null) {
@@ -144,6 +146,7 @@ export default {
           } else {
             this.selectedItemIndex = this.data.length - 1;
           }
+          this.scrollUpToSelectedItem();
           break;
         case 13: // Enter.
           if (this.selectedItemIndex !== null) {
@@ -189,6 +192,34 @@ export default {
         this.isPerformingLookup = false;
       }, QUERY_REQUEST_DEBOUNCE_TIME + 50);
     },
+    scrollDownToSelectedItem() {
+      console.log('Scroll Down.');
+      setTimeout(() => {
+        const selectedItemEl = this.$refs.resultItemContainer.querySelector('.selected');
+        if (!selectedItemEl) {
+          return;
+        }
+        if (this.$refs.resultItemContainer.scrollTop + this.$refs.resultItemContainer.clientHeight < (selectedItemEl.offsetTop + selectedItemEl.clientHeight)) {
+          this.$refs.resultItemContainer.scrollTop = selectedItemEl.offsetTop - this.$refs.resultItemContainer.clientHeight + selectedItemEl.clientHeight;
+        } else if (this.$refs.resultItemContainer.scrollTop > selectedItemEl.offsetTop) {
+          this.$refs.resultItemContainer.scrollTop = 0;
+        }
+      }, 0);
+    },
+    scrollUpToSelectedItem() {
+      console.log('Scroll Up.');
+      setTimeout(() => {
+        const selectedItemEl = this.$refs.resultItemContainer.querySelector('.selected');
+        if (!selectedItemEl) {
+          return;
+        }
+        if (this.$refs.resultItemContainer.scrollTop > selectedItemEl.offsetTop) {
+          this.$refs.resultItemContainer.scrollTop = selectedItemEl.offsetTop;
+        } else if ((this.$refs.resultItemContainer.scrollTop + this.$refs.resultItemContainer.clientHeight) < selectedItemEl.offsetTop) {
+          this.$refs.resultItemContainer.scrollTop = this.$refs.resultItemContainer.scrollHeight - this.$refs.resultItemContainer.clientHeight;
+        }
+      }, 0);
+    }
   },
   watch: {
     value: _.debounce(function (newValue) {
@@ -219,6 +250,8 @@ export default {
   border: 1px solid rgba(0,0,0,0.15);
   border-radius: 0.25rem;
   font-size: 14px;
+  max-height: 250px;
+  overflow-y: scroll;
 }
 .result-item {
   padding: 0.25rem 1.5rem;
