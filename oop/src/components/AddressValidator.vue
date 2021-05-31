@@ -193,7 +193,6 @@ export default {
       }, QUERY_REQUEST_DEBOUNCE_TIME + 50);
     },
     scrollDownToSelectedItem() {
-      console.log('Scroll Down.');
       setTimeout(() => {
         const selectedItemEl = this.$refs.resultItemContainer.querySelector('.selected');
         if (!selectedItemEl) {
@@ -207,7 +206,6 @@ export default {
       }, 0);
     },
     scrollUpToSelectedItem() {
-      console.log('Scroll Up.');
       setTimeout(() => {
         const selectedItemEl = this.$refs.resultItemContainer.querySelector('.selected');
         if (!selectedItemEl) {
