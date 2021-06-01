@@ -175,7 +175,7 @@ export default {
             label: this.$store.state.form.country === 'United States' ? 'City:' : 'City, Province:',
             value: addressLines[1].value,
           });
-          if (this.$store.state.form.country === 'United States'){
+          if (this.$store.state.form.country === 'United States' && this.$store.state.form.province !== null){
             items.push({
               label: 'State:',
               value: this.$store.state.form.province,

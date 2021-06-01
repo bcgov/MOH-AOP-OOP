@@ -126,9 +126,10 @@
                       <AddressInput label="Street address" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !v.value.required"
+                              v-if="v.value.$dirty && !v.value.isRequired"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -138,9 +139,10 @@
                       <AddressInput label="City" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-2"
                                   maxlength='18'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.required"
+                               v-if="v.value.$dirty && !v.value.isRequired"
                               aria-live="assertive">City is required.</div>           
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
@@ -156,10 +158,11 @@
                       <AddressInput label="Zip code (optional)" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-3"
                                   maxlength='6'/>
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.required"
-                            aria-live="assertive">Zip code is required.</div>   
+                              v-if="v.value.$dirty && !v.value.isRequired"
+                              aria-live="assertive">Zip code is required.</div>
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
                             aria-live="assertive">Zip code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
@@ -178,6 +181,7 @@
                       <AddressInput label="Street address" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
                               v-if="v.value.$dirty && !v.value.required"
@@ -190,6 +194,7 @@
                       <AddressInput label="City, Province" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-2"
                                   maxlength='25'/>
                         <div class="text-danger"
                                v-if="v.value.$dirty && !v.value.required"
@@ -375,7 +380,9 @@ export default {
     this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
 
     for (let i=0; i<this.currNumOfAddressLines; i++) {
+      const idVal = 'address-line-' + (i + 1);
       this.addressLines[i] = {
+          id: idVal,
           value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
           isValid: true,
       }
@@ -439,7 +446,16 @@ export default {
           $each: {
             value: {
               specialCharacterValidator,
-              required
+              isRequired: (value, addressLine) => {
+                // Make the Zip code (address line 3) optional if the country is USA
+                const index = this.addressLines.findIndex(() => addressLine.id === 'address-line-3');
+                if (index === 0){
+                  return true;
+                }
+                
+                // Validates required address line fields
+                return (value !== '' && value !== null);
+              }
             },
           },
         },
@@ -494,6 +510,7 @@ export default {
           //If no address lines provided, create an empty address line 1 for Review Page
           if(this.addressLines.length == 0){
             this.addressLines[0] = {
+                idVal: 'address-line-1',
                 value: null,
                 isValid: true,
             }
@@ -518,6 +535,7 @@ export default {
     },
     addAddressField() {
       this.addressLines.push({
+        id: 'address-line-' + (this.addressLines.length + 1),
         value: null,
         isValid: true,
       });

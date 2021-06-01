@@ -85,7 +85,7 @@ export default {
               // Append city and state into one field - addressLines[1] if country is USA
               if(this.$store.state.form.country == 'United States'){
                 const appendedCityState = this.$store.state.form.addressLines[1].value + ' ' + this.$store.state.form.province + ' USA';
-                this.$store.state.form.addressLines[1] = appendedCityState;
+                this.$store.state.form.addressLines[1].value = appendedCityState;
                 this.$store.state.form.province = null;
               }
 
