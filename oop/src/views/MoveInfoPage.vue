@@ -305,14 +305,6 @@ const addressLineOneValidator = (addressLines) => {
   return false;
 };
 
-const requiredValidator = (addressLines) => {
-  if (addressLines) {
-    return true;
-  }
-  console.log(addressLines);
-  return false;
-}
-
 const specialCharacterValidator = (value) => {
   if (!value) {
     return true;

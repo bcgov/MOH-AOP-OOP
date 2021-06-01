@@ -87,8 +87,6 @@ export default {
                 const appendedCityState = this.$store.state.form.addressLines[1].value + ' ' + this.$store.state.form.province + ' USA';
                 this.$store.state.form.addressLines[1] = appendedCityState;
                 this.$store.state.form.province = null;
-                console.log(this.$store.state.form.addressLines[1]);
-                console.log(this.$store.state.form.province);
               }
 
               logService.logSubmission(applicationUuid, {
