@@ -126,37 +126,46 @@
                       <AddressInput label="Street address" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !v.value.required"
+                              v-if="v.value.$dirty && !v.value.isRequired"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
-                      <AddressInput label="City, State" 
+                      <AddressInput label="City" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-2"
                                   maxlength='18'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.required"
-                              aria-live="assertive">City and State are required.</div>             
+                               v-if="v.value.$dirty && !v.value.isRequired"
+                              aria-live="assertive">City is required.</div>           
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">City and State cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                      <StateInput label='State'
+                                ref="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
+                      <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">State is required.</div>
                     </div>
                     <div v-else-if="index === 2">
-                      <AddressInput label="Zip code" 
+                      <AddressInput label="Zip code (optional)" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-3"
                                   maxlength='6'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.required"
-                              aria-live="assertive">Zip code is required.</div>         
+                              v-if="v.value.$dirty && !v.value.isRequired"
+                              aria-live="assertive">Zip code is required.</div>
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">Zip code is cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            aria-live="assertive">Zip code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                   </div>
                 </div>
@@ -172,6 +181,7 @@
                       <AddressInput label="Street address" 
                                   v-model="addressLine.value"
                                   class="address-line"
+                                  id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
                               v-if="v.value.$dirty && !v.value.required"
@@ -181,10 +191,11 @@
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
-                      <AddressInput label="City, province" 
+                      <AddressInput label="City, Province" 
                                   v-model="addressLine.value"
                                   class="address-line"
-                                  maxlength='18'/>
+                                  id="address-line-2"
+                                  maxlength='25'/>
                         <div class="text-danger"
                                v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and province are required.</div>             
@@ -194,12 +205,12 @@
                     </div>
                   </div>
                 </div>
-                <Input label='Zip/postal code'
+                <Input label='Postal code/zip code'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Zip/postal code is required.</div>
+                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Postal code/zip code is required.</div>
               </div>
             </div>
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
@@ -257,6 +268,7 @@ import DateInput, {
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
+import StateInput from '../components/StateInput.vue';
 import AddressInput from '../components/AddressInput.vue';
 import AddressValidator from '@/components/AddressValidator.vue';
 import {
@@ -316,6 +328,7 @@ export default {
     PostalCodeInput,
     CountryInput,
     ProvinceInput,
+    StateInput,
     TipBox,
     AddressInput,
     AddressValidator,
@@ -367,7 +380,9 @@ export default {
     this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
 
     for (let i=0; i<this.currNumOfAddressLines; i++) {
+      const idVal = 'address-line-' + (i + 1);
       this.addressLines[i] = {
+          id: idVal,
           value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
           isValid: true,
       }
@@ -431,9 +446,21 @@ export default {
           $each: {
             value: {
               specialCharacterValidator,
-              required
+              isRequired: (value, addressLine) => {
+                // Make the Zip code (address line 3) optional if the country is USA
+                const index = this.addressLines.findIndex(() => addressLine.id === 'address-line-3');
+                if (index === 0){
+                  return true;
+                }
+                
+                // Validates required address line fields
+                return (value !== '' && value !== null);
+              }
             },
           },
+        },
+        validations.province = {
+          required
         };
       }
       else {
@@ -483,6 +510,7 @@ export default {
           //If no address lines provided, create an empty address line 1 for Review Page
           if(this.addressLines.length == 0){
             this.addressLines[0] = {
+                idVal: 'address-line-1',
                 value: null,
                 isValid: true,
             }
@@ -507,6 +535,7 @@ export default {
     },
     addAddressField() {
       this.addressLines.push({
+        id: 'address-line-' + (this.addressLines.length + 1),
         value: null,
         isValid: true,
       });
