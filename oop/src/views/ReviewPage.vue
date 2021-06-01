@@ -35,8 +35,10 @@ import {
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
+  SET_ADDRESS_LINES,
+  SET_PROVINCE,
   SET_REFERENCE_NUMBER,
-SET_SUBMISSION_DATE
+  SET_SUBMISSION_DATE
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
@@ -85,8 +87,10 @@ export default {
               // Append city and state into one field - addressLines[1] if country is USA
               if(this.$store.state.form.country == 'United States'){
                 const appendedCityState = this.$store.state.form.addressLines[1].value + ' ' + this.$store.state.form.province + ' USA';
-                this.$store.state.form.addressLines[1].value = appendedCityState;
-                this.$store.state.form.province = null;
+                formState.addressLines[1].value = appendedCityState;
+                formState.province = null;
+                this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, formState.addressLines);
+                this.$store.dispatch(formModule + '/' + SET_PROVINCE, formState.province);
               }
 
               logService.logSubmission(applicationUuid, {
