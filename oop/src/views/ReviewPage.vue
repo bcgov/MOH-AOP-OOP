@@ -71,7 +71,7 @@ export default {
       const token = this.$store.state.form.captchaToken;
       const applicationUuid = this.$store.state.form.applicationUuid;
       const formState = this.$store.state.form;
-
+      
       apiService.submitApplication(token, formState)
         .then((response) => {
           // Handle HTTP success.
@@ -82,6 +82,15 @@ export default {
 
           switch (returnCode) {
             case '0': // Submission successful.
+              // Append city and state into one field - addressLines[1] if country is USA
+              if(this.$store.state.form.country == 'United States'){
+                const appendedCityState = this.$store.state.form.addressLines[1].value + ' ' + this.$store.state.form.province + ' USA';
+                this.$store.state.form.addressLines[1] = appendedCityState;
+                this.$store.state.form.province = null;
+                console.log(this.$store.state.form.addressLines[1]);
+                console.log(this.$store.state.form.province);
+              }
+
               logService.logSubmission(applicationUuid, {
                 event: 'submission',
                 response: response.data,

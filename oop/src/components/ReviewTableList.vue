@@ -172,9 +172,15 @@ export default {
         }
         if (addressLines[1] && addressLines[1].value !== null){
           items.push({
-            label: this.$store.state.form.country === 'United States' ? 'City, State:' : 'City, province:',
+            label: this.$store.state.form.country === 'United States' ? 'City:' : 'City, Province:',
             value: addressLines[1].value,
           });
+          if (this.$store.state.form.country === 'United States'){
+            items.push({
+              label: 'State:',
+              value: this.$store.state.form.province,
+            });
+          }
         }
         if (addressLines[2] && addressLines[2].value !== null){
           items.push({
@@ -184,7 +190,7 @@ export default {
         }
         if (this.$store.state.form.city !== null){
           items.push({
-            label: 'Zip/postal code:',
+            label: 'Postal code/zip code:',
             value: this.$store.state.form.city,
           });
         }

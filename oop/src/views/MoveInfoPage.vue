@@ -135,28 +135,34 @@
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
-                      <AddressInput label="City, State" 
+                      <AddressInput label="City" 
                                   v-model="addressLine.value"
                                   class="address-line"
                                   maxlength='18'/>
                         <div class="text-danger"
                                v-if="v.value.$dirty && !v.value.required"
-                              aria-live="assertive">City and State are required.</div>             
+                              aria-live="assertive">City is required.</div>           
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">City and State cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                      <StateInput label='State'
+                                ref="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
+                      <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">State is required.</div>
                     </div>
                     <div v-else-if="index === 2">
-                      <AddressInput label="Zip code" 
+                      <AddressInput label="Zip code (optional)" 
                                   v-model="addressLine.value"
                                   class="address-line"
                                   maxlength='6'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.required"
-                              aria-live="assertive">Zip code is required.</div>         
+                            v-if="v.value.$dirty && !v.value.required"
+                            aria-live="assertive">Zip code is required.</div>   
                         <div class="text-danger"
                             v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">Zip code is cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            aria-live="assertive">Zip code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                   </div>
                 </div>
@@ -181,10 +187,10 @@
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
-                      <AddressInput label="City, province" 
+                      <AddressInput label="City, Province" 
                                   v-model="addressLine.value"
                                   class="address-line"
-                                  maxlength='18'/>
+                                  maxlength='25'/>
                         <div class="text-danger"
                                v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and province are required.</div>             
@@ -194,12 +200,12 @@
                     </div>
                   </div>
                 </div>
-                <Input label='Zip/postal code'
+                <Input label='Postal code/zip code'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Zip/postal code is required.</div>
+                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Postal code/zip code is required.</div>
               </div>
             </div>
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
@@ -257,6 +263,7 @@ import DateInput, {
 } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
+import StateInput from '../components/StateInput.vue';
 import AddressInput from '../components/AddressInput.vue';
 import AddressValidator from '@/components/AddressValidator.vue';
 import {
@@ -298,6 +305,14 @@ const addressLineOneValidator = (addressLines) => {
   return false;
 };
 
+const requiredValidator = (addressLines) => {
+  if (addressLines) {
+    return true;
+  }
+  console.log(addressLines);
+  return false;
+}
+
 const specialCharacterValidator = (value) => {
   if (!value) {
     return true;
@@ -316,6 +331,7 @@ export default {
     PostalCodeInput,
     CountryInput,
     ProvinceInput,
+    StateInput,
     TipBox,
     AddressInput,
     AddressValidator,
@@ -434,6 +450,9 @@ export default {
               required
             },
           },
+        },
+        validations.province = {
+          required
         };
       }
       else {
