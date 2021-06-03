@@ -581,7 +581,7 @@ export default {
     setFieldsToNull() {
       // Set value of first address line to null
       this.addressLines[0] = {
-        idVal: 'address-line-1',
+        id: 'address-line-1',
         value: null,
         isValid: true,
       }
