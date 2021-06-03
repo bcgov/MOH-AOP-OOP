@@ -502,10 +502,8 @@ export default {
         this.isLoading = false;
 
         // Set address fields to null if the new address (other than Canada) is not known
-        if (this.isNewAddressKnown === 'N'){
-          if (this.country !== 'Canada'){
-            this.setFieldsToNull();
-          }
+        if (this.isNewAddressKnown === 'N' && this.country !== 'Canada'){
+          this.setFieldsToNull();
         }
 
         // Only eliminate empty address lines if country is Canada
