@@ -500,7 +500,14 @@ export default {
       
       setTimeout(() => {
         this.isLoading = false;
-        
+
+        // Set address fields to null if the new address (other than Canada) is not known
+        if (this.isNewAddressKnown === 'N'){
+          if (this.country !== 'Canada'){
+            this.setFieldsToNull();
+          }
+        }
+
         // Only eliminate empty address lines if country is Canada
         if (this.country === 'Canada'){
           const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
@@ -511,7 +518,7 @@ export default {
           }
           
           //If no address lines provided, create an empty address line 1 for Review Page
-          if(this.addressLines.length == 0){
+          if (this.addressLines.length == 0){
             this.addressLines[0] = {
                 idVal: 'address-line-1',
                 value: null,
@@ -574,6 +581,10 @@ export default {
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
+      // Set value of first address line to null
+      this.addressLines[0] = {
+        value: null,
+      }
       // Remove all current address lines
       for (let i=0; i<this.addressLines.length; i++) {
         setTimeout(() => {
@@ -583,15 +594,10 @@ export default {
       setTimeout(() => {
         // Set first address line to null
         this.addAddressField();
-        // If country is Canada, set province dropdown list to null
-        if (this.country === 'Canada' && this.$refs.province){
-          this.$refs.province.region = null;
-        }
-        else {
-          this.province = null;
-        }
         // Set city to null
         this.city = null;
+        // Set province to null
+        this.province = null;
         // Set postal code to null
         this.postalCode = null;
       }, 0);
@@ -604,7 +610,7 @@ export default {
   },
   watch: {
     country(newValue) {
-      if (this.isPageLoaded && newValue){
+      if (this.isPageLoaded){
         this.setFieldsToNull();
         // Add more address line fields if the country is not Canada
         if (newValue !== 'Canada') {
@@ -616,7 +622,7 @@ export default {
       }
     },
     isNewAddressKnown(newValue) {
-      if (this.isPageLoaded && newValue) {
+      if (this.isPageLoaded) {
         if (newValue === 'Y') {
           setTimeout(() => {
             const el = document.querySelector('.is-new-address-known-y');

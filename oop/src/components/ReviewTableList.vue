@@ -141,18 +141,18 @@ export default {
             });
           }
         }
-        if (this.$store.state.form.isNewAddressKnown === 'Y'){
-          const provinceLabel = 'Province:';
-          items.push({
-            label: provinceLabel,
-            value: getProvinceNameFromCode(this.$store.state.form.province),
-          });
-        }
         if (this.$store.state.form.city !== null){
           const cityLabel = 'City:';
           items.push({
             label: cityLabel,
             value: this.$store.state.form.city,
+          });
+        }
+        if (this.$store.state.form.province !== null){
+          const provinceLabel = 'Province:';
+          items.push({
+            label: provinceLabel,
+            value: getProvinceNameFromCode(this.$store.state.form.province),
           });
         }
         if (this.$store.state.form.postalCode !== null){
