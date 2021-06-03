@@ -581,7 +581,9 @@ export default {
     setFieldsToNull() {
       // Set value of first address line to null
       this.addressLines[0] = {
+        idVal: 'address-line-1',
         value: null,
+        isValid: true,
       }
       // Remove all current address lines
       for (let i=0; i<this.addressLines.length; i++) {
