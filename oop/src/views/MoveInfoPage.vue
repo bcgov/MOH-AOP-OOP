@@ -87,13 +87,6 @@
                             class='add-remove-button mt-5 form-control'/>
                   </div>
                 </div>
-                <ProvinceInput label='Province'
-                                ref="province"
-                                className='mt-3'
-                                class="province"
-                                v-model="province" />
-                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
-                <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
                 <Input label='City'
                       className='mt-3'
                       class="city"
@@ -105,7 +98,14 @@
                       aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <div class="text-danger"
                       v-if="$v.city.$dirty && $v.city.required && !$v.city.maxLength"
-                      aria-live="assertive">City exceeds the maximum number of allowable characters.</div>             
+                      aria-live="assertive">City exceeds the maximum number of allowable characters.</div>  
+                <ProvinceInput label='Province'
+                                ref="province"
+                                className='mt-3'
+                                class="province"
+                                v-model="province" />
+                <div class="text-danger" v-if="$v.province.$dirty && !$v.province.required" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="$v.province.$dirty && $v.province.required && !$v.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>      
                 <PostalCodeInput id="postalCode"
                       label="Postal code"
                       className='mt-3'
@@ -205,12 +205,15 @@
                     </div>
                   </div>
                 </div>
-                <Input label='Postal code/zip code'
+                <Input label='Zip/postal code'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Postal code/zip code is required.</div>
+                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Zip/postal code is required.</div>
+                <div class="text-danger"
+                    v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
+                    aria-live="assertive">Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
               </div>
             </div>
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
@@ -258,7 +261,7 @@ import {
 } from '../helpers/scroll';
 import { replaceSpecialCharacters } from '../helpers/string';
 import { truncateAddressLines } from '../helpers/address';
-import { nonBCPostalCodeValidator, nonBCValidator, invalidCharValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
+import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
 import DateInput, {
   distantFutureValidator,
@@ -474,7 +477,7 @@ export default {
         },
         validations.city = {
           required,
-          invalidCharValidator
+          specialCharacterValidator,
         };
       }
     }

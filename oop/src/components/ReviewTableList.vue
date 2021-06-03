@@ -56,6 +56,7 @@ import { scrollTo } from '../helpers/scroll';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
 import { getProvinceNameFromCode } from './ProvinceInput.vue';
+import { getStateNameFromCode } from './StateInput.vue';
 
 export default {
   name: 'ReviewTableList',
@@ -178,7 +179,7 @@ export default {
           if (this.$store.state.form.country === 'United States' && this.$store.state.form.province !== null){
             items.push({
               label: 'State:',
-              value: this.$store.state.form.province,
+              value: getStateNameFromCode(this.$store.state.form.province),
             });
           }
         }
