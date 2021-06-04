@@ -27,6 +27,9 @@ export const getStateNameFromCode = (stateCode) => {
     "AS": "American Samoa",
     "AZ": "Arizona",
     "AR": "Arkansas",
+    "AA": "Armed Forces Americas",
+    "AE": "Armed Forces Europe, Canada, Africa and Middle East",
+    "AP": "Armed Forces Pacific",
     "CA": "California",
     "CO": "Colorado",
     "CT": "Connecticut",
@@ -81,9 +84,6 @@ export const getStateNameFromCode = (stateCode) => {
     "WV": "West Virginia",
     "WI": "Wisconsin",
     "WY": "Wyoming",
-    "AA": "Armed Forces Americas",
-    "AE": "Armed Forces Europe, Canada, Africa and Middle East",
-    "AP": "Armed Forces Pacific",
     };
   if (stateCode && stateMap[stateCode]) {
     return stateMap[stateCode];
