@@ -501,7 +501,7 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
 
-        // Set address fields to null if the new address (other than Canada) is not known
+        // Set address fields to null if the new address is not known
         if (this.isNewAddressKnown === 'N'){
           this.setFieldsToNull();
           if (this.country !== 'Canada'){
