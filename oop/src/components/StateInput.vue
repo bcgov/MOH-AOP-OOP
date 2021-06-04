@@ -80,7 +80,10 @@ export const getStateNameFromCode = (stateCode) => {
     "WA": "Washington",
     "WV": "West Virginia",
     "WI": "Wisconsin",
-    "WY": "Wyoming"
+    "WY": "Wyoming",
+    "AA": "Armed Forces Americas",
+    "AE": "Armed Forces Europe, Canada, Africa and Middle East",
+    "AP": "Armed Forces Pacific",
     };
   if (stateCode && stateMap[stateCode]) {
     return stateMap[stateCode];

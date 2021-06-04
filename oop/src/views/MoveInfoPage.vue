@@ -501,11 +501,14 @@ export default {
       setTimeout(() => {
         this.isLoading = false;
 
-        // Set address fields to null if the new address (other than Canada) is not known
-        if (this.isNewAddressKnown === 'N' && this.country !== 'Canada'){
+        // Set address fields to null if the new address is not known
+        if (this.isNewAddressKnown === 'N'){
           this.setFieldsToNull();
+          if (this.country !== 'Canada'){
+            this.province = null;
+          }
         }
-
+        
         // Only eliminate empty address lines if country is Canada
         if (this.country === 'Canada'){
           const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
@@ -596,8 +599,6 @@ export default {
         this.addAddressField();
         // Set city to null
         this.city = null;
-        // Set province to null
-        this.province = null;
         // Set postal code to null
         this.postalCode = null;
       }, 0);
@@ -612,6 +613,7 @@ export default {
     country(newValue) {
       if (this.isPageLoaded){
         this.setFieldsToNull();
+        this.province = null;
         // Add more address line fields if the country is not Canada
         if (newValue !== 'Canada') {
           this.addAddressField();
@@ -636,6 +638,7 @@ export default {
           }, 0);
         }
         this.setFieldsToNull();
+        this.province = null;
         if (this.$refs.country){
           this.$refs.country.country = 'Canada';
         }
