@@ -1,7 +1,7 @@
 <template>
   <div :class="className">
     <label :for="'input' + label">{{label}}</label><br/>
-    <p class="subtitle">Example: 111-123 Street name</p>
+    <p class="subtitle">Example: 111-215 Sample Road</p>
     <input :id="'input' + label"
             name="addressLine"
            class='form-control'
