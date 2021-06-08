@@ -301,8 +301,10 @@ import {
 import logService from '../services/log-service';
 import spaEnvService from '@/services/spa-env-service';
 
-const MIN_ADDRESS_LINES = 1;
-const MAX_ADDRESS_LINES = 3;
+const CAN_MIN_ADDRESS_LINES = 1;
+const CAN_MAX_ADDRESS_LINES = 3;
+const US_ADDRESS_LINES = 3;
+const INTERNATIONAL_ADDRESS_LINES = 2;
 
 const addressLineOneValidator = (addressLines) => {
   if (addressLines && addressLines[0]) {
@@ -380,13 +382,22 @@ export default {
       this.isPageLoaded = true;
     }, 0);
 
-    this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    if (this.country === "Canada"){
+      this.currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
+    }
+
+    else if (this.country === "United States"){
+      this.currNumOfAddressLines = US_ADDRESS_LINES;
+    }
+
+    else {
+      this.currNumOfAddressLines = INTERNATIONAL_ADDRESS_LINES;
+    }
 
     for (let i=0; i<this.currNumOfAddressLines; i++) {
-      const idVal = 'address-line-' + (i + 1);
       this.addressLines[i] = {
-          id: idVal,
-          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+          id: 'address-line-' + (i + 1),
+          value: this.addressLines[i] && this.addressLines[i].value ? this.addressLines[i].value : null,
           isValid: true,
       }
     }
@@ -511,7 +522,7 @@ export default {
         
         // Only eliminate empty address lines if country is Canada
         if (this.country === 'Canada'){
-          const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+          const currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
           for (let i=currNumOfAddressLines-1; i>=0; i--){
             if ((this.addressLines[i].value === null || this.addressLines[i].value === '') && currNumOfAddressLines > 1){
               this.addressLines.splice(i,1);
@@ -558,10 +569,10 @@ export default {
       return this.addressLines.length;
     },
     getMaxAddressLines() {
-      return MAX_ADDRESS_LINES;
+      return CAN_MAX_ADDRESS_LINES;
     },
     getMinAddressLines() {
-      return MIN_ADDRESS_LINES;
+      return CAN_MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
       const addressLines = truncateAddressLines(address.addressLines, 25);
