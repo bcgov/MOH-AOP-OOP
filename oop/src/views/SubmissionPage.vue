@@ -50,11 +50,15 @@
         <ReviewTableList className='mt-5 mb-5' />
       </div>
     </PageContent>
+    <ContinueBar @continue='navigateToHomePage()'
+                buttonLabel='Submit a new form'
+                :isSticky='false'/>
   </div>
 </template>
 
 <script>
 import PageContent from '../components/PageContent.vue';
+import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
@@ -69,6 +73,7 @@ import logService from '../services/log-service';
 export default {
   name: 'SubmissionPage',
   components: {
+    ContinueBar,
     PageContent,
     ReviewTableList,
   },
@@ -91,7 +96,16 @@ export default {
   methods: {
     printPage() {
       window.print();
-    }
+    },
+    navigateToHomePage() {
+      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      pageStateService.setPageIncomplete(routes.SUBMISSION_PAGE.path);
+
+      const toPath = routes.HOME_PAGE.path;
+      pageStateService.setPageComplete(toPath);
+      this.$router.push(toPath);
+      scrollTo(0);
+    },
   },
   // Required in order to block back navigation.
   beforeRouteLeave(to, from, next) {
