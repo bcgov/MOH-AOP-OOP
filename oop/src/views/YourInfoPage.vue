@@ -19,13 +19,6 @@
             <div class="text-danger"
                 v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
-            <div class="text-danger"
-                v-if="isValidationCode1Shown"
-                aria-live="assertive">This field does not match our records.</div>
-            <div class="text-danger"
-                v-if="isValidationCode2Shown"
-                aria-live="assertive">This field does not match our records. Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</div>
-            
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
                       v-model='phn'
@@ -42,10 +35,10 @@
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
                 v-if="isValidationCode1Shown"
-                aria-live="assertive">This field does not match our records.</div>
+                aria-live="assertive">The last name and/or PHN you entered does not match our records.</div>
             <div class="text-danger"
                 v-if="isValidationCode2Shown"
-                aria-live="assertive">This field does not match our records. Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</div>
+                aria-live="assertive">The last name and/or PHN you entered does not match our records.<br/>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> for more information.</div>
 
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
