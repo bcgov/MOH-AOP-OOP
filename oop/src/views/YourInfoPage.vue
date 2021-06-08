@@ -3,6 +3,7 @@
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Your information</h1>
+        <p>If you are an account holder you will be able to include some or all of your dependents as part of a move. If you are a dependent on someone's account you will only be able to complete this form for yourself.</p>
         <hr/>
         <div class="row">
           <div class="col-sm-7">
