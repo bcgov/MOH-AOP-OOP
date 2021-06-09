@@ -372,7 +372,7 @@ export default {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
     this.isNewAddressKnown = this.$store.state.form.isNewAddressKnown;
-    this.addressLines = this.$store.state.form.addressLines || [];
+    this.addressLines = this.$store.state.form.addressLines ? [...this.$store.state.form.addressLines] : [];
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -594,19 +594,31 @@ export default {
     },
     setFieldsToNull() {
       for (let i=0; i<this.addressLines.length; i++) {
-        this.removeAddressField();
+        setTimeout(() => {
+          this.removeAddressField();
+        }, 0);
+      }
+      // Set first address line to null
+      this.addressLines[0] = {
+        idVal: 'address-line-1',
+        value: null,
+        isValid: true,
       }
       // Remove all current address lines if country is Canada
       if (this.country === 'Canada'){
-        // Set first address line to null
-        this.addAddressField();
-        // Set postal code to null
-        this.postalCode = null
+        setTimeout(() => {
+          // Add one address field
+          this.addAddressField();
+          // Set postal code to null
+          this.postalCode = null
+        }, 0);
       }
       // Otherwise (other countries than Canada is selected), set all the address lines and city to null
       else {
         for (let i=0; i<INTERNATIONAL_ADDRESS_LINES; i++) {
-          this.addAddressField();
+          setTimeout(() => {
+            this.addAddressField();
+          }, 0);
         }
       }
       // Set city to null
