@@ -1,5 +1,5 @@
 <template>
-  <div class='continue-bar'>
+  <div :class='componentClass'>
     <div class="d-flex flex-row-reverse p-3 container">
       <Button :label='buttonLabel'
               :hasLoader='hasLoader'
@@ -25,10 +25,19 @@ export default {
       type: String,
       default: 'Continue'
     },
+    isSticky: {
+      type: Boolean,
+      default: true,
+    }
   },
   methods: {
     onContinue() {
-      this.$emit('continue')
+      this.$emit('continue');
+    }
+  },
+  computed: {
+    componentClass() {
+      return `continue-bar ${this.isSticky ? 'sticky' : ''}`
     }
   }
 }
@@ -38,6 +47,8 @@ export default {
 <style scoped>
 .continue-bar {
   background-color: #cdd9e4;
+}
+.continue-bar.sticky {
   position: sticky;
   bottom: 0;
 }
