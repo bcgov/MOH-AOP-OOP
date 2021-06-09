@@ -52,7 +52,8 @@
     </PageContent>
     <ContinueBar @continue='navigateToHomePage()'
                 buttonLabel='Submit a new form'
-                :isSticky='false'/>
+                :isSticky='false'
+                class="continue-bar"/>
   </div>
 </template>
 
@@ -176,5 +177,9 @@ export default {
 .status-icon {
   font-size: 32px;
 }
-
+@media print {
+  .continue-bar {
+    display: none;
+  }
+}
 </style>
