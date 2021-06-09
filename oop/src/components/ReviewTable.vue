@@ -56,4 +56,17 @@ export default {
   max-width: 350px;
   display: inline-block;
 }
+@media (max-width: 768px) {
+  .bcgov-row {
+    flex-direction: column;
+  }
+  .bcgov-table-cell.label {
+    width: 100%;
+    text-align: left;
+  }
+  .bcgov-table-cell.value {
+    width: 100%;
+    padding: 0;
+  }
+}
 </style>
