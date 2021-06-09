@@ -593,26 +593,24 @@ export default {
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
-      // Set value of first address line to null
-      this.addressLines[0] = {
-        id: 'address-line-1',
-        value: null,
-        isValid: true,
-      }
-      // Remove all current address lines
       for (let i=0; i<this.addressLines.length; i++) {
-        setTimeout(() => {
-          this.removeAddressField();
-        }, 0);
+        this.removeAddressField();
       }
-      setTimeout(() => {
+      // Remove all current address lines if country is Canada
+      if (this.country === 'Canada'){
         // Set first address line to null
         this.addAddressField();
-        // Set city to null
-        this.city = null;
         // Set postal code to null
-        this.postalCode = null;
-      }, 0);
+        this.postalCode = null
+      }
+      // Otherwise (other countries than Canada is selected), set all the address lines and city to null
+      else {
+        for (let i=0; i<INTERNATIONAL_ADDRESS_LINES; i++) {
+          this.addAddressField();
+        }
+      }
+      // Set city to null
+      this.city = null;
     },
   },
   computed: {
@@ -625,12 +623,9 @@ export default {
       if (this.isPageLoaded){
         this.setFieldsToNull();
         this.province = null;
-        // Add more address line fields if the country is not Canada
-        if (newValue !== 'Canada') {
+        // Add address line 3 field if the country is United States
+        if (newValue === 'United States'){
           this.addAddressField();
-          if (newValue === 'United States'){
-            this.addAddressField();
-          }
         }
       }
     },
