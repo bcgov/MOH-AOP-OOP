@@ -33,6 +33,7 @@ describe('YourInfoPage.vue', () => {
       store,
       localVue,
     });
+    console.log("******************potato", wrapper.text);
     expect(wrapper.element).toBeDefined();
   });
 });
