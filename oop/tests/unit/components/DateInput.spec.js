@@ -24,7 +24,9 @@ describe('DateInput.vue', () => {
 });
 
 describe('DateInput canCreateDate()', () => {
-  const wrapper = mount(Component)
+  const wrapper = mount(Component, {
+    localVue,
+  });
 
   test('null entries return false', async () => {
     await wrapper.setData({ 
@@ -137,22 +139,57 @@ describe('DateInput canCreateDate()', () => {
 
 })
 
-/*
-    canCreateDate() {
-      // special because "0" is valid (Jan)
-      const isMonthValid = (typeof this.month === 'string' && this.month !== 'null')
-        || typeof this.month === 'number';
+describe('DateInput processDate()', () => {
+  const wrapper = mount(Component, {
+    localVue,
+  });
 
-      const day = parseInt(this.day);
-      // If the user puts '0' as the day, return invalid
-      if (day === 0){
-        return false;
-      }
-      const daysInMonth = getDaysInMonth(new Date(this.year, this.month, 2));
-      const isDateValid = day <= daysInMonth;
-      if (!!this.year && !!this.day && isMonthValid && isDateValid) {
-        return true;
-      }
-      return false;
-    },
-*/
+  test('invalid entry emits falsy values', async () => {
+    await wrapper.setData({ 
+      month: null,
+      day: null,
+      year: null, 
+    });
+    await wrapper.vm.processDate();
+    expect(wrapper.vm.month).toBeFalsy()
+    expect(wrapper.vm.day).toBeFalsy()
+    expect(wrapper.vm.year).toBeFalsy()
+    expect(wrapper.emitted().input).toEqual([[undefined], [undefined]])
+  });
+
+  test('valid entry emits correct values', async () => {
+    await wrapper.setData({ 
+      month: '1',
+      day: '22',
+      year: '2022', 
+    });
+    await wrapper.vm.processDate();
+    expect(wrapper.vm.month).toBeTruthy()
+    expect(wrapper.vm.day).toBeTruthy()
+    expect(wrapper.vm.year).toBeTruthy()
+    expect(wrapper.emitted().input.length).toBeGreaterThan(2)
+    //the input array should be greater than 2 because it now contains the timestamp info just set
+  });
+
+});
+
+describe ('DateInput openCloseDatePicker()', () => {
+  const wrapper = mount(Component, {
+    localVue
+  });
+  
+
+  test('function properly swaps isDatePickerOpen prop between true and false', async () => {
+    const fakeEvent={target: {value: "potato"}, stopPropagation: jest.fn()};
+    await wrapper.setProps({ isDatePickerOpen: false })
+    await wrapper.vm.openCloseDatePicker(fakeEvent);
+    expect(wrapper.vm.isDatePickerOpen).toBeTruthy();
+
+    await wrapper.setProps({ isDatePickerOpen: true })
+    await wrapper.vm.openCloseDatePicker(fakeEvent);
+    expect(wrapper.vm.isDatePickerOpen).toBeFalsy();
+    
+  });
+
+  
+});
