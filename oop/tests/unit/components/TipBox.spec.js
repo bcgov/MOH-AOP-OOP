@@ -9,7 +9,7 @@ localVue.use(Vuex);
 Vue.use(Vuelidate);
 
 describe('TipBox.vue', () => {
-  
+//This is a Shallow Mount as opposed to a regular mount because this test only checks for rendering
   it('renders', () => {
     const wrapper = shallowMount(Page, {
       localVue,
