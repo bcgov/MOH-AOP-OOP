@@ -71,24 +71,69 @@ describe('DateInput canCreateDate()', () => {
     expect(wrapper.vm.canCreateDate()).toBeTruthy()
   });
 
-  test('invalid month number returns false', async () => {
+  test('day with index of 0 returns false', async () => {
     await wrapper.setData({ 
-      month: 13,
-      day: '31',
+      month: '12',
+      day: 0,
       year: '2022', 
     })
     expect(wrapper.vm.canCreateDate()).toBeFalsy()
+    
+    
   });
 
-  test('invalid day number returns false', async () => {
+  test('non-string/number day returns false', async () => {
     await wrapper.setData({ 
       month: '12',
-      day: '31',
+      day: [555, "potato", {index: "value"}],
       year: '2022', 
     })
     expect(wrapper.vm.canCreateDate()).toBeFalsy()
     // expect(wrapper.vm.canCreateDate()).toBeTruthy()
   });
+
+  test('non-string/number year returns false', async () => {
+    await wrapper.setData({ 
+      month: '12',
+      day: '31',
+      year: [555, "potato", {index: "value"}], 
+    })
+    expect(wrapper.vm.canCreateDate()).toBeFalsy()
+    // expect(wrapper.vm.canCreateDate()).toBeTruthy()
+  });
+
+  test('feb 29 in non leap year returns false', async () => {
+    await wrapper.setData({ 
+      //0 is January, so 1 is February
+      month: '1',
+      day: '29',
+      year: '2021', 
+    })
+    expect(wrapper.vm.canCreateDate()).toBeFalsy()  
+  });
+
+  test('feb 29 in leap year returns true', async () => {
+    await wrapper.setData({ 
+      //0 is January, so 1 is February
+      month: '1',
+      day: '29',
+      year: '2024', 
+    })
+    expect(wrapper.vm.canCreateDate()).toBeTruthy()
+  });
+
+  test('incorrect days in month returns false', async () => {
+    await wrapper.setData({ 
+      //0 is January, so 1 is February
+      month: '1',
+      day: '30',
+      year: '2021', 
+    })
+    expect(wrapper.vm.canCreateDate()).toBeFalsy()
+    // expect(wrapper.vm.canCreateDate()).toBeTruthy()
+  });
+
+  
 
 })
 
