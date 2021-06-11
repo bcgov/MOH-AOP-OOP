@@ -183,15 +183,15 @@ export default {
             });
           }
         }
-        if (addressLines[2] && addressLines[2].value !== null){
+        if (addressLines[2] && addressLines[2].value !== null && addressLines[2].value !== ''){
           items.push({
             label: 'Zip code (optional):',
             value: addressLines[2].value,
           });
         }
-        if (this.$store.state.form.city !== null){
+        if (this.$store.state.form.city !== null && this.$store.state.form.city !== ''){
           items.push({
-            label: 'Zip/postal code:',
+            label: 'Zip/postal code (optional):',
             value: this.$store.state.form.city,
           });
         }
