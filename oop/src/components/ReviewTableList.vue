@@ -74,7 +74,7 @@ export default {
     },
     tableBackgroundColor: {
       type: String,
-    }
+    },
   },
   computed: {
     yourInfoTableData() {
@@ -191,7 +191,7 @@ export default {
         }
         if (this.$store.state.form.city !== null){
           items.push({
-            label: 'Postal code/zip code:',
+            label: 'Zip/postal code:',
             value: this.$store.state.form.city,
           });
         }

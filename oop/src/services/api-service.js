@@ -45,11 +45,27 @@ class ApiService {
         dependentPhns.push(dependentPhn);
       }
     });
-    formState.addressLines.forEach((addressLine) => {
-      if (addressLine.value) {
-        addressLines.push(addressLine.value);
+
+    // Append city and state into one field - addressLines[1] if country is USA
+    if (formState.country === 'United States'){
+      const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
+      for (let i=0; i<formState.addressLines.length; i++) {
+        if (i === 1){
+          addressLines.push(appendedCityState);
+        }
+        else {
+          addressLines.push(formState.addressLines[i].value);
+        }
       }
-    });
+    }
+    else {
+      formState.addressLines.forEach((addressLine) => {
+        if (addressLine.value) {
+          addressLines.push(addressLine.value);
+        }
+      });
+    }
+
     if (formState.phone) {
       phoneNumber = formState.phone
         .replace(/_/g, '') // remove underlines
@@ -58,6 +74,7 @@ class ApiService {
         .replace('(', '')
         .replace(')', '');
     }
+
     const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
     const jsonPayload = {
       uuid: formState.applicationUuid,
@@ -76,7 +93,7 @@ class ApiService {
         newAddress: {
           country: replaceSpecialCharacters(formState.country),
           addressLines: addressLines,
-          province: formState.province,
+          province: formState.country === 'United States' ? null : formState.province,
           city: formState.city,
           postalCode: postalCode
         }
