@@ -205,12 +205,11 @@
                     </div>
                   </div>
                 </div>
-                <Input label='Zip/postal code'
+                <Input label='Zip/postal code (optional)'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Zip/postal code is required.</div>
                 <div class="text-danger"
                     v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
                     aria-live="assertive">Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
@@ -487,7 +486,6 @@ export default {
           },
         },
         validations.city = {
-          required,
           specialCharacterValidator,
         };
       }
