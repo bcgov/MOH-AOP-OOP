@@ -35,8 +35,6 @@ import {
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
-  SET_ADDRESS_LINES,
-  SET_PROVINCE,
   SET_REFERENCE_NUMBER,
   SET_SUBMISSION_DATE
 } from '../store/modules/form';
@@ -73,15 +71,6 @@ export default {
       const token = this.$store.state.form.captchaToken;
       const applicationUuid = this.$store.state.form.applicationUuid;
       const formState = this.$store.state.form;
-
-      // Append city and state into one field - addressLines[1] if country is USA
-      if(this.$store.state.form.country == 'United States'){
-        const appendedCityState = this.$store.state.form.addressLines[1].value + ' ' + this.$store.state.form.province + ' USA';
-        const addressLines = [...formState.addressLines];
-        addressLines[1].value = appendedCityState;
-        this.$store.dispatch(formModule + '/' + SET_ADDRESS_LINES, addressLines);
-        this.$store.dispatch(formModule + '/' + SET_PROVINCE, null);
-      }
       
       apiService.submitApplication(token, formState)
         .then((response) => {
