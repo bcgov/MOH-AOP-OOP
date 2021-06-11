@@ -91,7 +91,6 @@ describe('DateInput canCreateDate()', () => {
       year: '2022', 
     })
     expect(wrapper.vm.canCreateDate()).toBeFalsy()
-    // expect(wrapper.vm.canCreateDate()).toBeTruthy()
   });
 
   test('non-string/number year returns false', async () => {
@@ -101,7 +100,6 @@ describe('DateInput canCreateDate()', () => {
       year: [555, "potato", {index: "value"}], 
     })
     expect(wrapper.vm.canCreateDate()).toBeFalsy()
-    // expect(wrapper.vm.canCreateDate()).toBeTruthy()
   });
 
   test('feb 29 in non leap year returns false', async () => {
@@ -132,7 +130,6 @@ describe('DateInput canCreateDate()', () => {
       year: '2021', 
     })
     expect(wrapper.vm.canCreateDate()).toBeFalsy()
-    // expect(wrapper.vm.canCreateDate()).toBeTruthy()
   });
 
   

@@ -22,5 +22,13 @@ describe('ContinueBar.vue', () => {
     wrapper.vm.onContinue();
     expect(wrapper.emitted().continue).toBeTruthy()
   });
+  it('runs continue method on button click', async () => {
+    const wrapper = mount(Component, {
+      localVue,
+    });
+    const spyOnContinue = jest.spyOn(wrapper.vm, 'onContinue')
+    await wrapper.find('button').trigger('click')
+    expect(spyOnContinue).toHaveBeenCalled()
+  });
   
 });
