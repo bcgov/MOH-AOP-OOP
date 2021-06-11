@@ -99,7 +99,6 @@ class ApiService {
         }
       }
     };
-    console.log(jsonPayload);
     const headers = this.getHeaders(token);
     return axios.post(SUBMIT_APPLICATION_URL, jsonPayload, { headers });
   }
