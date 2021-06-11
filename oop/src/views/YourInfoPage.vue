@@ -34,10 +34,7 @@
                 v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
-                v-if="isValidationCode1Shown"
-                aria-live="assertive">The last name and/or PHN you entered does not match our records.</div>
-            <div class="text-danger"
-                v-if="isValidationCode2Shown"
+                v-if="isValidationCode1Shown || isValidationCode2Shown"
                 aria-live="assertive">The last name and/or PHN you entered does not match our records.<br/>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> for more information.</div>
 
             <PhoneNumberInput id='phone-input'
