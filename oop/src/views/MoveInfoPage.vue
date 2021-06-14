@@ -79,12 +79,12 @@
                   <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='+'
                             @click='addAddressField()'
-                            class='add-remove-button mt-5 form-control'/>
+                            class='add-remove-button mt-2 mt-sm-5 form-control'/>
                   </div>
                   <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='-'
                             @click='removeAddressField()'
-                            class='add-remove-button mt-5 form-control'/>
+                            class='add-remove-button mt-2 mt-sm-5 form-control'/>
                   </div>
                 </div>
                 <Input label='City'
@@ -712,5 +712,13 @@ export default {
 .add-remove-button {
   min-width: 50px;
   min-height: 40px;
+}
+@media (max-width: 575.98px) {
+  .address-line, .city, .province {
+    width: 100%;
+  }
+  .address-row-margin { 
+    margin-right: 0;
+  }
 }
 </style>
