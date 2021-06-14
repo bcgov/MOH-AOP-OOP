@@ -5,7 +5,7 @@ import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import Component from '@/components/AddressValidator.vue';
 
-const mockAddressResponse = {"Address":
+const mockAddressResponse = {data: {"Address":
 [{"Organization":"",
 "Contact":"",
 "Building":"",
@@ -21,23 +21,13 @@ const mockAddressResponse = {"Address":
 "DeliveryAddressLines":"716 YATES DR",
 "AddressLines":["716 YATES DR"],
 "AddressComplete":"716 YATES DR MILTON ON L9T 7R5"}],
-}
+}}
+
+const mockAddressError = {data: {}}
 
 jest.mock('axios', () => ({
   get: jest.fn()
 }));
-
-// jest.mock('axios', () => ({
-//   // get: jest.fn(() => mockAddressResponse)
-//   get: jest.fn((_url, _body) => { 
-//     return new Promise((resolve) => {
-//       url = _url;
-//       body = _body;
-//       resolve({ data: {moskData: mockAddressResponse}});
-//     });
-//   })
-// }))
-
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -62,50 +52,57 @@ describe('AddressValidator.vue processResponse()', () => {
       }
     });
 
-    const result = wrapper.vm.processResponse(mockAddressResponse);
+    const result = wrapper.vm.processResponse(mockAddressResponse.data);
     expect(result).toEqual([{"addressLines": ["716 YATES DR"], "city": "MILTON", "country": "Canada", "fullAddress": "716 YATES DR MILTON ON L9T 7R5", "postalCode": "L9T 7R5", "province": "ON"}]
     );
   });
 });
 
 describe('AddressValidator.vue lookup()', () => {
-  xit('returns a falsy value when not given data', async () => {
+  it('returns an empty array when not given a proper query', async () => {
+    const query = 'asdfgjkl;';
     const wrapper = mount(Component, {
       localVue,  propsData: {
         id: "address-line-1"
-      }
+      }, 
     });
-    const result = wrapper.vm.lookup("");
-    expect(result).toBeFalsy()
+
+    axios.get.mockImplementationOnce(() => Promise.resolve(mockAddressError));
+    await wrapper.vm.lookup(query)
+
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.data).toEqual([]);
+    })
   });
 
-  xit('returns a truthy value when given data', async () => {
-    // const res = { data: {testData: 'TEST_DATA'}};
+  it('short circuits and returns an empty array when not given a query at all', async () => {
+    const query = '';
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, 
+    });
+
+    await wrapper.vm.lookup(query)
+
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.data).toEqual([]);
+    })
+  });
+
+  it('returns formatted data when given a proper query', async () => {
     const query = '716 Yates';
     const wrapper = mount(Component, {
       localVue,  propsData: {
         id: "address-line-1"
       }, 
     });
-    
-    
-    await wrapper.setData({
-        data: []
-    })
+
     axios.get.mockImplementationOnce(() => Promise.resolve(mockAddressResponse));
     await wrapper.vm.lookup(query)
 
-
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.data).not.toEqual([]);
-      done()
     })
-    
-    // await expect(wrapper.vm.lookup(query)).resolves.toEqual(res.data);
-    // await flushPromises();
-    // console.log(await wrapper.vm.lookup(query), "********************POTATO" )
-    // axios.get.mockImplementation(() => Promise.resolve("Success"));
-    // await expect(wrapper.vm.lookup(query)).resolves.toEqual("Third thing");
-    // expect(wrapper.vm.lookup(query)).toHaveBeenCalledTimes(1)
   });
 });
