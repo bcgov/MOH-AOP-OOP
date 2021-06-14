@@ -46,8 +46,16 @@ class ApiService {
       }
     });
 
-    // Append city and state into one field - addressLines[1] if country is USA
-    if (formState.country === 'United States'){
+    // If country is Canada, add each address line value to addressLines
+    if (formState.country === 'Canada'){
+      formState.addressLines.forEach((addressLine) => {
+        if (addressLine.value) {
+          addressLines.push(addressLine.value);
+        }
+      });
+    }
+    // If country is USA, add a special case: append city and state into one field - addressLines[1]
+    else if (formState.country === 'United States'){
       const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
       for (let i=0; i<formState.addressLines.length; i++) {
         if (i === 1){
@@ -58,12 +66,10 @@ class ApiService {
         }
       }
     }
+    // Otherwise, add a special case: remove commas from "City, province" field
     else {
-      formState.addressLines.forEach((addressLine) => {
-        if (addressLine.value) {
-          addressLines.push(addressLine.value);
-        }
-      });
+      addressLines.push(formState.addressLines[0].value);
+      addressLines.push(formState.addressLines[1].value.replace(',', ''));
     }
 
     if (formState.phone) {

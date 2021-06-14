@@ -187,7 +187,7 @@
                               v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
@@ -200,8 +200,8 @@
                                v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and province are required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">City and province cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
+                            aria-live="assertive">City and province cannot include special characters except comma, hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                   </div>
                 </div>
@@ -211,7 +211,7 @@
                       v-model="city"
                       maxlength='22' />
                 <div class="text-danger"
-                    v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
+                    v-if="$v.city.$dirty && !$v.city.specialCharacterValidator"
                     aria-live="assertive">Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
               </div>
             </div>
@@ -320,6 +320,23 @@ const specialCharacterValidator = (value) => {
   }
   const criteria = /^[0-9a-zA-Z-.'# ]*$/;
   return criteria.test(value);
+};
+
+export const addressLineWithCommaValidator = (addressLines) => {
+  return (value, addressLine) => {
+    // Add a special case on "City, Province" field (address line 2) for international countries
+    const index = addressLines.findIndex(() => addressLine.id === 'address-line-2');
+    if (index === 0){
+      if (!value) {
+        return true;
+      }
+      const criteria = /^[0-9a-zA-Z,-.'# ]*$/;
+      return criteria.test(value);
+    }
+    else {
+      return specialCharacterValidator(value);
+    }
+  }
 };
 
 export default {
@@ -480,8 +497,8 @@ export default {
         validations.addressLines = {
           $each: {
             value: {
-              specialCharacterValidator,
-              required
+              required,
+              addressLineWithCommaValidator: addressLineWithCommaValidator(this.addressLines),
             },
           },
         },
