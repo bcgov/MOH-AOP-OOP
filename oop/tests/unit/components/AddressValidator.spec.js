@@ -122,7 +122,7 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
     const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
     expect(wrapper.vm.selectedItemIndex).toEqual(null);
 
-    const fakeEvent={target: {value: "potato"}, keyCode: 40};
+    const fakeEvent={target: {value: "potato"}, keyCode: 40}; //Down Arrow
     wrapper.vm.inputKeyDownHandler(fakeEvent)
     //the following code doesn't actually get picked up by the inputKeyDownHandler for some reason
     //if future refactoring can get this to work instead of manually calling the function w/ the fake event each time
@@ -173,10 +173,10 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
         }
       }
     });
-    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
     expect(wrapper.vm.selectedItemIndex).toEqual(null);
-
-    const fakeEvent={target: {value: "potato"}, keyCode: 38};
+    
+    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
+    const fakeEvent={target: {value: "potato"}, keyCode: 38}; //Up Arrow
     wrapper.vm.inputKeyDownHandler(fakeEvent)
     //the following code doesn't actually get picked up by the inputKeyDownHandler for some reason
     //if future refactoring can get this to work instead of manually calling the function w/ the fake event each time
@@ -213,6 +213,33 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
     expect(spyOnInputHandler).toHaveBeenCalled()
     expect(wrapper.vm.selectedItemIndex).toEqual(3);
     expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default3");
+
+  });
+
+  it('clears the data when the escape button is pressed', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value"
+        }
+      }
+    });
+    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
+    const fakeEvent={target: {value: "potato"}, keyCode: 27}; //Escape key
+
+    //Before function
+    expect(wrapper.vm.selectedItemIndex).toEqual("default value");
+    expect(wrapper.vm.data).toEqual(["default0", "default1", "default2", "default3"]);
+
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+
+    //After function
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(null);
+    expect(wrapper.vm.data).toEqual([]);
 
   });
 });
