@@ -108,18 +108,111 @@ describe('AddressValidator.vue lookup()', () => {
 });
 
 describe('AddressValidator.vue inputKeyDownHandler()',  () => {
-  it('changes selected dropdown on key events', async () => {
+  it('changes selected dropdown when the down button is pressed', async () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         id: "address-line-1"
       }, data() {
         return {
-          data: ["default"]
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: null
         }
       }
     });
+    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
+    expect(wrapper.vm.selectedItemIndex).toEqual(null);
 
-    // await wrapper.setData({ foo: 'bar' })
-    expect(wrapper.vm.data).toEqual([]);
+    const fakeEvent={target: {value: "potato"}, keyCode: 40};
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    //the following code doesn't actually get picked up by the inputKeyDownHandler for some reason
+    //if future refactoring can get this to work instead of manually calling the function w/ the fake event each time
+    //that would probably be for the best
+    // await wrapper.trigger("keydown", {key: "ArrowDown"})
+    // var event = new KeyboardEvent('keydown', {'keyCode': 37});
+    // await document.dispatchEvent(event);
+
+    //0
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(0);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default0");
+
+    //1
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(1);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default1");
+
+    //2
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(2);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default2");
+
+    //3
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(3);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default3");
+
+    //wrap back around to 0
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(0);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default0");
+
+  });
+
+  it('changes selected dropdown when the up button is pressed', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: null
+        }
+      }
+    });
+    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
+    expect(wrapper.vm.selectedItemIndex).toEqual(null);
+
+    const fakeEvent={target: {value: "potato"}, keyCode: 38};
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    //the following code doesn't actually get picked up by the inputKeyDownHandler for some reason
+    //if future refactoring can get this to work instead of manually calling the function w/ the fake event each time
+    //that would probably be for the best
+    // await wrapper.trigger("keydown", {key: "ArrowDown"})
+    // var event = new KeyboardEvent('keydown', {'keyCode': 37});
+    // await document.dispatchEvent(event);
+
+    //3
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(3);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default3");
+
+    //2
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(2);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default2");
+
+    //1
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(1);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default1");
+
+    //0
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(0);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default0");
+
+    //wrap back around to 3
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(wrapper.vm.selectedItemIndex).toEqual(3);
+    expect(wrapper.vm.data[wrapper.vm.selectedItemIndex]).toEqual("default3");
+
   });
 });

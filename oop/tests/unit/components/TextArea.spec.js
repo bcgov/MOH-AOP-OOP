@@ -22,7 +22,6 @@ describe('TextArea.vue', () => {
     });
     const fakeEvent={target: {value: "potato"}};
     wrapper.vm.emitInput(fakeEvent);
-    // wrapper.vm.$emit('foo');
     expect(wrapper.emitted().input).toBeTruthy()
     expect(wrapper.emitted().input).toEqual([["potato"]]
     )
