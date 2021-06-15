@@ -56,7 +56,7 @@ import { scrollTo } from '../helpers/scroll';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
 import { getProvinceNameFromCode } from './ProvinceInput.vue';
-import { getStateNameFromCode } from './StateInput.vue';
+import { getStateNameFromCode } from '../helpers/us-states';
 
 export default {
   name: 'ReviewTableList',
