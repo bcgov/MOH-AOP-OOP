@@ -106,3 +106,20 @@ describe('AddressValidator.vue lookup()', () => {
     })
   });
 });
+
+describe('AddressValidator.vue inputKeyDownHandler()',  () => {
+  it('changes selected dropdown on key events', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default"]
+        }
+      }
+    });
+
+    // await wrapper.setData({ foo: 'bar' })
+    expect(wrapper.vm.data).toEqual([]);
+  });
+});
