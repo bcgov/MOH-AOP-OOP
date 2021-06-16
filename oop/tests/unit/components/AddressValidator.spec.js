@@ -345,3 +345,23 @@ describe('AddressValidator.vue mouse handlers', () => {
     expect(wrapper.vm.selectedItemIndex).toBeFalsy();
   });
 });
+
+describe('AddressValidator.vue blur handlers', () => {
+  it('resets data and selectedItemIndex when the function is called', () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value"
+        }
+      }
+    });
+    expect(wrapper.vm.selectedItemIndex).toEqual("default value");
+    expect(wrapper.vm.data).toEqual(["default0", "default1", "default2", "default3"]);
+    wrapper.vm.blurResultsContainer();
+    expect(wrapper.vm.selectedItemIndex).toBeFalsy();
+    expect(wrapper.vm.data).toEqual([]);
+  });
+});
