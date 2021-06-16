@@ -310,3 +310,38 @@ describe('AddressValidator.vue selectItemIndex()', () => {
     expect(wrapper.vm.selectedItemIndex).toBeFalsy();
   });
 });
+
+describe('AddressValidator.vue mouse handlers', () => {
+  it('changes the selectedItemIndex on mouseover enter', () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: 0
+        }
+      }
+    });
+    const fakeEvent={target: {value: "potato"}}; 
+    expect(wrapper.vm.selectedItemIndex).toEqual(0);
+    wrapper.vm.itemMouseEnterHandler(fakeEvent, 1);
+    expect(wrapper.vm.selectedItemIndex).toEqual(1);
+  });
+
+  it('sets the selectedItemIndex to null on mouseover exit', () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: 0
+        }
+      }
+    });
+    expect(wrapper.vm.selectedItemIndex).toEqual(0);
+    wrapper.vm.itemMouseLeaveHandler();
+    expect(wrapper.vm.selectedItemIndex).toBeFalsy();
+  });
+});
