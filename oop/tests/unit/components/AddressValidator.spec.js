@@ -243,3 +243,28 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
 
   });
 });
+
+describe('AddressValidator.vue selectItemIndex()', () => {
+ it('emits a signal with the value passed through as a parameter', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value"
+        }
+      }
+    });
+
+    expect(wrapper.vm.data).toEqual(["default0", "default1", "default2", "default3"]);
+    const index = 0;
+    wrapper.vm.selectItemIndex(index);
+    await wrapper.vm.$nextTick()
+
+    expect(wrapper.vm.data).toEqual([]);
+    expect(wrapper.vm.selectedItemIndex).toBeFalsy();
+    expect(wrapper.emitted().addressSelected).toBeTruthy();  
+    expect(wrapper.emitted().addressSelected[0]).toEqual(["default0"]);
+  });
+});
