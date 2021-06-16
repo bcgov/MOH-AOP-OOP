@@ -56,20 +56,26 @@ class ApiService {
     }
     // If country is USA, add a special case: append city and state into one field - addressLines[1]
     else if (formState.country === 'United States'){
-      const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
       for (let i=0; i<formState.addressLines.length; i++) {
-        if (i === 1){
-          addressLines.push(appendedCityState);
-        }
-        else {
-          addressLines.push(formState.addressLines[i].value);
+        if (formState.addressLines[i] && formState.addressLines[i].value){
+          if (i === 1){
+            const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
+            addressLines.push(appendedCityState);
+          }
+          else {
+            addressLines.push(formState.addressLines[i].value);
+          }
         }
       }
     }
     // Otherwise, add a special case: remove commas from "City, province" field
     else {
-      addressLines.push(formState.addressLines[0].value);
-      addressLines.push(formState.addressLines[1].value.replace(',', ''));
+      if (formState.addressLines[0] && formState.addressLines[0].value){
+        addressLines.push(formState.addressLines[0].value);
+      }
+      if (formState.addressLines[1] && formState.addressLines[1].value){
+        addressLines.push(formState.addressLines[1].value.replace(',', ''));
+      }
     }
 
     if (formState.phone) {
