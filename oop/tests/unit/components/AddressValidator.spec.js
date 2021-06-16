@@ -242,6 +242,29 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
     expect(wrapper.vm.data).toEqual([]);
 
   });
+
+  it('calls the selectItemIndex() function when the enter button is pressed', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: 0
+        }
+      }
+    });
+    const spyOnInputHandler = jest.spyOn(wrapper.vm, 'inputKeyDownHandler')
+    const spyOnselectItemIndex = jest.spyOn(wrapper.vm, 'selectItemIndex')
+    const fakeEvent={target: {value: "potato"}, keyCode: 13}; //Enter key
+
+    wrapper.vm.inputKeyDownHandler(fakeEvent)
+
+    //After function
+    expect(spyOnInputHandler).toHaveBeenCalled()
+    expect(spyOnselectItemIndex).toHaveBeenCalled()
+
+  });
 });
 
 describe('AddressValidator.vue selectItemIndex()', () => {
@@ -261,10 +284,29 @@ describe('AddressValidator.vue selectItemIndex()', () => {
     const index = 0;
     wrapper.vm.selectItemIndex(index);
     await wrapper.vm.$nextTick()
+;
+    expect(wrapper.emitted().addressSelected).toBeTruthy();  
+    expect(wrapper.emitted().addressSelected[0]).toEqual(["default0"]);
+  });
+
+  it('clears the data and selectedItemIndex', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value"
+        }
+      }
+    });
+
+    expect(wrapper.vm.data).toEqual(["default0", "default1", "default2", "default3"]);
+    const index = 0;
+    wrapper.vm.selectItemIndex(index);
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.vm.data).toEqual([]);
     expect(wrapper.vm.selectedItemIndex).toBeFalsy();
-    expect(wrapper.emitted().addressSelected).toBeTruthy();  
-    expect(wrapper.emitted().addressSelected[0]).toEqual(["default0"]);
   });
 });
