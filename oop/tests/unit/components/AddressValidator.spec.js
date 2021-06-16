@@ -346,7 +346,7 @@ describe('AddressValidator.vue mouse handlers', () => {
   });
 });
 
-describe('AddressValidator.vue blur handlers', () => {
+describe('AddressValidator.vue blurResultsContainer()', () => {
   it('resets data and selectedItemIndex when the function is called', () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
@@ -363,5 +363,47 @@ describe('AddressValidator.vue blur handlers', () => {
     wrapper.vm.blurResultsContainer();
     expect(wrapper.vm.selectedItemIndex).toBeFalsy();
     expect(wrapper.vm.data).toEqual([]);
+  });
+});
+
+describe('AddressValidator.vue inputHandler()', () => {
+  it('emits signal on function call', () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value"
+        }
+      }
+    });
+    const fakeEvent={target: {value: "potato"}};
+    wrapper.vm.inputHandler(fakeEvent);
+    expect(wrapper.emitted().input).toBeTruthy();
+    expect(wrapper.emitted().input).toEqual([["potato"]]);
+  });
+  it('resets isPerformingLookupCancelTimeout and isPerformingLookup on function call', async () => {
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        id: "address-line-1"
+      }, data() {
+        return {
+          data: ["default0", "default1", "default2", "default3"],
+          selectedItemIndex: "default value",
+          isPerformingLookup: "default",
+          isPerformingLookupCancelTimeout: "default",
+        }
+      }
+    });
+    const fakeEvent={target: {value: "potato"}};
+    await wrapper.vm.inputHandler(fakeEvent);
+
+    expect(wrapper.vm.isPerformingLookupCancelTimeout).toBeTruthy();
+
+    await setTimeout(() => {
+      expect(wrapper.vm.isPerformingLookup).not.toEqual("default");
+    }, wrapper.vm.isPerformingLookupCancelTimeout + 10)
+
   });
 });
