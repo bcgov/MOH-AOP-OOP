@@ -104,7 +104,7 @@ describe('Captcha.vue', () => {
 });
 
 describe('Captcha.vue fetchNewCaptcha()', () => {
-  it('changes captchaSVG and captchaValidation, and emits captcha-loaded on function call', async () => {
+  it('changes captchaSVG and captchaValidation, and emits captchaLoaded signal on function call', async () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         apiBasePath: '/oop/api/captcha',
@@ -131,6 +131,6 @@ describe('Captcha.vue fetchNewCaptcha()', () => {
 
     expect(wrapper.vm.captchaSVG).not.toEqual(null);
     expect(wrapper.vm.captchaValidation).not.toEqual(null);
-    expect(wrapper.emitted().captcha-loaded).toBeTruthy();
+    expect(wrapper.emitted().captchaLoaded).toBeTruthy();
   });
 });

@@ -174,7 +174,7 @@ export default {
           this.captchaValidation = payload.validation;
 
           setTimeout(() => {
-            this.$emit('captcha-loaded');
+            this.$emit('captchaLoaded');
           }, 0);
         })
         .catch(() => {
