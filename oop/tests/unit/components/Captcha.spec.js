@@ -104,7 +104,7 @@ describe('Captcha.vue', () => {
 });
 
 describe('Captcha.vue fetchNewCaptcha()', () => {
-  it('fetches a new captcha on function call', () => {
+  it('changes captchaSVG and captchaValidation, and emits captcha-loaded on function call', async () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         apiBasePath: '/oop/api/captcha',
@@ -125,6 +125,12 @@ describe('Captcha.vue fetchNewCaptcha()', () => {
       },
     });
     axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
-    expect(wrapper.element).toBeDefined();
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
+    
+    await wrapper.vm.fetchNewCaptcha();
+
+    expect(wrapper.vm.captchaSVG).not.toEqual(null);
+    expect(wrapper.vm.captchaValidation).not.toEqual(null);
+    expect(wrapper.emitted().captcha-loaded).toBeTruthy();
   });
 });
