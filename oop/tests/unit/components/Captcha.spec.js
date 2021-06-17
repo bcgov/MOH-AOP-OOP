@@ -66,7 +66,11 @@ const mockCaptchaError = {data: {}}
 
 jest.mock('axios', () => ({
   get: jest.fn(),
-  post: jest.fn()
+  post: jest.fn(() => {
+   
+    return Promise.resolve();
+  })
+
 }));
 
 const localVue = createLocalVue();
@@ -78,7 +82,7 @@ describe('Captcha.vue', () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         apiBasePath: '/oop/api/captcha',
-        nonce: '111',
+        nonce: 'f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa',
       }, 
       data: () => {
         return {
@@ -99,13 +103,12 @@ describe('Captcha.vue', () => {
   });
 });
 
-describe('AddressValidator.vue lookup()', () => {
-  xit('returns an empty array when not given a proper query', async () => {
-    const query = 'asdfgjkl;';
+describe('Captcha.vue fetchNewCaptcha()', () => {
+  it('fetches a new captcha on function call', () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         apiBasePath: '/oop/api/captcha',
-        nonce: 111,
+        nonce: 'f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa',
       }, 
       data: () => {
         return {
@@ -121,12 +124,7 @@ describe('AddressValidator.vue lookup()', () => {
         }
       },
     });
-
     axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
-    axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
-    await wrapper.vm.lookup(query)
-    await wrapper.vm.$nextTick()
-    expect(wrapper.vm.captchaSVG).not.toEqual(null);
-    expect(wrapper.vm.captchaValidation).not.toEqual(null);
+    expect(wrapper.element).toBeDefined();
   });
 });
