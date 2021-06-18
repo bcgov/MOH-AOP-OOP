@@ -79,12 +79,12 @@
                   <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='+'
                             @click='addAddressField()'
-                            class='add-remove-button mt-5 form-control'/>
+                            class='add-remove-button mt-2 mt-sm-5 form-control'/>
                   </div>
                   <div v-if="addressLines.length > getMinAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
                     <Button label='-'
                             @click='removeAddressField()'
-                            class='add-remove-button mt-5 form-control'/>
+                            class='add-remove-button mt-2 mt-sm-5 form-control'/>
                   </div>
                 </div>
                 <Input label='City'
@@ -187,7 +187,7 @@
                               v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                     <div v-else-if="index === 1">
@@ -200,19 +200,18 @@
                                v-if="v.value.$dirty && !v.value.required"
                               aria-live="assertive">City and province are required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
-                            aria-live="assertive">City and province cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
+                            aria-live="assertive">City and province cannot include special characters except comma, hyphen, period, apostrophe, number sign and blank space.</div>
                     </div>
                   </div>
                 </div>
-                <Input label='Zip/postal code'
+                <Input label='Zip/postal code (optional)'
                       className='mt-3'
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="$v.city.$dirty && !$v.city.required" aria-live="assertive">Zip/postal code is required.</div>
                 <div class="text-danger"
-                    v-if="$v.city.$dirty && $v.city.required && !$v.city.specialCharacterValidator"
+                    v-if="$v.city.$dirty && !$v.city.specialCharacterValidator"
                     aria-live="assertive">Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
               </div>
             </div>
@@ -301,8 +300,10 @@ import {
 import logService from '../services/log-service';
 import spaEnvService from '@/services/spa-env-service';
 
-const MIN_ADDRESS_LINES = 1;
-const MAX_ADDRESS_LINES = 3;
+const CAN_MIN_ADDRESS_LINES = 1;
+const CAN_MAX_ADDRESS_LINES = 3;
+const US_ADDRESS_LINES = 3;
+const INTERNATIONAL_ADDRESS_LINES = 2;
 
 const addressLineOneValidator = (addressLines) => {
   if (addressLines && addressLines[0]) {
@@ -319,6 +320,23 @@ const specialCharacterValidator = (value) => {
   }
   const criteria = /^[0-9a-zA-Z-.'# ]*$/;
   return criteria.test(value);
+};
+
+export const addressLineWithCommaValidator = (addressLines) => {
+  return (value, addressLine) => {
+    // Add a special case on "City, Province" field (address line 2) for international countries
+    const index = addressLines.findIndex(() => addressLine.id === 'address-line-2');
+    if (index === 0){
+      if (!value) {
+        return true;
+      }
+      const criteria = /^[0-9a-zA-Z,-.'# ]*$/;
+      return criteria.test(value);
+    }
+    else {
+      return specialCharacterValidator(value);
+    }
+  }
 };
 
 export default {
@@ -370,7 +388,7 @@ export default {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
     this.isNewAddressKnown = this.$store.state.form.isNewAddressKnown;
-    this.addressLines = this.$store.state.form.addressLines || [];
+    this.addressLines = this.$store.state.form.addressLines ? [...this.$store.state.form.addressLines] : [];
     this.country = this.$store.state.form.country;
     this.province = this.$store.state.form.province;
     this.city = this.$store.state.form.city;
@@ -380,13 +398,22 @@ export default {
       this.isPageLoaded = true;
     }, 0);
 
-    this.currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+    if (this.country === "Canada"){
+      this.currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
+    }
+
+    else if (this.country === "United States"){
+      this.currNumOfAddressLines = US_ADDRESS_LINES;
+    }
+
+    else {
+      this.currNumOfAddressLines = INTERNATIONAL_ADDRESS_LINES;
+    }
 
     for (let i=0; i<this.currNumOfAddressLines; i++) {
-      const idVal = 'address-line-' + (i + 1);
       this.addressLines[i] = {
-          id: idVal,
-          value: this.addressLines && this.addressLines[i] ? this.addressLines[i].value : null,
+          id: 'address-line-' + (i + 1),
+          value: this.addressLines[i] && this.addressLines[i].value ? this.addressLines[i].value : null,
           isValid: true,
       }
     }
@@ -470,13 +497,12 @@ export default {
         validations.addressLines = {
           $each: {
             value: {
-              specialCharacterValidator,
-              required
+              required,
+              addressLineWithCommaValidator: addressLineWithCommaValidator(this.addressLines),
             },
           },
         },
         validations.city = {
-          required,
           specialCharacterValidator,
         };
       }
@@ -511,7 +537,7 @@ export default {
         
         // Only eliminate empty address lines if country is Canada
         if (this.country === 'Canada'){
-          const currNumOfAddressLines = Math.max(MIN_ADDRESS_LINES, this.addressLines.length);
+          const currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
           for (let i=currNumOfAddressLines-1; i>=0; i--){
             if ((this.addressLines[i].value === null || this.addressLines[i].value === '') && currNumOfAddressLines > 1){
               this.addressLines.splice(i,1);
@@ -558,10 +584,10 @@ export default {
       return this.addressLines.length;
     },
     getMaxAddressLines() {
-      return MAX_ADDRESS_LINES;
+      return CAN_MAX_ADDRESS_LINES;
     },
     getMinAddressLines() {
-      return MIN_ADDRESS_LINES;
+      return CAN_MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
       const addressLines = truncateAddressLines(address.addressLines, 25);
@@ -582,26 +608,36 @@ export default {
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
-      // Set value of first address line to null
-      this.addressLines[0] = {
-        id: 'address-line-1',
-        value: null,
-        isValid: true,
-      }
-      // Remove all current address lines
       for (let i=0; i<this.addressLines.length; i++) {
         setTimeout(() => {
           this.removeAddressField();
         }, 0);
       }
-      setTimeout(() => {
-        // Set first address line to null
-        this.addAddressField();
-        // Set city to null
-        this.city = null;
-        // Set postal code to null
-        this.postalCode = null;
-      }, 0);
+      // Set first address line to null
+      this.addressLines[0] = {
+        idVal: 'address-line-1',
+        value: null,
+        isValid: true,
+      }
+      // Remove all current address lines if country is Canada
+      if (this.country === 'Canada'){
+        setTimeout(() => {
+          // Add one address field
+          this.addAddressField();
+          // Set postal code to null
+          this.postalCode = null
+        }, 0);
+      }
+      // Otherwise (other countries than Canada is selected), set all the address lines and city to null
+      else {
+        for (let i=0; i<INTERNATIONAL_ADDRESS_LINES; i++) {
+          setTimeout(() => {
+            this.addAddressField();
+          }, 0);
+        }
+      }
+      // Set city to null
+      this.city = null;
     },
   },
   computed: {
@@ -614,12 +650,9 @@ export default {
       if (this.isPageLoaded){
         this.setFieldsToNull();
         this.province = null;
-        // Add more address line fields if the country is not Canada
-        if (newValue !== 'Canada') {
+        // Add address line 3 field if the country is United States
+        if (newValue === 'United States'){
           this.addAddressField();
-          if (newValue === 'United States'){
-            this.addAddressField();
-          }
         }
       }
     },
@@ -696,5 +729,13 @@ export default {
 .add-remove-button {
   min-width: 50px;
   min-height: 40px;
+}
+@media (max-width: 575.98px) {
+  .address-line, .city, .province {
+    width: 100%;
+  }
+  .address-row-margin { 
+    margin-right: 0;
+  }
 }
 </style>

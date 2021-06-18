@@ -45,11 +45,39 @@ class ApiService {
         dependentPhns.push(dependentPhn);
       }
     });
-    formState.addressLines.forEach((addressLine) => {
-      if (addressLine.value) {
-        addressLines.push(addressLine.value);
+
+    // If country is Canada, add each address line value to addressLines
+    if (formState.country === 'Canada'){
+      formState.addressLines.forEach((addressLine) => {
+        if (addressLine.value) {
+          addressLines.push(addressLine.value);
+        }
+      });
+    }
+    // If country is USA, add a special case: append city and state into one field - addressLines[1]
+    else if (formState.country === 'United States'){
+      for (let i=0; i<formState.addressLines.length; i++) {
+        if (formState.addressLines[i] && formState.addressLines[i].value){
+          if (i === 1){
+            const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
+            addressLines.push(appendedCityState);
+          }
+          else {
+            addressLines.push(formState.addressLines[i].value);
+          }
+        }
       }
-    });
+    }
+    // Otherwise, add a special case: remove commas from "City, province" field
+    else {
+      if (formState.addressLines[0] && formState.addressLines[0].value){
+        addressLines.push(formState.addressLines[0].value);
+      }
+      if (formState.addressLines[1] && formState.addressLines[1].value){
+        addressLines.push(formState.addressLines[1].value.replace(',', ''));
+      }
+    }
+
     if (formState.phone) {
       phoneNumber = formState.phone
         .replace(/_/g, '') // remove underlines
@@ -58,6 +86,7 @@ class ApiService {
         .replace('(', '')
         .replace(')', '');
     }
+
     const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
     const jsonPayload = {
       uuid: formState.applicationUuid,
@@ -76,7 +105,7 @@ class ApiService {
         newAddress: {
           country: replaceSpecialCharacters(formState.country),
           addressLines: addressLines,
-          province: formState.province,
+          province: formState.country === 'United States' ? null : formState.province,
           city: formState.city,
           postalCode: postalCode
         }

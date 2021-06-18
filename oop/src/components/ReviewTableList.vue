@@ -56,7 +56,7 @@ import { scrollTo } from '../helpers/scroll';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
 import { getProvinceNameFromCode } from './ProvinceInput.vue';
-import { getStateNameFromCode } from './StateInput.vue';
+import { getStateNameFromCode } from '../helpers/us-states';
 
 export default {
   name: 'ReviewTableList',
@@ -74,7 +74,7 @@ export default {
     },
     tableBackgroundColor: {
       type: String,
-    }
+    },
   },
   computed: {
     yourInfoTableData() {
@@ -183,15 +183,15 @@ export default {
             });
           }
         }
-        if (addressLines[2] && addressLines[2].value !== null){
+        if (addressLines[2] && addressLines[2].value !== null && addressLines[2].value !== ''){
           items.push({
             label: 'Zip code (optional):',
             value: addressLines[2].value,
           });
         }
-        if (this.$store.state.form.city !== null){
+        if (this.$store.state.form.city !== null && this.$store.state.form.city !== ''){
           items.push({
-            label: 'Postal code/zip code:',
+            label: 'Zip/postal code (optional):',
             value: this.$store.state.form.city,
           });
         }
