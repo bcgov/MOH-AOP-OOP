@@ -220,7 +220,8 @@ describe('AddressValidator.vue inputKeyDownHandler()',  () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         id: "address-line-1"
-      }, data() {
+      }, 
+      data() {
         return {
           data: ["default0", "default1", "default2", "default3"],
           selectedItemIndex: "default value"
