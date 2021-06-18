@@ -269,7 +269,7 @@ describe('Captcha.vue handleInputChange()', () => {
 
     await wrapper.vm.handleInputChange(fakeEvent);
     expect(wrapper.vm.inputAnswer).toBeFalsy();
-    expect(wrapper.vm.errorMessage).not.toBeTruthy();
+    expect(wrapper.vm.errorMessage).toBeTruthy();
   });
 
   
