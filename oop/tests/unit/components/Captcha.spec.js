@@ -104,7 +104,7 @@ describe('Captcha.vue', () => {
 });
 
 describe('Captcha.vue fetchNewCaptcha()', () => {
-  it('changes captchaSVG and captchaValidation, and emits captchaLoaded signal on function call', async () => {
+  it('changes captchaSVG and captchaValidation on function call', async () => {
     const wrapper = mount(Component, {
       localVue,  propsData: {
         apiBasePath: '/oop/api/captcha',
@@ -131,6 +131,36 @@ describe('Captcha.vue fetchNewCaptcha()', () => {
 
     expect(wrapper.vm.captchaSVG).not.toEqual(null);
     expect(wrapper.vm.captchaValidation).not.toEqual(null);
+  });
+
+  it('emits captchaLoaded signal on function call', async () => {
+    jest.useFakeTimers()
+    const wrapper = mount(Component, {
+      localVue,  propsData: {
+        apiBasePath: '/oop/api/captcha',
+        nonce: 'f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa',
+      }, 
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: false,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: null,
+          audio: null,
+          errorMessage: null,
+        }
+      },
+    });
+    
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
+    
+    await wrapper.vm.fetchNewCaptcha();
+
+    jest.advanceTimersByTime(5)
+
     expect(wrapper.emitted().captchaLoaded).toBeTruthy();
   });
 });
