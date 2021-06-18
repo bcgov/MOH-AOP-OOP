@@ -17,7 +17,7 @@
             <Captcha v-if="!isCaptchaValid"
                     :apiBasePath="captchaAPIBasePath"
                     :nonce="applicationUuid"
-                    @captcha-loaded="handleCaptchaLoaded()"
+                    @captchaLoaded="handleCaptchaLoaded()"
                     @captcha-verified="handleCaptchaVerified($event)" />
             <div v-if="isCaptchaValid"
                 class="text-success">Captcha successfully verified.</div>

@@ -63,7 +63,7 @@
                                       id="address-line-1"
                                       class="address-line"
                                       serviceUrl="/oop/api/address"
-                                      @address-selected="addressSelectedHandler($event)" />
+                                      @addressSelected="addressSelectedHandler($event)" />
                     <AddressInput v-else
                                   :label='"Address line " + (index + 1)'
                                   v-model="addressLine.value"

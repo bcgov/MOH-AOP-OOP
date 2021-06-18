@@ -170,7 +170,7 @@ export default {
       this.selectedItemIndex = null;
     },
     selectItemIndex(index) {
-      this.$emit('address-selected', this.data[index]);
+      this.$emit('addressSelected', this.data[index]);
       this.data = [];
       this.selectedItemIndex = null;
     },
