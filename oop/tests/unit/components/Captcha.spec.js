@@ -54,6 +54,57 @@ const mockInputResponseInvalid = {
   request: {},
 };
 
+const mockInputResponseValid = {
+  data: {
+    valid: true,
+    jwt:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiYmNhNjc3M2MtYzIwOS00ZGFiLWEyN2EtNGQ4YjNjMTQ1MWRmIn0sImlhdCI6MTYyNDI5NzcxNSwiZXhwIjoxNjI0MzA4NTE1fQ.MirThnJS2X4Xn7TKtU7C-sT1GGxIcSFjfgSL0-lAgHc",
+  },
+  status: 200,
+  statusText: "OK",
+  headers: {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-headers":
+      "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
+    "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "access-control-allow-origin": "https://my.gov.bc.ca",
+    "access-control-expose-headers": "Authorization",
+    "cache-control": "no-store",
+    connection: "close",
+    "content-length": "15",
+    "content-security-policy":
+      "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
+    "content-type": "application/json; charset=utf-8",
+    date: "Fri, 18 Jun 2021 20:20:26 GMT",
+    etag: 'W/"f-z+y5G3b6F1BDJ1A7U6QoI6VUcbI"',
+    pragma: "no-cache",
+    server: "nginx",
+    "strict-transport-security": "max-age=86400; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "x-powered-by": "Express",
+    "x-xss-protection": "1",
+  },
+  config: {
+    url: "/oop/api/captcha/verify/captcha",
+    method: "post",
+    data:
+      '{"nonce":"3ad3e19a-5fc2-4c28-bffb-13e239f45c06","answer":"potato","validation":{"protected":"eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIiwia2lkIjoibXlnb3ZiYy1jYXB0Y2hhLXNlcnZpY2UtMSJ9","iv":"SZN2YLpLENlD_Ulf","ciphertext":"y26PcHyz2dbNeqobpQ5Ls3efASrPXKu7lCzqnll4-DSfRH05yyc0Vvw7zwkEvYh_C1_yV-rhbPkyKO_ukp5aFbNtIWbEr34VzLeYjeZFz4rcJXOPqvGyUI0","tag":"Dsp8-0rsC6lkqg6xJNF9ug"}}',
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 0,
+    xsrfCookieName: "XSRF-TOKEN",
+    xsrfHeaderName: "X-XSRF-TOKEN",
+    maxContentLength: -1,
+    maxBodyLength: -1,
+  },
+  request: {},
+};
+
 const mockFetchResponse = {
   data: {
     nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
@@ -112,7 +163,51 @@ const mockFetchResponse = {
   request: {},
 };
 
-// const mockCaptchaError = { data: {} };
+const mockAPIError = {
+  status: 500,
+  statusText: "Error",
+  headers: {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-headers":
+      "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
+    "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "access-control-allow-origin": "https://my.gov.bc.ca",
+    "access-control-expose-headers": "Authorization",
+    "cache-control": "no-store",
+    connection: "close",
+    "content-length": "15",
+    "content-security-policy":
+      "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
+    "content-type": "application/json; charset=utf-8",
+    date: "Fri, 18 Jun 2021 20:20:26 GMT",
+    etag: 'W/"f-z+y5G3b6F1BDJ1A7U6QoI6VUcbI"',
+    pragma: "no-cache",
+    server: "nginx",
+    "strict-transport-security": "max-age=86400; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "x-powered-by": "Express",
+    "x-xss-protection": "1",
+  },
+  config: {
+    url: "/oop/api/captcha/verify/captcha",
+    method: "post",
+    data:
+      '{"nonce":"3ad3e19a-5fc2-4c28-bffb-13e239f45c06","answer":"potato","validation":{"protected":"eyJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIiwia2lkIjoibXlnb3ZiYy1jYXB0Y2hhLXNlcnZpY2UtMSJ9","iv":"SZN2YLpLENlD_Ulf","ciphertext":"y26PcHyz2dbNeqobpQ5Ls3efASrPXKu7lCzqnll4-DSfRH05yyc0Vvw7zwkEvYh_C1_yV-rhbPkyKO_ukp5aFbNtIWbEr34VzLeYjeZFz4rcJXOPqvGyUI0","tag":"Dsp8-0rsC6lkqg6xJNF9ug"}}',
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 0,
+    xsrfCookieName: "XSRF-TOKEN",
+    xsrfHeaderName: "X-XSRF-TOKEN",
+    maxContentLength: -1,
+    maxBodyLength: -1,
+  },
+  request: {},
+};
 
 jest.mock("axios", () => ({
   get: jest.fn(),
@@ -279,7 +374,38 @@ describe("Captcha.vue handleInputChange()", () => {
     expect(wrapper.vm.errorMessage).toBeTruthy();
   });
 
-  it.skip("changes error message and inputAnswer when it receives valid response", async () => {
+  it("calls fetchNewCaptcha() when it receives invalid response", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: false,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: "default",
+          isInputValid: null,
+          audio: null,
+          errorMessage: "default",
+        };
+      },
+    });
+    const spyOnFetch = jest.spyOn(wrapper.vm, "fetchNewCaptcha");
+    const fakeEvent = { target: { value: "potato" } };
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve(mockInputResponseInvalid)
+    );
+
+    await wrapper.vm.handleInputChange(fakeEvent);
+    expect(spyOnFetch).toHaveBeenCalled();
+  });
+
+  it("emits signal with token when it receives valid response", async () => {
     const wrapper = mount(Component, {
       localVue,
       propsData: {
@@ -302,11 +428,43 @@ describe("Captcha.vue handleInputChange()", () => {
     });
     const fakeEvent = { target: { value: "potato" } };
     axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockInputResponseInvalid)
+      Promise.resolve(mockInputResponseValid)
     );
 
     await wrapper.vm.handleInputChange(fakeEvent);
+    expect(wrapper.emitted().captchaVerified).toBeTruthy();
+    expect(wrapper.emitted().captchaVerified[0]).toEqual([
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiYmNhNjc3M2MtYzIwOS00ZGFiLWEyN2EtNGQ4YjNjMTQ1MWRmIn0sImlhdCI6MTYyNDI5NzcxNSwiZXhwIjoxNjI0MzA4NTE1fQ.MirThnJS2X4Xn7TKtU7C-sT1GGxIcSFjfgSL0-lAgHc",
+    ]);
+  });
+
+  it("changes error message and inputAnswer when it catches an error", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: false,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: "default",
+          isInputValid: null,
+          audio: null,
+          errorMessage: "default",
+        };
+      },
+    });
+    const fakeEvent = { target: { value: "potato" } };
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockAPIError));
+
+    await wrapper.vm.handleInputChange(fakeEvent);
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.inputAnswer).toBeFalsy();
-    expect(wrapper.vm.errorMessage).not.toBeTruthy();
+    expect(wrapper.vm.errorMessage).toBeTruthy();
   });
 });

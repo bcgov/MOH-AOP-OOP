@@ -202,7 +202,7 @@ export default {
             this.isLoadingCaptchaVerification = false;
 
             if (isValid) {
-              this.$emit('captcha-verified', token);
+              this.$emit('captchaVerified', token);
             } else {
               this.errorMessage = INCORRECT_ANSWER_MESSAGE;
               this.inputAnswer = null;
