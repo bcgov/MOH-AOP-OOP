@@ -468,3 +468,59 @@ describe("Captcha.vue handleInputChange()", () => {
     expect(wrapper.vm.errorMessage).toBeTruthy();
   });
 });
+
+describe("Captcha.vue handleTryAnotherImageClick()", () => {
+  it("clears error message and input on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: false,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: "default",
+          audio: null,
+          errorMessage: "default",
+        };
+      },
+    });
+
+    await wrapper.vm.handleTryAnotherImageClick();
+
+    expect(wrapper.vm.isInputValid).not.toEqual("default");
+    expect(wrapper.vm.errorMessage).not.toEqual("default");
+  });
+
+  it("calls fetchNewCaptcha() on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: false,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: "default",
+          audio: null,
+          errorMessage: "default",
+        };
+      },
+    });
+    const spyOnFetchNewCaptcha = jest.spyOn(wrapper.vm, "fetchNewCaptcha");
+    await wrapper.vm.handleTryAnotherImageClick();
+    expect(spyOnFetchNewCaptcha).toHaveBeenCalled();
+  });
+});
