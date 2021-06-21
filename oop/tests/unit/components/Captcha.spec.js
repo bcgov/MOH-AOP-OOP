@@ -524,3 +524,34 @@ describe("Captcha.vue handleTryAnotherImageClick()", () => {
     expect(spyOnFetchNewCaptcha).toHaveBeenCalled();
   });
 });
+
+describe("Captcha.vue playAudio()", () => {
+  it("changes isLoadingAudio value on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: 0,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: null,
+          audio: null,
+          errorMessage: null,
+        };
+      },
+    });
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockFetchResponse));
+
+    await wrapper.vm.playAudio();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isLoadingAudio).not.toEqual(0);
+  });
+});
