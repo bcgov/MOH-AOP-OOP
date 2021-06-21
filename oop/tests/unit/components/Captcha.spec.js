@@ -685,4 +685,72 @@ describe("Captcha.vue playAudio()", () => {
     expect(wrapper.vm.errorMessage).toBeTruthy();
     expect(wrapper.vm.audio).toBeFalsy();
   });
+
+  it("sets this.audio to the response data when it receives a valid response", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: null,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: null,
+          audio: "default",
+          errorMessage: null,
+        };
+      },
+    });
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve(mockAudioResponseValid)
+    );
+
+    await wrapper.vm.playAudio();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.audio).not.toEqual("default");
+  });
+
+  it.only("calls play() when it receives a valid response", async () => {
+    jest.useFakeTimers();
+    const wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        apiBasePath: "/oop/api/captcha",
+        nonce: "f631a1a4-21aa-4a51-a5ce-6004e5f5b0aa",
+      },
+      data: () => {
+        return {
+          isLoadingNewCaptcha: true,
+          isLoadingCaptchaVerification: false,
+          isLoadingAudio: null,
+          captchaSVG: null,
+          captchaValidation: null,
+          inputAnswer: null,
+          isInputValid: null,
+          audio: "default",
+          errorMessage: null,
+        };
+      },
+    });
+    // const mockAudioPlay = jest.fn()
+    // const spyOnPlay = jest.spyOn(wrapper.vm.audio, "play");
+    // jest.spyOn(wrapper.vm.audio, "play").mockImplementation(() => customImplementation)
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve(mockAudioResponseValid)
+    );
+
+    await wrapper.vm.playAudio();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(5);
+    //this code doesn't work for some reason
+    const spyOnPlay = jest.spyOn(wrapper.vm.audio, "play");
+    expect(spyOnPlay).toHaveBeenCalled();
+  });
 });
