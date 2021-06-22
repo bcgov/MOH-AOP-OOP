@@ -717,7 +717,7 @@ describe("Captcha.vue playAudio()", () => {
     expect(wrapper.vm.audio).not.toEqual("default");
   });
 
-  it.only("calls play() when it receives a valid response", async () => {
+  it.skip("calls play() when it receives a valid response", async () => {
     jest.useFakeTimers();
     const wrapper = mount(Component, {
       localVue,
