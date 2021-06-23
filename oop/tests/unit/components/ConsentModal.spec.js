@@ -3,7 +3,6 @@ import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ConsentModal.vue";
-// import formStore from "@/store/modules/form.js"
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -137,28 +136,17 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
 });
 
 describe("ConsentModal.vue handleCaptchaVerified()", () => {
-  it("changes captchaValid to true", async () => {
-    const state = {
-      applicationUuid: "null",
-    };
-
-    const actions = {
-      setCaptchaToken: jest.fn(),
-    };
-
-    const mutations = {
-      setCaptchaToken({ commit }, captchaToken) {
-        jest.fn();
-      },
-    };
-
+  it("changes captchaValid to true on function call", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
           namespaced: true,
-          state,
-          actions,
-          mutations,
+          state: {
+            applicationUuid: null,
+          },
+          actions: {
+            setCaptchaToken: jest.fn(),
+          },
         },
       },
     });
@@ -182,5 +170,43 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     wrapper.vm.handleCaptchaVerified("token");
 
     expect(wrapper.vm.isCaptchaValid).toEqual(true);
+  });
+
+  it("dispatches SET_CAPTCHA_TOKEN action in VueX store on function call", async () => {
+    const actions = {
+      setCaptchaToken: jest.fn(),
+    }
+    
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state: {
+            applicationUuid: null,
+          },
+          actions            
+        },
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: "default",
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    wrapper.vm.handleCaptchaVerified("token");
+
+    expect(actions.setCaptchaToken).toHaveBeenCalled()
   });
 });
