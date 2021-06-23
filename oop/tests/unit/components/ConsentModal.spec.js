@@ -209,4 +209,42 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     expect(actions.setCaptchaToken).toHaveBeenCalled()
   });
+
+  it("updates focusable elements on function call", async () => {
+    const actions = {
+      setCaptchaToken: jest.fn(),
+    }
+    
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state: {
+            applicationUuid: null,
+          },
+          actions            
+        },
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+
+      data: () => {
+        return {
+          focusableEls: "default",
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: "default",
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    wrapper.vm.handleCaptchaVerified("token");
+
+    expect(wrapper.vm.focusableEls).not.toEqual("default")
+  });
 });
