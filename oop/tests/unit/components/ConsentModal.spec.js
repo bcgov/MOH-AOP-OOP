@@ -248,3 +248,33 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     expect(wrapper.vm.focusableEls).not.toEqual("default")
   });
 });
+
+describe("ConsentModal.vue closeModal()", () => {
+  const wrapper = mount(Component, {
+    localVue,
+    mocks: {
+      $store: {
+        state: {
+          form: {
+            applicationUuid: "default1",
+          },
+        },
+      },
+    },
+    data: () => {
+      return {
+        focusableEls: [],
+        focusedEl: null,
+        captchaAPIBasePath: "/oop/api/captcha",
+        applicationUuid: null,
+        isCaptchaValid: false,
+        isTermsAccepted: false,
+      };
+    },
+  });
+
+  it("emits close signal on function call", () => {
+    wrapper.vm.closeModal();
+    expect(wrapper.emitted().close).toBeTruthy();
+  });
+});
