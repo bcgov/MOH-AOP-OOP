@@ -299,7 +299,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
     keyCode: 13, //Enter key
     shiftKey: false,
     preventDefault: jest.fn(),
-  }
+  };
 
   it("calls handleTab() on function call", () => {
     const wrapper = mount(Component, {
@@ -352,7 +352,10 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = jest.spyOn(wrapper.vm, "handleTabBackwards");
+    const spyOnHandleTabBackwards = jest.spyOn(
+      wrapper.vm,
+      "handleTabBackwards"
+    );
     wrapper.vm.handleKeyDown(fakeShiftEvent);
     expect(spyOnHandleTabBackwards).toHaveBeenCalled();
   });
@@ -380,10 +383,308 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = jest.spyOn(wrapper.vm, "handleTabBackwards");
+    const spyOnHandleTabBackwards = jest.spyOn(
+      wrapper.vm,
+      "handleTabBackwards"
+    );
     const spyOnHandleTab = jest.spyOn(wrapper.vm, "handleTab");
     wrapper.vm.handleKeyDown(miscEvent);
     expect(spyOnHandleTabBackwards).not.toHaveBeenCalled();
     expect(spyOnHandleTab).not.toHaveBeenCalled();
+  });
+});
+
+describe("ConsentModal.vue handleTab()", () => {
+  const mockElements = [
+    { name: "default1", focus: jest.fn() },
+    { name: "default2", focus: jest.fn() },
+    { name: "default3", focus: jest.fn() },
+    { name: "default4", focus: jest.fn() },
+  ];
+
+  it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+
+    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[0], "focus");
+
+    wrapper.vm.handleTab();
+    expect(wrapper.vm.focusedEl.name).toEqual("default1");
+    expect(spyOnFocus).toHaveBeenCalled();
+  });
+
+  it("moves focus from the first element to the second if the first is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[0],
+    });
+
+    wrapper.vm.handleTab();
+    expect(wrapper.vm.focusedEl.name).toEqual("default2");
+  });
+
+  it("moves focus from the last element to the first if the last is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[3],
+    });
+    wrapper.vm.handleTab();
+    expect(wrapper.vm.focusedEl.name).toEqual("default1");
+  });
+
+  it("should call focus function on focused element", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[3],
+    });
+    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[0], "focus");
+    wrapper.vm.handleTab();
+    expect(spyOnFocus).toHaveBeenCalled();
+  });
+});
+
+describe("ConsentModal.vue handleTabBackwards()", () => {
+  const mockElements = [
+    { name: "default1", focus: jest.fn() },
+    { name: "default2", focus: jest.fn() },
+    { name: "default3", focus: jest.fn() },
+    { name: "default4", focus: jest.fn() },
+  ];
+
+  it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+
+    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[3], "focus");
+    wrapper.vm.handleTabBackwards();
+    expect(wrapper.vm.focusedEl.name).toEqual("default4");
+    expect(spyOnFocus).toHaveBeenCalled();
+  });
+
+  it("moves focus from the second element to the first if the second is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[1],
+    });
+
+    wrapper.vm.handleTabBackwards();
+    expect(wrapper.vm.focusedEl.name).toEqual("default1");
+  });
+
+  it("moves focus from the first element to the last if the first is focused", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[0],
+    });
+    wrapper.vm.handleTabBackwards();
+    expect(wrapper.vm.focusedEl.name).toEqual("default4");
+  });
+
+  it("should call focus function on focused element", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: mockElements,
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    await wrapper.setData({
+      focusableEls: mockElements,
+    });
+    await wrapper.setData({
+      focusedEl: wrapper.vm.focusableEls[3],
+    });
+    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[2], "focus");
+    wrapper.vm.handleTabBackwards();
+    expect(spyOnFocus).toHaveBeenCalled();
   });
 });
