@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ConsentModal.vue";
+// import formStore from "@/store/modules/form.js"
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -132,5 +133,54 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
       "default3",
       "default4",
     ]);
+  });
+});
+
+describe("ConsentModal.vue handleCaptchaVerified()", () => {
+  it("changes captchaValid to true", async () => {
+    const state = {
+      applicationUuid: "null",
+    };
+
+    const actions = {
+      setCaptchaToken: jest.fn(),
+    };
+
+    const mutations = {
+      setCaptchaToken({ commit }, captchaToken) {
+        jest.fn();
+      },
+    };
+
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state,
+          actions,
+          mutations,
+        },
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: "default",
+          isTermsAccepted: false,
+        };
+      },
+    });
+
+    wrapper.vm.handleCaptchaVerified("token");
+
+    expect(wrapper.vm.isCaptchaValid).toEqual(true);
   });
 });
