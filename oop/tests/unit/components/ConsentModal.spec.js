@@ -175,8 +175,8 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
   it("dispatches SET_CAPTCHA_TOKEN action in VueX store on function call", async () => {
     const actions = {
       setCaptchaToken: jest.fn(),
-    }
-    
+    };
+
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -184,7 +184,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
           state: {
             applicationUuid: null,
           },
-          actions            
+          actions,
         },
       },
     });
@@ -207,14 +207,14 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     wrapper.vm.handleCaptchaVerified("token");
 
-    expect(actions.setCaptchaToken).toHaveBeenCalled()
+    expect(actions.setCaptchaToken).toHaveBeenCalled();
   });
 
   it("updates focusable elements on function call", async () => {
     const actions = {
       setCaptchaToken: jest.fn(),
-    }
-    
+    };
+
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -222,7 +222,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
           state: {
             applicationUuid: null,
           },
-          actions            
+          actions,
         },
       },
     });
@@ -245,7 +245,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     wrapper.vm.handleCaptchaVerified("token");
 
-    expect(wrapper.vm.focusableEls).not.toEqual("default")
+    expect(wrapper.vm.focusableEls).not.toEqual("default");
   });
 });
 
@@ -276,5 +276,114 @@ describe("ConsentModal.vue closeModal()", () => {
   it("emits close signal on function call", () => {
     wrapper.vm.closeModal();
     expect(wrapper.emitted().close).toBeTruthy();
+  });
+});
+
+describe("ConsentModal.vue handleKeyDown()", () => {
+  const fakeEvent = {
+    target: { value: "potato" },
+    key: "Tab",
+    preventDefault: jest.fn(),
+  };
+
+  const fakeShiftEvent = {
+    target: { value: "potato" },
+    key: "Tab",
+    shiftKey: true,
+    preventDefault: jest.fn(),
+  };
+
+  const miscEvent = {
+    target: { value: "potato" },
+    key: "notTab",
+    keyCode: 13, //Enter key
+    shiftKey: false,
+    preventDefault: jest.fn(),
+  }
+
+  it("calls handleTab() on function call", () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+    const spyOnHandleTab = jest.spyOn(wrapper.vm, "handleTab");
+    wrapper.vm.handleKeyDown(fakeEvent);
+    expect(spyOnHandleTab).toHaveBeenCalled();
+  });
+
+  it("calls handleTabBackwards() on function call with shift key", () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+    const spyOnHandleTabBackwards = jest.spyOn(wrapper.vm, "handleTabBackwards");
+    wrapper.vm.handleKeyDown(fakeShiftEvent);
+    expect(spyOnHandleTabBackwards).toHaveBeenCalled();
+  });
+
+  it("calls neither function if the button pressed isn't tab", () => {
+    const wrapper = mount(Component, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            form: {
+              applicationUuid: "default1",
+            },
+          },
+        },
+      },
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: null,
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
+    });
+    const spyOnHandleTabBackwards = jest.spyOn(wrapper.vm, "handleTabBackwards");
+    const spyOnHandleTab = jest.spyOn(wrapper.vm, "handleTab");
+    wrapper.vm.handleKeyDown(miscEvent);
+    expect(spyOnHandleTabBackwards).not.toHaveBeenCalled();
+    expect(spyOnHandleTab).not.toHaveBeenCalled();
   });
 });
