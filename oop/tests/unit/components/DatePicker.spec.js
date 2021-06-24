@@ -132,3 +132,93 @@ describe("DatePicker.vue handleDaySelect()", () => {
     expect(wrapper.emitted().dateSelected).toEqual([["date"]]);
   });
 });
+
+describe("DatePicker.vue nextMonth()", () => {
+  it("increments month by one on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      month: 1,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.nextMonth();
+
+    expect(wrapper.vm.month).toEqual(2);
+  });
+
+  it("turns over properly when month is december on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      //Remember 0 is January, so 11 is December
+      month: 11,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.nextMonth();
+
+    expect(wrapper.vm.month).toEqual(0);
+  });
+});
+
+describe("DatePicker.vue previousMonth()", () => {
+  it("decrements month by one on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      month: 1,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.previousMonth();
+
+    expect(wrapper.vm.month).toEqual(0);
+  });
+
+  it("turns over properly when month is january on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      //Remember 0 is January, so 11 is December
+      month: 0,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.previousMonth();
+
+    expect(wrapper.vm.month).toEqual(11);
+  });
+});
