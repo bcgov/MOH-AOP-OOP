@@ -74,13 +74,61 @@ describe("DatePicker.vue setDateValue()", () => {
     await wrapper.vm.$nextTick();
 
     const value = {
-      getFullYear: () => {return "placeholderYear"},
-      getMonth: () => {return "placeholderMonth"},
-      getDate: () => {return "placeholderDay"},
+      getFullYear: () => {
+        return "placeholderYear";
+      },
+      getMonth: () => {
+        return "placeholderMonth";
+      },
+      getDate: () => {
+        return "placeholderDay";
+      },
     };
     wrapper.vm.setDateValue(value);
     expect(wrapper.vm.year).toEqual("placeholderYear");
     expect(wrapper.vm.month).toEqual("placeholderMonth");
     expect(wrapper.vm.day).toEqual("placeholderDay");
+  });
+});
+
+describe("DatePicker.vue handleDaySelect()", () => {
+  it("emits input signal with argument on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+
+    const value = "date";
+    wrapper.vm.handleDaySelect(value);
+
+    expect(wrapper.emitted().input).toBeTruthy();
+    expect(wrapper.emitted().input).toEqual([["date"]]);
+  });
+
+  it("emits dateSelected signal with argument on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+
+    const value = "date";
+    wrapper.vm.handleDaySelect(value);
+
+    expect(wrapper.emitted().dateSelected).toBeTruthy();
+    expect(wrapper.emitted().dateSelected).toEqual([["date"]]);
   });
 });
