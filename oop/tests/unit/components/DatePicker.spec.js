@@ -342,7 +342,7 @@ describe("DatePicker.vue isSelectedDate()", () => {
     expect(result).toEqual(false);
   });
 
-  it("returns if everything does match", async () => {
+  it("returns true if everything does match", async () => {
     const wrapper = mount(Component, {
       localVue,
       propsData: {
@@ -353,6 +353,99 @@ describe("DatePicker.vue isSelectedDate()", () => {
     const date = new Date(1995, 11, 17);
     const result = wrapper.vm.isSelectedDate(date);
 
+    expect(result).toEqual(true);
+  });
+});
+
+describe("DatePicker.vue isDateToday()", () => {
+  const fakeDate = new Date(1995, 11, 17);
+
+  it("returns false if date is set to null", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          dateToday: fakeDate,
+        };
+      },
+    });
+
+    const date = null;
+    const result = wrapper.vm.isDateToday(date);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns false if the years don't match", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          dateToday: fakeDate,
+        };
+      },
+    });
+
+    await wrapper.setData({ dateToday: fakeDate, })
+
+    const date = new Date(1994, 11, 17);
+    const result = wrapper.vm.isDateToday(date);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns false if the months don't match", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          dateToday: fakeDate,
+        };
+      },
+    });
+
+    await wrapper.setData({ dateToday: fakeDate, })
+
+    const date = new Date(1995, 10, 17);
+    const result = wrapper.vm.isDateToday(date);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns false if the days don't match", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          dateToday: fakeDate,
+        };
+      },
+    });
+
+    await wrapper.setData({ dateToday: fakeDate, })
+
+    const date = new Date(1995, 11, 18);
+    const result = wrapper.vm.isDateToday(date);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns true if everything does match", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          dateToday: fakeDate,
+        };
+      },
+    });
+
+    await wrapper.setData({ dateToday: fakeDate, })
+
+    const date = new Date(1995, 11, 17);
+    const result = wrapper.vm.isDateToday(date);
+
+    expect(fakeDate).toEqual(date);
     expect(result).toEqual(true);
   });
 });
