@@ -222,3 +222,49 @@ describe("DatePicker.vue previousMonth()", () => {
     expect(wrapper.vm.month).toEqual(11);
   });
 });
+
+describe("DatePicker.vue nextYear()", () => {
+  it("increments year by one on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      year: 1990,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.nextYear();
+
+    expect(wrapper.vm.year).toEqual(1991);
+  })
+});
+
+describe("DatePicker.vue previousYear()", () => {
+  it("decrements year by one on function call", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      data() {
+        return {
+          year: "default",
+          month: "default",
+          day: "default",
+          dateToday: "default",
+        };
+      },
+    });
+    await wrapper.setData({
+      year: 1990,
+    });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.previousYear();
+
+    expect(wrapper.vm.year).toEqual(1989);
+  })
+});
