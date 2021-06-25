@@ -24,6 +24,22 @@ const dummyData = {
   postalCode: "A8V 8V8",
 };
 
+const dummyDataNull = {
+  lastName: null,
+  phn: null,
+  phone: null,
+  accountType: null,
+  personMoving: null,
+  moveFromBCDate: null,
+  arriveDestinationDate: null,
+  isNewAddressKnown: null,
+  country: null,
+  addressLine1: null,
+  province: null,
+  city: null,
+  postalCode: null,
+};
+
 // const MODULE_NAME = 'form';
 // const RESET_FORM = 'resetForm';
 
@@ -56,6 +72,37 @@ const SET_DEPENDENT_PHNS = "setDependentPhns";
 // Sending page:
 const SET_SUBMISSION_RESPONSE = "setSubmissionResponse";
 const SET_SUBMISSION_ERROR = "setSubmissionError";
+
+const storeTemplateNull = {
+  state: () => {
+    const state = {
+      applicationUuid: null,
+      captchaToken: null,
+      lastName: null,
+      phn: null,
+      phone: null,
+      moveFromBCDate: null,
+      arriveDestinationDate: null,
+      isNewAddressKnown: null,
+      country: null,
+      addressLines: [],
+      province: null,
+      city: null,
+      postalCode: null,
+      accountType: null,
+      personMoving: null,
+      isAllDependentsMoving: null,
+      dependentPhns: [],
+      submissionDate: null,
+      referenceNumber: null,
+      submissionResponse: null,
+      submissionError: null,
+    };
+    Object.assign(state, dummyDataNull);
+
+    return state;
+  },
+};
 
 const storeTemplate = {
   namespaced: true,
@@ -266,9 +313,11 @@ describe("ReviewTableList.vue", () => {
   });
 });
 
-describe("ReviewTableList.vue yourInfoTableData()", () => {
-  it("returns an array", async () => {
-    const store = new Vuex.Store({
+describe("ReviewTableList.vue yourInfoTableData() filled", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
       modules: {
         form: {
           namespaced: true,
@@ -279,7 +328,9 @@ describe("ReviewTableList.vue yourInfoTableData()", () => {
         },
       },
     });
+  });
 
+  it("returns an array with three elements in it", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -287,5 +338,141 @@ describe("ReviewTableList.vue yourInfoTableData()", () => {
     const result = wrapper.vm.yourInfoTableData;
 
     expect(Array.isArray(result)).toEqual(true);
+    expect(result).toHaveLength(3);
+  });
+
+  it("returns the last name from the VueX store if it is present", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    //expect the computed value to return an array containing the following object
+    //there doesn't seem to be a more graceful way to code this, unfortunately
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Last name:", "value": "PICKET BOATXE"           
+        })
+      ])
+    )
+  });
+
+  it("returns the PHN from the VueX store if it is present", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Personal health number (PHN):", "value": "9353 166 544"           
+        })
+      ])
+    )
+  });
+
+  it("returns the Phone number from the VueX store if it is present", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Phone number:", "value": "250-123-4567"           
+        })
+      ])
+    )
+  });
+});
+
+describe("ReviewTableList.vue yourInfoTableData() null", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state: storeTemplateNull.state,
+          mutations: storeTemplate.mutations,
+          actions: storeTemplate.actions,
+          getters: storeTemplate.getters,
+        },
+      },
+    });
+  });
+
+  it("returns an array with three elements in it", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+    const result = wrapper.vm.yourInfoTableData;
+
+    expect(Array.isArray(result)).toEqual(true);
+    expect(result).toHaveLength(3);
+  });
+
+  it("returns an object containing a null last name", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    //expect the computed value to return an array containing the following object
+    //there doesn't seem to be a more graceful way to code this, unfortunately
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Last name:", "value": null           
+        })
+      ])
+    )
+  });
+
+  it("returns an object containing a null PHN", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Personal health number (PHN):", "value": null           
+        })
+      ])
+    )
+  });
+
+  it("returns an object containing a null phone number", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.yourInfoTableData;
+
+    expect(result).toEqual(         
+      expect.arrayContaining([     
+        expect.objectContaining({   
+          "label": "Phone number:", "value": null         
+        })
+      ])
+    )
   });
 });
