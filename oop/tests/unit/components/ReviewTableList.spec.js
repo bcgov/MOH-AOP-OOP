@@ -351,13 +351,13 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
     //expect the computed value to return an array containing the following object
     //there doesn't seem to be a more graceful way to code this, unfortunately
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Last name:", "value": "PICKET BOATXE"           
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "PICKET BOATXE",
+        }),
       ])
-    )
+    );
   });
 
   it("returns the PHN from the VueX store if it is present", async () => {
@@ -368,13 +368,13 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
     const result = wrapper.vm.yourInfoTableData;
 
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Personal health number (PHN):", "value": "9353 166 544"           
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "9353 166 544",
+        }),
       ])
-    )
+    );
   });
 
   it("returns the Phone number from the VueX store if it is present", async () => {
@@ -385,13 +385,13 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
     const result = wrapper.vm.yourInfoTableData;
 
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Phone number:", "value": "250-123-4567"           
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "250-123-4567",
+        }),
       ])
-    )
+    );
   });
 });
 
@@ -433,13 +433,14 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
     //expect the computed value to return an array containing the following object
     //there doesn't seem to be a more graceful way to code this, unfortunately
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Last name:", "value": null           
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Last name:",
+          value: null,
+        }),
       ])
-    )
+    );
   });
 
   it("returns an object containing a null PHN", async () => {
@@ -450,13 +451,14 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
     const result = wrapper.vm.yourInfoTableData;
 
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Personal health number (PHN):", "value": null           
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Personal health number (PHN):",
+          value: null,
+        }),
       ])
-    )
+    );
   });
 
   it("returns an object containing a null phone number", async () => {
@@ -467,12 +469,60 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
     const result = wrapper.vm.yourInfoTableData;
 
-    expect(result).toEqual(         
-      expect.arrayContaining([     
-        expect.objectContaining({   
-          "label": "Phone number:", "value": null         
-        })
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Phone number:",
+          value: null,
+        }),
       ])
-    )
+    );
   });
+});
+
+describe("ReviewTableList.vue accountTypeTableData() filled", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state: storeTemplate.state,
+          mutations: storeTemplate.mutations,
+          actions: storeTemplate.actions,
+          getters: storeTemplate.getters,
+        },
+      },
+    });
+  });
+
+  it("returns an array", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+    const result = wrapper.vm.accountTypeTableData;
+
+    expect(Array.isArray(result)).toEqual(true);
+  });
+
+  it("returns an array containing who is moving", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.accountTypeTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Account holder only",
+        }),
+      ])
+    );
+  });
+
+  //tests for AH_DEP and DEP_ONLY can and should go here
 });
