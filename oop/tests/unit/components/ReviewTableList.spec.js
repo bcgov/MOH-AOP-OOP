@@ -526,3 +526,155 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
 
   //tests for AH_DEP and DEP_ONLY can and should go here
 });
+
+describe("ReviewTableList.vue moveInfoTableData()", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          namespaced: true,
+          state: storeTemplate.state,
+          mutations: storeTemplate.mutations,
+          actions: storeTemplate.actions,
+          getters: storeTemplate.getters,
+        },
+      },
+    });
+  });
+
+  it("returns an array", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+    const result = wrapper.vm.accountTypeTableData;
+
+    expect(Array.isArray(result)).toEqual(true);
+  });
+
+  it("returns an array containing permanent move date", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "May 31, 2021",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing arrival date", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "June 1, 2021",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing whether new address is known", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "No",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing country", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Canada",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing city", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Victoria",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing province", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Alberta",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing postal code", async () => {
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "A8V 8V8",
+        }),
+      ])
+    );
+  });
+
+
+
+
+
+});
