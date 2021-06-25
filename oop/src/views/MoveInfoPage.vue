@@ -29,7 +29,7 @@
         </div>
         
         <h2 class='mt-5 mb-3'>New address</h2>
-        <p>A confirmation letter will be sent to your new address following cancellation of coverage.</p>
+        <p>If you know your new address please enter it below. A confirmation letter will be sent to your new address following cancellation of coverage.</p>
         <hr/>
         <p>Do you know your new address?</p>
         <Radio v-model="isNewAddressKnown"
