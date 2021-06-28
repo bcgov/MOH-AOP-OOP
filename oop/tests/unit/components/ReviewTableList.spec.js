@@ -423,7 +423,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     expect(result).toHaveLength(3);
   });
 
-  it("returns an object containing a null last name", async () => {
+  it("returns an array containing a null last name", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -443,7 +443,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     );
   });
 
-  it("returns an object containing a null PHN", async () => {
+  it("returns an array containing a null PHN", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -461,7 +461,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     );
   });
 
-  it("returns an object containing a null phone number", async () => {
+  it("returns an array containing a null phone number", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -527,7 +527,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   //tests for AH_DEP and DEP_ONLY can and should go here
 });
 
-describe("ReviewTableList.vue moveInfoTableData()", () => {
+describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   let store;
 
   beforeEach(() => {
@@ -672,9 +672,4 @@ describe("ReviewTableList.vue moveInfoTableData()", () => {
       ])
     );
   });
-
-
-
-
-
 });
