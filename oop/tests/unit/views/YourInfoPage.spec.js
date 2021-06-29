@@ -5,6 +5,7 @@ import Vuelidate from "vuelidate";
 import YourInfoPage from "@/views/YourInfoPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
+import apiService from "@/services/api-service";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -304,12 +305,41 @@ describe("YourInfoPage.vue phoneValidator()", () => {
 });
 
 describe("YourInfoPage.vue nextPage()", () => {
-  it("returns an error when given insufficient data", async () => {
+  it("throws an error, does not call api service when last name is not present", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
           state: {
             lastName: null,
+            phn: "9353 166 544",
+            phone: "2222222222",
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+    });
+
+    const mockApiService = jest
+      .spyOn(apiService, "validateLastNamePhn")
+      .mockImplementation(() => Promise.resolve(mockResponse));
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$v.$invalid).toEqual(true);
+    expect(mockApiService).not.toHaveBeenCalled();
+  });
+
+  it("throws an error, does not call api service when phn is not present", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          state: {
+            lastName: "Picket Boatxe",
             phn: null,
             phone: "2222222222",
           },
@@ -322,12 +352,45 @@ describe("YourInfoPage.vue nextPage()", () => {
       localVue,
     });
 
-    axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
+    // axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
+    const mockApiService = jest
+      .spyOn(apiService, "validateLastNamePhn")
+      .mockImplementation(() => Promise.resolve(mockResponse));
 
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.element).toBeDefined();
-    // expect(wrapper.vm.$v.$invalid).toEqual(false);
+    // expect(wrapper.element).toBeDefined();
+    expect(wrapper.vm.$v.$invalid).toEqual(true);
+    expect(mockApiService).not.toHaveBeenCalled();
+  });
+
+  it("does call api service when last name and phn are present", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          state: {
+            lastName: "Picket Boatxe",
+            phn: "9353 166 544",
+            phone: "2222222222",
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+    });
+
+    const mockApiService = jest
+      .spyOn(apiService, "validateLastNamePhn")
+      .mockImplementation(() => Promise.resolve(mockResponse));
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$v.$invalid).toEqual(false);
+    expect(mockApiService).toHaveBeenCalled();
   });
 });
