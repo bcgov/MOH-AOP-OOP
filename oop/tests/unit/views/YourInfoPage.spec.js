@@ -514,9 +514,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       .spyOn(apiService, "validateLastNamePhn")
       .mockImplementation(() => Promise.resolve(mockResponse));
 
-    const mockHandleValidationSuccess = jest
-      .spyOn(wrapper.vm, "handleValidationSuccess")
-      .mockImplementation(() => jest.fn);
+    // const mockHandleValidationSuccess = jest
+    //   .spyOn(wrapper.vm, "handleValidationSuccess")
+    //   .mockImplementation(() => jest.fn);
 
     await wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
@@ -527,6 +527,55 @@ describe("YourInfoPage.vue nextPage()", () => {
     expect(wrapper.vm.accountType).toEqual("DEP");
     
     expect(mockResponse.data.returnCode).toEqual("0");
+    // expect(logService.logNavigation).toHaveBeenCalled();
+    // expect(mockHandleValidationSuccess).toHaveBeenCalled();
+  });
+
+  it("returns code 1 when info is not found in the database", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          state: {
+            applicationUuid: "defaultUUID",
+            captchaToken: "defaultCaptchaToken",
+            lastName: "Picket Boatxee",
+            phn: "9353 166 540",
+            phone: "2222222222",
+            applicantRole: "default"
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      data: () => {
+        return {
+          accountType: "default",
+        }
+      },
+    });
+
+    expect(store.state.form.applicantRole).toEqual("default");
+
+    jest
+      .spyOn(apiService, "validateLastNamePhn")
+      .mockImplementation(() => Promise.resolve(mockResponsePhnDoesNotMatch));
+
+    const mockHandleValidationSuccess = jest
+      .spyOn(wrapper.vm, "handleValidationSuccess")
+      .mockImplementation(() => jest.fn);
+
+    await wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    //troubleshooting
+    // expect(wrapper.vm.$v.$invalid).toEqual(false);
+    // expect(apiService.validateLastNamePhn).toHaveBeenCalled();
+    // expect(wrapper.vm.accountType).toEqual("DEP");
+    
+    expect(mockResponsePhnDoesNotMatch.data.returnCode).toEqual("1");
     // expect(logService.logNavigation).toHaveBeenCalled();
     // expect(mockHandleValidationSuccess).toHaveBeenCalled();
   });
