@@ -93,6 +93,87 @@ const mockResponse = {
   request: {},
 };
 
+const mockResponsePhnDoesNotMatch = {
+  data: {
+    applicationUuid: "f4c826ed-5c30-4127-9cc8-c4d4cf358d42",
+    returnCode: "1",
+    message: "PHN and last name does not match",
+  },
+  status: 200,
+  statusText: "OK",
+  headers: {
+    accept: "application/json, text/plain, */*",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-US,en;q=0.9",
+    "access-control-allow-credentials": "true",
+    "access-control-allow-headers":
+      "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
+    "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "access-control-allow-origin": "https://my.gov.bc.ca",
+    "access-control-expose-headers": "Authorization",
+    breadcrumbid: "ID-vs-dapp046-maximusbchealth-local-1624634336247-0-41",
+    "cache-control": "no-store",
+    checkr32: "Y",
+    connection: "close",
+    "content-security-policy":
+      "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
+    "content-type": "application/json",
+    date: "Tue, 29 Jun 2021 22:14:07 GMT",
+    expires: "Wed, 17 Jun 2020 17:30:34 GMT",
+    forwarded:
+      "for=216.232.32.188;host=oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca;proto=https",
+    origin: "http://localhost:8080",
+    phn: "9353166544",
+    pragma: "no-cache",
+    "response-type": "application/json",
+    "sec-ch-ua":
+      '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    server: "nginx",
+    "strict-transport-security": "max-age=86400; includeSubDomains",
+    "transfer-encoding": "chunked",
+    uuid: "f4c826ed-5c30-4127-9cc8-c4d4cf358d42",
+    "www-authenticate": "Basic",
+    "x-content-type-options": "nosniff",
+    "x-forwarded-for": "127.0.0.1, 216.232.32.188",
+    "x-forwarded-host":
+      "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-port": "8080, 443",
+    "x-forwarded-proto": "http, https",
+    "x-frame-options": "DENY",
+    "x-oracle-dms-ecid": "8bb3eb62-41e2-4023-99ab-8719620d31b8-0000b5e6",
+    "x-oracle-dms-rid": "0",
+    "x-powered-by": "Express",
+    "x-rm-jurisdiction": "bc",
+    "x-weblogic-request-clusterinfo": "true",
+    "x-xss-protection": "1",
+  },
+  config: {
+    url: "/oop/api/oopIntegration/validatePhnName",
+    method: "post",
+    data:
+      '{"applicationUuid":"f4c826ed-5c30-4127-9cc8-c4d4cf358d42","lastName":"aaaaaaaaaa","phn":"9353166544"}',
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+      "Response-Type": "application/json",
+      "X-Authorization":
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiZjRjODI2ZWQtNWMzMC00MTI3LTljYzgtYzRkNGNmMzU4ZDQyIn0sImlhdCI6MTYyNTAwNDgyNiwiZXhwIjoxNjI1MDE1NjI2fQ.nl9StLFRCtgrE8lWTLiBqznoCxNdq2uEkugFu5frEBU",
+    },
+    transformRequest: [null],
+    transformResponse: [null],
+    timeout: 0,
+    xsrfCookieName: "XSRF-TOKEN",
+    xsrfHeaderName: "X-XSRF-TOKEN",
+    maxContentLength: -1,
+    maxBodyLength: -1,
+  },
+  request: {},
+};
+
 jest.mock("axios", () => ({
   get: jest.fn(),
   post: jest.fn(),
@@ -370,6 +451,8 @@ describe("YourInfoPage.vue nextPage()", () => {
       modules: {
         form: {
           state: {
+            applicationUuid: "defaultUUID",
+            captchaToken: "defaultCaptchaToken",
             lastName: "Picket Boatxe",
             phn: "9353 166 544",
             phone: "2222222222",
@@ -391,6 +474,60 @@ describe("YourInfoPage.vue nextPage()", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$v.$invalid).toEqual(false);
-    expect(mockApiService).toHaveBeenCalled();
+    expect(mockApiService).toHaveBeenCalledWith(
+      "defaultCaptchaToken",
+      "defaultUUID",
+      "Picket Boatxe",
+      "9353166544"
+    );
+  });
+
+  it("validates when info is found in the database", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: {
+          state: {
+            applicationUuid: "defaultUUID",
+            captchaToken: "defaultCaptchaToken",
+            lastName: "Picket Boatxe",
+            phn: "9353 166 544",
+            phone: "2222222222",
+            applicantRole: "default"
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      data: () => {
+        return {
+          accountType: "default",
+        }
+      },
+    });
+
+    expect(store.state.form.applicantRole).toEqual("default");
+
+    jest
+      .spyOn(apiService, "validateLastNamePhn")
+      .mockImplementation(() => Promise.resolve(mockResponse));
+
+    const mockHandleValidationSuccess = jest
+      .spyOn(wrapper.vm, "handleValidationSuccess")
+      .mockImplementation(() => jest.fn);
+
+    await wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    //troubleshooting
+    // expect(wrapper.vm.$v.$invalid).toEqual(false);
+    // expect(apiService.validateLastNamePhn).toHaveBeenCalled();
+    expect(wrapper.vm.accountType).toEqual("DEP");
+    
+    expect(mockResponse.data.returnCode).toEqual("0");
+    // expect(logService.logNavigation).toHaveBeenCalled();
+    // expect(mockHandleValidationSuccess).toHaveBeenCalled();
   });
 });
