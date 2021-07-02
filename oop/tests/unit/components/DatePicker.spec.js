@@ -386,7 +386,7 @@ describe("DatePicker.vue isDateToday()", () => {
       },
     });
 
-    await wrapper.setData({ dateToday: fakeDate, })
+    await wrapper.setData({ dateToday: fakeDate });
 
     const date = new Date(1994, 11, 17);
     const result = wrapper.vm.isDateToday(date);
@@ -404,7 +404,7 @@ describe("DatePicker.vue isDateToday()", () => {
       },
     });
 
-    await wrapper.setData({ dateToday: fakeDate, })
+    await wrapper.setData({ dateToday: fakeDate });
 
     const date = new Date(1995, 10, 17);
     const result = wrapper.vm.isDateToday(date);
@@ -422,7 +422,7 @@ describe("DatePicker.vue isDateToday()", () => {
       },
     });
 
-    await wrapper.setData({ dateToday: fakeDate, })
+    await wrapper.setData({ dateToday: fakeDate });
 
     const date = new Date(1995, 11, 18);
     const result = wrapper.vm.isDateToday(date);
@@ -440,7 +440,7 @@ describe("DatePicker.vue isDateToday()", () => {
       },
     });
 
-    await wrapper.setData({ dateToday: fakeDate, })
+    await wrapper.setData({ dateToday: fakeDate });
 
     const date = new Date(1995, 11, 17);
     const result = wrapper.vm.isDateToday(date);

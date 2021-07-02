@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ReviewTableList.vue";
-import { formatDate } from '@/helpers/date';
+import { formatDate } from "@/helpers/date";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
