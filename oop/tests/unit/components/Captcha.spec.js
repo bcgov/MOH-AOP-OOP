@@ -719,6 +719,7 @@ describe("Captcha.vue playAudio()", () => {
 
   //the following test is skipped because jest won't recognize play() properly
   //this is due to jsdom limitations, see here: https://github.com/jsdom/jsdom/issues/2155
+  //I leave my unfinished code in case a solution is ever found
 
   it.skip("calls play() when it receives a valid response", async () => {
     jest.useFakeTimers();

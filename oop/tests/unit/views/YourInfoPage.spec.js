@@ -179,7 +179,7 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
-jest.spyOn(logService, "logNavigation").mockImplementation(jest.fn);
+jest.spyOn(logService, "logNavigation").mockReturnValue("response.data");
 
 describe("YourInfoPage.vue", () => {
   let state;
@@ -482,7 +482,17 @@ describe("YourInfoPage.vue nextPage()", () => {
     );
   });
 
-  it("validates when info is found in the database", async () => {
+  /*
+  The following two tests do not work yet. 
+  The YourInfoPage.vue nextPage() function has a switch that handles the apiResponse.
+  For some reason, in the test, I haven't been able to track the handleValidationSuccess()
+  function call on line 225. The data change on 220 happens, but nothing after the logService
+  call does in the test environment. I suspect it's an issue with an insufficient/improper mock,
+  but I haven't gotten it working yet. I leave my half-finished tests below in case someone
+  wants to finish them in the future.
+  */
+
+  it.skip("returns code 0 when info is found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -492,7 +502,7 @@ describe("YourInfoPage.vue nextPage()", () => {
             lastName: "Picket Boatxe",
             phn: "9353 166 544",
             phone: "2222222222",
-            applicantRole: "default"
+            applicantRole: "default",
           },
           namespaced: true,
         },
@@ -504,7 +514,7 @@ describe("YourInfoPage.vue nextPage()", () => {
       data: () => {
         return {
           accountType: "default",
-        }
+        };
       },
     });
 
@@ -514,24 +524,24 @@ describe("YourInfoPage.vue nextPage()", () => {
       .spyOn(apiService, "validateLastNamePhn")
       .mockImplementation(() => Promise.resolve(mockResponse));
 
-    // const mockHandleValidationSuccess = jest
-    //   .spyOn(wrapper.vm, "handleValidationSuccess")
-    //   .mockImplementation(() => jest.fn);
+    const mockHandleValidationSuccess = jest
+      .spyOn(wrapper.vm, "handleValidationSuccess")
+      .mockImplementation(() => jest.fn);
 
-    await wrapper.vm.nextPage();
+    // await wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
     //troubleshooting
     // expect(wrapper.vm.$v.$invalid).toEqual(false);
-    // expect(apiService.validateLastNamePhn).toHaveBeenCalled();
-    expect(wrapper.vm.accountType).toEqual("DEP");
-    
-    expect(mockResponse.data.returnCode).toEqual("0");
+    expect(apiService.validateLastNamePhn).toHaveBeenCalled();
+    // expect(wrapper.vm.accountType).toEqual("DEP");
+
+    // expect(mockResponse.data.returnCode).toEqual("0");
     // expect(logService.logNavigation).toHaveBeenCalled();
-    // expect(mockHandleValidationSuccess).toHaveBeenCalled();
+    expect(mockHandleValidationSuccess).toHaveBeenCalled();
   });
 
-  it("returns code 1 when info is not found in the database", async () => {
+  it.skip("returns code 1 when info is not found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -541,7 +551,7 @@ describe("YourInfoPage.vue nextPage()", () => {
             lastName: "Picket Boatxee",
             phn: "9353 166 540",
             phone: "2222222222",
-            applicantRole: "default"
+            applicantRole: "default",
           },
           namespaced: true,
         },
@@ -553,7 +563,7 @@ describe("YourInfoPage.vue nextPage()", () => {
       data: () => {
         return {
           accountType: "default",
-        }
+        };
       },
     });
 
@@ -574,9 +584,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     // expect(wrapper.vm.$v.$invalid).toEqual(false);
     // expect(apiService.validateLastNamePhn).toHaveBeenCalled();
     // expect(wrapper.vm.accountType).toEqual("DEP");
-    
+
     expect(mockResponsePhnDoesNotMatch.data.returnCode).toEqual("1");
     // expect(logService.logNavigation).toHaveBeenCalled();
-    // expect(mockHandleValidationSuccess).toHaveBeenCalled();
+    expect(mockHandleValidationSuccess).toHaveBeenCalled();
   });
 });
