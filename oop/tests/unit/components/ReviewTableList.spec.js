@@ -14,8 +14,8 @@ const dummyData = {
   phone: "250-123-4567",
   accountType: "AH",
   personMoving: "AH_ONLY",
-  moveFromBCDate: new Date("2021-06-01"),
-  arriveDestinationDate: new Date("2021-06-02"),
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
   isNewAddressKnown: "N",
   country: "Canada",
   addressLine1: "123 Main St.",
@@ -565,7 +565,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "May 31, 2021",
+          value: "September 26, 2021",
         }),
       ])
     );
@@ -582,7 +582,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "June 1, 2021",
+          value: "September 27, 2021",
         }),
       ])
     );
