@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ReviewTableList.vue";
+import { formatDate } from '@/helpers/date';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -549,7 +550,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
       localVue,
       store,
     });
-    const result = wrapper.vm.accountTypeTableData;
+    const result = wrapper.vm.moveInfoTableData;
 
     expect(Array.isArray(result)).toEqual(true);
   });
@@ -565,7 +566,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "September 26, 2021",
+          value: formatDate(wrapper.vm.$store.state.form.moveFromBCDate),
         }),
       ])
     );
@@ -582,7 +583,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "September 27, 2021",
+          value: formatDate(wrapper.vm.$store.state.form.arriveDestinationDate),
         }),
       ])
     );
