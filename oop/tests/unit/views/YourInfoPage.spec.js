@@ -179,7 +179,9 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
-jest.spyOn(logService, "logNavigation").mockReturnValue("response.data");
+jest.spyOn(logService, "logNavigation").mockImplementation(() => Promise.resolve("logged"));
+jest.spyOn(logService, "logError").mockImplementation(() => Promise.resolve("logged"));
+jest.spyOn(logService, "logInfo").mockImplementation(() => Promise.resolve("logged"));
 
 describe("YourInfoPage.vue", () => {
   let state;
@@ -386,6 +388,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
 });
 
 describe("YourInfoPage.vue nextPage()", () => {
+
   it("throws an error, does not call api service when last name is not present", async () => {
     const store = new Vuex.Store({
       modules: {
@@ -466,6 +469,8 @@ describe("YourInfoPage.vue nextPage()", () => {
       localVue,
     });
 
+    expect(wrapper.element).toBeDefined();
+
     const mockApiService = jest
       .spyOn(apiService, "validateLastNamePhn")
       .mockImplementation(() => Promise.resolve(mockResponse));
@@ -480,6 +485,8 @@ describe("YourInfoPage.vue nextPage()", () => {
       "Picket Boatxe",
       "9353166544"
     );
+    // await wrapper.vm.$nextTick();
+    // mockApiService.mockReset();
   });
 
   /*
