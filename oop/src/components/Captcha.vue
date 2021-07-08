@@ -232,7 +232,9 @@ export default {
             this.audio = audio;
 
             setTimeout(() => {
-              this.$refs.audio.play();
+              // this.$refs.audio.play();
+              var snd = new Audio(this.audio);
+              snd.play();
             }, 0);
           })
           .catch(() => {
