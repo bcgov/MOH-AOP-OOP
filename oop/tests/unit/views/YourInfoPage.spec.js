@@ -376,6 +376,12 @@ jest
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
 
+jest.mock("@/helpers/scroll", () => ({
+  scrollToError: jest.fn(),
+}));
+
+const mockScrollHelper = require("@/helpers/scroll");
+
 describe("YourInfoPage.vue", () => {
   let state;
   let store;
@@ -683,8 +689,7 @@ describe("YourInfoPage.vue nextPage()", () => {
       "Picket Boatxe",
       "9353166544"
     );
-    // await wrapper.vm.$nextTick();
-    // mockApiService.mockReset();
+    mockApiService.mockReset();
   });
 
   /*
@@ -697,7 +702,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   wants to finish them in the future.
   */
 
-  it.skip("returns code 0 when info is found in the database", async () => {
+  it("runs the code in case 0 (success) when info is found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -725,28 +730,25 @@ describe("YourInfoPage.vue nextPage()", () => {
 
     expect(store.state.form.applicantRole).toEqual("default");
 
-    jest
+    const mockApiService = jest
       .spyOn(apiService, "validateLastNamePhn")
       .mockImplementation(() => Promise.resolve(mockResponse));
 
     const mockHandleValidationSuccess = jest
       .spyOn(wrapper.vm, "handleValidationSuccess")
-      .mockImplementation(() => jest.fn);
+      .mockImplementation(() => Promise.resolve("handled"));
 
-    // await wrapper.vm.nextPage();
+    await wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    //troubleshooting
-    // expect(wrapper.vm.$v.$invalid).toEqual(false);
     expect(apiService.validateLastNamePhn).toHaveBeenCalled();
-    // expect(wrapper.vm.accountType).toEqual("DEP");
-
-    // expect(mockResponse.data.returnCode).toEqual("0");
-    // expect(logService.logNavigation).toHaveBeenCalled();
     expect(mockHandleValidationSuccess).toHaveBeenCalled();
+
+    mockApiService.mockReset();
+    mockHandleValidationSuccess.mockReset();
   });
 
-  it.skip("returns code 1 when info is not found in the database", async () => {
+  it("returns code 1 when info is not found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -774,7 +776,7 @@ describe("YourInfoPage.vue nextPage()", () => {
 
     expect(store.state.form.applicantRole).toEqual("default");
 
-    jest
+    const mockApiService = jest
       .spyOn(apiService, "validateLastNamePhn")
       .mockImplementation(() => Promise.resolve(mockResponsePhnDoesNotMatch));
 
@@ -791,7 +793,11 @@ describe("YourInfoPage.vue nextPage()", () => {
     // expect(wrapper.vm.accountType).toEqual("DEP");
 
     expect(mockResponsePhnDoesNotMatch.data.returnCode).toEqual("1");
-    // expect(logService.logNavigation).toHaveBeenCalled();
-    expect(mockHandleValidationSuccess).toHaveBeenCalled();
+    expect(logService.logInfo).toHaveBeenCalled();
+    expect(mockScrollHelper.scrollToError).toHaveBeenCalled();
+    expect(mockHandleValidationSuccess).not.toHaveBeenCalled();
+
+    mockApiService.mockReset();
+    mockHandleValidationSuccess.mockReset();
   });
 });
