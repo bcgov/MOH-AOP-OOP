@@ -10,8 +10,7 @@ import apiService from "@/services/api-service";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
-localVue.use(VueRouter)
-const router = new VueRouter()
+// localVue.use(VueRouter);
 Vue.use(Vuelidate);
 
 const mockResponse = {
@@ -195,6 +194,11 @@ jest
 jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
   scrollTo: jest.fn(),
+}));
+
+jest.mock("@/services/page-state-service", () => ({
+  setPageComplete: jest.fn(),
+  visitPage: jest.fn(),
 }));
 
 const scrollHelper = require("@/helpers/scroll");
@@ -805,30 +809,94 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     },
   };
 
-  it("renders", async () => {
-    const store = new Vuex.Store({
-      modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "data",
-            phn: null,
-            phone: null,
-          },
-          namespaced: true,
+  const store = new Vuex.Store({
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: null,
+          accountType: "AH",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: ["default"],
         },
+        namespaced: true,
       },
+    },
+  });
+
+  it("renders", async () => {
+    const $route = {
+      path: '/',
+    };
+
+    const $router = new VueRouter({
+      $route,
     });
+
     const wrapper = mount(YourInfoPage, {
       store,
       localVue,
-      router
+      mocks: {
+        $router
+      }
     });
 
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.element).toBeDefined();
+  });
+
+  it("updates last name with data entered", async () => {
+    const $route = {
+      path: '/',
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router
+      }
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.lastName).toEqual("defaultlastname");
+  });
+
+  it("updates phn with data entered", async () => {
+    const $route = {
+      path: '/',
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router
+      }
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+    //expect scrollTo to have been called
+
+    // expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1);
+
+    expect(wrapper.vm.$store.state.form.phn).toEqual("defaultphn");
   });
 });
