@@ -7,6 +7,7 @@ import YourInfoPage from "@/views/YourInfoPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import apiService from "@/services/api-service";
+import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
@@ -191,19 +192,21 @@ jest
 jest
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
+jest
+  .spyOn(pageStateService, "setPageComplete")
+  .mockImplementation(() => Promise.resolve("set"));
+jest
+  .spyOn(pageStateService, "visitPage")
+  .mockImplementation(() => Promise.resolve("visited"));
 
 jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
   scrollTo: jest.fn(),
 }));
 
-jest.mock("@/services/page-state-service", () => ({
-  setPageComplete: jest.fn(),
-  visitPage: jest.fn(),
-}));
-
 const scrollHelper = require("@/helpers/scroll");
 
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("YourInfoPage.vue", () => {
@@ -625,7 +628,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   const mutations = formTemplate.mutations;
   const actions = formTemplate.actions;
 
-  let store;  
+  let store;
 
   beforeEach(() => {
     const storeTemplate = {
@@ -647,6 +650,16 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       },
     };
     store = new Vuex.Store(storeTemplate);
+  });
+
+  afterEach(() => {
+    logService.logNavigation.mockReset();
+    logService.logError.mockReset();
+    logService.logInfo.mockReset();
+    pageStateService.setPageComplete.mockReset();
+    pageStateService.visitPage.mockReset();
+    scrollHelper.scrollToError.mockReset();
+    scrollHelper.scrollTo.mockReset();
   });
 
   it("renders", async () => {
@@ -780,7 +793,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
 
     // expect(wrapper.vm.accountType).toEqual("DEP");
 
-    expect(wrapper.vm.$store.state.form.accountType).toEqual("updatedaccountType");
+    expect(wrapper.vm.$store.state.form.accountType).toEqual(
+      "updatedaccountType"
+    );
   });
 
   it("if account type is DEP, it updates the setPersonMoving in the store to null", async () => {
@@ -792,7 +807,6 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    
     const wrapper = mount(YourInfoPage, {
       store,
       localVue,
@@ -800,7 +814,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
         $router,
       },
     });
-    
+
     await wrapper.vm.$nextTick();
     await wrapper.setData({ accountType: "DEP" });
     await wrapper.vm.$nextTick();
@@ -822,7 +836,6 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    
     const wrapper = mount(YourInfoPage, {
       store,
       localVue,
@@ -831,19 +844,94 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       },
     });
 
-    console.log("potato********", wrapper.vm.$store.state.form.isAllDependentsMoving, wrapper.vm.$store.state.form.lastName)
-    
-    // expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual("default");
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
+      "default"
+    );
 
     await wrapper.vm.$nextTick();
     await wrapper.setData({ accountType: "DEP" });
     await wrapper.vm.$nextTick();
 
-
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toBeNull();
+  });
+
+  it("if account type is DEP, it updates the dependentPhns in the store to an empty array", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual(["default"]);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([]);
+  });
+
+  it("calls pageStateService", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+    expect(pageStateService.visitPage).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo with the parameter 0", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnScrollTo).toHaveBeenCalledWith(0);
   });
 });
 
