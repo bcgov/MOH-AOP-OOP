@@ -809,7 +809,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     },
   };
 
-  const store = new Vuex.Store({
+  const storeTemplate = {
     modules: {
       form: {
         mutations,
@@ -817,8 +817,8 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
         state: {
           lastName: "defaultlastname",
           phn: "defaultphn",
-          phone: null,
-          accountType: "AH",
+          phone: "defaultphone",
+          accountType: "default",
           personMoving: "default",
           isAllDependentsMoving: "default",
           dependentPhns: ["default"],
@@ -826,11 +826,13 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
         namespaced: true,
       },
     },
-  });
+  };
+
+  const store = new Vuex.Store(storeTemplate);
 
   it("renders", async () => {
     const $route = {
-      path: '/',
+      path: "/",
     };
 
     const $router = new VueRouter({
@@ -841,8 +843,8 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       store,
       localVue,
       mocks: {
-        $router
-      }
+        $router,
+      },
     });
 
     wrapper.vm.handleValidationSuccess();
@@ -851,32 +853,38 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     expect(wrapper.element).toBeDefined();
   });
 
-  it("updates last name with data entered", async () => {
+  it("updates the last name in the store with whatever is in the data", async () => {
     const $route = {
-      path: '/',
+      path: "/",
     };
 
     const $router = new VueRouter({
       $route,
     });
 
+    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
+
     const wrapper = mount(YourInfoPage, {
       store,
       localVue,
       mocks: {
-        $router
-      }
+        $router,
+      },
     });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ lastName: "updatedlastname" });
+    await wrapper.vm.$nextTick();
 
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.lastName).toEqual("defaultlastname");
+    expect(wrapper.vm.$store.state.form.lastName).toEqual("updatedlastname");
   });
 
-  it("updates phn with data entered", async () => {
+  it("updates the phn in the store with whatever is in the data", async () => {
     const $route = {
-      path: '/',
+      path: "/",
     };
 
     const $router = new VueRouter({
@@ -887,16 +895,76 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       store,
       localVue,
       mocks: {
-        $router
-      }
+        $router,
+      },
     });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ phn: "updatedphn" });
+    await wrapper.vm.$nextTick();
 
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
-    //expect scrollTo to have been called
 
-    // expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1);
+    expect(wrapper.vm.$store.state.form.phn).toEqual("updatedphn");
+  });
 
-    expect(wrapper.vm.$store.state.form.phn).toEqual("defaultphn");
+  it("updates the phone in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ phone: "updatedphone" });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.phone).toEqual("updatedphone");
+  });
+
+  it("updates the account type in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "updatedaccountType" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    // expect(wrapper.vm.accountType).toEqual("DEP");
+
+    expect(wrapper.vm.$store.state.form.accountType).toEqual("updatedaccountType");
   });
 });
+
+//expect scrollTo to have been called
+
+// expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1);
