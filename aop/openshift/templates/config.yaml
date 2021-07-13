@@ -83,6 +83,11 @@ objects:
           # limit_req zone=bra100 burst=1400;
 
           client_max_body_size 100m;
+          
+          map $http_origin $allow_origin {
+            ~^https?://(.*\.)?my.gov.bc.ca(:\d+)?$ $http_origin;
+            default "https://my.gov.bc.ca";
+          }
 
           server {
             listen 8080;
@@ -94,9 +99,14 @@ objects:
             add_header X-Content-Type-Options "nosniff";
             add_header X-XSS-Protection 1;
             add_header X-Frame-Options DENY;
-            add_header Cache-Control "no-store";
-            add_header Pragma "no-cache";
-            add_header Access-Control-Allow-Origin "*";
+            add_header Cache-Control no-store;
+            add_header Pragma no-cache;
+            add_header 'Access-Control-Allow-Origin' "$allow_origin" always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
+            # required to be able to read Authorization header in frontend
+            add_header 'Access-Control-Expose-Headers' 'Authorization' always;
 
             # uncomment for test2
             # index index.html index.htm;
