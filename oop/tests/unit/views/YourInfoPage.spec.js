@@ -933,8 +933,33 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
 
     expect(spyOnScrollTo).toHaveBeenCalledWith(0);
   });
+
+  it("calls routerPush to change page", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const spyOnRouter = jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
 });
 
-//expect scrollTo to have been called
 
-// expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1);
