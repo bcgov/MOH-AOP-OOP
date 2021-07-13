@@ -962,4 +962,159 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 });
 
+describe("YourInfoPage.vue handleLastNameInputChange()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
 
+  let store;
+
+  const dataTemplate = {
+    lastName: null,
+    phn: null,
+    phone: null,
+    isLoading: false,
+    isValidationCode1Shown: true,
+    isValidationCode2Shown: true,
+    isSystemUnavailable: false,
+    accountType: null,
+    lastNameInputStyle: {
+      width: "350px",
+      maxWidth: "100%",
+    },
+    phnInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+    phoneInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+  };
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  afterEach(() => {
+    logService.logNavigation.mockReset();
+    logService.logError.mockReset();
+    logService.logInfo.mockReset();
+    pageStateService.setPageComplete.mockReset();
+    pageStateService.visitPage.mockReset();
+    scrollHelper.scrollToError.mockReset();
+    scrollHelper.scrollTo.mockReset();
+  });
+
+  it("renders", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.element).toBeDefined();
+  });
+
+  it("sets validation code 1 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode1Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(true);
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(false);
+  });
+
+  it("sets validation code 2 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
+
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode2Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(true);
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(false);
+  });
+});
