@@ -809,26 +809,31 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     },
   };
 
-  const storeTemplate = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: ["default"],
-        },
-        namespaced: true,
-      },
-    },
-  };
+  
 
-  const store = new Vuex.Store(storeTemplate);
+  let store;  
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    store = new Vuex.Store(storeTemplate);
+  });
 
   it("renders", async () => {
     const $route = {
@@ -962,6 +967,69 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     // expect(wrapper.vm.accountType).toEqual("DEP");
 
     expect(wrapper.vm.$store.state.form.accountType).toEqual("updatedaccountType");
+  });
+
+  it("if account type is DEP, it updates the setPersonMoving in the store to null", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+    
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.personMoving).toEqual("default");
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.personMoving).toBeNull();
+  });
+
+  it("if account type is DEP, it updates the isAllDependentsMoving in the store to null", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    
+    const wrapper = mount(YourInfoPage, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    console.log("potato********", wrapper.vm.$store.state.form.isAllDependentsMoving, wrapper.vm.$store.state.form.lastName)
+    
+    // expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual("default");
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toBeNull();
   });
 });
 
