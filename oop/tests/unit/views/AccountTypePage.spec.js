@@ -203,7 +203,7 @@ jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
 }));
 
-const scrollHelper = require("@/helpers/scroll");
+// const scrollHelper = require("@/helpers/scroll");
 
 // const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
@@ -292,8 +292,6 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
       },
     });
 
-    wrapper.vm.saveValues();
-
     const spyOnSaveValues = jest
       .spyOn(wrapper.vm, "saveValues")
       .mockImplementation(() => Promise.resolve("saved"));
@@ -321,8 +319,6 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
       },
     });
 
-    wrapper.vm.saveValues();
-
     const spyOnNextPage = jest
       .spyOn(wrapper.vm, "nextPage")
       .mockImplementation(() => Promise.resolve("next"));
@@ -331,5 +327,92 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
     await wrapper.vm.$nextTick();
 
     expect(spyOnNextPage).toHaveBeenCalled();
+  });
+});
+
+describe("AccountTypePage.vue saveValues()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  it("changes account type in store", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isAllDependentsMoving: "updatedvalue" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.saveValues();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
+      "updatedvalue"
+    );
+  });
+
+  it("changes person moving in store", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ personMoving: "updatedvalue" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.saveValues();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.personMoving).toEqual(
+      "updatedvalue"
+    );
   });
 });
