@@ -203,9 +203,9 @@ jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
 }));
 
-// const scrollHelper = require("@/helpers/scroll");
+const scrollHelper = require("@/helpers/scroll");
 
-// const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("AccountTypePage.vue", () => {
@@ -382,9 +382,7 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.accountType).toEqual(
-      "updatedaccount"
-    );
+    expect(wrapper.vm.$store.state.form.accountType).toEqual("updatedaccount");
   });
 
   it("changes person moving in store", async () => {
@@ -469,8 +467,121 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual(
-      ["updateddependentphns"]
-    );
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([
+      "updateddependentphns",
+    ]);
+  });
+});
+
+describe("AccountTypePage.vue nextPage()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  afterEach(() => {
+    logService.logNavigation.mockReset();
+    logService.logError.mockReset();
+    logService.logInfo.mockReset();
+    pageStateService.setPageComplete.mockReset();
+    pageStateService.visitPage.mockReset();
+    scrollHelper.scrollToError.mockReset();
+    scrollHelper.scrollTo.mockReset();
+  });
+
+  it("pushes to router", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const spyOnRouter = jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo with the parameter 0", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnScrollTo).toHaveBeenCalledWith(0);
+  });
+
+  it("calls pageStateService", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+    expect(pageStateService.visitPage).toHaveBeenCalled();
   });
 });
