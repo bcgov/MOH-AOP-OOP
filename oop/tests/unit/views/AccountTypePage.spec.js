@@ -376,14 +376,14 @@ describe("AccountTypePage.vue saveValues()", () => {
     });
 
     await wrapper.vm.$nextTick();
-    await wrapper.setData({ isAllDependentsMoving: "updatedvalue" });
+    await wrapper.setData({ accountType: "updatedaccount" });
     await wrapper.vm.$nextTick();
 
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
-      "updatedvalue"
+    expect(wrapper.vm.$store.state.form.accountType).toEqual(
+      "updatedaccount"
     );
   });
 
@@ -405,14 +405,72 @@ describe("AccountTypePage.vue saveValues()", () => {
     });
 
     await wrapper.vm.$nextTick();
-    await wrapper.setData({ personMoving: "updatedvalue" });
+    await wrapper.setData({ personMoving: "updatedpersonmoving" });
     await wrapper.vm.$nextTick();
 
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$store.state.form.personMoving).toEqual(
-      "updatedvalue"
+      "updatedpersonmoving"
+    );
+  });
+
+  it("changes isAllDependentsMoving in store", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isAllDependentsMoving: "updateddependentsmoving" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.saveValues();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
+      "updateddependentsmoving"
+    );
+  });
+
+  it("changes dependentPhns in store", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ dependentPhns: ["updateddependentphns"] });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.saveValues();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual(
+      ["updateddependentphns"]
     );
   });
 });
