@@ -585,3 +585,87 @@ describe("AccountTypePage.vue nextPage()", () => {
     expect(pageStateService.visitPage).toHaveBeenCalled();
   });
 });
+
+//add dependent field test goes here
+
+describe("AccountTypePage.vue getDependentPhns()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: [{value: "default1"}, {value: "default2"}, {value: "default3"}, 
+            // {value: "default4"}, {value: "default5"}, {value: "default6"}
+            ],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  afterEach(() => {
+    // logService.logNavigation.mockReset();
+    // logService.logError.mockReset();
+    // logService.logInfo.mockReset();
+    // pageStateService.setPageComplete.mockReset();
+    // pageStateService.visitPage.mockReset();
+    // scrollHelper.scrollToError.mockReset();
+    // scrollHelper.scrollTo.mockReset();
+  });
+
+  //it returns an array of 5 if there are 5 or fewer PHNs in the store
+  //it returns an array of equal length if there are 6-9
+  //the contents of the array match the contents of the store (except in 1-5)
+
+  it("returns an array the same length as the array in the store", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return {
+          dependentPhns: [{value: "updated1"}, {value: "updated2"}, {value: "updated3"}, ],
+        };
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    // await wrapper.setData({ dependentPhns: [{value: "updated1"}, {value: "updated2"}, {value: "updated3"}, ] });
+    await wrapper.vm.$nextTick();
+    const result = wrapper.vm.getDependentPhns();
+    await wrapper.vm.$nextTick();
+
+    console.log("resultt: ", result);
+    console.log("data: ", wrapper.vm.dependentPhns);
+    console.log("store: ", wrapper.vm.$store.state.form.dependentPhns);
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(
+      result.length
+    );
+  });
+});
