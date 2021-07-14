@@ -12,7 +12,6 @@ import formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
-// localVue.use(VueRouter);
 Vue.use(Vuelidate);
 
 const mockResponse = {
