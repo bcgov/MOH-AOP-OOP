@@ -605,7 +605,7 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
           personMoving: "default",
           isAllDependentsMoving: "default",
           dependentPhns: [
-            { value: "default11" },
+            { value: "default1" },
             { value: "default2" },
             { value: "default3" },
           ],
@@ -628,7 +628,7 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
           personMoving: "default",
           isAllDependentsMoving: "default",
           dependentPhns: [
-            { value: "default11" },
+            { value: "default1" },
             { value: "default2" },
             { value: "default3" },
             { value: "default4" },
@@ -640,8 +640,6 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
       },
     },
   };
-
-  //it returns an array of equal length if there are 6-9
 
   it("returns an array that's the same length as the array in the store if the store contains 6-9 elements", async () => {
     const store = new Vuex.Store(storeTemplate6);
@@ -665,12 +663,67 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     const result = wrapper.vm.getDependentPhns();
     await wrapper.vm.$nextTick();
 
+    expect(wrapper.vm.dependentPhns).toHaveLength(result.length);
     expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(
       result.length
     );
   });
 
-  it("returns an array 5 elements long if there are 5 or fewer elements in the array", async () => {
+  it("returns an array of equal length to the number of elements put in if store contains 1-5 elements", async () => {
+    //the code tops off the store and data with null elements, so there will always be five of them
+    //this test is to check to make sure that if three non-null elements are put into the store 
+    //then the result from this code will contain 3 non-null elements
+    const store = new Vuex.Store(storeTemplate3);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const result = wrapper.vm.getDependentPhns();
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(5);
+    expect(wrapper.vm.dependentPhns).toHaveLength(5);
+    expect(result).toHaveLength(3);
+  });
+
+  it("returns an array containing the values of the store if the store contains 6-9 elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const result = wrapper.vm.getDependentPhns();
+    await wrapper.vm.$nextTick();
+
+    expect(result).toEqual(["default1", "default2", "default3", "default4", "default5", "default6"]);
+  });
+
+  it("returns an array containing the values of the store if the store contains 1-5 elements", async () => {
     const store = new Vuex.Store(storeTemplate3);
 
     const $route = {
@@ -692,9 +745,6 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     const result = wrapper.vm.getDependentPhns();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(5);
+    expect(result).toEqual(["default1", "default2", "default3"]);
   });
-
-  //it returns an array of 5 if there are 5 or fewer PHNs in the store
-  //the contents of the array match the contents of the store (except in 1-5)
 });
