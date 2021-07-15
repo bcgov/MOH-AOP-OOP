@@ -586,8 +586,6 @@ describe("AccountTypePage.vue nextPage()", () => {
   });
 });
 
-//add dependent field test goes here
-
 describe("AccountTypePage.vue getDependentPhns()", () => {
   const mutations = formTemplate.mutations;
   const actions = formTemplate.actions;
@@ -671,7 +669,7 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
 
   it("returns an array of equal length to the number of elements put in if store contains 1-5 elements", async () => {
     //the code tops off the store and data with null elements, so there will always be five of them
-    //this test is to check to make sure that if three non-null elements are put into the store 
+    //this test is to check to make sure that if three non-null elements are put into the store
     //then the result from this code will contain 3 non-null elements
     const store = new Vuex.Store(storeTemplate3);
 
@@ -720,7 +718,14 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     const result = wrapper.vm.getDependentPhns();
     await wrapper.vm.$nextTick();
 
-    expect(result).toEqual(["default1", "default2", "default3", "default4", "default5", "default6"]);
+    expect(result).toEqual([
+      "default1",
+      "default2",
+      "default3",
+      "default4",
+      "default5",
+      "default6",
+    ]);
   });
 
   it("returns an array containing the values of the store if the store contains 1-5 elements", async () => {
@@ -746,5 +751,100 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     await wrapper.vm.$nextTick();
 
     expect(result).toEqual(["default1", "default2", "default3"]);
+  });
+});
+
+describe("AccountTypePage.vue addDependentField()", () => {
+  //the business logic does not currently permit there to be fewer than 5 dependentFields
+  //there will always be a minimum of 5 in the store and data, even if they are null by default
+  //so I didn't test for this
+  //as the test would be useless in its current form
+  //and would break if the implementation ever changed
+  //if the implementation does change, more tests should be written
+
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  const storeTemplate6 = {
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: "defaultphone",
+          accountType: "default",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: [
+            { value: "default1" },
+            { value: "default2" },
+            { value: "default3" },
+            { value: "default4" },
+            { value: "default5" },
+            { value: "default6" },
+          ],
+        },
+        namespaced: true,
+      },
+    },
+  };
+
+  it("increases the length of the array by one if the store contains 5 or more elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    expect(wrapper.vm.dependentPhns).toHaveLength(6);
+
+    wrapper.vm.addDependentField();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.dependentPhns).toHaveLength(7);
+  });
+
+  it("adds an object with a null value to the end of the data array if the store contains 5 or more elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.addDependentField();
+    await wrapper.vm.$nextTick();
+
+    const finalArrayValue = wrapper.vm.dependentPhns.length - 1;
+
+    expect(wrapper.vm.dependentPhns[finalArrayValue]).toEqual({
+      isValid: true,
+      value: null,
+    });
   });
 });
