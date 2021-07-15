@@ -592,47 +592,60 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   const mutations = formTemplate.mutations;
   const actions = formTemplate.actions;
 
-  let store;
-
-  beforeEach(() => {
-    const storeTemplate = {
-      modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "defaultlastname",
-            phn: "defaultphn",
-            phone: "defaultphone",
-            accountType: "default",
-            personMoving: "default",
-            isAllDependentsMoving: "default",
-            dependentPhns: [{value: "default1"}, {value: "default2"}, {value: "default3"}, 
-            // {value: "default4"}, {value: "default5"}, {value: "default6"}
-            ],
-          },
-          namespaced: true,
+  const storeTemplate3 = {
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: "defaultphone",
+          accountType: "default",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: [
+            { value: "default11" },
+            { value: "default2" },
+            { value: "default3" },
+          ],
         },
+        namespaced: true,
       },
-    };
-    store = new Vuex.Store(storeTemplate);
-  });
+    },
+  };
 
-  afterEach(() => {
-    // logService.logNavigation.mockReset();
-    // logService.logError.mockReset();
-    // logService.logInfo.mockReset();
-    // pageStateService.setPageComplete.mockReset();
-    // pageStateService.visitPage.mockReset();
-    // scrollHelper.scrollToError.mockReset();
-    // scrollHelper.scrollTo.mockReset();
-  });
+  const storeTemplate6 = {
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: "defaultphone",
+          accountType: "default",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: [
+            { value: "default11" },
+            { value: "default2" },
+            { value: "default3" },
+            { value: "default4" },
+            { value: "default5" },
+            { value: "default6" },
+          ],
+        },
+        namespaced: true,
+      },
+    },
+  };
 
-  //it returns an array of 5 if there are 5 or fewer PHNs in the store
   //it returns an array of equal length if there are 6-9
-  //the contents of the array match the contents of the store (except in 1-5)
 
-  it("returns an array the same length as the array in the store", async () => {
+  it("returns an array that's the same length as the array in the store if the store contains 6-9 elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
     const $route = {
       path: "/",
     };
@@ -647,25 +660,41 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
       mocks: {
         $router,
       },
-      data: () => {
-        return {
-          dependentPhns: [{value: "updated1"}, {value: "updated2"}, {value: "updated3"}, ],
-        };
-      },
     });
 
-    await wrapper.vm.$nextTick();
-    // await wrapper.setData({ dependentPhns: [{value: "updated1"}, {value: "updated2"}, {value: "updated3"}, ] });
-    await wrapper.vm.$nextTick();
     const result = wrapper.vm.getDependentPhns();
     await wrapper.vm.$nextTick();
-
-    console.log("resultt: ", result);
-    console.log("data: ", wrapper.vm.dependentPhns);
-    console.log("store: ", wrapper.vm.$store.state.form.dependentPhns);
 
     expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(
       result.length
     );
   });
+
+  it("returns an array 5 elements long if there are 5 or fewer elements in the array", async () => {
+    const store = new Vuex.Store(storeTemplate3);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const result = wrapper.vm.getDependentPhns();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(5);
+  });
+
+  //it returns an array of 5 if there are 5 or fewer PHNs in the store
+  //the contents of the array match the contents of the store (except in 1-5)
 });
