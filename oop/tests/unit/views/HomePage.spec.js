@@ -1,6 +1,5 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
-import Vue from "vue";
 import VueRouter from "vue-router";
 import Component from "@/views/HomePage.vue";
 import spaEnvService from "@/services/spa-env-service";
@@ -65,6 +64,8 @@ const spaEnvServiceResponse = {
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
+const scrollHelper = require("@/helpers/scroll");
+
 jest
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
@@ -77,11 +78,8 @@ jest
   .mockImplementation(() => Promise.resolve(spaEnvServiceResponse));
 
 jest.mock("@/helpers/scroll", () => ({
-  scrollToError: jest.fn(),
   scrollTo: jest.fn(),
 }));
-
-const scrollHelper = require("@/helpers/scroll");
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 
@@ -168,6 +166,14 @@ describe("HomePage.vue nextPage()", () => {
   let state;
   let store;
 
+  const $route = {
+    path: "/",
+  };
+
+  const $router = new VueRouter({
+    $route,
+  });
+
   beforeEach(() => {
     state = {
       lastName: null,
@@ -195,19 +201,10 @@ describe("HomePage.vue nextPage()", () => {
   afterEach(() => {
     pageStateService.setPageComplete.mockReset();
     pageStateService.visitPage.mockReset();
-    scrollHelper.scrollToError.mockReset();
     scrollHelper.scrollTo.mockReset();
   });
 
   it("pushes to router", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = shallowMount(Component, {
       store,
       localVue,
@@ -227,14 +224,6 @@ describe("HomePage.vue nextPage()", () => {
   });
 
   it("calls scrollTo with the parameter 0", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = shallowMount(Component, {
       store,
       localVue,
@@ -250,14 +239,6 @@ describe("HomePage.vue nextPage()", () => {
   });
 
   it("calls pageStateService", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = shallowMount(Component, {
       store,
       localVue,
