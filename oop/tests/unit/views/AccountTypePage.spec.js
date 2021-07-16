@@ -586,6 +586,101 @@ describe("AccountTypePage.vue nextPage()", () => {
   });
 });
 
+describe("AccountTypePage.vue addDependentField()", () => {
+  //the business logic does not currently permit there to be fewer than 5 dependentFields
+  //there will always be a minimum of 5 in the store and data, even if they are null by default
+  //so I didn't test for this
+  //as the test would be useless in its current form
+  //and would break if the implementation ever changed
+  //if the implementation does change, more tests should be written
+
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  const storeTemplate6 = {
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: "defaultphone",
+          accountType: "default",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: [
+            { value: "default1" },
+            { value: "default2" },
+            { value: "default3" },
+            { value: "default4" },
+            { value: "default5" },
+            { value: "default6" },
+          ],
+        },
+        namespaced: true,
+      },
+    },
+  };
+
+  it("increases the length of the array by one if the store contains 5 or more elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    expect(wrapper.vm.dependentPhns).toHaveLength(6);
+
+    wrapper.vm.addDependentField();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.dependentPhns).toHaveLength(7);
+  });
+
+  it("adds an object with a null value to the end of the data array if the store contains 5 or more elements", async () => {
+    const store = new Vuex.Store(storeTemplate6);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.addDependentField();
+    await wrapper.vm.$nextTick();
+
+    const finalArrayValue = wrapper.vm.dependentPhns.length - 1;
+
+    expect(wrapper.vm.dependentPhns[finalArrayValue]).toEqual({
+      isValid: true,
+      value: null,
+    });
+  });
+});
+
 describe("AccountTypePage.vue getDependentPhns()", () => {
   const mutations = formTemplate.mutations;
   const actions = formTemplate.actions;
@@ -754,16 +849,37 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   });
 });
 
-describe("AccountTypePage.vue addDependentField()", () => {
-  //the business logic does not currently permit there to be fewer than 5 dependentFields
-  //there will always be a minimum of 5 in the store and data, even if they are null by default
-  //so I didn't test for this
-  //as the test would be useless in its current form
-  //and would break if the implementation ever changed
-  //if the implementation does change, more tests should be written
+//skipping getMaxPHNDependentFields() test 
+//because it would be more a test of my mock than the function itself
+//which is very simple
 
+
+describe("AccountTypePage.vue resetDependentFields()", () => {
   const mutations = formTemplate.mutations;
   const actions = formTemplate.actions;
+
+  const storeTemplate3 = {
+    modules: {
+      form: {
+        mutations,
+        actions,
+        state: {
+          lastName: "defaultlastname",
+          phn: "defaultphn",
+          phone: "defaultphone",
+          accountType: "default",
+          personMoving: "default",
+          isAllDependentsMoving: "default",
+          dependentPhns: [
+            { value: "default1" },
+            { value: "default2" },
+            { value: "default3" },
+          ],
+        },
+        namespaced: true,
+      },
+    },
+  };
 
   const storeTemplate6 = {
     modules: {
@@ -791,7 +907,35 @@ describe("AccountTypePage.vue addDependentField()", () => {
     },
   };
 
-  it("increases the length of the array by one if the store contains 5 or more elements", async () => {
+  it("changes the dependentPhns to an array of 5 null values when 5 or less dependent fields are present", async () => {
+    const store = new Vuex.Store(storeTemplate3);
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1")
+
+    wrapper.vm.resetDependentFields();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.dependentPhns).toHaveLength(5);
+    expect(wrapper.vm.dependentPhns[0]["value"]).toBeNull()
+    
+  });
+
+  it("changes the dependentPhns to an array of null values equal to the number of dependent fields", async () => {
     const store = new Vuex.Store(storeTemplate6);
 
     const $route = {
@@ -809,42 +953,16 @@ describe("AccountTypePage.vue addDependentField()", () => {
         $router,
       },
     });
+    expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6")
+
+    wrapper.vm.resetDependentFields();
+    await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.dependentPhns).toHaveLength(6);
-
-    wrapper.vm.addDependentField();
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.vm.dependentPhns).toHaveLength(7);
-  });
-
-  it("adds an object with a null value to the end of the data array if the store contains 5 or more elements", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
-    wrapper.vm.addDependentField();
-    await wrapper.vm.$nextTick();
-
-    const finalArrayValue = wrapper.vm.dependentPhns.length - 1;
-
-    expect(wrapper.vm.dependentPhns[finalArrayValue]).toEqual({
-      isValid: true,
-      value: null,
-    });
+    expect(wrapper.vm.dependentPhns[5]["value"]).toBeNull()
+    
   });
 });
+
+
+
