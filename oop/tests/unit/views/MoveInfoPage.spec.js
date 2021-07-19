@@ -1,6 +1,8 @@
-import { shallowMount, 
-  // mount, 
-  createLocalVue } from "@vue/test-utils";
+import {
+  shallowMount,
+  // mount,
+  createLocalVue,
+} from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
@@ -153,5 +155,88 @@ describe("MoveInfoPage.vue addAddressField", () => {
     expect(wrapper.vm.addressLines[1]["value"]).toEqual("default2");
     expect(wrapper.vm.addressLines[2]).toBeDefined();
     expect(wrapper.vm.addressLines[2]["value"]).toBeNull();
+  });
+});
+
+describe("MoveInfoPage.vue removeAddressField", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state,
+          namespaced: true,
+        },
+      },
+    });
+  });
+
+  it("decreases the addressLines array length by one", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.removeAddressField();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines).toHaveLength(1);
+  });
+
+  it("removes last item from array without changing any other address lines", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines[0]["value"]).toEqual("default1");
+    expect(wrapper.vm.addressLines[1]["value"]).toEqual("default2");
+    expect(wrapper.vm.addressLines[2]).toBeUndefined();
+
+    wrapper.vm.removeAddressField();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines[0]["value"]).toEqual("default1");
+    expect(wrapper.vm.addressLines[1]).toBeUndefined();
   });
 });
