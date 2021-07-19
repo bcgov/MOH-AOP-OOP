@@ -166,15 +166,17 @@ describe("HomePage.vue nextPage()", () => {
   let state;
   let store;
 
-  const $route = {
-    path: "/",
-  };
-
-  const $router = new VueRouter({
-    $route,
-  });
+  let $route;
+  let $router; 
 
   beforeEach(() => {
+    $route = {
+      path: "/",
+    };
+    $router = new VueRouter({
+      $route,
+    });
+
     state = {
       lastName: null,
       phn: null,
