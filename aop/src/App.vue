@@ -8,13 +8,29 @@
 import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
 import 'common-lib-vue/dist/common-lib-vue.css';
 import { v4 as uuidv4 } from "uuid";
-import { SET_UUID } from './store';
+import { SET_SALT, SET_UUID } from './store';
+import spaEnvService from './services/spa-env-service';
 
 export default {
   name: "App",
   created() {
     const { version: projectVersion } = require('../package.json');
     console.log('Canonical Version:', projectVersion);
+    spaEnvService
+      .loadEnvs()
+      .then(() => {
+        // load env variables from spa-env-server
+        if (spaEnvService.values) {
+          this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
+          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === "true") {
+            const path = routes.MAINTENANCE.path;
+            this.$router.push(path);
+          }
+        } else {
+          const path = routes.MAINTENANCE.path;
+          this.$router.push(path);
+        }
+      })
     this.$store.commit(SET_UUID, uuidv4());
   }
 };
