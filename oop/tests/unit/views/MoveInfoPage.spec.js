@@ -89,7 +89,7 @@ describe("MoveInfoPage.vue", () => {
   });
 });
 
-describe("MoveInfoPage.vue addAddressField", () => {
+describe("MoveInfoPage.vue addAddressField()", () => {
   let store;
 
   beforeEach(() => {
@@ -158,7 +158,7 @@ describe("MoveInfoPage.vue addAddressField", () => {
   });
 });
 
-describe("MoveInfoPage.vue removeAddressField", () => {
+describe("MoveInfoPage.vue removeAddressField()", () => {
   let store;
 
   beforeEach(() => {
@@ -238,5 +238,83 @@ describe("MoveInfoPage.vue removeAddressField", () => {
 
     expect(wrapper.vm.addressLines[0]["value"]).toEqual("default1");
     expect(wrapper.vm.addressLines[1]).toBeUndefined();
+  });
+});
+
+describe("MoveInfoPage.vue getAddressLength()", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state,
+          namespaced: true,
+        },
+      },
+    });
+  });
+
+  it("returns a number for a result", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    const result = wrapper.vm.getAddressLinesLength();
+    await wrapper.vm.$nextTick();
+
+    expect(typeof result).toBe('number');
+  });
+
+  it("accurately counts the number of address lines", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    const result = wrapper.vm.getAddressLinesLength();
+    await wrapper.vm.$nextTick();
+
+    expect(result).toEqual(2);
   });
 });
