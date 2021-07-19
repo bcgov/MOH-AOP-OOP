@@ -42,31 +42,6 @@ const dataTemplate = {
   ],
 };
 
-const stateTemplate  = {
-  applicationUuid: null,
-  captchaToken: null,
-  lastName: null,
-  phn: null,
-  phone: null,
-  moveFromBCDate: null,
-  arriveDestinationDate: null,
-  isNewAddressKnown: null,
-  country: null,
-  addressLines: [],
-  province: null,
-  city: null,
-  postalCode: null,
-  accountType: null,
-  personMoving: null,
-  isAllDependentsMoving: null,
-  dependentPhns: [],
-  submissionDate: null,
-  referenceNumber: null,
-  submissionResponse: null,
-  submissionError: null,
-}
-
-
 // const scrollHelper = require("@/helpers/scroll");
 
 jest
@@ -91,7 +66,7 @@ describe("MoveInfoPage.vue", () => {
         form: {
           mutations,
           actions,
-          state: stateTemplate,
+          state,
           namespaced: true,
         },
       },
@@ -126,18 +101,18 @@ describe("MoveInfoPage.vue addAddressField", () => {
     });
   });
 
-  it("adds a line to the addressLines array in data", async () => {
+  it("increases the addressLines array length by one", async () => {
     const wrapper = shallowMount(Component, {
       localVue,
       store,
       data: () => dataTemplate,
     });
 
-    expect(wrapper.vm.addressLines).toEqual([]);
+    const addressLineLength = wrapper.vm.addressLines.length;
 
     wrapper.vm.addAddressField();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.addressLines).toHaveLength(1);
+    expect(wrapper.vm.addressLines).toHaveLength(addressLineLength + 1);
   });
 });
