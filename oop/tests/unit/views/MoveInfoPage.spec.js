@@ -1,5 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
+import Vue from "vue";
+import Vuelidate from "vuelidate";
 // import VueRouter from "vue-router";
 import Component from "@/views/MoveInfoPage.vue";
 // import spaEnvService from "@/services/spa-env-service";
@@ -8,6 +10,7 @@ import formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+Vue.use(Vuelidate);
 
 const mutations = formTemplate.mutations;
 const actions = formTemplate.actions;
@@ -39,30 +42,30 @@ const dataTemplate = {
   ],
 };
 
-// const stateTemplate  = {
-//   applicationUuid: null,
-//   captchaToken: null,
-//   lastName: null,
-//   phn: null,
-//   phone: null,
-//   moveFromBCDate: null,
-//   arriveDestinationDate: null,
-//   isNewAddressKnown: null,
-//   country: null,
-//   addressLines: [],
-//   province: null,
-//   city: null,
-//   postalCode: null,
-//   accountType: null,
-//   personMoving: null,
-//   isAllDependentsMoving: null,
-//   dependentPhns: [],
-//   submissionDate: null,
-//   referenceNumber: null,
-//   submissionResponse: null,
-//   submissionError: null,
-// }
-// Vue.use(Vuelidate);
+const stateTemplate  = {
+  applicationUuid: null,
+  captchaToken: null,
+  lastName: null,
+  phn: null,
+  phone: null,
+  moveFromBCDate: null,
+  arriveDestinationDate: null,
+  isNewAddressKnown: null,
+  country: null,
+  addressLines: [],
+  province: null,
+  city: null,
+  postalCode: null,
+  accountType: null,
+  personMoving: null,
+  isAllDependentsMoving: null,
+  dependentPhns: [],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+}
+
 
 // const scrollHelper = require("@/helpers/scroll");
 
@@ -88,29 +91,7 @@ describe("MoveInfoPage.vue", () => {
         form: {
           mutations,
           actions,
-          state: {
-            applicationUuid: null,
-            captchaToken: null,
-            lastName: null,
-            phn: null,
-            phone: null,
-            moveFromBCDate: null,
-            arriveDestinationDate: null,
-            isNewAddressKnown: null,
-            country: null,
-            addressLines: [],
-            province: null,
-            city: null,
-            postalCode: null,
-            accountType: null,
-            personMoving: null,
-            isAllDependentsMoving: null,
-            dependentPhns: [],
-            submissionDate: null,
-            referenceNumber: null,
-            submissionResponse: null,
-            submissionError: null,
-          },
+          state: stateTemplate,
           namespaced: true,
         },
       },
@@ -122,39 +103,14 @@ describe("MoveInfoPage.vue", () => {
       localVue,
       store,
       data: () => {
-        return {
-          moveFromBCDate: null,
-          arriveDestinationDate: null,
-          isNewAddressKnown: null,
-          addressLines: [],
-          country: null,
-          province: null,
-          city: null,
-          postalCode: null,
-          showServerValidationError: false,
-          isPageLoaded: false,
-          isLoading: false,
-          currNumOfAddressLines: null,
-          isNewAddressKnownRadioItems: [
-            {
-              id: "is-new-address-known-y",
-              label: "Yes",
-              value: "Y",
-            },
-            {
-              id: "is-new-address-known-n",
-              label: "No",
-              value: "N",
-            },
-          ],
-        }
+        return dataTemplate
       },
     });
     expect(wrapper.element).toBeDefined();
   });
 });
 
-describe.skip("MoveInfoPage.vue addAddressField", () => {
+describe("MoveInfoPage.vue addAddressField", () => {
   let store;
 
   beforeEach(() => {
@@ -170,7 +126,7 @@ describe.skip("MoveInfoPage.vue addAddressField", () => {
     });
   });
 
-  it.skip("adds a line to the addressLines array in data", async () => {
+  it("adds a line to the addressLines array in data", async () => {
     const wrapper = shallowMount(Component, {
       localVue,
       store,
