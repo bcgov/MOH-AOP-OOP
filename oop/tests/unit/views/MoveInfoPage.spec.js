@@ -285,7 +285,7 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     const result = wrapper.vm.getAddressLinesLength();
     await wrapper.vm.$nextTick();
 
-    expect(typeof result).toBe('number');
+    expect(typeof result).toBe("number");
   });
 
   it("accurately counts the number of address lines", async () => {
@@ -316,5 +316,93 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     await wrapper.vm.$nextTick();
 
     expect(result).toEqual(2);
+  });
+});
+
+describe("MoveInfoPage.vue setFieldsToNull()", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state,
+          namespaced: true,
+        },
+      },
+    });
+  });
+
+  it("sets address line to one object with a null value when country is Canada", async () => {
+    jest.useFakeTimers();
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+      country: "Canada",
+    });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.setFieldsToNull();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(5);
+
+    expect(wrapper.vm.addressLines).toEqual([
+      { id: "address-line-1", isValid: true, value: null },
+    ]);
+  });
+
+  it("sets values of existing address lines to null when country is not Canada", async () => {
+    jest.useFakeTimers();
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+      country: "Bangladesh",
+    });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.setFieldsToNull();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(5);
+
+    expect(wrapper.vm.addressLines).toEqual([
+      { id: "address-line-1", isValid: true, value: null },
+      { id: "address-line-2", isValid: true, value: null },
+    ]);
   });
 });
