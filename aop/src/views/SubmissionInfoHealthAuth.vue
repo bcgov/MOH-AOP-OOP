@@ -1,9 +1,7 @@
 <template>
   <div>
-    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
-    <Loader v-if="$store.state.loading" />
-    <main v-else>
+    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <main>
       <form class="container py-5 px-2">
         <h1>Select a form</h1>
         <br />
@@ -205,13 +203,46 @@
             Provide details below about the person submitting the form (clerk,
             administrator, etc.)
           </p>
-          <Input :label="'First name'" v-model="firstName" :disabled="true" />
+          <Input 
+            :label="'First name'" 
+            v-model="firstName"
+            :maxlength="35" 
+            :required="true"/>
+          <div
+            class="text-danger"
+            v-if="$v.firstName.$dirty && !$v.firstName.required"
+            aria-live="assertive"
+          >
+            First name is required
+          </div>
+          <div
+            class="text-danger"
+            v-if="$v.firstName.$dirty && $v.firstName.required && !$v.firstName.isValidName"
+            aria-live="assertive"
+          >
+            Invalid first name
+          </div>
           <Input
             :label="'Last name'"
             :className="'mt-3'"
             v-model="lastName"
-            :disabled="true"
+            :maxlength="35"
+            :required="true"
           />
+          <div
+            class="text-danger"
+            v-if="$v.lastName.$dirty && !$v.lastName.required"
+            aria-live="assertive"
+          >
+            Last name is required
+          </div>
+          <div
+            class="text-danger"
+            v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.isValidName"
+            aria-live="assertive"
+          >
+            Invalid last name
+          </div>
           <Input
             :label="'Email address'"
             :className="'mt-3'"
@@ -736,16 +767,15 @@
 </template>
 
 <script>
-import SignOutHeader from "../components/SignOutHeader";
+import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
-import Loader from "../components/Loader";
 import ContinueBar from "../components/ContinueBar";
 import Input from "../components/Input";
 import MaskedInput from "vue-text-mask";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
-import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
-import { routes, stepRoutes } from "../router/routes";
+import { required, minLength, alphaNum } from "vuelidate/lib/validators";
+import { HealthAuthRoutes } from "../router/routes";
 import {
   SET_EMAIL_ADDRESS,
   SET_PHONE_NUMBER,
@@ -762,6 +792,8 @@ import {
   SET_COMMENTS,
   SET_UPLOADED_CREDENTIALS,
   SET_ORGANIZATION,
+  SET_FIRST_NAME,
+  SET_LAST_NAME,
 } from "../store/index";
 import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
@@ -775,25 +807,22 @@ import {
   hasNoInvalidJSON,
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
-import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 import { log } from '../services/logging-service';
 
 export default {
   name: "SubmissionInfo",
   components: {
-    SignOutHeader,
+    Header,
     ProgressBar,
     ContinueBar,
     FileUploader,
     Input,
-    Loader,
     MaskedInput,
     Footer,
   },
-  mixins: [FocusHeaderMixin, NoNameLogoutMixin],
+  mixins: [FocusHeaderMixin],
   data: () => {
     return {
-      stepRoutes: stepRoutes,
       uploadType: "",
       credentialsRequired: "",
       firstName: "",
@@ -824,11 +853,11 @@ export default {
         },
         firstName: {
           required,
-          alpha,
+          isValidName,
         },
         lastName: {
           required,
-          alpha,
+          isValidName,
         },
         phoneNumber: {
           isValidPhone,
@@ -874,11 +903,11 @@ export default {
         },
         firstName: {
           required,
-          alpha,
+          isValidName,
         },
         lastName: {
           required,
-          alpha,
+          isValidName,
         },
         phoneNumber: {
           isValidPhone,
@@ -917,11 +946,11 @@ export default {
         },
         firstName: {
           required,
-          alpha,
+          isValidName,
         },
         lastName: {
           required,
-          alpha,
+          isValidName,
         },
         phoneNumber: {
           isValidPhone,
@@ -957,11 +986,11 @@ export default {
         },
         firstName: {
           required,
-          alpha,
+          isValidName,
         },
         lastName: {
           required,
-          alpha,
+          isValidName,
         },
         phoneNumber: {
           isValidPhone,
@@ -1043,6 +1072,8 @@ export default {
 
       this.$store.commit(SET_UPLOAD_TYPE, this.uploadType);
       this.$store.commit(SET_CREDENTIALS_REQUIRED, this.credentialsRequired);
+      this.$store.commit(SET_FIRST_NAME, this.firstName);
+      this.$store.commit(SET_LAST_NAME, this.lastName);
       this.$store.commit(SET_EMAIL_ADDRESS, this.emailAddress);
       this.$store.commit(SET_PHONE_NUMBER, this.phoneNumber);
       this.$store.commit(SET_PHONE_EXTENSION, this.phoneExtension);
@@ -1059,9 +1090,8 @@ export default {
       this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
       this.$store.commit(SET_UPLOADED_CREDENTIALS, this.credentials);
 
-      log({ message: "Submission info to review", error: null }, this.$store.state.uuid);
-
-      const path = routes.REVIEW.path;
+      log({ message: "Submission info to review (HA)", error: null }, this.$store.state.uuid);
+      const path = HealthAuthRoutes.REVIEW.path
       this.$router.push(path);
       scrollTo(0);
     },

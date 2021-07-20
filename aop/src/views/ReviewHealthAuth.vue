@@ -1,7 +1,6 @@
 <template>
   <div>
-    <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main>
       <div class="container py-5 px-2">
         <h1>Review your submission</h1>
@@ -69,7 +68,7 @@
 </template>
 
 <script>
-import SignOutHeader from "../components/SignOutHeader";
+import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
 import ContinueBar from "../components/ContinueBar";
 import Footer from "../components/Footer";
@@ -77,23 +76,21 @@ import Table from "../components/Table";
 import { scrollTo } from "../helpers/scroll";
 import SummaryMixin from "../mixins/SummaryMixin";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
-import { routes, stepRoutes } from "../router/routes";
-import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
+import { HealthAuthRoutes } from "../router/routes";
 import { log } from '../services/logging-service';
 
 export default {
   name: "Review",
   components: {
-    SignOutHeader,
+    Header,
     ProgressBar,
     ContinueBar,
     Table,
     Footer,
   },
-  mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
+  mixins: [SummaryMixin, FocusHeaderMixin],
   data: () => {
     return {
-      stepRoutes: stepRoutes,
       withCredentials: "",
     };
   },
@@ -105,13 +102,13 @@ export default {
   },
   methods: {
     nextPage: function () {
-      log({ message: "Review to sending", error: null }, this.$store.state.uuid);
-      const path = routes.SENDING.path;
+      log({ message: "Review to sending (HA)", error: null }, this.$store.state.uuid);
+      const path = HealthAuthRoutes.SENDING.path;
       this.$router.push(path);
       scrollTo(0);
     },
     navigateToSubmissionInfoPage() {
-      const path = routes.SUBMISSION_INFO.path;
+      const path = HealthAuthRoutes.SUBMISSION_INFO.path;
       this.$router.push(path);
       scrollTo(0);
     },
