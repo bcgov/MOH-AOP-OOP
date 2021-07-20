@@ -474,20 +474,10 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
         },
       },
     });
-
-    jest.mock("@/helpers/string", () => ({
-      replaceSpecialCharacters: jest.fn(),
-    }));
-
-    spyOnReplaceSpecialCharacters = jest.spyOn(
-      stringHelper,
-      "replaceSpecialCharacters"
-    );
   });
 
-  afterEach(() => {
-    spyOnReplaceSpecialCharacters.mockReset();
-  });
+  // afterEach(() => {
+  // });
 
   it("calls truncateAddressLines()", async () => {
     const wrapper = shallowMount(Component, {
@@ -495,10 +485,6 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       store,
       data: () => dataTemplate,
     });
-
-    jest.mock("@/helpers/address", () => ({
-      truncateAddressLines: jest.fn(),
-    }));
 
     const spyOnAddressHelper = jest.spyOn(
       addressHelper,
@@ -512,6 +498,10 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("calls replaceSpecialCharacters() 4 times when provided 1 address line", async () => {
+    spyOnReplaceSpecialCharacters = jest.spyOn(
+      stringHelper,
+      "replaceSpecialCharacters"
+    );
     const wrapper = shallowMount(Component, {
       localVue,
       store,
@@ -522,9 +512,14 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     await wrapper.vm.$nextTick();
 
     expect(spyOnReplaceSpecialCharacters).toHaveBeenCalledTimes(4);
+    spyOnReplaceSpecialCharacters.mockClear();
   });
 
   it("calls replaceSpecialCharacters() 5 times when provided 2 address lines", async () => {
+    spyOnReplaceSpecialCharacters = jest.spyOn(
+      stringHelper,
+      "replaceSpecialCharacters"
+    );
     const wrapper = shallowMount(Component, {
       localVue,
       store,
@@ -535,5 +530,60 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     await wrapper.vm.$nextTick();
 
     expect(spyOnReplaceSpecialCharacters).toHaveBeenCalledTimes(5);
+    spyOnReplaceSpecialCharacters.mockClear();
   });
+
+  it("sets the address to contain 1 address line when provided 1 address line", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    wrapper.vm.addressSelectedHandler(addressPayload);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines).toHaveLength(1);
+  });
+
+  it.skip("sets the address to contain 2 address lines when provided 2 address lines", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    wrapper.vm.addressSelectedHandler(addressPayload);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines).toHaveLength(2);
+  });
+
+  it("changes values in data to match payload", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({
+      addressLines: [{ id: "address-line-1", isValid: true, value: "default" }],
+      city: "default",
+      province: "default",
+      postalCode: "default",
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.city).toEqual("default");
+
+    wrapper.vm.addressSelectedHandler(addressPayload);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.city).toEqual("CAMBRIDGE");
+    expect(wrapper.vm.province).toEqual("ON");
+    expect(wrapper.vm.postalCode).toEqual("N1P 0A3");
+  });
+
+  //data address length matches that of payload
 });
