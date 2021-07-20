@@ -47,6 +47,8 @@ const dataTemplate = {
 };
 
 // const scrollHelper = require("@/helpers/scroll");
+const addressHelper = require("@/helpers/address");
+const stringHelper = require("@/helpers/string");
 
 jest
   .spyOn(pageStateService, "setPageComplete")
@@ -358,6 +360,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
         },
       ],
       country: "Canada",
+      city: "defaultcity",
     });
     await wrapper.vm.$nextTick();
 
@@ -404,5 +407,133 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
       { id: "address-line-1", isValid: true, value: null },
       { id: "address-line-2", isValid: true, value: null },
     ]);
+  });
+
+  it("sets city to null", async () => {
+    jest.useFakeTimers();
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    await wrapper.vm.$nextTick();
+    //await setData required because created() sets the data to whatever's in the store
+    await wrapper.setData({
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "default1",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "default2",
+        },
+      ],
+      country: "Bangladesh",
+    });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.setFieldsToNull();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(5);
+
+    expect(wrapper.vm.city).toBeNull();
+  });
+});
+
+describe("MoveInfoPage.vue addressSelectedHandler()", () => {
+  let store;
+  let spyOnReplaceSpecialCharacters;
+  const addressPayload = {
+    fullAddress: "7-27 YATES AVE CAMBRIDGE ON N1P 0A3",
+    city: "CAMBRIDGE",
+    addressLines: ["7-27 YATES AVE"],
+    province: "ON",
+    postalCode: "N1P 0A3",
+    country: "Canada",
+  };
+  const addressPayload2 = {
+    fullAddress: "7-27 YATES AVE CAMBRIDGE ON N1P 0A3",
+    city: "CAMBRIDGE",
+    addressLines: ["7-27 YATES AVE", "defaultline2"],
+    province: "ON",
+    postalCode: "N1P 0A3",
+    country: "Canada",
+  };
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state,
+          namespaced: true,
+        },
+      },
+    });
+
+    jest.mock("@/helpers/string", () => ({
+      replaceSpecialCharacters: jest.fn(),
+    }));
+
+    spyOnReplaceSpecialCharacters = jest.spyOn(
+      stringHelper,
+      "replaceSpecialCharacters"
+    );
+  });
+
+  afterEach(() => {
+    spyOnReplaceSpecialCharacters.mockReset();
+  });
+
+  it("calls truncateAddressLines()", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    jest.mock("@/helpers/address", () => ({
+      truncateAddressLines: jest.fn(),
+    }));
+
+    const spyOnAddressHelper = jest.spyOn(
+      addressHelper,
+      "truncateAddressLines"
+    );
+
+    wrapper.vm.addressSelectedHandler(addressPayload);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnAddressHelper).toHaveBeenCalled();
+  });
+
+  it("calls replaceSpecialCharacters() 4 times when provided 1 address line", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    wrapper.vm.addressSelectedHandler(addressPayload);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnReplaceSpecialCharacters).toHaveBeenCalledTimes(4);
+  });
+
+  it("calls replaceSpecialCharacters() 5 times when provided 2 address lines", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    wrapper.vm.addressSelectedHandler(addressPayload2);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnReplaceSpecialCharacters).toHaveBeenCalledTimes(5);
   });
 });
