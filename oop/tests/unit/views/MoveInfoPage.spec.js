@@ -68,7 +68,19 @@ const dataTemplateFilled = {
   moveFromBCDate: new Date("2021-08-01"),
   arriveDestinationDate: new Date("2021-08-02"),
   isNewAddressKnown: "Y",
-  addressLines: ["123 Main St."],
+  // addressLines: ["123 Main St."],
+  addressLines: [
+    {
+      id: "address-line-1",
+      isValid: true,
+      value: "123 Main St.",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "Unit 456",
+    },
+  ],
   country: "Canada",
   province: "ON",
   city: "Fakesville",
@@ -679,18 +691,18 @@ describe("MoveInfoPage.vue validateFields()", () => {
     expect(wrapper.vm.$v.moveFromBCDate.$invalid).toEqual(false);
     expect(wrapper.vm.$v.arriveDestinationDate.$invalid).toEqual(false);
     expect(wrapper.vm.$v.isNewAddressKnown.$invalid).toEqual(false);
-    // expect(wrapper.vm.$v.addressLines.$invalid).toEqual(false);
     expect(wrapper.vm.$v.country.$invalid).toEqual(false);
     expect(wrapper.vm.$v.province.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.addressLines.$invalid).toEqual(false);
     expect(wrapper.vm.$v.city.$invalid).toEqual(false);
     expect(wrapper.vm.$v.postalCode.$invalid).toEqual(false);
   });
 
-  it.skip("doesn't show as invalid when given proper data", async () => {
+  it("validation as a whole doesn't return invalid when given proper data", async () => {
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplateFilled,
+      data: () => dataTemplate,
     });
 
     await wrapper.setData({ ...dataTemplateFilled });
@@ -699,13 +711,6 @@ describe("MoveInfoPage.vue validateFields()", () => {
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
 
-    console.log(
-      "potato",
-      wrapper.vm.$v.$invalid,
-      wrapper.vm.$v.isNewAddressKnown.$error,
-      wrapper.vm.$v
-    );
-    //wrapper.vm.$v.$errors, wrapper.vm.$v
     expect(wrapper.vm.$v.$invalid).toBeFalsy();
   });
 });
