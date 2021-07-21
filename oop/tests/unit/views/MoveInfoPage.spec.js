@@ -68,7 +68,7 @@ const dataTemplateFilled = {
   moveFromBCDate: new Date("2021-08-01"),
   arriveDestinationDate: new Date("2021-08-02"),
   isNewAddressKnown: "Y",
-  addressLines: ["716 default street"],
+  addressLines: ["123 Main St."],
   country: "Canada",
   province: "ON",
   city: "Fakesville",
@@ -107,7 +107,7 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+// const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("MoveInfoPage.vue", () => {
@@ -666,24 +666,49 @@ describe("MoveInfoPage.vue validateFields()", () => {
     expect(spyOnScrollToError).toHaveBeenCalled();
   });
 
-  it.skip("template", async () => {
+  it("passes all individual validation tests", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
       store,
+      localVue,
       data: () => dataTemplate,
     });
 
-    // await wrapper.setData(dataTemplateFilled);
-    // await wrapper.vm.$nextTick();
+    await wrapper.setData({ ...dataTemplateFilled });
+    await wrapper.vm.$nextTick();
 
-    const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
+    expect(wrapper.vm.$v.moveFromBCDate.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.arriveDestinationDate.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.isNewAddressKnown.$invalid).toEqual(false);
+    // expect(wrapper.vm.$v.addressLines.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.country.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.province.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.city.$invalid).toEqual(false);
+    expect(wrapper.vm.$v.postalCode.$invalid).toEqual(false);
+  });
+
+  it.skip("doesn't show as invalid when given proper data", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateFilled,
+    });
+
+    await wrapper.setData({ ...dataTemplateFilled });
+    await wrapper.vm.$nextTick();
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
 
-    console.log("potato", wrapper.vm.$v.$invalid, wrapper.vm.$v.isNewAddressKnown.$error, wrapper.vm.$v);
+    console.log(
+      "potato",
+      wrapper.vm.$v.$invalid,
+      wrapper.vm.$v.isNewAddressKnown.$error,
+      wrapper.vm.$v
+    );
     //wrapper.vm.$v.$errors, wrapper.vm.$v
     expect(wrapper.vm.$v.$invalid).toBeFalsy();
-    expect(spyOnSetFieldsToNull).toHaveBeenCalled();
   });
 });
+
+// const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
+// expect(spyOnSetFieldsToNull).toHaveBeenCalled();
