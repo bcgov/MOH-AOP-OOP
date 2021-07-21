@@ -46,7 +46,52 @@ const dataTemplate = {
   ],
 };
 
-// const scrollHelper = require("@/helpers/scroll");
+const dataTemplateFilled = {
+  applicationUuid: "defaultstring",
+  captchaToken: "defaultstring",
+  dependentPhns: [
+    {
+      value: null,
+      isValid: true,
+    },
+    {
+      value: null,
+      isValid: true,
+    },
+  ],
+  isAllDependentsMoving: null,
+  lastName: "PALXD",
+  phn: "9310134963",
+  phone: "250-123-4567",
+  accountType: "AH",
+  personMoving: "AH_ONLY",
+  moveFromBCDate: new Date("2021-08-01"),
+  arriveDestinationDate: new Date("2021-08-02"),
+  isNewAddressKnown: "Y",
+  addressLines: ["716 default street"],
+  country: "Canada",
+  province: "ON",
+  city: "Fakesville",
+  postalCode: "H0H 0H0",
+  showServerValidationError: false,
+  isPageLoaded: false,
+  isLoading: false,
+  currNumOfAddressLines: 1,
+  isNewAddressKnownRadioItems: [
+    {
+      id: "is-new-address-known-y",
+      label: "Yes",
+      value: "Y",
+    },
+    {
+      id: "is-new-address-known-n",
+      label: "No",
+      value: "N",
+    },
+  ],
+};
+
+const scrollHelper = require("@/helpers/scroll");
 const addressHelper = require("@/helpers/address");
 const stringHelper = require("@/helpers/string");
 
@@ -59,9 +104,11 @@ jest
 
 jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
+  scrollToError: jest.fn(),
 }));
 
-// const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("MoveInfoPage.vue", () => {
   let store;
@@ -533,7 +580,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     spyOnReplaceSpecialCharacters.mockClear();
   });
 
-  it("sets the address to contain 1 address line when provided 1 address line", async () => {
+  it("sets the address in data to contain 1 address line when provided 1 address line", async () => {
     const wrapper = shallowMount(Component, {
       localVue,
       store,
@@ -546,7 +593,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     expect(wrapper.vm.addressLines).toHaveLength(1);
   });
 
-  it.skip("sets the address to contain 2 address lines when provided 2 address lines", async () => {
+  it("sets the address in data to contain 1 address line when provided 2 address lines", async () => {
     const wrapper = shallowMount(Component, {
       localVue,
       store,
@@ -556,7 +603,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     wrapper.vm.addressSelectedHandler(addressPayload);
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.addressLines).toHaveLength(2);
+    expect(wrapper.vm.addressLines).toHaveLength(1);
   });
 
   it("changes values in data to match payload", async () => {
@@ -584,6 +631,59 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     expect(wrapper.vm.province).toEqual("ON");
     expect(wrapper.vm.postalCode).toEqual("N1P 0A3");
   });
+});
 
-  //data address length matches that of payload
+describe("MoveInfoPage.vue validateFields()", () => {
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state,
+          namespaced: true,
+        },
+      },
+    });
+  });
+
+  // afterEach(() => {
+  // });
+
+  it("returns an error when there are validation problems", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$v.$invalid).toBeTruthy();
+    expect(spyOnScrollToError).toHaveBeenCalled();
+  });
+
+  it.skip("template", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+
+    // await wrapper.setData(dataTemplateFilled);
+    // await wrapper.vm.$nextTick();
+
+    const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+
+    console.log("potato", wrapper.vm.$v.$invalid, wrapper.vm.$v.isNewAddressKnown.$error, wrapper.vm.$v);
+    //wrapper.vm.$v.$errors, wrapper.vm.$v
+    expect(wrapper.vm.$v.$invalid).toBeFalsy();
+    expect(spyOnSetFieldsToNull).toHaveBeenCalled();
+  });
 });
