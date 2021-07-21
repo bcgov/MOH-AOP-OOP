@@ -645,7 +645,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 });
 
-describe("MoveInfoPage.vue validateFields()", () => {
+describe.only("MoveInfoPage.vue validateFields()", () => {
   let store;
 
   beforeEach(() => {
@@ -679,10 +679,11 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("passes all individual validation tests", async () => {
+    const dataTemplateCopy = {...dataTemplateFilled};
     const wrapper = shallowMount(Component, {
       store,
       localVue,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     await wrapper.setData({ ...dataTemplateFilled });
@@ -698,11 +699,12 @@ describe("MoveInfoPage.vue validateFields()", () => {
     expect(wrapper.vm.$v.postalCode.$invalid).toEqual(false);
   });
 
-  it("validation as a whole doesn't return invalid when given proper data", async () => {
+  it("doesn't return invalid when given proper data", async () => {
+    const dataTemplateCopy = {...dataTemplateFilled};
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     await wrapper.setData({ ...dataTemplateFilled });
@@ -713,7 +715,23 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     expect(wrapper.vm.$v.$invalid).toBeFalsy();
   });
+
+  it.skip("calls setFieldsToNull() on validation success", async () => {
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplate,
+    });
+    const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
+
+    await wrapper.setData({ ...dataTemplateFilled });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnSetFieldsToNull).toHaveBeenCalled();
+  });
 });
 
-// const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
-// expect(spyOnSetFieldsToNull).toHaveBeenCalled();
+
