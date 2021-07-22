@@ -104,8 +104,6 @@ const dataTemplateFilled = {
   ],
 };
 
-console.log("potato check 1", dataTemplateFilled.moveFromBCDate)
-
 const scrollHelper = require("@/helpers/scroll");
 const addressHelper = require("@/helpers/address");
 const stringHelper = require("@/helpers/string");
@@ -155,7 +153,6 @@ describe("MoveInfoPage.vue", () => {
 });
 
 describe("MoveInfoPage.vue addAddressField()", () => {
-  const dataTemplateCopy = cloneDeep(dataTemplate);
   let store;
 
   beforeEach(() => {
@@ -667,8 +664,12 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
 
 describe("MoveInfoPage.vue validateFields()", () => {
   let store;
+  let $route;
 
   beforeEach(() => {
+    $route = {
+      path: "/",
+    };
 
     store = new Vuex.Store({
       modules: {
@@ -722,11 +723,19 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("doesn't return invalid when given proper data", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
       data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
     });
 
     await wrapper.setData(cloneDeep(dataTemplateFilled));
@@ -740,13 +749,6 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
   it("calls setFieldsToNull when country isn't known", async () => {
     jest.useFakeTimers();
-
-    // let $route;
-    // let $router;
-
-    const $route = {
-      path: "/",
-    };
 
     const $router = new VueRouter({
       $route,
@@ -763,8 +765,8 @@ describe("MoveInfoPage.vue validateFields()", () => {
     });
 
     const spyOnRouter = jest
-    .spyOn($router, "push")
-    .mockImplementation(() => Promise.resolve("pushed"));
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
 
     const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
 
@@ -782,21 +784,3 @@ describe("MoveInfoPage.vue validateFields()", () => {
     expect(spyOnSetFieldsToNull).toHaveBeenCalled();
   });
 });
-
-// it.skip("calls setFieldsToNull() on validation success", async () => {
-// const dataTemplateCopy = cloneDeep(dataTemplateFilled)
-//   const wrapper = shallowMount(Component, {
-//     localVue,
-//     store,
-//     data: () => dataTemplate,
-//   });
-//   const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
-
-//   await wrapper.setData(dataTemplateCopy);
-//   await wrapper.vm.$nextTick();
-
-//   wrapper.vm.validateFields();
-//   await wrapper.vm.$nextTick();
-
-//   expect(spyOnSetFieldsToNull).toHaveBeenCalled();
-// });
