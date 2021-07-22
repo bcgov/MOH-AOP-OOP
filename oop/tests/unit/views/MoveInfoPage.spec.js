@@ -783,4 +783,59 @@ describe("MoveInfoPage.vue validateFields()", () => {
     expect(spyOnRouter).toHaveBeenCalled();
     expect(spyOnSetFieldsToNull).toHaveBeenCalled();
   });
+
+  it("eliminates null/empty address lines when country is Canada", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
+    });
+
+    jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({
+      ...dataTemplateCopy2,
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "123 Main St.",
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: null,
+        },
+        {
+          id: "address-line-2",
+          isValid: true,
+          value: "",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines).toHaveLength(3);
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.addressLines).toHaveLength(1);
+  });
 });
