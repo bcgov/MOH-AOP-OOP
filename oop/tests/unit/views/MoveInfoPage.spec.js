@@ -6,11 +6,12 @@ import {
 import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
-// import VueRouter from "vue-router";
+import VueRouter from "vue-router";
 import Component from "@/views/MoveInfoPage.vue";
 // import spaEnvService from "@/services/spa-env-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
+import { cloneDeep } from "lodash";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -66,7 +67,7 @@ const dataTemplateFilled = {
   accountType: "AH",
   personMoving: "AH_ONLY",
   moveFromBCDate: new Date("2021-08-01"),
-  arriveDestinationDate: new Date("2021-08-02"),
+  arriveDestinationDate: new Date("2021-08-22"),
   isNewAddressKnown: "Y",
   // addressLines: ["123 Main St."],
   addressLines: [
@@ -103,6 +104,8 @@ const dataTemplateFilled = {
   ],
 };
 
+console.log("potato check 1", dataTemplateFilled.moveFromBCDate)
+
 const scrollHelper = require("@/helpers/scroll");
 const addressHelper = require("@/helpers/address");
 const stringHelper = require("@/helpers/string");
@@ -123,15 +126,16 @@ jest.mock("@/helpers/scroll", () => ({
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("MoveInfoPage.vue", () => {
+  const dataTemplateCopy = cloneDeep(dataTemplate);
   let store;
 
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -143,7 +147,7 @@ describe("MoveInfoPage.vue", () => {
       localVue,
       store,
       data: () => {
-        return dataTemplate;
+        return dataTemplateCopy;
       },
     });
     expect(wrapper.element).toBeDefined();
@@ -151,15 +155,16 @@ describe("MoveInfoPage.vue", () => {
 });
 
 describe("MoveInfoPage.vue addAddressField()", () => {
+  const dataTemplateCopy = cloneDeep(dataTemplate);
   let store;
 
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -167,10 +172,11 @@ describe("MoveInfoPage.vue addAddressField()", () => {
   });
 
   it("increases the addressLines array length by one", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     const addressLineLength = wrapper.vm.addressLines.length;
@@ -182,10 +188,11 @@ describe("MoveInfoPage.vue addAddressField()", () => {
   });
 
   it("puts blank address line in data without changing any other address lines", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -226,9 +233,9 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -236,10 +243,11 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
   });
 
   it("decreases the addressLines array length by one", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     await wrapper.vm.$nextTick();
@@ -267,10 +275,11 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
   });
 
   it("removes last item from array without changing any other address lines", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -309,9 +318,9 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -319,10 +328,11 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
   });
 
   it("returns a number for a result", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     await wrapper.vm.$nextTick();
@@ -350,10 +360,11 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
   });
 
   it("accurately counts the number of address lines", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -387,9 +398,9 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -398,10 +409,11 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
   it("sets address line to one object with a null value when country is Canada", async () => {
     jest.useFakeTimers();
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -434,10 +446,11 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
   it("sets values of existing address lines to null when country is not Canada", async () => {
     jest.useFakeTimers();
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -469,11 +482,12 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
   });
 
   it("sets city to null", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     jest.useFakeTimers();
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
     //await setData required because created() sets the data to whatever's in the store
@@ -526,9 +540,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     store = new Vuex.Store({
       modules: {
         form: {
-          mutations,
-          actions,
-          state,
+          mutations: cloneDeep(mutations),
+          actions: cloneDeep(actions),
+          state: cloneDeep(state),
           namespaced: true,
         },
       },
@@ -539,10 +553,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   // });
 
   it("calls truncateAddressLines()", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     const spyOnAddressHelper = jest.spyOn(
@@ -561,10 +576,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       stringHelper,
       "replaceSpecialCharacters"
     );
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     wrapper.vm.addressSelectedHandler(addressPayload);
@@ -579,10 +595,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       stringHelper,
       "replaceSpecialCharacters"
     );
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     wrapper.vm.addressSelectedHandler(addressPayload2);
@@ -593,10 +610,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("sets the address in data to contain 1 address line when provided 1 address line", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     wrapper.vm.addressSelectedHandler(addressPayload);
@@ -606,10 +624,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("sets the address in data to contain 1 address line when provided 2 address lines", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     wrapper.vm.addressSelectedHandler(addressPayload);
@@ -619,10 +638,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("changes values in data to match payload", async () => {
+    const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     await wrapper.vm.$nextTick();
@@ -645,10 +665,11 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 });
 
-describe.only("MoveInfoPage.vue validateFields()", () => {
+describe("MoveInfoPage.vue validateFields()", () => {
   let store;
 
   beforeEach(() => {
+
     store = new Vuex.Store({
       modules: {
         form: {
@@ -665,10 +686,11 @@ describe.only("MoveInfoPage.vue validateFields()", () => {
   // });
 
   it("returns an error when there are validation problems", async () => {
+    const dataTemplateCopy = dataTemplate;
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
     });
 
     wrapper.vm.validateFields();
@@ -679,14 +701,14 @@ describe.only("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("passes all individual validation tests", async () => {
-    const dataTemplateCopy = {...dataTemplateFilled};
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       store,
       localVue,
       data: () => dataTemplateCopy,
     });
 
-    await wrapper.setData({ ...dataTemplateFilled });
+    await wrapper.setData(cloneDeep(dataTemplateFilled));
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$v.moveFromBCDate.$invalid).toEqual(false);
@@ -700,14 +722,14 @@ describe.only("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("doesn't return invalid when given proper data", async () => {
-    const dataTemplateCopy = {...dataTemplateFilled};
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
       data: () => dataTemplateCopy,
     });
 
-    await wrapper.setData({ ...dataTemplateFilled });
+    await wrapper.setData(cloneDeep(dataTemplateFilled));
     await wrapper.vm.$nextTick();
 
     wrapper.vm.validateFields();
@@ -716,22 +738,65 @@ describe.only("MoveInfoPage.vue validateFields()", () => {
     expect(wrapper.vm.$v.$invalid).toBeFalsy();
   });
 
-  it.skip("calls setFieldsToNull() on validation success", async () => {
+  it("calls setFieldsToNull when country isn't known", async () => {
+    jest.useFakeTimers();
+
+    // let $route;
+    // let $router;
+
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       localVue,
       store,
-      data: () => dataTemplate,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
     });
+
+    const spyOnRouter = jest
+    .spyOn($router, "push")
+    .mockImplementation(() => Promise.resolve("pushed"));
+
     const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
 
-    await wrapper.setData({ ...dataTemplateFilled });
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({ ...dataTemplateCopy2, isNewAddressKnown: "N" });
     await wrapper.vm.$nextTick();
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
 
+    expect(spyOnRouter).toHaveBeenCalled();
     expect(spyOnSetFieldsToNull).toHaveBeenCalled();
   });
 });
 
+// it.skip("calls setFieldsToNull() on validation success", async () => {
+// const dataTemplateCopy = cloneDeep(dataTemplateFilled)
+//   const wrapper = shallowMount(Component, {
+//     localVue,
+//     store,
+//     data: () => dataTemplate,
+//   });
+//   const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
 
+//   await wrapper.setData(dataTemplateCopy);
+//   await wrapper.vm.$nextTick();
+
+//   wrapper.vm.validateFields();
+//   await wrapper.vm.$nextTick();
+
+//   expect(spyOnSetFieldsToNull).toHaveBeenCalled();
+// });
