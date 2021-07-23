@@ -120,7 +120,7 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-// const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("MoveInfoPage.vue", () => {
@@ -683,8 +683,12 @@ describe("MoveInfoPage.vue validateFields()", () => {
     });
   });
 
-  // afterEach(() => {
-  // });
+  afterEach(() => {
+    pageStateService.setPageComplete.mockReset();
+    pageStateService.visitPage.mockReset();
+    scrollHelper.scrollToError.mockReset();
+    scrollHelper.scrollTo.mockReset();
+  });
 
   it("returns an error when there are validation problems", async () => {
     const dataTemplateCopy = dataTemplate;
@@ -912,13 +916,140 @@ describe("MoveInfoPage.vue validateFields()", () => {
       "form/setProvince",
       wrapper.vm.province
     );
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setCity",
-      wrapper.vm.city
-    );
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setCity", wrapper.vm.city);
     expect(spyOnDispatch).toHaveBeenCalledWith(
       "form/setPostalCode",
       wrapper.vm.postalCode
     );
+  });
+
+  it("calls pageStateService", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
+    });
+
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({
+      ...dataTemplateCopy2,
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "123 Main St.",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
+
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+    expect(pageStateService.visitPage).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo with the parameter 0", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
+    });
+
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({
+      ...dataTemplateCopy2,
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "123 Main St.",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnScrollTo).toHaveBeenCalledWith(0);
+  });
+
+  it("calls routerPush to change page", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
+    });
+
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({
+      ...dataTemplateCopy2,
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "123 Main St.",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    const spyOnRouter = jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnRouter).toHaveBeenCalled();
   });
 });
