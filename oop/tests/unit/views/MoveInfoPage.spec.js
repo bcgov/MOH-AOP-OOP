@@ -838,4 +838,87 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     expect(wrapper.vm.addressLines).toHaveLength(1);
   });
+
+  //in the MoveInfoPage.vue validateFields() function,
+  //there's a code block that adds an addressline if there are currently none
+  //I could not replicate these conditions
+  //as any time the addressLines array had zero elements
+  //it would instead register as $invalid and throw an error
+  //so I am skipping this test for now
+
+  it("dispatches data to Vuex store", async () => {
+    jest.useFakeTimers();
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const dataTemplateCopy = cloneDeep(dataTemplateFilled);
+    const wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => dataTemplateCopy,
+      mocks: {
+        $router,
+      },
+    });
+
+    jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+
+    const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
+
+    await wrapper.setData({
+      ...dataTemplateCopy2,
+      addressLines: [
+        {
+          id: "address-line-1",
+          isValid: true,
+          value: "123 Main St.",
+        },
+      ],
+    });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick();
+    jest.advanceTimersByTime(2005);
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setMoveFromBCDate",
+      wrapper.vm.moveFromBCDate
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setArriveDestinationDate",
+      wrapper.vm.arriveDestinationDate
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setIsNewAddressKnown",
+      wrapper.vm.isNewAddressKnown
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setCountry",
+      wrapper.vm.country
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setAddressLines",
+      wrapper.vm.addressLines
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setProvince",
+      wrapper.vm.province
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setCity",
+      wrapper.vm.city
+    );
+    expect(spyOnDispatch).toHaveBeenCalledWith(
+      "form/setPostalCode",
+      wrapper.vm.postalCode
+    );
+  });
 });
