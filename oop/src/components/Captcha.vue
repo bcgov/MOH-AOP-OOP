@@ -232,7 +232,12 @@ export default {
             this.audio = audio;
 
             setTimeout(() => {
-              this.$refs.audio.play();
+              //The following code makes audio testable in Jest.
+              //While it's possible to call the play() function directly from the $refs.audio,
+              //JSDOM won't render this and it won't be testable. 
+              //This implementation avoids this problem.
+              const sound = new Audio(this.audio);
+              sound.play();
             }, 0);
           })
           .catch(() => {

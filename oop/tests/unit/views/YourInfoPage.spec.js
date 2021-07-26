@@ -1,11 +1,14 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
+import VueRouter from "vue-router";
 import Vuelidate from "vuelidate";
-import YourInfoPage from "@/views/YourInfoPage.vue";
+import Component from "@/views/YourInfoPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import apiService from "@/services/api-service";
+import pageStateService from "@/services/page-state-service";
+import formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -179,7 +182,31 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
-jest.spyOn(logService, "logNavigation").mockReturnValue("response.data");
+jest
+  .spyOn(logService, "logNavigation")
+  .mockImplementation(() => Promise.resolve("logged"));
+jest
+  .spyOn(logService, "logError")
+  .mockImplementation(() => Promise.resolve("logged"));
+jest
+  .spyOn(logService, "logInfo")
+  .mockImplementation(() => Promise.resolve("logged"));
+jest
+  .spyOn(pageStateService, "setPageComplete")
+  .mockImplementation(() => Promise.resolve("set"));
+jest
+  .spyOn(pageStateService, "visitPage")
+  .mockImplementation(() => Promise.resolve("visited"));
+
+jest.mock("@/helpers/scroll", () => ({
+  scrollToError: jest.fn(),
+  scrollTo: jest.fn(),
+}));
+
+const scrollHelper = require("@/helpers/scroll");
+
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("YourInfoPage.vue", () => {
   let state;
@@ -205,7 +232,7 @@ describe("YourInfoPage.vue", () => {
   });
 
   it("renders", () => {
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -227,7 +254,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -251,7 +278,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -277,7 +304,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -301,7 +328,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -325,7 +352,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -349,7 +376,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -373,7 +400,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -386,6 +413,20 @@ describe("YourInfoPage.vue phoneValidator()", () => {
 });
 
 describe("YourInfoPage.vue nextPage()", () => {
+  let mockApiService;
+
+  beforeEach(() => {
+    mockApiService = jest.spyOn(apiService, "validateLastNamePhn");
+  });
+
+  afterEach(() => {
+    mockApiService.mockReset();
+    spyOnScrollToError.mockReset();
+    logService.logError.mockReset();
+    logService.logNavigation.mockReset();
+    logService.logInfo.mockReset();
+  });
+
   it("throws an error, does not call api service when last name is not present", async () => {
     const store = new Vuex.Store({
       modules: {
@@ -399,20 +440,19 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
 
-    const mockApiService = jest
-      .spyOn(apiService, "validateLastNamePhn")
-      .mockImplementation(() => Promise.resolve(mockResponse));
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
 
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$v.$invalid).toEqual(true);
     expect(mockApiService).not.toHaveBeenCalled();
+    expect(spyOnScrollToError).toHaveBeenCalled();
   });
 
   it("throws an error, does not call api service when phn is not present", async () => {
@@ -428,22 +468,19 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
 
-    // axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
-    const mockApiService = jest
-      .spyOn(apiService, "validateLastNamePhn")
-      .mockImplementation(() => Promise.resolve(mockResponse));
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
 
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    // expect(wrapper.element).toBeDefined();
     expect(wrapper.vm.$v.$invalid).toEqual(true);
     expect(mockApiService).not.toHaveBeenCalled();
+    expect(spyOnScrollToError).toHaveBeenCalled();
   });
 
   it("does call api service when last name and phn are present", async () => {
@@ -461,19 +498,24 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
 
-    const mockApiService = jest
-      .spyOn(apiService, "validateLastNamePhn")
-      .mockImplementation(() => Promise.resolve(mockResponse));
+    jest
+      .spyOn(wrapper.vm, "handleValidationSuccess")
+      .mockImplementation(() => Promise.resolve("handled"));
+
+    expect(wrapper.element).toBeDefined();
+
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
 
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$v.$invalid).toEqual(false);
+    expect(spyOnScrollToError).not.toHaveBeenCalled();
     expect(mockApiService).toHaveBeenCalledWith(
       "defaultCaptchaToken",
       "defaultUUID",
@@ -482,17 +524,7 @@ describe("YourInfoPage.vue nextPage()", () => {
     );
   });
 
-  /*
-  The following two tests do not work yet. 
-  The YourInfoPage.vue nextPage() function has a switch that handles the apiResponse.
-  For some reason, in the test, I haven't been able to track the handleValidationSuccess()
-  function call on line 225. The data change on 220 happens, but nothing after the logService
-  call does in the test environment. I suspect it's an issue with an insufficient/improper mock,
-  but I haven't gotten it working yet. I leave my half-finished tests below in case someone
-  wants to finish them in the future.
-  */
-
-  it.skip("returns code 0 when info is found in the database", async () => {
+  it("runs the code in case 0 (success) when info is found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -508,7 +540,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       data: () => {
@@ -518,30 +550,23 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
 
-    expect(store.state.form.applicantRole).toEqual("default");
-
-    jest
-      .spyOn(apiService, "validateLastNamePhn")
-      .mockImplementation(() => Promise.resolve(mockResponse));
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
 
     const mockHandleValidationSuccess = jest
       .spyOn(wrapper.vm, "handleValidationSuccess")
-      .mockImplementation(() => jest.fn);
+      .mockImplementation(() => Promise.resolve("handled"));
 
-    // await wrapper.vm.nextPage();
+    await wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    //troubleshooting
-    // expect(wrapper.vm.$v.$invalid).toEqual(false);
     expect(apiService.validateLastNamePhn).toHaveBeenCalled();
-    // expect(wrapper.vm.accountType).toEqual("DEP");
-
-    // expect(mockResponse.data.returnCode).toEqual("0");
-    // expect(logService.logNavigation).toHaveBeenCalled();
     expect(mockHandleValidationSuccess).toHaveBeenCalled();
+    expect(spyOnScrollToError).not.toHaveBeenCalled();
+
+    mockHandleValidationSuccess.mockReset();
   });
 
-  it.skip("returns code 1 when info is not found in the database", async () => {
+  it("runs the code in case 1 (error) when info doesn't match what's found in the database", async () => {
     const store = new Vuex.Store({
       modules: {
         form: {
@@ -549,15 +574,16 @@ describe("YourInfoPage.vue nextPage()", () => {
             applicationUuid: "defaultUUID",
             captchaToken: "defaultCaptchaToken",
             lastName: "Picket Boatxee",
-            phn: "9353 166 540",
+            phn: "9353 166 544",
             phone: "2222222222",
             applicantRole: "default",
+            isValidationCode1Shown: false,
           },
           namespaced: true,
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       data: () => {
@@ -567,11 +593,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
 
-    expect(store.state.form.applicantRole).toEqual("default");
-
-    jest
-      .spyOn(apiService, "validateLastNamePhn")
-      .mockImplementation(() => Promise.resolve(mockResponsePhnDoesNotMatch));
+    mockApiService.mockImplementation(() =>
+      Promise.resolve(mockResponsePhnDoesNotMatch)
+    );
 
     const mockHandleValidationSuccess = jest
       .spyOn(wrapper.vm, "handleValidationSuccess")
@@ -580,13 +604,640 @@ describe("YourInfoPage.vue nextPage()", () => {
     await wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    //troubleshooting
-    // expect(wrapper.vm.$v.$invalid).toEqual(false);
-    // expect(apiService.validateLastNamePhn).toHaveBeenCalled();
-    // expect(wrapper.vm.accountType).toEqual("DEP");
-
     expect(mockResponsePhnDoesNotMatch.data.returnCode).toEqual("1");
-    // expect(logService.logNavigation).toHaveBeenCalled();
-    expect(mockHandleValidationSuccess).toHaveBeenCalled();
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(true);
+    expect(logService.logInfo).toHaveBeenCalled();
+    expect(spyOnScrollToError).toHaveBeenCalled();
+    expect(mockHandleValidationSuccess).not.toHaveBeenCalled();
+
+    mockHandleValidationSuccess.mockReset();
+  });
+
+  /* 
+  In the future, it might be good to include tests for return codes 2 and 3.
+  I had difficulty reproducing those conditions in order to test them, and was told
+  not to worry about it by the rest of my team. However, if you're reading this,
+  perhaps it has become relevant.
+  */
+});
+
+describe("YourInfoPage.vue handleValidationSuccess()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  afterEach(() => {
+    logService.logNavigation.mockReset();
+    logService.logError.mockReset();
+    logService.logInfo.mockReset();
+    pageStateService.setPageComplete.mockReset();
+    pageStateService.visitPage.mockReset();
+    scrollHelper.scrollToError.mockReset();
+    scrollHelper.scrollTo.mockReset();
+  });
+
+  it("renders", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.element).toBeDefined();
+  });
+
+  it("updates the last name in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ lastName: "updatedlastname" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.lastName).toEqual("updatedlastname");
+  });
+
+  it("updates the phn in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ phn: "updatedphn" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.phn).toEqual("updatedphn");
+  });
+
+  it("updates the phone in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ phone: "updatedphone" });
+    await wrapper.vm.$nextTick();
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.phone).toEqual("updatedphone");
+  });
+
+  it("updates the account type in the store with whatever is in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "updatedaccountType" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.accountType).toEqual(
+      "updatedaccountType"
+    );
+  });
+
+  it("if account type is DEP, it updates the setPersonMoving in the store to null", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.personMoving).toEqual("default");
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.personMoving).toBeNull();
+  });
+
+  it("if account type is DEP, it updates the isAllDependentsMoving in the store to null", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
+      "default"
+    );
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toBeNull();
+  });
+
+  it("if account type is DEP, it updates the dependentPhns in the store to an empty array", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual(["default"]);
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ accountType: "DEP" });
+    await wrapper.vm.$nextTick();
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([]);
+  });
+
+  it("calls pageStateService", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+    expect(pageStateService.visitPage).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo with the parameter 0", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnScrollTo).toHaveBeenCalledWith(0);
+  });
+
+  it("calls routerPush to change page", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+    });
+
+    const spyOnRouter = jest
+      .spyOn($router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+
+    wrapper.vm.handleValidationSuccess();
+    await wrapper.vm.$nextTick();
+
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
+});
+
+describe("YourInfoPage.vue handleLastNameInputChange()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  const dataTemplate = {
+    lastName: null,
+    phn: null,
+    phone: null,
+    isLoading: false,
+    isValidationCode1Shown: true,
+    isValidationCode2Shown: true,
+    isSystemUnavailable: false,
+    accountType: null,
+    lastNameInputStyle: {
+      width: "350px",
+      maxWidth: "100%",
+    },
+    phnInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+    phoneInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+  };
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  it("renders", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.element).toBeDefined();
+  });
+
+  it("sets validation code 1 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode1Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(true);
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(false);
+  });
+
+  it("sets validation code 2 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode2Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(true);
+
+    wrapper.vm.handleLastNameInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(false);
+  });
+});
+
+describe("YourInfoPage.vue handlePhnInputChange()", () => {
+  const mutations = formTemplate.mutations;
+  const actions = formTemplate.actions;
+
+  let store;
+
+  const dataTemplate = {
+    lastName: null,
+    phn: null,
+    phone: null,
+    isLoading: false,
+    isValidationCode1Shown: true,
+    isValidationCode2Shown: true,
+    isSystemUnavailable: false,
+    accountType: null,
+    lastNameInputStyle: {
+      width: "350px",
+      maxWidth: "100%",
+    },
+    phnInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+    phoneInputStyle: {
+      width: "160px",
+      maxWidth: "100%",
+    },
+  };
+
+  beforeEach(() => {
+    const storeTemplate = {
+      modules: {
+        form: {
+          mutations,
+          actions,
+          state: {
+            lastName: "defaultlastname",
+            phn: "defaultphn",
+            phone: "defaultphone",
+            accountType: "default",
+            personMoving: "default",
+            isAllDependentsMoving: "default",
+            dependentPhns: ["default"],
+          },
+          namespaced: true,
+        },
+      },
+    };
+
+    store = new Vuex.Store(storeTemplate);
+  });
+
+  it("renders", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    wrapper.vm.handlePhnInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.element).toBeDefined();
+  });
+
+  it("sets validation code 1 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode1Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(true);
+
+    wrapper.vm.handlePhnInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode1Shown).toEqual(false);
+  });
+
+  it("sets validation code 2 to false in the data", async () => {
+    const $route = {
+      path: "/",
+    };
+
+    const $router = new VueRouter({
+      $route,
+    });
+
+    const wrapper = mount(Component, {
+      store,
+      localVue,
+      mocks: {
+        $router,
+      },
+      data: () => {
+        return dataTemplate;
+      },
+    });
+
+    await wrapper.vm.$nextTick();
+    await wrapper.setData({ isValidationCode2Shown: true });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(true);
+
+    wrapper.vm.handlePhnInputChange();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.isValidationCode2Shown).toEqual(false);
   });
 });
