@@ -849,10 +849,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   });
 });
 
-//skipping getMaxPHNDependentFields() test 
+//skipping getMaxPHNDependentFields() test
 //because it would be more a test of my mock than the function itself
 //which is very simple
-
 
 describe("AccountTypePage.vue resetDependentFields()", () => {
   const mutations = formTemplate.mutations;
@@ -925,14 +924,13 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
         $router,
       },
     });
-    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1")
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
 
     wrapper.vm.resetDependentFields();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.dependentPhns).toHaveLength(5);
-    expect(wrapper.vm.dependentPhns[0]["value"]).toBeNull()
-    
+    expect(wrapper.vm.dependentPhns[0]["value"]).toBeNull();
   });
 
   it("changes the dependentPhns to an array of null values equal to the number of dependent fields", async () => {
@@ -953,16 +951,12 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
         $router,
       },
     });
-    expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6")
+    expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6");
 
     wrapper.vm.resetDependentFields();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.dependentPhns).toHaveLength(6);
-    expect(wrapper.vm.dependentPhns[5]["value"]).toBeNull()
-    
+    expect(wrapper.vm.dependentPhns[5]["value"]).toBeNull();
   });
 });
-
-
-

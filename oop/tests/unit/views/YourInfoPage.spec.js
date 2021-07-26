@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuelidate from "vuelidate";
-import YourInfoPage from "@/views/YourInfoPage.vue";
+import Component from "@/views/YourInfoPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import apiService from "@/services/api-service";
@@ -232,7 +232,7 @@ describe("YourInfoPage.vue", () => {
   });
 
   it("renders", () => {
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -254,7 +254,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -278,7 +278,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -304,7 +304,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -328,7 +328,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -352,7 +352,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -376,7 +376,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -400,7 +400,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -440,7 +440,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -468,7 +468,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -500,7 +500,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
     });
@@ -542,7 +542,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       data: () => {
@@ -585,7 +585,7 @@ describe("YourInfoPage.vue nextPage()", () => {
         },
       },
     });
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       data: () => {
@@ -670,7 +670,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -695,7 +695,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
 
     //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -722,7 +722,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -749,7 +749,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -775,7 +775,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -806,7 +806,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -835,7 +835,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -866,7 +866,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -895,7 +895,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -919,7 +919,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -942,7 +942,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1009,7 +1009,7 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
         },
       },
     };
-    
+
     store = new Vuex.Store(storeTemplate);
   });
 
@@ -1022,7 +1022,7 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1048,7 +1048,7 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1080,7 +1080,7 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1152,7 +1152,7 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
         },
       },
     };
-    
+
     store = new Vuex.Store(storeTemplate);
   });
 
@@ -1165,7 +1165,7 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1191,7 +1191,7 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {
@@ -1223,7 +1223,7 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
       $route,
     });
 
-    const wrapper = mount(YourInfoPage, {
+    const wrapper = mount(Component, {
       store,
       localVue,
       mocks: {

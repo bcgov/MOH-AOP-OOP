@@ -317,7 +317,9 @@ jest.mock("axios", () => ({
   }),
 }));
 
-window.HTMLMediaElement.prototype.play = () => { console.log("HTML Media Element prototype play") };
+window.HTMLMediaElement.prototype.play = () => {
+  console.log("HTML Media Element prototype play");
+};
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -506,7 +508,7 @@ describe("Captcha.vue handleInputChange()", () => {
 
     await wrapper.vm.handleInputChange(fakeEvent);
     expect(spyOnFetch).toHaveBeenCalled();
-    spyOnFetch.mockReset()
+    spyOnFetch.mockReset();
   });
 
   it("emits signal with token when it receives valid response", async () => {
@@ -626,7 +628,7 @@ describe("Captcha.vue handleTryAnotherImageClick()", () => {
     const spyOnFetchNewCaptcha = jest.spyOn(wrapper.vm, "fetchNewCaptcha");
     await wrapper.vm.handleTryAnotherImageClick();
     expect(spyOnFetchNewCaptcha).toHaveBeenCalled();
-    spyOnFetchNewCaptcha.mockReset()
+    spyOnFetchNewCaptcha.mockReset();
   });
 });
 
@@ -753,19 +755,18 @@ describe("Captcha.vue playAudio()", () => {
 
     // const mockAudioPlay = jest.fn()
 
-
     axios.post.mockImplementationOnce(() =>
       Promise.resolve(mockAudioResponseValid)
     );
-    
+
     await wrapper.vm.$nextTick();
     await wrapper.vm.playAudio();
     await wrapper.vm.$nextTick();
-    
+
     jest.advanceTimersByTime(5);
-    await wrapper.vm.$nextTick();    
+    await wrapper.vm.$nextTick();
 
     expect(spyOnPlay).toHaveBeenCalled();
-    spyOnPlay.mockReset()
+    spyOnPlay.mockReset();
   });
 });

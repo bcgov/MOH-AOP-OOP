@@ -232,9 +232,11 @@ export default {
             this.audio = audio;
 
             setTimeout(() => {
-              // this.$refs.audio.play();
+              //The following code makes audio playback testable in Jest.
+              //If there are problems, the old version of the code is included below
               var snd = new Audio(this.audio);
               snd.play();
+              // this.$refs.audio.play();
             }, 0);
           })
           .catch(() => {

@@ -167,7 +167,7 @@ describe("HomePage.vue nextPage()", () => {
   let store;
 
   let $route;
-  let $router; 
+  let $router;
 
   beforeEach(() => {
     $route = {
