@@ -57,7 +57,6 @@ const mockAudioResponseValid = {
     maxBodyLength: -1,
   },
   request: {},
-  // play: function(){}
 };
 
 const mockAudioResponseInvalid = {
@@ -752,8 +751,6 @@ describe("Captcha.vue playAudio()", () => {
         };
       },
     });
-
-    // const mockAudioPlay = jest.fn()
 
     axios.post.mockImplementationOnce(() =>
       Promise.resolve(mockAudioResponseValid)

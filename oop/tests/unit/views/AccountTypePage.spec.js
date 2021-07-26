@@ -4,178 +4,13 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Vuelidate from "vuelidate";
 import Component from "@/views/AccountTypePage.vue";
-// import axios from "axios";
 import logService from "@/services/log-service";
-// import apiService from "@/services/api-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 Vue.use(Vuelidate);
-
-// const mockResponse = {
-//   data: {
-//     applicationUuid: "89695849-cfc1-49ef-8bc9-552a71b891f1",
-//     returnCode: "0",
-//     message: "PHN and last name matches. Applicant PHN is DEP",
-//     applicantRole: "DEP",
-//   },
-//   status: 200,
-//   statusText: "OK",
-//   headers: {
-//     accept: "application/json, text/plain, */*",
-//     "accept-encoding": "gzip, deflate, br",
-//     "accept-language": "en-US,en;q=0.9",
-//     "access-control-allow-credentials": "true",
-//     "access-control-allow-headers":
-//       "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
-//     "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-//     "access-control-allow-origin": "https://my.gov.bc.ca",
-//     "access-control-expose-headers": "Authorization",
-//     breadcrumbid: "ID-vs-dapp045-maximusbchealth-local-1624634339960-0-11",
-//     "cache-control": "no-store",
-//     checkr32: "Y",
-//     connection: "close",
-//     "content-security-policy":
-//       "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
-//     "content-type": "application/json",
-//     date: "Tue, 29 Jun 2021 18:19:51 GMT",
-//     expires: "Wed, 17 Jun 2020 17:30:34 GMT",
-//     forwarded:
-//       "for=216.232.32.188;host=oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca;proto=https",
-//     origin: "http://localhost:8080",
-//     phn: "9353166544",
-//     pragma: "no-cache",
-//     "response-type": "application/json",
-//     "sec-ch-ua":
-//       '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
-//     "sec-ch-ua-mobile": "?0",
-//     "sec-fetch-dest": "empty",
-//     "sec-fetch-mode": "cors",
-//     "sec-fetch-site": "same-origin",
-//     server: "nginx",
-//     "strict-transport-security": "max-age=86400; includeSubDomains",
-//     "transfer-encoding": "chunked",
-//     uuid: "89695849-cfc1-49ef-8bc9-552a71b891f1",
-//     "www-authenticate": "Basic",
-//     "x-content-type-options": "nosniff",
-//     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-//     "x-forwarded-host":
-//       "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
-//     "x-forwarded-port": "8080, 443",
-//     "x-forwarded-proto": "http, https",
-//     "x-frame-options": "DENY",
-//     "x-oracle-dms-ecid": "c0428783-e7f8-4eb2-8cf9-614a6821cc48-0000aef8",
-//     "x-oracle-dms-rid": "0",
-//     "x-powered-by": "Express",
-//     "x-rm-jurisdiction": "bc",
-//     "x-weblogic-request-clusterinfo": "true",
-//     "x-xss-protection": "1",
-//   },
-//   config: {
-//     url: "/oop/api/oopIntegration/validatePhnName",
-//     method: "post",
-//     data:
-//       '{"applicationUuid":"89695849-cfc1-49ef-8bc9-552a71b891f1","lastName":"PICKET BOATXE","phn":"9353166544"}',
-//     headers: {
-//       Accept: "application/json, text/plain, */*",
-//       "Content-Type": "application/json",
-//       "Response-Type": "application/json",
-//       "X-Authorization":
-//         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiODk2OTU4NDktY2ZjMS00OWVmLThiYzktNTUyYTcxYjg5MWYxIn0sImlhdCI6MTYyNDk5MDc4MiwiZXhwIjoxNjI1MDAxNTgyfQ.U5920Pa6686A4PXQ-8fhX3MLmxe22bTrqqnzSgoJ10g",
-//     },
-//     transformRequest: [null],
-//     transformResponse: [null],
-//     timeout: 0,
-//     xsrfCookieName: "XSRF-TOKEN",
-//     xsrfHeaderName: "X-XSRF-TOKEN",
-//     maxContentLength: -1,
-//     maxBodyLength: -1,
-//   },
-//   request: {},
-// };
-
-// const mockResponsePhnDoesNotMatch = {
-//   data: {
-//     applicationUuid: "f4c826ed-5c30-4127-9cc8-c4d4cf358d42",
-//     returnCode: "1",
-//     message: "PHN and last name does not match",
-//   },
-//   status: 200,
-//   statusText: "OK",
-//   headers: {
-//     accept: "application/json, text/plain, */*",
-//     "accept-encoding": "gzip, deflate, br",
-//     "accept-language": "en-US,en;q=0.9",
-//     "access-control-allow-credentials": "true",
-//     "access-control-allow-headers":
-//       "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
-//     "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-//     "access-control-allow-origin": "https://my.gov.bc.ca",
-//     "access-control-expose-headers": "Authorization",
-//     breadcrumbid: "ID-vs-dapp046-maximusbchealth-local-1624634336247-0-41",
-//     "cache-control": "no-store",
-//     checkr32: "Y",
-//     connection: "close",
-//     "content-security-policy":
-//       "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
-//     "content-type": "application/json",
-//     date: "Tue, 29 Jun 2021 22:14:07 GMT",
-//     expires: "Wed, 17 Jun 2020 17:30:34 GMT",
-//     forwarded:
-//       "for=216.232.32.188;host=oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca;proto=https",
-//     origin: "http://localhost:8080",
-//     phn: "9353166544",
-//     pragma: "no-cache",
-//     "response-type": "application/json",
-//     "sec-ch-ua":
-//       '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
-//     "sec-ch-ua-mobile": "?0",
-//     "sec-fetch-dest": "empty",
-//     "sec-fetch-mode": "cors",
-//     "sec-fetch-site": "same-origin",
-//     server: "nginx",
-//     "strict-transport-security": "max-age=86400; includeSubDomains",
-//     "transfer-encoding": "chunked",
-//     uuid: "f4c826ed-5c30-4127-9cc8-c4d4cf358d42",
-//     "www-authenticate": "Basic",
-//     "x-content-type-options": "nosniff",
-//     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-//     "x-forwarded-host":
-//       "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
-//     "x-forwarded-port": "8080, 443",
-//     "x-forwarded-proto": "http, https",
-//     "x-frame-options": "DENY",
-//     "x-oracle-dms-ecid": "8bb3eb62-41e2-4023-99ab-8719620d31b8-0000b5e6",
-//     "x-oracle-dms-rid": "0",
-//     "x-powered-by": "Express",
-//     "x-rm-jurisdiction": "bc",
-//     "x-weblogic-request-clusterinfo": "true",
-//     "x-xss-protection": "1",
-//   },
-//   config: {
-//     url: "/oop/api/oopIntegration/validatePhnName",
-//     method: "post",
-//     data:
-//       '{"applicationUuid":"f4c826ed-5c30-4127-9cc8-c4d4cf358d42","lastName":"aaaaaaaaaa","phn":"9353166544"}',
-//     headers: {
-//       Accept: "application/json, text/plain, */*",
-//       "Content-Type": "application/json",
-//       "Response-Type": "application/json",
-//       "X-Authorization":
-//         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiZjRjODI2ZWQtNWMzMC00MTI3LTljYzgtYzRkNGNmMzU4ZDQyIn0sImlhdCI6MTYyNTAwNDgyNiwiZXhwIjoxNjI1MDE1NjI2fQ.nl9StLFRCtgrE8lWTLiBqznoCxNdq2uEkugFu5frEBU",
-//     },
-//     transformRequest: [null],
-//     transformResponse: [null],
-//     timeout: 0,
-//     xsrfCookieName: "XSRF-TOKEN",
-//     xsrfHeaderName: "X-XSRF-TOKEN",
-//     maxContentLength: -1,
-//     maxBodyLength: -1,
-//   },
-//   request: {},
-// };
 
 jest.mock("axios", () => ({
   get: jest.fn(),
@@ -206,7 +41,6 @@ jest.mock("@/helpers/scroll", () => ({
 const scrollHelper = require("@/helpers/scroll");
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
-// const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("AccountTypePage.vue", () => {
   const mutations = formTemplate.mutations;
@@ -235,7 +69,6 @@ describe("AccountTypePage.vue", () => {
     };
 
     store = new Vuex.Store(storeTemplate);
-    // axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
   });
 
   it("renders", () => {

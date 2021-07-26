@@ -1,14 +1,9 @@
-import {
-  shallowMount,
-  // mount,
-  createLocalVue,
-} from "@vue/test-utils";
+import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
 import Vuelidate from "vuelidate";
 import VueRouter from "vue-router";
 import Component from "@/views/MoveInfoPage.vue";
-// import spaEnvService from "@/services/spa-env-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
@@ -69,7 +64,6 @@ const dataTemplateFilled = {
   moveFromBCDate: new Date("2021-08-01"),
   arriveDestinationDate: new Date("2021-08-22"),
   isNewAddressKnown: "Y",
-  // addressLines: ["123 Main St."],
   addressLines: [
     {
       id: "address-line-1",
@@ -248,7 +242,6 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
     });
 
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -279,7 +272,6 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
       data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -333,7 +325,6 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     });
 
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -364,7 +355,6 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
       data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -413,7 +403,6 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
       data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -450,7 +439,6 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
       data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -487,7 +475,6 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
       data: () => dataTemplateCopy,
     });
     await wrapper.vm.$nextTick();
-    //await setData required because created() sets the data to whatever's in the store
     await wrapper.setData({
       addressLines: [
         {
@@ -545,9 +532,6 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       },
     });
   });
-
-  // afterEach(() => {
-  // });
 
   it("calls truncateAddressLines()", async () => {
     const dataTemplateCopy = cloneDeep(dataTemplate);

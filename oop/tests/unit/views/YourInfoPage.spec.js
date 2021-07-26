@@ -473,13 +473,11 @@ describe("YourInfoPage.vue nextPage()", () => {
       localVue,
     });
 
-    // axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
     mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
 
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    // expect(wrapper.element).toBeDefined();
     expect(wrapper.vm.$v.$invalid).toEqual(true);
     expect(mockApiService).not.toHaveBeenCalled();
     expect(spyOnScrollToError).toHaveBeenCalled();
@@ -693,8 +691,6 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       $route,
     });
 
-    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
-
     const wrapper = mount(Component, {
       store,
       localVue,
@@ -703,6 +699,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       },
     });
 
+    //await setData required because created() sets the data to whatever's in the store, which gets in the way of testing
     await wrapper.vm.$nextTick();
     await wrapper.setData({ lastName: "updatedlastname" });
     await wrapper.vm.$nextTick();
@@ -789,8 +786,6 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
 
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
-
-    // expect(wrapper.vm.accountType).toEqual("DEP");
 
     expect(wrapper.vm.$store.state.form.accountType).toEqual(
       "updatedaccountType"
