@@ -1,12 +1,4 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import Vuelidate from "vuelidate";
 import { truncateAddressLines as Function } from "@/helpers/address.js";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 /*
 The purpose of this function is to break address lines if the lines exceed the specified maximum length.
