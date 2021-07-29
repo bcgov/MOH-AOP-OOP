@@ -55,3 +55,21 @@ describe("Helper validators.js postalCodeValidator()", () => {
     expect(result).toEqual(true);
   });
 });
+
+describe("Helper validators.js nonBCValidator()", () => {
+  it("returns a boolean", () => {
+    const result = Helper.nonBCValidator();
+    expect(result).toBeDefined();
+    expect(typeof result).toEqual("boolean");
+  });
+
+  it("returns false if string equals BC", () => {
+    const result = Helper.nonBCValidator("BC");
+    expect(result).toEqual(false);
+  });
+
+  it("returns true if string does not equal BC", () => {
+    const result = Helper.nonBCValidator("AB");
+    expect(result).toEqual(true);
+  });
+});
