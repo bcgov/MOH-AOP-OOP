@@ -10,7 +10,9 @@ import * as stepRoutes from "@/router/step-routes";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueRouter);
 Vue.use(Vuelidate);
+const router = new VueRouter()
 
 // const scrollHelper = require("@/helpers/scroll");
 // const addressHelper = require("@/helpers/address");
@@ -32,31 +34,57 @@ jest.mock("@/helpers/scroll", () => ({
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("ProgressBar.vue", () => {
-  it("renders", async () => {
-    const $route = {
-      path: "/",
-    };
-    const $router = new VueRouter({
-      $route,
-    });
+  let wrapper;
 
-    const wrapper = mount(Component, {
+  beforeEach(() => {
+    wrapper = mount(Component, {
       localVue,
       propsData: {
         routes: stepRoutes.default,
       },
-      mocks: {
-        $router,
-      },
+      router
     });
-    expect(wrapper.element).toBeDefined();
   });
 
-  it.skip("redirects", () => {
-    const wrapper = mount(Component);
+  afterEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
 
-    wrapper.vm.onClickLink("/");
-
+  it("renders", async () => {
     expect(wrapper.element).toBeDefined();
+  });
+});
+
+describe.skip("ProgressBar.vue onClickLink()", () => {
+  let wrapper;
+  const router = new VueRouter()
+
+  beforeEach(() => {
+    wrapper = mount(Component, {
+      localVue,
+      propsData: {
+        currentPath: "/",
+        routes: stepRoutes.default
+      },
+      router     
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
+  it("calls pageStateService.setPageComplete when passed path", async () => {
+    await wrapper.vm.onClickLink("/your-info");
+    await wrapper.vm.$nextTick();
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+  });
+
+  it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
+    await wrapper.vm.onClickLink("/asdf");
+    await wrapper.vm.$nextTick();
+    expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
   });
 });
