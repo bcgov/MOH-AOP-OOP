@@ -41,6 +41,7 @@ jest.mock("@/helpers/scroll", () => ({
 const spyOnRouter = jest.spyOn(router, "push");
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("ProgressBar.vue", () => {
@@ -57,6 +58,13 @@ describe("ProgressBar.vue", () => {
     wrapper = shallowMount(Component, {
       localVue,
       store,
+      global: {
+        stubs: {
+          FontAwesomeIcon: {
+            template: "<span />",
+          },
+        },
+      },
       propsData: {
         currentPath: routeStepOrder[1].path,
         routes: stepRoutes.default,
@@ -109,7 +117,7 @@ describe("ProgressBar.vue onClickLink()", () => {
     jest.clearAllMocks();
   });
 
-  it("calls pageStateService.setPageComplete when passed path", async () => {
+  it("calls pageStateService.setPageComplete when passed valid path", async () => {
     await wrapper.vm.onClickLink(routeStepOrder[0].path);
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).toHaveBeenCalledWith(
@@ -117,7 +125,7 @@ describe("ProgressBar.vue onClickLink()", () => {
     );
   });
 
-  it("calls pageStateService.setPagesetPageIncomplete when passed path", async () => {
+  it("calls pageStateService.setPagesetPageIncomplete when passed valid path", async () => {
     await wrapper.vm.onClickLink(routeStepOrder[0].path);
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageIncomplete).toHaveBeenCalledWith(
@@ -125,39 +133,98 @@ describe("ProgressBar.vue onClickLink()", () => {
     );
   });
 
-  it("calls scrollTo when passed path", async () => {
+  it("calls scrollTo when passed valid path", async () => {
     await wrapper.vm.onClickLink(routeStepOrder[0].path);
     await wrapper.vm.$nextTick();
     expect(spyOnScrollTo).toHaveBeenCalledWith(0);
   });
 
-  it("calls router when passed path", async () => {
+  it("calls router when passed valid path", async () => {
     await wrapper.vm.onClickLink(routeStepOrder[0].path);
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).toHaveBeenCalledWith(routeStepOrder[0].path);
   });
 
-  it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
+  it("does not call pageStateService.setPageComplete when passed invalid path", async () => {
     await wrapper.vm.onClickLink("/thisroutedoesnotexist");
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
   });
 
-  it("does not call pageStateService.setPageIncomplete when passed wrong path", async () => {
+  it("does not call pageStateService.setPageIncomplete when passed invalid path", async () => {
     await wrapper.vm.onClickLink("/thisroutedoesnotexist");
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageIncomplete).not.toHaveBeenCalled();
   });
 
-  it("does not call scrollTo() when passed wrong path", async () => {
+  it("does not call scrollTo() when passed invalid path", async () => {
     await wrapper.vm.onClickLink("/thisroutedoesnotexist");
     await wrapper.vm.$nextTick();
     expect(spyOnScrollTo).not.toHaveBeenCalled();
   });
 
-  it("does not call router when passed wrong path", async () => {
+  it("does not call router when passed invalid path", async () => {
     await wrapper.vm.onClickLink("/thisroutedoesnotexist");
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).not.toHaveBeenCalled();
+  });
+
+  it("does not change pages when passed future path", async () => {
+    await wrapper.vm.onClickLink(routeStepOrder[2].path);
+    await wrapper.vm.$nextTick();
+    expect(spyOnRouter).not.toHaveBeenCalled();
+    expect(spyOnScrollTo).not.toHaveBeenCalled();
+    expect(pageStateService.setPageIncomplete).not.toHaveBeenCalled();
+    expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
+  });
+});
+
+describe("ProgressBar.vue openDropdown() and closeDropdown()", () => {
+  const stringCall = `${appTemplate.MODULE_NAME}/${appTemplate.SET_SHOW_MOBILE_STEPPER_DETAILS}`;
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate.default),
+        app: cloneDeep(appTemplate.default),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      global: {
+        stubs: {
+          FontAwesomeIcon: {
+            template: "<span />",
+          },
+        },
+      },
+      propsData: {
+        currentPath: routeStepOrder[1].path,
+        routes: stepRoutes.default,
+      },
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("dispatches with true when openDropdown() is called", async () => {
+    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    await wrapper.vm.openDropdown();
+    await wrapper.vm.$nextTick();
+    expect(spyOnDispatch).toHaveBeenCalledWith(stringCall, true);
+  });
+
+  it("dispatches with false when closeDropdown() is called", async () => {
+    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    await wrapper.vm.closeDropdown();
+    await wrapper.vm.$nextTick();
+    expect(spyOnDispatch).toHaveBeenCalledWith(stringCall, false);
   });
 });
