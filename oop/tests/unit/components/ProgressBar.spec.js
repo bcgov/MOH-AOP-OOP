@@ -228,3 +228,66 @@ describe("ProgressBar.vue openDropdown() and closeDropdown()", () => {
     expect(spyOnDispatch).toHaveBeenCalledWith(stringCall, false);
   });
 });
+
+describe("ProgressBar.vue getLinkStyles()", () => {
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate.default),
+        app: cloneDeep(appTemplate.default),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      global: {
+        stubs: {
+          FontAwesomeIcon: {
+            template: "<span />",
+          },
+        },
+      },
+      propsData: {
+        currentPath: routeStepOrder[1].path,
+        routes: stepRoutes.default,
+      },
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("returns an object", async () => {
+    const result = wrapper.vm.getLinkStyles(routeStepOrder[0].path);
+    await wrapper.vm.openDropdown();
+    await wrapper.vm.$nextTick();
+    expect(typeof result).toEqual("object");
+  });
+
+  it("returns an object containing pointer when passed a valid path in the past", async () => {
+    const result = wrapper.vm.getLinkStyles(routeStepOrder[0].path);
+    await wrapper.vm.openDropdown();
+    await wrapper.vm.$nextTick();
+    expect(result).toHaveProperty("cursor", "pointer");
+  });
+
+  it("returns an object containing default when passed an invalid path", async () => {
+    const result = wrapper.vm.getLinkStyles("asdf");
+    await wrapper.vm.openDropdown();
+    await wrapper.vm.$nextTick();
+    expect(result).toHaveProperty("cursor", "default");
+  });
+
+  it("returns an object containing default when passed a valid path in the future", async () => {
+    const result = wrapper.vm.getLinkStyles(routeStepOrder[2].path);
+    await wrapper.vm.openDropdown();
+    await wrapper.vm.$nextTick();
+    expect(result).toHaveProperty("cursor", "default");
+  });
+});
