@@ -16,10 +16,10 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueRouter);
 Vue.use(Vuelidate);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 const router = new VueRouter();
 
-// const scrollHelper = require("@/helpers/scroll");
+const scrollHelper = require("@/helpers/scroll");
 // const addressHelper = require("@/helpers/address");
 // const stringHelper = require("@/helpers/string");
 
@@ -38,7 +38,9 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-// const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnRouter = jest.spyOn(router, "push");
+
+const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("ProgressBar.vue", () => {
@@ -123,9 +125,39 @@ describe("ProgressBar.vue onClickLink()", () => {
     );
   });
 
+  it("calls scrollTo when passed path", async () => {
+    await wrapper.vm.onClickLink(routeStepOrder[0].path);
+    await wrapper.vm.$nextTick();
+    expect(spyOnScrollTo).toHaveBeenCalledWith(0);
+  });
+
+  it("calls router when passed path", async () => {
+    await wrapper.vm.onClickLink(routeStepOrder[0].path);
+    await wrapper.vm.$nextTick();
+    expect(spyOnRouter).toHaveBeenCalledWith(routeStepOrder[0].path);
+  });
+
   it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
-    await wrapper.vm.onClickLink("/asdf");
+    await wrapper.vm.onClickLink("/thisroutedoesnotexist");
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
+  });
+
+  it("does not call pageStateService.setPageIncomplete when passed wrong path", async () => {
+    await wrapper.vm.onClickLink("/thisroutedoesnotexist");
+    await wrapper.vm.$nextTick();
+    expect(pageStateService.setPageIncomplete).not.toHaveBeenCalled();
+  });
+
+  it("does not call scrollTo() when passed wrong path", async () => {
+    await wrapper.vm.onClickLink("/thisroutedoesnotexist");
+    await wrapper.vm.$nextTick();
+    expect(spyOnScrollTo).not.toHaveBeenCalled();
+  });
+
+  it("does not call router when passed wrong path", async () => {
+    await wrapper.vm.onClickLink("/thisroutedoesnotexist");
+    await wrapper.vm.$nextTick();
+    expect(spyOnRouter).not.toHaveBeenCalled();
   });
 });
