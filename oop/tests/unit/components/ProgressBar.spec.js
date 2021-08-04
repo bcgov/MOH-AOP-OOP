@@ -7,6 +7,7 @@ import Component from "@/components/ProgressBar.vue";
 import pageStateService from "@/services/page-state-service";
 import { cloneDeep } from "lodash";
 import * as stepRoutes from "@/router/step-routes";
+import {routeStepOrder} from "@/router/routes";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -34,55 +35,80 @@ jest.mock("@/helpers/scroll", () => ({
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
 describe("ProgressBar.vue", () => {
-  let wrapper;
+  // let wrapper;
 
-  beforeEach(() => {
-    wrapper = mount(Component, {
+  // beforeEach(() => {
+  //   wrapper = mount(Component, {
+  //     localVue,
+  //     propsData: {
+  //       routes: stepRoutes.default,
+  //     },
+  //     router
+  //   });
+  // });
+
+  // afterEach(() => {
+  //   jest.resetModules()
+  //   jest.clearAllMocks()
+  // })
+
+  it.skip("renders", async () => {
+    expect(wrapper.element).toBeDefined();
+  });
+});
+
+describe("ProgressBar.vue onClickLink()", () => {
+  // let wrapper;
+  // const router = new VueRouter()
+
+  // beforeEach(() => {
+  //   wrapper = mount(Component, {
+  //     localVue,
+  //     propsData: {
+  //       currentPath: routeStepOrder[1].path,
+  //       routes: stepRoutes.default
+  //     },
+  //     router     
+  //   });
+  // });
+
+  // afterEach(() => {
+  //   jest.resetModules()
+  //   jest.clearAllMocks()
+  // })
+
+  it("calls pageStateService.setPageComplete when passed path", async () => {
+    const wrapper = mount(Component, {
+          localVue,
+          propsData: {
+            routes: stepRoutes.default,
+          },
+          router
+        });
+
+
+
+
+    await wrapper.vm.onClickLink(routeStepOrder[0].path);
+    await wrapper.vm.$nextTick();
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+
+
+    jest.resetModules()
+      jest.clearAllMocks()
+  });
+
+  it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
+    const wrapper = mount(Component, {
       localVue,
       propsData: {
         routes: stepRoutes.default,
       },
       router
     });
-  });
 
-  afterEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
-  })
 
-  it("renders", async () => {
-    expect(wrapper.element).toBeDefined();
-  });
-});
 
-describe.skip("ProgressBar.vue onClickLink()", () => {
-  let wrapper;
-  const router = new VueRouter()
-
-  beforeEach(() => {
-    wrapper = mount(Component, {
-      localVue,
-      propsData: {
-        currentPath: "/",
-        routes: stepRoutes.default
-      },
-      router     
-    });
-  });
-
-  afterEach(() => {
-    jest.resetModules()
-    jest.clearAllMocks()
-  })
-
-  it("calls pageStateService.setPageComplete when passed path", async () => {
-    await wrapper.vm.onClickLink("/your-info");
-    await wrapper.vm.$nextTick();
-    expect(pageStateService.setPageComplete).toHaveBeenCalled();
-  });
-
-  it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
     await wrapper.vm.onClickLink("/asdf");
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
