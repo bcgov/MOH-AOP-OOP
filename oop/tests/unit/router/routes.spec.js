@@ -1,9 +1,54 @@
 import { isPastPath as Function } from "@/router/routes.js";
+import { routeStepOrder } from "@/router/routes.js";
 
-describe("Helper address.js", () => {
-  it("works on data formatted like addresses (case 2)", () => {
-    const result = Function(["716 Yates Street Victoria, BC V8W 1K4"], 12);
+const stepOrderLength = routeStepOrder.length;
 
-    expect(result).toEqual(["716 Yates", "Street", "Victoria, BC", "V8W 1K4"]);
+describe("Helper routes.js isPastPath", () => {
+  it("returns false on invalid data", () => {
+    const result = Function("default1", "default2");
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns false if argument 1 doesn't exist in the path order but argument 2 does", () => {
+    const result = Function("default1", routeStepOrder[0].path);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns true if argument 2 doesn't exist in the path order but argument 1 does", () => {
+    const result = Function(routeStepOrder[0].path, "default2");
+
+    expect(result).toEqual(true);
+  });
+
+  it("returns true if first argument is before the second argument in step order", () => {
+    const result = Function(routeStepOrder[0].path, routeStepOrder[1].path);
+
+    expect(result).toEqual(true);
+  });
+
+  it("returns true if first argument is before the second argument in step order (case 2)", () => {
+    const result = Function(
+      routeStepOrder[stepOrderLength - 2].path,
+      routeStepOrder[stepOrderLength - 1].path
+    );
+
+    expect(result).toEqual(true);
+  });
+
+  it("returns false if second argument is before the first argument in step order", () => {
+    const result = Function(routeStepOrder[1].path, routeStepOrder[0].path);
+
+    expect(result).toEqual(false);
+  });
+
+  it("returns false if second argument is before the first argument in step order (case 2)", () => {
+    const result = Function(
+      routeStepOrder[stepOrderLength - 1].path,
+      routeStepOrder[stepOrderLength - 2].path
+    );
+
+    expect(result).toEqual(false);
   });
 });
