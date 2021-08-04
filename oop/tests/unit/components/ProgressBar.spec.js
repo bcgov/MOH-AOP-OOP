@@ -8,6 +8,7 @@ import pageStateService from "@/services/page-state-service";
 import { cloneDeep } from "lodash";
 import * as stepRoutes from "@/router/step-routes";
 import { routeStepOrder } from "@/router/routes";
+import * as formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -34,12 +35,17 @@ jest.mock("@/helpers/scroll", () => ({
 // const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 // const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
+
+
 describe("ProgressBar.vue", () => {
   let wrapper;
+  let store;
 
   beforeEach(() => {
+    store = new Vuex.Store(cloneDeep(formTemplate));
     wrapper = mount(Component, {
       localVue,
+      store,
       propsData: {
         routes: stepRoutes.default,
       },
@@ -58,19 +64,20 @@ describe("ProgressBar.vue", () => {
 });
 
 describe("ProgressBar.vue onClickLink()", () => {
-  // let wrapper;
-  // const router = new VueRouter()
+  let wrapper;
+  let store;
 
-  // beforeEach(() => {
-  //   wrapper = mount(Component, {
-  //     localVue,
-  //     propsData: {
-  //       currentPath: routeStepOrder[1].path,
-  //       routes: stepRoutes.default
-  //     },
-  //     router
-  //   });
-  // });
+  beforeEach(() => {
+    store = new Vuex.Store(cloneDeep(formTemplate));
+    wrapper = mount(Component, {
+      localVue,
+      store,
+      propsData: {
+        routes: stepRoutes.default,
+      },
+      router,
+    });
+  });
 
   afterEach(() => {
     jest.resetModules();
@@ -78,28 +85,12 @@ describe("ProgressBar.vue onClickLink()", () => {
   });
 
   it("calls pageStateService.setPageComplete when passed path", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      propsData: {
-        routes: stepRoutes.default,
-      },
-      router,
-    });
-
     await wrapper.vm.onClickLink(routeStepOrder[0].path);
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).toHaveBeenCalled();
   });
 
   it("does not call pageStateService.setPageComplete when passed wrong path", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      propsData: {
-        routes: stepRoutes.default,
-      },
-      router,
-    });
-
     await wrapper.vm.onClickLink("/asdf");
     await wrapper.vm.$nextTick();
     expect(pageStateService.setPageComplete).not.toHaveBeenCalled();
