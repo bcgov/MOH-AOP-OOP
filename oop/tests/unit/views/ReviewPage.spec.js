@@ -36,10 +36,10 @@ const spyOnLogError = jest
 jest
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
-jest
+const spyOnSetPageComplete = jest
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
-jest
+const spyOnVisitPage = jest
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
@@ -498,8 +498,8 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
       store,
       router,
       propsData: {
-        isSystemUnavailable: false
-      }
+        isSystemUnavailable: false,
+      },
     });
   });
 
@@ -583,10 +583,110 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
   });
 
   it("sets system to unavailable on HTTP error", async () => {
-    expect(wrapper.vm.isSystemUnavailable).toEqual(false)
+    expect(wrapper.vm.isSystemUnavailable).toEqual(false);
     axios.post.mockImplementation(() => Promise.resolve("potato"));
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.isSystemUnavailable).toEqual(true)
+    expect(wrapper.vm.isSystemUnavailable).toEqual(true);
+  });
+});
+
+describe("ReviewPage.vue navigateToSubmissionPage()", () => {
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("calls pageStateService.setPageComplete", async () => {
+    await wrapper.vm.navigateToSubmissionPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnSetPageComplete).toHaveBeenCalled();
+  });
+
+  it("calls pageStateService.visitPage", async () => {
+    await wrapper.vm.navigateToSubmissionPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnVisitPage).toHaveBeenCalled();
+  });
+
+  it("calls router.push", async () => {
+    const spyOnRouter = jest
+      .spyOn(router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+    await wrapper.vm.navigateToSubmissionPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo", async () => {
+    await wrapper.vm.navigateToSubmissionPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnScrollTo).toHaveBeenCalled();
+  });
+});
+
+describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("calls pageStateService.setPageComplete", async () => {
+    await wrapper.vm.navigateToSubmissionErrorPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnSetPageComplete).toHaveBeenCalled();
+  });
+
+  it("calls pageStateService.visitPage", async () => {
+    await wrapper.vm.navigateToSubmissionErrorPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnVisitPage).toHaveBeenCalled();
+  });
+
+  it("calls router.push", async () => {
+    const spyOnRouter = jest
+      .spyOn(router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
+    await wrapper.vm.navigateToSubmissionErrorPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
+
+  it("calls scrollTo", async () => {
+    await wrapper.vm.navigateToSubmissionErrorPage();
+    await wrapper.vm.$nextTick();
+    expect(spyOnScrollTo).toHaveBeenCalled();
   });
 });
