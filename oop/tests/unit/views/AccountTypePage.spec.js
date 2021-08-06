@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from "@vue/test-utils";
+import { mount, shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -6,11 +6,15 @@ import Vuelidate from "vuelidate";
 import Component from "@/views/AccountTypePage.vue";
 import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
-import formTemplate from "@/store/modules/form";
+import * as formTemplate from "@/store/modules/form";
+import { cloneDeep } from "lodash";
+// import axios from "axios";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueRouter);
 Vue.use(Vuelidate);
+const router = new VueRouter();
 
 jest.mock("axios", () => ({
   get: jest.fn(),
@@ -42,89 +46,103 @@ const scrollHelper = require("@/helpers/scroll");
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 
-describe("AccountTypePage.vue", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
+const stateTemplate = {
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  accountType: "default",
+  personMoving: "default",
+  isAllDependentsMoving: "default",
+  dependentPhns: ["default"],
+};
 
-  let store;
+const storeTemplate3 = {
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  accountType: "default",
+  personMoving: "default",
+  isAllDependentsMoving: "default",
+  dependentPhns: [
+    { value: "default1" },
+    { value: "default2" },
+    { value: "default3" },
+  ],
+};
+
+const storeTemplate6 = {
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  accountType: "default",
+  personMoving: "default",
+  isAllDependentsMoving: "default",
+  dependentPhns: [
+    { value: "default1" },
+    { value: "default2" },
+    { value: "default3" },
+    { value: "default4" },
+    { value: "default5" },
+    { value: "default6" },
+  ],
+};
+
+describe("AccountTypePage.vue", () => {
+  let wrapper = null;
+  let store = null;
 
   beforeEach(() => {
-    const storeTemplate = {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = stateTemplate;
+    store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "defaultlastname",
-            phn: "defaultphn",
-            phone: "defaultphone",
-            accountType: "default",
-            personMoving: "default",
-            isAllDependentsMoving: "default",
-            dependentPhns: ["default"],
-          },
-          namespaced: true,
-        },
+        form: tempForm,
       },
-    };
+    });
 
-    store = new Vuex.Store(storeTemplate);
+    wrapper = mount(Component, {
+      store,
+      localVue,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   it("renders", () => {
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-    });
     expect(wrapper.element).toBeDefined();
   });
 });
 
 describe("AccountTypePage.vue handleValidationSuccess()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-
-  let store;
+  let wrapper = null;
+  let store = null;
 
   beforeEach(() => {
-    const storeTemplate = {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = stateTemplate;
+    store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "defaultlastname",
-            phn: "defaultphn",
-            phone: "defaultphone",
-            accountType: "default",
-            personMoving: "default",
-            isAllDependentsMoving: "default",
-            dependentPhns: ["default"],
-          },
-          namespaced: true,
-        },
+        form: tempForm,
       },
-    };
-    store = new Vuex.Store(storeTemplate);
+    });
+
+    wrapper = mount(Component, {
+      store,
+      localVue,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   it("calls saveValues() function", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     const spyOnSaveValues = jest
       .spyOn(wrapper.vm, "saveValues")
       .mockImplementation(() => Promise.resolve("saved"));
@@ -136,22 +154,6 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
   });
 
   it("calls nextPage() function", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     const spyOnNextPage = jest
       .spyOn(wrapper.vm, "nextPage")
       .mockImplementation(() => Promise.resolve("next"));
@@ -164,50 +166,31 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
 });
 
 describe("AccountTypePage.vue saveValues()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-
-  let store;
+  let wrapper = null;
+  let store = null;
 
   beforeEach(() => {
-    const storeTemplate = {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = stateTemplate;
+    store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "defaultlastname",
-            phn: "defaultphn",
-            phone: "defaultphone",
-            accountType: "default",
-            personMoving: "default",
-            isAllDependentsMoving: "default",
-            dependentPhns: ["default"],
-          },
-          namespaced: true,
-        },
+        form: tempForm,
       },
-    };
-    store = new Vuex.Store(storeTemplate);
+    });
+
+    wrapper = mount(Component, {
+      store,
+      localVue,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   it("changes account type in store", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     await wrapper.vm.$nextTick();
     await wrapper.setData({ accountType: "updatedaccount" });
     await wrapper.vm.$nextTick();
@@ -219,22 +202,6 @@ describe("AccountTypePage.vue saveValues()", () => {
   });
 
   it("changes person moving in store", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     await wrapper.vm.$nextTick();
     await wrapper.setData({ personMoving: "updatedpersonmoving" });
     await wrapper.vm.$nextTick();
@@ -248,22 +215,6 @@ describe("AccountTypePage.vue saveValues()", () => {
   });
 
   it("changes isAllDependentsMoving in store", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     await wrapper.vm.$nextTick();
     await wrapper.setData({ isAllDependentsMoving: "updateddependentsmoving" });
     await wrapper.vm.$nextTick();
@@ -277,22 +228,6 @@ describe("AccountTypePage.vue saveValues()", () => {
   });
 
   it("changes dependentPhns in store", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     await wrapper.vm.$nextTick();
     await wrapper.setData({ dependentPhns: ["updateddependentphns"] });
     await wrapper.vm.$nextTick();
@@ -307,62 +242,43 @@ describe("AccountTypePage.vue saveValues()", () => {
 });
 
 describe("AccountTypePage.vue nextPage()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-
-  let store;
+  let wrapper = null;
+  let store = null;
 
   beforeEach(() => {
-    const storeTemplate = {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = stateTemplate;
+    store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state: {
-            lastName: "defaultlastname",
-            phn: "defaultphn",
-            phone: "defaultphone",
-            accountType: "default",
-            personMoving: "default",
-            isAllDependentsMoving: "default",
-            dependentPhns: ["default"],
-          },
-          namespaced: true,
-        },
+        form: tempForm,
       },
-    };
-    store = new Vuex.Store(storeTemplate);
+    });
+
+    wrapper = mount(Component, {
+      store,
+      localVue,
+      router,
+    });
   });
 
   afterEach(() => {
-    logService.logNavigation.mockReset();
-    logService.logError.mockReset();
-    logService.logInfo.mockReset();
-    pageStateService.setPageComplete.mockReset();
-    pageStateService.visitPage.mockReset();
-    scrollHelper.scrollToError.mockReset();
-    scrollHelper.scrollTo.mockReset();
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
+  // afterEach(() => {
+  //   logService.logNavigation.mockReset();
+  //   logService.logError.mockReset();
+  //   logService.logInfo.mockReset();
+  //   pageStateService.setPageComplete.mockReset();
+  //   pageStateService.visitPage.mockReset();
+  //   scrollHelper.scrollToError.mockReset();
+  //   scrollHelper.scrollTo.mockReset();
+  // });
+
   it("pushes to router", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     const spyOnRouter = jest
-      .spyOn($router, "push")
+      .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
 
     wrapper.vm.nextPage();
@@ -372,22 +288,6 @@ describe("AccountTypePage.vue nextPage()", () => {
   });
 
   it("calls scrollTo with the parameter 0", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
@@ -395,22 +295,6 @@ describe("AccountTypePage.vue nextPage()", () => {
   });
 
   it("calls pageStateService", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
@@ -427,54 +311,31 @@ describe("AccountTypePage.vue addDependentField()", () => {
   //and would break if the implementation ever changed
   //if the implementation does change, more tests should be written
 
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
+  let wrapper = null;
+  let store = null;
 
-  const storeTemplate6 = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: [
-            { value: "default1" },
-            { value: "default2" },
-            { value: "default3" },
-            { value: "default4" },
-            { value: "default5" },
-            { value: "default6" },
-          ],
-        },
-        namespaced: true,
+  beforeEach(() => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate6);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
       },
-    },
-  };
-
-  it("increases the length of the array by one if the store contains 5 or more elements", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
+  });
 
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("increases the length of the array by one if the store contains 5 or more elements", async () => {
     expect(wrapper.vm.dependentPhns).toHaveLength(6);
 
     wrapper.vm.addDependentField();
@@ -484,24 +345,6 @@ describe("AccountTypePage.vue addDependentField()", () => {
   });
 
   it("adds an object with a null value to the end of the data array if the store contains 5 or more elements", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
-    const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     wrapper.vm.addDependentField();
     await wrapper.vm.$nextTick();
 
@@ -515,75 +358,27 @@ describe("AccountTypePage.vue addDependentField()", () => {
 });
 
 describe("AccountTypePage.vue getDependentPhns()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
+  let wrapper = null;
+  let store = null;
 
-  const storeTemplate3 = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: [
-            { value: "default1" },
-            { value: "default2" },
-            { value: "default3" },
-          ],
-        },
-        namespaced: true,
-      },
-    },
-  };
-
-  const storeTemplate6 = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: [
-            { value: "default1" },
-            { value: "default2" },
-            { value: "default3" },
-            { value: "default4" },
-            { value: "default5" },
-            { value: "default6" },
-          ],
-        },
-        namespaced: true,
-      },
-    },
-  };
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
 
   it("returns an array that's the same length as the array in the store if the store contains 6-9 elements", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate6);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -599,22 +394,19 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     //the code tops off the store and data with null elements, so there will always be five of them
     //this test is to check to make sure that if three non-null elements are put into the store
     //then the result from this code will contain 3 non-null elements
-    const store = new Vuex.Store(storeTemplate3);
 
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -625,22 +417,18 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   });
 
   it("returns an array containing the values of the store if the store contains 6-9 elements", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate6);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -657,22 +445,18 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   });
 
   it("returns an array containing the values of the store if the store contains 1-5 elements", async () => {
-    const store = new Vuex.Store(storeTemplate3);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -687,75 +471,27 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
 //which is very simple
 
 describe("AccountTypePage.vue resetDependentFields()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
+  let wrapper = null;
+  let store = null;
 
-  const storeTemplate3 = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: [
-            { value: "default1" },
-            { value: "default2" },
-            { value: "default3" },
-          ],
-        },
-        namespaced: true,
-      },
-    },
-  };
-
-  const storeTemplate6 = {
-    modules: {
-      form: {
-        mutations,
-        actions,
-        state: {
-          lastName: "defaultlastname",
-          phn: "defaultphn",
-          phone: "defaultphone",
-          accountType: "default",
-          personMoving: "default",
-          isAllDependentsMoving: "default",
-          dependentPhns: [
-            { value: "default1" },
-            { value: "default2" },
-            { value: "default3" },
-            { value: "default4" },
-            { value: "default5" },
-            { value: "default6" },
-          ],
-        },
-        namespaced: true,
-      },
-    },
-  };
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
 
   it("changes the dependentPhns to an array of 5 null values when 5 or less dependent fields are present", async () => {
-    const store = new Vuex.Store(storeTemplate3);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
 
@@ -767,22 +503,18 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
   });
 
   it("changes the dependentPhns to an array of null values equal to the number of dependent fields", async () => {
-    const store = new Vuex.Store(storeTemplate6);
-
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate6);
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
     });
 
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       store,
       localVue,
-      mocks: {
-        $router,
-      },
+      router,
     });
     expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6");
 
@@ -791,5 +523,35 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
 
     expect(wrapper.vm.dependentPhns).toHaveLength(6);
     expect(wrapper.vm.dependentPhns[5]["value"]).toBeNull();
+  });
+});
+
+describe("AccountTypePage.vue validateFields()", () => {
+  let wrapper = null;
+  let store = null;
+
+  beforeEach(() => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = stateTemplate;
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      store,
+      localVue,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("renders", () => {
+    expect(wrapper.element).toBeDefined();
   });
 });
