@@ -5,9 +5,10 @@ import VueRouter from "vue-router";
 import Vuelidate from "vuelidate";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
-import Component from "@/views/SubmissionPage.vue";
+import Component from "@/views/SubmissionErrorPage.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import pageStateService from "@/services/page-state-service";
+import logService from "@/services/log-service";
 
 const spyOnPrint = jest.spyOn(window, "print").mockImplementation(() => {});
 
@@ -20,6 +21,10 @@ const spyOnSetPageIncomplete = jest
   .mockImplementation(() => Promise.resolve("set"));
 
 const scrollHelper = require("@/helpers/scroll");
+
+const spyOnLogNavigation = jest
+  .spyOn(logService, "logNavigation")
+  .mockImplementation(() => Promise.resolve("logged"));
 
 jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
@@ -35,7 +40,7 @@ Vue.use(Vuelidate);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 const router = new VueRouter();
 
-describe("SubmissionPage.vue", () => {
+describe("SubmissionErrorPage.vue", () => {
   let wrapper;
   let store;
 
@@ -60,8 +65,13 @@ describe("SubmissionPage.vue", () => {
   it("renders", () => {
     expect(wrapper.element).toBeDefined();
   });
+
+  it("calls logService on load", () => {
+    expect(spyOnLogNavigation).toHaveBeenCalled();
+  });
 });
 
+/*
 describe("SubmissionPage.vue printPage()", () => {
   let wrapper;
   let store;
@@ -141,3 +151,5 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
     expect(spyOnScrollTo).toHaveBeenCalled();
   });
 });
+
+*/
