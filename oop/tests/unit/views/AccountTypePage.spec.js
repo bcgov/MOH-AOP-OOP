@@ -54,7 +54,12 @@ const stateTemplate = {
   accountType: "AH",
   personMoving: "AH_DEP",
   isAllDependentsMoving: "N",
-  dependentPhns: ["9353 166 544"],
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+  ],
 };
 
 const stateTemplateInvalid = {
@@ -104,7 +109,7 @@ describe("AccountTypePage.vue", () => {
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplate;
+    tempForm.state = cloneDeep(stateTemplate);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -134,7 +139,7 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplate;
+    tempForm.state = cloneDeep(stateTemplate);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -182,7 +187,7 @@ describe("AccountTypePage.vue saveValues()", () => {
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplate;
+    tempForm.state = cloneDeep(stateTemplate);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -258,7 +263,7 @@ describe("AccountTypePage.vue nextPage()", () => {
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplate;
+    tempForm.state = cloneDeep(stateTemplate);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -276,16 +281,6 @@ describe("AccountTypePage.vue nextPage()", () => {
     jest.resetModules();
     jest.clearAllMocks();
   });
-
-  // afterEach(() => {
-  //   logService.logNavigation.mockReset();
-  //   logService.logError.mockReset();
-  //   logService.logInfo.mockReset();
-  //   pageStateService.setPageComplete.mockReset();
-  //   pageStateService.visitPage.mockReset();
-  //   scrollHelper.scrollToError.mockReset();
-  //   scrollHelper.scrollTo.mockReset();
-  // });
 
   it("pushes to router", async () => {
     const spyOnRouter = jest
@@ -543,7 +538,7 @@ describe("AccountTypePage.vue validateFields() $v errors", () => {
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplateInvalid;
+    tempForm.state = cloneDeep(stateTemplateInvalid);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -568,161 +563,167 @@ describe("AccountTypePage.vue validateFields() $v errors", () => {
   });
 });
 
-describe.only("AccountTypePage.vue validateFields()", () => {
+describe("AccountTypePage.vue validateFields()", () => {
   let wrapper = null;
   let store = null;
 
   const apiResponse0 = {
-    "data": {
-        "applicationUuid": "50e972ce-dc5d-4f16-ac28-2e579eab317b",
-        "returnCode": "0",
-        "message": "Dependents match our records"
+    data: {
+      applicationUuid: "50e972ce-dc5d-4f16-ac28-2e579eab317b",
+      returnCode: "0",
+      message: "Dependents match our records",
     },
-    "status": 200,
-    "statusText": "OK",
-    "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-encoding": "gzip, deflate, br",
-        "accept-language": "en-US,en;q=0.9",
-        "access-control-allow-credentials": "true",
-        "access-control-allow-headers": "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
-        "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "access-control-allow-origin": "https://my.gov.bc.ca",
-        "access-control-expose-headers": "Authorization",
-        "breadcrumbid": "ID-vs-tapp045-1628273306804-0-49",
-        "cache-control": "no-store",
-        "connection": "close",
-        "content-security-policy": "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
-        "content-type": "application/json",
-        "date": "Fri, 06 Aug 2021 23:38:56 GMT",
-        "expires": "Tue, 04 Aug 2020 20:28:46 GMT",
-        "forwarded": "for=216.232.32.188;host=oop-web-a3c641-test.apps.silver.devops.gov.bc.ca;proto=https",
-        "origin": "http://localhost:8080",
-        "pragma": "no-cache",
-        "response-type": "application/json",
-        "sec-ch-ua": "\"Chromium\";v=\"92\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"92\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "server": "nginx",
-        "strict-transport-security": "max-age=86400; includeSubDomains",
-        "transfer-encoding": "chunked",
-        "uuid": "50e972ce-dc5d-4f16-ac28-2e579eab317b",
-        "www-authenticate": "Basic",
-        "x-content-type-options": "nosniff",
-        "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-        "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
-        "x-forwarded-port": "8080, 443",
-        "x-forwarded-proto": "http, https",
-        "x-frame-options": "DENY",
-        "x-powered-by": "Express",
-        "x-rm-jurisdiction": "bc",
-        "x-weblogic-request-clusterinfo": "true",
-        "x-xss-protection": "1"
+    status: 200,
+    statusText: "OK",
+    headers: {
+      accept: "application/json, text/plain, */*",
+      "accept-encoding": "gzip, deflate, br",
+      "accept-language": "en-US,en;q=0.9",
+      "access-control-allow-credentials": "true",
+      "access-control-allow-headers":
+        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-origin": "https://my.gov.bc.ca",
+      "access-control-expose-headers": "Authorization",
+      breadcrumbid: "ID-vs-tapp045-1628273306804-0-49",
+      "cache-control": "no-store",
+      connection: "close",
+      "content-security-policy":
+        "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
+      "content-type": "application/json",
+      date: "Fri, 06 Aug 2021 23:38:56 GMT",
+      expires: "Tue, 04 Aug 2020 20:28:46 GMT",
+      forwarded:
+        "for=216.232.32.188;host=oop-web-a3c641-test.apps.silver.devops.gov.bc.ca;proto=https",
+      origin: "http://localhost:8080",
+      pragma: "no-cache",
+      "response-type": "application/json",
+      "sec-ch-ua":
+        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      server: "nginx",
+      "strict-transport-security": "max-age=86400; includeSubDomains",
+      "transfer-encoding": "chunked",
+      uuid: "50e972ce-dc5d-4f16-ac28-2e579eab317b",
+      "www-authenticate": "Basic",
+      "x-content-type-options": "nosniff",
+      "x-forwarded-for": "127.0.0.1, 216.232.32.188",
+      "x-forwarded-host":
+        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-port": "8080, 443",
+      "x-forwarded-proto": "http, https",
+      "x-frame-options": "DENY",
+      "x-powered-by": "Express",
+      "x-rm-jurisdiction": "bc",
+      "x-weblogic-request-clusterinfo": "true",
+      "x-xss-protection": "1",
     },
-    "config": {
-        "url": "/oop/api/oopIntegration/validateDep",
-        "method": "post",
-        "data": "{\"applicationUuid\":\"50e972ce-dc5d-4f16-ac28-2e579eab317b\",\"phn\":\"9874084281\",\"dependentPHNs\":[\"9874084274\"]}",
-        "headers": {
-            "Accept": "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            "Response-Type": "application/json",
-            "X-Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiNTBlOTcyY2UtZGM1ZC00ZjE2LWFjMjgtMmU1NzllYWIzMTdiIn0sImlhdCI6MTYyODI5MjYwNSwiZXhwIjoxNjI4MzAzNDA1fQ.dLSM6l9mdOmk4piYrjSwK1u7FngvMKc6_ar9XzubxCs"
-        },
-        "transformRequest": [
-            null
-        ],
-        "transformResponse": [
-            null
-        ],
-        "timeout": 0,
-        "xsrfCookieName": "XSRF-TOKEN",
-        "xsrfHeaderName": "X-XSRF-TOKEN",
-        "maxContentLength": -1,
-        "maxBodyLength": -1
+    config: {
+      url: "/oop/api/oopIntegration/validateDep",
+      method: "post",
+      data:
+        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9874084281","dependentPHNs":["9874084274"]}',
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "Response-Type": "application/json",
+        "X-Authorization":
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiNTBlOTcyY2UtZGM1ZC00ZjE2LWFjMjgtMmU1NzllYWIzMTdiIn0sImlhdCI6MTYyODI5MjYwNSwiZXhwIjoxNjI4MzAzNDA1fQ.dLSM6l9mdOmk4piYrjSwK1u7FngvMKc6_ar9XzubxCs",
+      },
+      transformRequest: [null],
+      transformResponse: [null],
+      timeout: 0,
+      xsrfCookieName: "XSRF-TOKEN",
+      xsrfHeaderName: "X-XSRF-TOKEN",
+      maxContentLength: -1,
+      maxBodyLength: -1,
     },
-    "request": {}
-}
+    request: {},
+  };
 
   const apiResponse1 = {
-    "data": {
-        "applicationUuid": "50e972ce-dc5d-4f16-ac28-2e579eab317b",
-        "returnCode": "1",
-        "message": "Dependent information does not match our records"
+    data: {
+      applicationUuid: "50e972ce-dc5d-4f16-ac28-2e579eab317b",
+      returnCode: "1",
+      message: "Dependent information does not match our records",
     },
-    "status": 200,
-    "statusText": "OK",
-    "headers": {
-        "accept": "application/json, text/plain, */*",
-        "accept-encoding": "gzip, deflate, br",
-        "accept-language": "en-US,en;q=0.9",
-        "access-control-allow-credentials": "true",
-        "access-control-allow-headers": "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
-        "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "access-control-allow-origin": "https://my.gov.bc.ca",
-        "access-control-expose-headers": "Authorization",
-        "breadcrumbid": "ID-vs-tapp046-1628274114134-0-11",
-        "cache-control": "no-store",
-        "connection": "close",
-        "content-security-policy": "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
-        "content-type": "application/json",
-        "date": "Fri, 06 Aug 2021 23:31:25 GMT",
-        "expires": "Tue, 04 Aug 2020 20:28:46 GMT",
-        "forwarded": "for=216.232.32.188;host=oop-web-a3c641-test.apps.silver.devops.gov.bc.ca;proto=https",
-        "origin": "http://localhost:8080",
-        "pragma": "no-cache",
-        "response-type": "application/json",
-        "sec-ch-ua": "\"Chromium\";v=\"92\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"92\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "server": "nginx",
-        "strict-transport-security": "max-age=86400; includeSubDomains",
-        "transfer-encoding": "chunked",
-        "uuid": "50e972ce-dc5d-4f16-ac28-2e579eab317b",
-        "www-authenticate": "Basic",
-        "x-content-type-options": "nosniff",
-        "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-        "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
-        "x-forwarded-port": "8080, 443",
-        "x-forwarded-proto": "http, https",
-        "x-frame-options": "DENY",
-        "x-powered-by": "Express",
-        "x-rm-jurisdiction": "bc",
-        "x-weblogic-request-clusterinfo": "true",
-        "x-xss-protection": "1"
+    status: 200,
+    statusText: "OK",
+    headers: {
+      accept: "application/json, text/plain, */*",
+      "accept-encoding": "gzip, deflate, br",
+      "accept-language": "en-US,en;q=0.9",
+      "access-control-allow-credentials": "true",
+      "access-control-allow-headers":
+        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With",
+      "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "access-control-allow-origin": "https://my.gov.bc.ca",
+      "access-control-expose-headers": "Authorization",
+      breadcrumbid: "ID-vs-tapp046-1628274114134-0-11",
+      "cache-control": "no-store",
+      connection: "close",
+      "content-security-policy":
+        "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
+      "content-type": "application/json",
+      date: "Fri, 06 Aug 2021 23:31:25 GMT",
+      expires: "Tue, 04 Aug 2020 20:28:46 GMT",
+      forwarded:
+        "for=216.232.32.188;host=oop-web-a3c641-test.apps.silver.devops.gov.bc.ca;proto=https",
+      origin: "http://localhost:8080",
+      pragma: "no-cache",
+      "response-type": "application/json",
+      "sec-ch-ua":
+        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      server: "nginx",
+      "strict-transport-security": "max-age=86400; includeSubDomains",
+      "transfer-encoding": "chunked",
+      uuid: "50e972ce-dc5d-4f16-ac28-2e579eab317b",
+      "www-authenticate": "Basic",
+      "x-content-type-options": "nosniff",
+      "x-forwarded-for": "127.0.0.1, 216.232.32.188",
+      "x-forwarded-host":
+        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-port": "8080, 443",
+      "x-forwarded-proto": "http, https",
+      "x-frame-options": "DENY",
+      "x-powered-by": "Express",
+      "x-rm-jurisdiction": "bc",
+      "x-weblogic-request-clusterinfo": "true",
+      "x-xss-protection": "1",
     },
-    "config": {
-        "url": "/oop/api/oopIntegration/validateDep",
-        "method": "post",
-        "data": "{\"applicationUuid\":\"50e972ce-dc5d-4f16-ac28-2e579eab317b\",\"phn\":\"9310134963\",\"dependentPHNs\":[\"9353166544\"]}",
-        "headers": {
-            "Accept": "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            "Response-Type": "application/json",
-            "X-Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiNTBlOTcyY2UtZGM1ZC00ZjE2LWFjMjgtMmU1NzllYWIzMTdiIn0sImlhdCI6MTYyODI5MjYwNSwiZXhwIjoxNjI4MzAzNDA1fQ.dLSM6l9mdOmk4piYrjSwK1u7FngvMKc6_ar9XzubxCs"
-        },
-        "transformRequest": [
-            null
-        ],
-        "transformResponse": [
-            null
-        ],
-        "timeout": 0,
-        "xsrfCookieName": "XSRF-TOKEN",
-        "xsrfHeaderName": "X-XSRF-TOKEN",
-        "maxContentLength": -1,
-        "maxBodyLength": -1
+    config: {
+      url: "/oop/api/oopIntegration/validateDep",
+      method: "post",
+      data:
+        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+        "Response-Type": "application/json",
+        "X-Authorization":
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiNTBlOTcyY2UtZGM1ZC00ZjE2LWFjMjgtMmU1NzllYWIzMTdiIn0sImlhdCI6MTYyODI5MjYwNSwiZXhwIjoxNjI4MzAzNDA1fQ.dLSM6l9mdOmk4piYrjSwK1u7FngvMKc6_ar9XzubxCs",
+      },
+      transformRequest: [null],
+      transformResponse: [null],
+      timeout: 0,
+      xsrfCookieName: "XSRF-TOKEN",
+      xsrfHeaderName: "X-XSRF-TOKEN",
+      maxContentLength: -1,
+      maxBodyLength: -1,
     },
-    "request": {}
-}
+    request: {},
+  };
 
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
-    tempForm.state = stateTemplate;
+    tempForm.state = cloneDeep(stateTemplate);
     store = new Vuex.Store({
       modules: {
         form: tempForm,
@@ -741,23 +742,28 @@ describe.only("AccountTypePage.vue validateFields()", () => {
     jest.clearAllMocks();
   });
 
-  it("does not return an error when given valid data", () => {
+  it("does not return an error when given valid data", async () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse0));
     wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
     expect(spyOnScrollToError).not.toHaveBeenCalled();
   });
 
-  it("calls handleValidationSuccess() when given valid data that returns code 0", () => {
-    const spyOnHandleValidationSuccess = jest.spyOn(wrapper.vm, "handleValidationSuccess")
+  it("calls handleValidationSuccess() when given valid data that returns code 0", async () => {
+    const spyOnHandleValidationSuccess = jest.spyOn(
+      wrapper.vm,
+      "handleValidationSuccess"
+    );
     axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse0));
     wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
     expect(spyOnHandleValidationSuccess).toHaveBeenCalled();
   });
 
-  it("calls logService() when given valid data that returns code 0", () => {
+  it("calls logService() when given valid data that returns code 0", async () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse0));
     wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
     expect(spyOnLogInfo).toHaveBeenCalled();
   });
 });
-
