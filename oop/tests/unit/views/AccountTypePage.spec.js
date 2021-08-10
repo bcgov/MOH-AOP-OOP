@@ -24,9 +24,11 @@ jest.mock("axios", () => ({
 jest
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
-  const spyOnLogError = jest
+const spyOnLogError = jest
   .spyOn(logService, "logError")
-  .mockImplementation(() => Promise.resolve("logged"));
+  .mockImplementation(() => {
+    Promise.resolve("logged");
+  });
 const spyOnLogInfo = jest
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
@@ -935,6 +937,27 @@ describe("AccountTypePage.vue validateFields()", () => {
     expect(wrapper.vm.isSystemUnavailable).toEqual(false);
   });
 
+  it("[CODE 1]calls logService() when given valid data that returns code 1", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse1));
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    expect(spyOnLogInfo).toHaveBeenCalled();
+  });
+
+  it("[CODE 1]calls scrollToError when given valid data that returns code 1", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse1));
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    expect(spyOnScrollToError).toHaveBeenCalled();
+  });
+
+  it("[CODE 1]changes serverValidationError to true when given valid data that returns code 1", async () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse1));
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    expect(wrapper.vm.isServerValidationErrorShown).toEqual(true);
+  });
+
   it("[CODE 2]calls logService() when given valid data that returns code 2", async () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse2));
     wrapper.vm.validateFields();
@@ -975,5 +998,47 @@ describe("AccountTypePage.vue validateFields()", () => {
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick;
     expect(wrapper.vm.isSystemUnavailable).toEqual(true);
+  });
+
+  it("[Error] sets system to unavailable on HTTP error/promise rejection", async () => {
+    axios.post.mockImplementationOnce(() =>
+      Promise.reject({
+        response: {
+          status: "logservice",
+        },
+      })
+    );
+    await wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    expect(wrapper.vm.isSystemUnavailable).toEqual(true);
+  });
+
+  it("[Error]calls scrollToError on HTTP error/promise rejection", async () => {
+    axios.post.mockImplementationOnce(() =>
+      Promise.reject({
+        response: {
+          status: "logservice",
+        },
+      })
+    );
+    wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    await wrapper.vm.$nextTick;
+    expect(spyOnScrollToError).toHaveBeenCalled();
+  });
+
+  it("[Error]calls logService() on HTTP error/promise rejection", async () => {
+    axios.post.mockImplementationOnce(() =>
+      Promise.reject({
+        response: {
+          status: "logservice",
+        },
+      })
+    );
+    // expect(spyOnLogError).not.toHaveBeenCalled();
+    await wrapper.vm.validateFields();
+    await wrapper.vm.$nextTick;
+    await wrapper.vm.$nextTick;
+    expect(spyOnLogError).toHaveBeenCalled();
   });
 });
