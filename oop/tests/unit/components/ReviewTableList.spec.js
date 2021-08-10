@@ -113,13 +113,7 @@ describe("ReviewTableList.vue", () => {
   it("renders", async () => {
     const store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
 
@@ -138,13 +132,7 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
   });
@@ -220,13 +208,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplateNull.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplateNull,
       },
     });
   });
@@ -305,13 +287,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
   });
@@ -352,13 +328,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
   });
