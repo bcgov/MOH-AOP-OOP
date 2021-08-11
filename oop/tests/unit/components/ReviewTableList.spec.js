@@ -83,6 +83,43 @@ const dummyDataDepOnly = {
   postalCode: "A8V 8V8",
   accountType: "AH",
   personMoving: "DEP_ONLY",
+  isAllDependentsMoving: "Y",
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+    {
+      value: "9353 166 545",
+      isValid: true,
+    },
+    {
+      value: "9353 166 546",
+      isValid: true,
+    },
+  ],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+}
+
+const dummyDataDepsMoving = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "AH_DEP",
   isAllDependentsMoving: "N",
   dependentPhns: [
     {
@@ -431,8 +468,41 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
       store,
     });
 
-    const test = wrapper.vm.dependentPhns
-    console.log("potato test", test)
+    const result = wrapper.vm.accountTypeTableData;
+    await wrapper.vm.$nextTick;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Dependent PHN(s):",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: 
+          "9353 166 544\n9353 166 545\n9353 166 546",
+        }),
+      ])
+    );
+  });
+
+  it("adds additional data if isAllDependentsMoving is set to no", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDepsMoving);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
 
     const result = wrapper.vm.accountTypeTableData;
     await wrapper.vm.$nextTick;
