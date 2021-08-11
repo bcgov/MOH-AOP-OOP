@@ -528,6 +528,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
 
 describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   let store;
+  let wrapper;
 
   beforeEach(() => {
     store = new Vuex.Store({
@@ -535,24 +536,20 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
         form: storeTemplate,
       },
     });
-  });
 
-  it("returns an array", async () => {
-    const wrapper = mount(Component, {
+    wrapper = mount(Component, {
       localVue,
       store,
     });
+  });
+
+  it("returns an array", async () => {
     const result = wrapper.vm.moveInfoTableData;
 
     expect(Array.isArray(result)).toEqual(true);
   });
 
   it("returns an array containing permanent move date", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -565,11 +562,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing arrival date", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -582,11 +574,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing whether new address is known", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -599,11 +586,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing country", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -616,11 +598,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing city", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -633,11 +610,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing province", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -650,11 +622,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing postal code", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
