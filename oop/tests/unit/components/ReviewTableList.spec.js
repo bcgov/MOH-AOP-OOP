@@ -70,7 +70,6 @@ const dummyDataUSA = {
   postalCode: null,
 };
 
-
 const dummyDataNull = {
   lastName: null,
   phn: null,
@@ -698,7 +697,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
 });
 
 describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
-  let store;
   let wrapper;
 
   beforeEach(() => {
@@ -818,6 +816,4 @@ describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
       ])
     );
   });
-
-  
 });
