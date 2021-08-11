@@ -38,6 +38,39 @@ const dummyData = {
   postalCode: "A8V 8V8",
 };
 
+const dummyDataUSA = {
+  lastName: "PICKET BOATXE",
+  phn: "9353 166 544",
+  phone: "250-123-4567",
+  accountType: "AH",
+  personMoving: "AH_ONLY",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "Y",
+  country: "United States",
+  addressLines: [
+    {
+      id: "address-line-1",
+      isValid: true,
+      value: "123 Main St",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "Fakesville",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "11111",
+    },
+  ],
+  province: "AL",
+  city: null,
+  postalCode: null,
+};
+
+
 const dummyDataNull = {
   lastName: null,
   phn: null,
@@ -643,7 +676,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     );
   });
 
-  it.only("returns an array containing address lines", async () => {
+  it("returns an array containing address lines", async () => {
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -662,4 +695,129 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
       ])
     );
   });
+});
+
+describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
+  let store;
+  let wrapper;
+
+  beforeEach(() => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataUSA);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+  });
+
+  it("returns an array", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(Array.isArray(result)).toEqual(true);
+  });
+
+  it("returns an array containing permanent move date", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: formatDate(wrapper.vm.$store.state.form.moveFromBCDate),
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing arrival date", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: formatDate(wrapper.vm.$store.state.form.arriveDestinationDate),
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing whether new address is known", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Yes",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing country", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "United States",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing city", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Fakesville",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing province", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Alabama",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing postal code", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "11111",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing address lines", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "123 Main St",
+        }),
+      ])
+    );
+  });
+
+  
 });
