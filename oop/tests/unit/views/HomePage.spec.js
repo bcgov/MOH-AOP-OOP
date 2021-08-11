@@ -5,6 +5,7 @@ import Component from "@/views/HomePage.vue";
 import spaEnvService from "@/services/spa-env-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
+import { cloneDeep } from "lodash";
 
 const spaEnvServiceResponse = {
   data: {
@@ -117,7 +118,9 @@ const spaEnvServiceMaintenance = {
 };
 
 const localVue = createLocalVue();
+localVue.use(VueRouter);
 localVue.use(Vuex);
+const router = new VueRouter();
 
 const scrollHelper = require("@/helpers/scroll");
 
@@ -139,60 +142,39 @@ jest.mock("@/helpers/scroll", () => ({
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 
 describe("HomePage.vue", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-  let state;
+  let wrapper;
   let store;
 
   beforeEach(() => {
-    state = {
-      lastName: null,
-      phn: null,
-      phone: null,
-    };
-
     store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state,
-          namespaced: true,
-        },
+        form: cloneDeep(formTemplate),
       },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
     });
   });
 
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
   it("renders", () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-    });
     expect(wrapper.element).toBeDefined();
   });
 });
 
 describe("HomePage.vue handleCloseConsentModal()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-  let state;
+  let wrapper;
   let store;
 
   beforeEach(() => {
-    state = {
-      lastName: null,
-      phn: null,
-      phone: null,
-    };
-
     store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state,
-          namespaced: true,
-        },
+        form: cloneDeep(formTemplate),
       },
       data: () => {
         return {
@@ -200,14 +182,18 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
         };
       },
     });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   it("changes showConsentModal to false", async () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-    });
-
     wrapper.vm.handleCloseConsentModal();
     await wrapper.vm.$nextTick();
 
@@ -216,36 +202,13 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
 });
 
 describe("HomePage.vue nextPage()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-  let state;
+  let wrapper;
   let store;
 
-  let $route;
-  let $router;
-
   beforeEach(() => {
-    $route = {
-      path: "/",
-    };
-    $router = new VueRouter({
-      $route,
-    });
-
-    state = {
-      lastName: null,
-      phn: null,
-      phone: null,
-    };
-
     store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state,
-          namespaced: true,
-        },
+        form: cloneDeep(formTemplate),
       },
       data: () => {
         return {
@@ -253,25 +216,21 @@ describe("HomePage.vue nextPage()", () => {
         };
       },
     });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
   });
 
   afterEach(() => {
-    pageStateService.setPageComplete.mockReset();
-    pageStateService.visitPage.mockReset();
-    scrollHelper.scrollTo.mockReset();
+    jest.resetModules();
+    jest.clearAllMocks();
   });
 
   it("pushes to router", async () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     const spyOnRouter = jest
-      .spyOn($router, "push")
+      .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
 
     wrapper.vm.nextPage();
@@ -281,14 +240,6 @@ describe("HomePage.vue nextPage()", () => {
   });
 
   it("calls scrollTo with the parameter 0", async () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
@@ -296,14 +247,6 @@ describe("HomePage.vue nextPage()", () => {
   });
 
   it("calls pageStateService", async () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
-      },
-    });
-
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
@@ -313,39 +256,37 @@ describe("HomePage.vue nextPage()", () => {
 });
 
 describe("HomePage.vue created()", () => {
-  const mutations = formTemplate.mutations;
-  const actions = formTemplate.actions;
-  let state;
+  let wrapper;
   let store;
 
   beforeEach(() => {
-    state = {
-      lastName: null,
-      phn: null,
-      phone: null,
-    };
-
     store = new Vuex.Store({
       modules: {
-        form: {
-          mutations,
-          actions,
-          state,
-          namespaced: true,
-        },
+        form: cloneDeep(formTemplate),
+      },
+      data: () => {
+        return {
+          showConsentModal: true,
+        };
       },
     });
-
-    jest
-      .spyOn(spaEnvService, "loadEnvs")
-      .mockImplementationOnce(() => Promise.resolve(spaEnvServiceMaintenance));
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
   });
 
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+  
+  jest
+    .spyOn(spaEnvService, "loadEnvs")
+    .mockImplementationOnce(() => Promise.resolve(spaEnvServiceMaintenance));
+
   it("renders", () => {
-    const wrapper = shallowMount(Component, {
-      store,
-      localVue,
-    });
     expect(wrapper.element).toBeDefined();
   });
 });
