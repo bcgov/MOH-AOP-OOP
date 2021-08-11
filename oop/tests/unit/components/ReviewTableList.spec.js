@@ -1,6 +1,7 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
+import { cloneDeep } from "lodash";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ReviewTableList.vue";
 import { formatDate } from "@/helpers/date";
@@ -41,6 +42,67 @@ const dummyDataNull = {
   city: null,
   postalCode: null,
 };
+
+const dummyDataDep = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "AH_DEP",
+  isAllDependentsMoving: "N",
+  dependentPhns: ["1234"],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+}
+
+const dummyDataDepOnly = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "DEP_ONLY",
+  isAllDependentsMoving: "N",
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+    {
+      value: "9353 166 545",
+      isValid: true,
+    },
+    {
+      value: "9353 166 546",
+      isValid: true,
+    },
+  ],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+}
 
 const storeTemplateNull = {
   state: () => {
@@ -103,8 +165,7 @@ const storeTemplate = {
 
     return state;
   },
-  mutations: formTemplate.mutations
-  ,
+  mutations: formTemplate.mutations,
   actions: formTemplate.actions,
   getters: {},
 };
@@ -282,17 +343,13 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 });
 
 describe("ReviewTableList.vue accountTypeTableData() filled", () => {
-  let store;
-
-  beforeEach(() => {
-    store = new Vuex.Store({
+  it("returns an array", async () => {
+    const store = new Vuex.Store({
       modules: {
         form: storeTemplate,
       },
     });
-  });
 
-  it("returns an array", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -303,6 +360,12 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   });
 
   it("returns an array containing who is moving", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: storeTemplate,
+      },
+    });
+
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -319,7 +382,78 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     );
   });
 
-  //tests for AH_DEP and DEP_ONLY can and should go here
+  it("adds additional data if account is AH_DEP", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDep);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.accountTypeTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Are all of the dependents on your MSP account moving out of B.C.?",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "No",
+        }),
+      ])
+    );
+  });
+
+  it("adds additional data if account is DEP_ONLY", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDepOnly);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const test = wrapper.vm.dependentPhns
+    console.log("potato test", test)
+
+    const result = wrapper.vm.accountTypeTableData;
+    await wrapper.vm.$nextTick;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Dependent PHN(s):",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: 
+          "9353 166 544\n9353 166 545\n9353 166 546",
+        }),
+      ])
+    );
+  });
 });
 
 describe("ReviewTableList.vue moveInfoTableData() filled", () => {
