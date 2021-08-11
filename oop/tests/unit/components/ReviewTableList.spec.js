@@ -19,9 +19,20 @@ const dummyData = {
   personMoving: "AH_ONLY",
   moveFromBCDate: new Date("2021-09-26"),
   arriveDestinationDate: new Date("2021-09-27"),
-  isNewAddressKnown: "N",
+  isNewAddressKnown: "Y",
   country: "Canada",
-  addressLine1: "123 Main St.",
+  addressLines: [
+    {
+      id: "address-line-1",
+      isValid: true,
+      value: "123 Main St",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "Address Line 2",
+    },
+  ],
   province: "AB",
   city: "Victoria",
   postalCode: "A8V 8V8",
@@ -65,7 +76,7 @@ const dummyDataDep = {
   referenceNumber: null,
   submissionResponse: null,
   submissionError: null,
-}
+};
 
 const dummyDataDepOnly = {
   applicationUuid: "defaultuuid",
@@ -102,7 +113,7 @@ const dummyDataDepOnly = {
   referenceNumber: null,
   submissionResponse: null,
   submissionError: null,
-}
+};
 
 const dummyDataDepsMoving = {
   applicationUuid: "defaultuuid",
@@ -139,7 +150,7 @@ const dummyDataDepsMoving = {
   referenceNumber: null,
   submissionResponse: null,
   submissionError: null,
-}
+};
 
 const storeTemplateNull = {
   state: () => {
@@ -439,7 +450,8 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          label: "Are all of the dependents on your MSP account moving out of B.C.?",
+          label:
+            "Are all of the dependents on your MSP account moving out of B.C.?",
         }),
       ])
     );
@@ -482,8 +494,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: 
-          "9353 166 544\n9353 166 545\n9353 166 546",
+          value: "9353 166 544\n9353 166 545\n9353 166 546",
         }),
       ])
     );
@@ -518,8 +529,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: 
-          "9353 166 544\n9353 166 545\n9353 166 546",
+          value: "9353 166 544\n9353 166 545\n9353 166 546",
         }),
       ])
     );
@@ -579,7 +589,7 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "No",
+          value: "Yes",
         }),
       ])
     );
@@ -628,6 +638,26 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
       expect.arrayContaining([
         expect.objectContaining({
           value: "A8V 8V8",
+        }),
+      ])
+    );
+  });
+
+  it.only("returns an array containing address lines", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "123 Main St",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Address Line 2",
         }),
       ])
     );
