@@ -5,6 +5,7 @@ import Vuelidate from "vuelidate";
 import VueRouter from "vue-router";
 import Component from "@/views/MoveInfoPage.vue";
 import pageStateService from "@/services/page-state-service";
+import logService from "@/services/log-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 
@@ -113,6 +114,10 @@ jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
   scrollToError: jest.fn(),
 }));
+
+const spyOnLogNavigation = jest
+  .spyOn(logService, "logNavigation")
+  .mockImplementation(() => Promise.resolve("logged"));
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
@@ -1035,5 +1040,56 @@ describe("MoveInfoPage.vue validateFields()", () => {
     await wrapper.vm.$nextTick();
 
     expect(spyOnRouter).toHaveBeenCalled();
+  });
+});
+
+describe("MoveInfoPage.vue created()", () => {
+  let wrapper;
+  let store;
+
+  let tempForm = cloneDeep(formTemplate);
+  tempForm.state = cloneDeep(dataTemplateFilled);
+  const dataTemplateCopy = cloneDeep(dataTemplate);
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      data: () => {
+        return dataTemplateCopy;
+      },
+    });
+  });
+
+  it("sets values from store", () => {
+    expect(Date(wrapper.vm.moveFromBCDate)).toEqual(Date("2021-08-01"));
+    expect(Date(wrapper.vm.arriveDestinationDate)).toEqual(Date("2021-08-22"));
+    expect(wrapper.vm.isNewAddressKnown).toEqual("Y");
+    expect(wrapper.vm.addressLines).toEqual([
+      {
+        id: "address-line-1",
+        isValid: true,
+        value: "123 Main St.",
+      },
+      {
+        id: "address-line-2",
+        isValid: true,
+        value: "Unit 456",
+      },
+    ]);
+    expect(wrapper.vm.country).toEqual("Canada");
+    expect(wrapper.vm.province).toEqual("ON");
+    expect(wrapper.vm.city).toEqual("Fakesville");
+    expect(wrapper.vm.postalCode).toEqual("H0H 0H0");
+  });
+
+  it("calls logNavigation() on page load", () => {
+    expect(spyOnLogNavigation).toHaveBeenCalled();
   });
 });
