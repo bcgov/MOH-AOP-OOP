@@ -2,12 +2,12 @@ import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import VueRouter from "vue-router";
 import Component from "@/views/HomePage.vue";
-import spaEnvService from "@/services/spa-env-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
+import axios from "axios";
 
-const spaEnvServiceResponse = {
+const mockAxiosResponse = {
   data: {
     SPA_ENV_OOP_MAINTENANCE_FLAG: "false",
     SPA_ENV_OOP_MAINTENANCE_START: "2021-05-20 11:00:00 AM",
@@ -31,7 +31,7 @@ const spaEnvServiceResponse = {
     "content-security-policy":
       "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
     "content-type": "application/json; charset=utf-8",
-    date: "Fri, 16 Jul 2021 17:13:20 GMT",
+    date: "Thu, 12 Aug 2021 19:10:17 GMT",
     etag: 'W/"153-GDCv0dFpnRzks5Q4aJXEeiTyqxw"',
     pragma: "no-cache",
     server: "nginx",
@@ -62,7 +62,7 @@ const spaEnvServiceResponse = {
   request: {},
 };
 
-const spaEnvServiceMaintenance = {
+const mockAxiosResponseMaintenance = {
   data: {
     SPA_ENV_OOP_MAINTENANCE_FLAG: "true",
     SPA_ENV_OOP_MAINTENANCE_START: "2021-05-20 11:00:00 AM",
@@ -86,7 +86,7 @@ const spaEnvServiceMaintenance = {
     "content-security-policy":
       "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'",
     "content-type": "application/json; charset=utf-8",
-    date: "Fri, 16 Jul 2021 17:13:20 GMT",
+    date: "Thu, 12 Aug 2021 19:10:17 GMT",
     etag: 'W/"153-GDCv0dFpnRzks5Q4aJXEeiTyqxw"',
     pragma: "no-cache",
     server: "nginx",
@@ -124,6 +124,10 @@ const router = new VueRouter();
 
 const scrollHelper = require("@/helpers/scroll");
 
+const spyOnRouter = jest
+  .spyOn(router, "push")
+  .mockImplementation(() => Promise.resolve("pushed"));
+
 jest
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
@@ -131,9 +135,12 @@ jest
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
-jest
-  .spyOn(spaEnvService, "loadEnvs")
-  .mockImplementation(() => Promise.resolve(spaEnvServiceResponse));
+jest.mock("axios", () => ({
+  get: jest.fn(),
+  post: jest.fn(),
+}));
+
+axios.post.mockImplementation(() => Promise.resolve(mockAxiosResponse));
 
 jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
@@ -229,10 +236,6 @@ describe("HomePage.vue nextPage()", () => {
   });
 
   it("pushes to router", async () => {
-    const spyOnRouter = jest
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
-
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
@@ -270,6 +273,11 @@ describe("HomePage.vue created()", () => {
         };
       },
     });
+
+    axios.post.mockImplementation(() =>
+      Promise.resolve(mockAxiosResponseMaintenance)
+    );
+
     wrapper = shallowMount(Component, {
       localVue,
       store,
@@ -281,12 +289,17 @@ describe("HomePage.vue created()", () => {
     jest.resetModules();
     jest.clearAllMocks();
   });
-  
-  jest
-    .spyOn(spaEnvService, "loadEnvs")
-    .mockImplementationOnce(() => Promise.resolve(spaEnvServiceMaintenance));
 
   it("renders", () => {
     expect(wrapper.element).toBeDefined();
+  });
+
+  it("pushes to router", async () => {
+    expect(spyOnRouter).toHaveBeenCalled();
+  });
+
+  it("calls pageStateService", async () => {
+    expect(pageStateService.setPageComplete).toHaveBeenCalled();
+    expect(pageStateService.visitPage).toHaveBeenCalled();
   });
 });
