@@ -84,7 +84,7 @@ const dataTemplateFilled = {
   showServerValidationError: false,
   isPageLoaded: false,
   isLoading: false,
-  currNumOfAddressLines: 1,
+  currNumOfAddressLines: 5,
   isNewAddressKnownRadioItems: [
     {
       id: "is-new-address-known-y",
@@ -1091,5 +1091,12 @@ describe("MoveInfoPage.vue created()", () => {
 
   it("calls logNavigation() on page load", () => {
     expect(spyOnLogNavigation).toHaveBeenCalled();
+  });
+
+  it("adds the correct number of address lines", () => {
+    expect(wrapper.vm.currNumOfAddressLines).toEqual(
+      Math.max(wrapper.vm.getMinAddressLines(), wrapper.vm.addressLines.length)
+    );
+    expect(wrapper.vm.currNumOfAddressLines).toEqual(2);
   });
 });
