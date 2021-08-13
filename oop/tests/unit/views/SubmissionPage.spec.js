@@ -8,8 +8,13 @@ import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionPage.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import pageStateService from "@/services/page-state-service";
+import logService from "@/services/log-service";
 
 const spyOnPrint = jest.spyOn(window, "print").mockImplementation(() => {});
+
+const spyOnLogNavigation = jest
+  .spyOn(logService, "logNavigation")
+  .mockImplementation(() => Promise.resolve("logged"));
 
 const spyOnSetPageComplete = jest
   .spyOn(pageStateService, "setPageComplete")
@@ -27,6 +32,30 @@ jest.mock("@/helpers/scroll", () => ({
 }));
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+
+const dummyData = {
+  applicationUuid: null,
+  captchaToken: null,
+  lastName: null,
+  phn: null,
+  phone: null,
+  moveFromBCDate: null,
+  arriveDestinationDate: null,
+  isNewAddressKnown: null,
+  country: null,
+  addressLines: [],
+  province: null,
+  city: null,
+  postalCode: null,
+  accountType: null,
+  personMoving: null,
+  isAllDependentsMoving: null,
+  dependentPhns: [],
+  submissionDate: new Date("2021-08-22"),
+  referenceNumber: "1234567",
+  submissionResponse: null,
+  submissionError: null,
+}
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -139,5 +168,40 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
   it("calls scrollTo", async () => {
     wrapper.vm.navigateToHomePage();
     expect(spyOnScrollTo).toHaveBeenCalled();
+  });
+});
+
+describe("SubmissionPage.vue created()", () => {
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(dummyData);
+
+    store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("calls logNavigation() on page load", () => {
+    expect(spyOnLogNavigation).toHaveBeenCalled();
+  });
+
+  it("sets data", () => {
+    expect(wrapper.vm.submissionDate).toEqual("August 21, 2021");
+    expect(wrapper.vm.referenceNumber).toEqual("1234567");
   });
 });
