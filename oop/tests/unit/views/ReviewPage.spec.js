@@ -30,6 +30,9 @@ const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 const spyOnLogSubmission = jest
   .spyOn(logService, "logSubmission")
   .mockImplementation(() => Promise.resolve("logged"));
+const spyOnLogNavigation = jest
+  .spyOn(logService, "logNavigation")
+  .mockImplementation(() => Promise.resolve("logged"));
 const spyOnLogError = jest
   .spyOn(logService, "logError")
   .mockImplementation(() => Promise.resolve("logged"));
@@ -685,5 +688,33 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
     await wrapper.vm.navigateToSubmissionErrorPage();
     await wrapper.vm.$nextTick();
     expect(spyOnScrollTo).toHaveBeenCalled();
+  });
+});
+
+describe("ReviewPage.vue created()", () => {
+  let wrapper;
+  let store;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("calls logNavigation", () => {
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockSubmit));
+    expect(spyOnLogNavigation).toHaveBeenCalled();
   });
 });
