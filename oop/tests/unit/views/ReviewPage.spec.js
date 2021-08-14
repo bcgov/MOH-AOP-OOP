@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
+import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -9,6 +9,9 @@ import Component from "@/views/ReviewPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
+
+import * as stepRoutes from "@/router/step-routes";
+import { routes, routeStepOrder } from "@/router/routes";
 
 const scrollHelper = require("@/helpers/scroll");
 
@@ -626,9 +629,7 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
   });
 
   it("calls router.push", async () => {
-    const spyOnRouter = jest
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
+    const spyOnRouter = jest.spyOn(router, "push");
     await wrapper.vm.navigateToSubmissionPage();
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).toHaveBeenCalled();
@@ -676,9 +677,7 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
   });
 
   it("calls router.push", async () => {
-    const spyOnRouter = jest
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
+    const spyOnRouter = jest.spyOn(router, "push");
     await wrapper.vm.navigateToSubmissionErrorPage();
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).toHaveBeenCalled();
@@ -716,5 +715,56 @@ describe("ReviewPage.vue created()", () => {
   it("calls logNavigation", () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(mockSubmit));
     expect(spyOnLogNavigation).toHaveBeenCalled();
+  });
+});
+
+describe("ReviewPage.vue beforeRouteLeave()", () => {
+  let wrapper;
+  let store;
+
+  // const next = jest.fn;
+  const spyOnRouter = jest.spyOn(router, "push");
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: cloneDeep(formTemplate),
+      },
+    });
+    wrapper = shallowMount(Component, {
+      localVue,
+      store,
+      router,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  //Instead of mocking out the beforeRouteLeave() function and making flaky/tightly coupled tests
+  //the following tests call router.push and then check to make sure it navigates properly
+  it("navigates home without problems", () => {
+    expect(spyOnRouter).not.toHaveBeenCalled();
+    router.push(routeStepOrder[0].path);
+    expect(router.history.current.path).toEqual(routeStepOrder[0].path);
+  });
+
+  it("navigates back and forth", async () => {
+    expect(spyOnRouter).not.toHaveBeenCalled();
+    console.log("***************************************NOW ON: ", router.history.current.path)
+
+    await router.push('/your-info');
+    await wrapper.vm.$nextTick;
+    console.log("***************************************NOW ON: ", router.history.current.path)
+    console.log(wrapper.html())
+    expect(router.history.current.path).toEqual(routeStepOrder[1].path);
+    
+    // await router.push(routeStepOrder[4].path);
+    // await wrapper.vm.$nextTick;
+    // console.log("***************************************NOW ON: ", router.history.current.path)
+    // console.log(wrapper.html())    
+    // expect(router.history.current.path).toEqual(routeStepOrder[4].path);
   });
 });
