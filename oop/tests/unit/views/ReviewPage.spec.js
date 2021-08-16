@@ -25,12 +25,15 @@ jest.mock("axios", () => ({
 jest.mock("@/helpers/scroll", () => ({
   scrollTo: jest.fn(),
   scrollToError: jest.fn(),
-  getTopScrollPosition: jest.fn()
+  getTopScrollPosition: jest.fn(),
 }));
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
+const spyOnGetTopScrollPosition = jest
+  .spyOn(scrollHelper, "getTopScrollPosition")
+  .mockImplementation(() => Promise.resolve("top scroll position returned"));
 const spyOnLogSubmission = jest
   .spyOn(logService, "logSubmission")
   .mockImplementation(() => Promise.resolve("logged"));
@@ -42,6 +45,9 @@ const spyOnLogError = jest
   .mockImplementation(() => Promise.resolve("logged"));
 const spyOnSetPageComplete = jest
   .spyOn(pageStateService, "setPageComplete")
+  .mockImplementation(() => Promise.resolve("set"));
+const spyOnSetPageIncomplete = jest
+  .spyOn(pageStateService, "setPageIncomplete")
   .mockImplementation(() => Promise.resolve("set"));
 const spyOnVisitPage = jest
   .spyOn(pageStateService, "visitPage")
@@ -719,19 +725,17 @@ describe("ReviewPage.vue created()", () => {
   });
 });
 
-describe("ReviewPage.vue beforeRouteLeave()", () => {
+describe.only("ReviewPage.vue beforeRouteLeave()", () => {
   let wrapper;
   let store;
 
-  const next = jest.fn
-
-  // const next = jest.fn;
+  const next = jest.fn();
   const spyOnRouter = jest.spyOn(router, "push");
 
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: cloneDeep(formTemplate),
+        form: cloneDeep(formTemplate.default),
       },
     });
     wrapper = shallowMount(Component, {
@@ -748,10 +752,46 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
 
   //Instead of mocking out the beforeRouteLeave() function and making flaky/tightly coupled tests
   //the following tests call router.push and then check to make sure it navigates properly
-  it.only("calls without breaking", () => {
-    expect(spyOnRouter).not.toHaveBeenCalled();
-    Component.beforeRouteLeave(routeStepOrder[0].path, routeStepOrder[3].path, next)
-    // console.log("avocado", Component.beforeRouteLeave)
-    // expect(router.history.current.path).toEqual(routeStepOrder[0].path);
+  it("calls function without breaking", () => {
+    // console.log("rutabaga", wrapper.vm.$store.state.form.phone)
+    expect(spyOnSetPageIncomplete).not.toHaveBeenCalled();
+    Component.beforeRouteLeave(routeStepOrder[1], routes.REVIEW_PAGE, next);
+  });
+
+  it("calls pageStateService.setPageIncomplete", () => {
+    Component.beforeRouteLeave(routeStepOrder[1], routes.REVIEW_PAGE, next);
+    expect(spyOnSetPageIncomplete).toHaveBeenCalled();
+  });
+
+  it("calls next() if destination is past path", () => {
+    Component.beforeRouteLeave(routeStepOrder[1], routes.REVIEW_PAGE, next);
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith();
+  });
+
+  it("calls next() with specific arguments if destination is same or later", async () => {
+    Component.beforeRouteLeave(
+      routes.REVIEW_PAGE,
+      routes.REVIEW_PAGE,
+      next
+    );
+    expect(next).toHaveBeenCalled();
+    expect(next).toHaveBeenCalledWith({
+      path: routes.REVIEW_PAGE.path,
+      replace: true,
+    });
+  });
+
+  it("calls scrollTo() if destination is same or later", async () => {
+    jest.useFakeTimers()
+    Component.beforeRouteLeave(
+      routes.REVIEW_PAGE,
+      routes.REVIEW_PAGE,
+      next
+    );
+    jest.advanceTimersByTime(5);
+    await wrapper.vm.$nextTick;
+    expect(spyOnGetTopScrollPosition).toHaveBeenCalled();
+    expect(spyOnScrollTo).toHaveBeenCalled();
   });
 });
