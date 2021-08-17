@@ -9,6 +9,7 @@ import Component from "@/views/ReviewPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
+// import { store as storeMock } from "@/store";
 
 import * as stepRoutes from "@/router/step-routes";
 import { routes, routeStepOrder } from "@/router/routes";
@@ -27,6 +28,12 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
   getTopScrollPosition: jest.fn(),
 }));
+
+// jest.mock("storeMock", () => ({
+//   dispatch: jest.fn(),
+// }));
+
+// const spyOnStoreMockDispatch = jest.spyOn(storeMock, "dispatch");
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
@@ -431,7 +438,7 @@ describe("ReviewPage.vue", () => {
   });
 });
 
-describe("ReviewPage.vue submitForm()", () => {
+describe("ReviewPage.vue submitFormm()", () => {
   let wrapper;
   let store;
 
@@ -725,17 +732,19 @@ describe("ReviewPage.vue created()", () => {
   });
 });
 
-describe.only("ReviewPage.vue beforeRouteLeave()", () => {
+describe("ReviewPage.vue beforeRouteLeave()", () => {
   let wrapper;
   let store;
 
   const next = jest.fn();
-  const spyOnRouter = jest.spyOn(router, "push");
+
+  let tempForm = cloneDeep(formTemplate.default);
+  tempForm.state = dummyFormData;
 
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: cloneDeep(formTemplate.default),
+        form: tempForm,
       },
     });
     wrapper = shallowMount(Component, {
@@ -750,8 +759,6 @@ describe.only("ReviewPage.vue beforeRouteLeave()", () => {
     jest.clearAllMocks();
   });
 
-  //Instead of mocking out the beforeRouteLeave() function and making flaky/tightly coupled tests
-  //the following tests call router.push and then check to make sure it navigates properly
   it("calls function without breaking", () => {
     // console.log("rutabaga", wrapper.vm.$store.state.form.phone)
     expect(spyOnSetPageIncomplete).not.toHaveBeenCalled();
@@ -770,11 +777,7 @@ describe.only("ReviewPage.vue beforeRouteLeave()", () => {
   });
 
   it("calls next() with specific arguments if destination is same or later", async () => {
-    Component.beforeRouteLeave(
-      routes.REVIEW_PAGE,
-      routes.REVIEW_PAGE,
-      next
-    );
+    Component.beforeRouteLeave(routes.REVIEW_PAGE, routes.REVIEW_PAGE, next);
     expect(next).toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith({
       path: routes.REVIEW_PAGE.path,
@@ -783,8 +786,9 @@ describe.only("ReviewPage.vue beforeRouteLeave()", () => {
   });
 
   it("calls scrollTo() if destination is same or later", async () => {
-    jest.useFakeTimers()
-    Component.beforeRouteLeave(
+    jest.useFakeTimers();
+    Component.beforeRouteLeave.call(
+      wrapper.vm,
       routes.REVIEW_PAGE,
       routes.REVIEW_PAGE,
       next
@@ -793,5 +797,16 @@ describe.only("ReviewPage.vue beforeRouteLeave()", () => {
     await wrapper.vm.$nextTick;
     expect(spyOnGetTopScrollPosition).toHaveBeenCalled();
     expect(spyOnScrollTo).toHaveBeenCalled();
+  });
+
+  it("dispatches formReset if destination is home page", async () => {
+    jest.useFakeTimers();
+    const spyOnDispatch = jest.spyOn(store, "dispatch");
+
+    Component.beforeRouteLeave(routeStepOrder[0], routes.REVIEW_PAGE, next);
+    jest.advanceTimersByTime(5);
+    await wrapper.vm.$nextTick;
+    store.dispatch("form/resetForm")
+    expect(spyOnDispatch).toHaveBeenCalled();
   });
 });

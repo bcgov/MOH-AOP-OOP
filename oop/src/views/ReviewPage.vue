@@ -40,6 +40,7 @@ import {
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
+import store from '@/store'
 
 export default {
   name: 'ReviewPage',
@@ -141,7 +142,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     pageStateService.setPageIncomplete(from.path);
     if (to.path === routes.HOME_PAGE.path) {
-      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      store.dispatch(formModule + '/' + RESET_FORM);
       next();
     } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
       next();
