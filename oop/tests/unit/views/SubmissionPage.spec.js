@@ -33,6 +33,8 @@ jest.mock("@/helpers/scroll", () => ({
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 
+const formattedDate = new Date("2021-08-21T03:24:00");
+
 const dummyData = {
   applicationUuid: null,
   captchaToken: null,
@@ -51,11 +53,11 @@ const dummyData = {
   personMoving: null,
   isAllDependentsMoving: null,
   dependentPhns: [],
-  submissionDate: new Date("2021-08-22"),
+  submissionDate: formattedDate,
   referenceNumber: "1234567",
   submissionResponse: null,
   submissionError: null,
-}
+};
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -122,6 +124,7 @@ describe("SubmissionPage.vue printPage()", () => {
 describe("SubmissionPage.vue navigateToHomePage()", () => {
   let wrapper;
   let store;
+  let spyOnRouter;
 
   beforeEach(() => {
     store = new Vuex.Store({
@@ -134,6 +137,10 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
       store,
       router,
     });
+
+    spyOnRouter = jest
+      .spyOn(router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {
@@ -158,9 +165,6 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
   });
 
   it("calls router push", async () => {
-    const spyOnRouter = jest
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
     wrapper.vm.navigateToHomePage();
     expect(spyOnRouter).toHaveBeenCalled();
   });
