@@ -24,7 +24,9 @@ describe("Helper us-states.js", () => {
 
   it("returns a full state name when passed a state code (case 2)", () => {
     const result = Function("AE");
-    expect(result).toEqual("Armed Forces Europe, Canada, Africa and Middle East");
+    expect(result).toEqual(
+      "Armed Forces Europe, Canada, Africa and Middle East"
+    );
   });
 
   it("returns a full state name when passed a state code (case 3)", () => {

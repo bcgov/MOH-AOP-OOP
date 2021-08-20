@@ -1276,8 +1276,8 @@ describe("YourInfoPage.vue created()", () => {
   });
 
   it("sets data to values in state", () => {
-    expect(wrapper.vm.lastName).toEqual("default1")
-    expect(wrapper.vm.phn).toEqual("default2")
-    expect(wrapper.vm.phone).toEqual("default3")
+    expect(wrapper.vm.lastName).toEqual("default1");
+    expect(wrapper.vm.phn).toEqual("default2");
+    expect(wrapper.vm.phone).toEqual("default3");
   });
 });

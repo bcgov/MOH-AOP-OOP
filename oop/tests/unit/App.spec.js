@@ -15,7 +15,7 @@ describe("App.vue", () => {
   it("renders", () => {
     const wrapper = mount(Component, {
       localVue,
-      router
+      router,
     });
     expect(wrapper.element).toBeDefined();
   });
