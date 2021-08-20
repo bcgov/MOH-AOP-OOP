@@ -1,4 +1,4 @@
-import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
+import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -429,9 +429,10 @@ describe("ReviewPage.vue", () => {
   });
 });
 
-describe("ReviewPage.vue submitFormm()", () => {
+describe("ReviewPage.vue submitForm()", () => {
   let wrapper;
   let store;
+  let spyOnRouter;
 
   let tempForm = cloneDeep(formTemplate.default);
   tempForm.state = dummyFormData;
@@ -447,6 +448,10 @@ describe("ReviewPage.vue submitFormm()", () => {
       store,
       router,
     });
+
+    spyOnRouter = jest
+      .spyOn(router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
 
     axios.post.mockImplementation(() => Promise.resolve(mockSubmit));
   });
@@ -602,6 +607,7 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
 describe("ReviewPage.vue navigateToSubmissionPage()", () => {
   let wrapper;
   let store;
+  let spyOnRouter;
 
   beforeEach(() => {
     store = new Vuex.Store({
@@ -614,6 +620,10 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
       store,
       router,
     });
+
+    spyOnRouter = jest
+      .spyOn(router, "push")
+      .mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {
@@ -634,7 +644,6 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
   });
 
   it("calls router.push", async () => {
-    const spyOnRouter = jest.spyOn(router, "push");
     await wrapper.vm.navigateToSubmissionPage();
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).toHaveBeenCalled();
@@ -696,7 +705,6 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
 });
 
 describe("ReviewPage.vue created()", () => {
-  let wrapper;
   let store;
 
   beforeEach(() => {
@@ -705,7 +713,7 @@ describe("ReviewPage.vue created()", () => {
         form: cloneDeep(formTemplate),
       },
     });
-    wrapper = shallowMount(Component, {
+    shallowMount(Component, {
       localVue,
       store,
       router,
