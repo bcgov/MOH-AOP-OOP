@@ -20,29 +20,5 @@ describe("Helper scroll.js scrollTo()", () => {
 });
 
 /*
-The following test doesn't work for unclear reasons. 
-It appears that the function in scroll.js doesn't get mocked properly, 
-and calling scrollToError doesn't call the mocked/spied version of ScrollToElement.
-This causes its call to not be registered and the test to fail.
-
-The only thing I can think of is that I need to use a wrapper/component in some way,
-but if that's the case, I'd rather test this in integration/end to end testing anyways.
+Remaining scroll tests are better covered in end to end testing
 */
-describe.skip("Helper scroll.js scrollToError()", () => {
-  jest.useFakeTimers();
-
-  afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
-  });
-
-  it("calls window.scrollToElement() when scrollToError() is called", async () => {
-    // console.log("rutabaga", scroll);
-    await scroll.scrollToError();
-    // scroll.scrollToElement(0);
-    // scroll.dummyFunction();
-    jest.advanceTimersByTime(5);
-    await setTimeout(() => {}, 0);
-    // expect(spyOnScrollToElement).toHaveBeenCalled();
-  });
-});

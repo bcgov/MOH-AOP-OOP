@@ -785,22 +785,24 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   });
 
   //the following test doesn't work, and I was unable to find a way to make it work
+  //long story short, the spy on dispatch seems to require a wrapper to apply correctly
+  //and I can't seem to call beforeRouteLeave() from the wrapper without causing errors
   //I leave it here for posterity in case someone finds a way to make it work down the road
 
   it.skip("dispatches formReset if destination is home page", async () => {
     jest.useFakeTimers();
     const beforeRouteLeave = wrapper.vm.$options.beforeRouteLeave;
-    console.log("potato", wrapper.vm.$options)
+    console.log("potato", wrapper.vm.$options);
     if (beforeRouteLeave instanceof Function) {
-      console.log("yes function")
+      console.log("yes function");
     } else {
-      console.log("no function")
+      console.log("no function");
     }
     const spyOnDispatch = jest.spyOn(store, "dispatch");
 
     // Component.beforeRouteLeave(routeStepOrder[0], routes.REVIEW_PAGE, next);
     // wrapper.vm.$options.beforeRouteLeave(routeStepOrder[0], routes.REVIEW_PAGE, next);
-    beforeRouteLeave(wrapper.vm , routeStepOrder[0], routes.REVIEW_PAGE, next);
+    beforeRouteLeave(wrapper.vm, routeStepOrder[0], routes.REVIEW_PAGE, next);
     jest.advanceTimersByTime(5);
     await wrapper.vm.$nextTick;
     // store.dispatch("form/resetForm")
