@@ -38,7 +38,9 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-const spyOnRouter = jest.spyOn(router, "push");
+const spyOnRouter = jest
+  .spyOn(router, "push")
+  .mockImplementation(() => Promise.resolve("pushed"));
 
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 
