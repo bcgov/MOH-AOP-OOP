@@ -1,9 +1,11 @@
 import { mount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vue from "vue";
+import { cloneDeep } from "lodash";
 import Vuelidate from "vuelidate";
 import Component from "@/components/ReviewTableList.vue";
 import { formatDate } from "@/helpers/date";
+import * as formTemplate from "@/store/modules/form";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -17,12 +19,55 @@ const dummyData = {
   personMoving: "AH_ONLY",
   moveFromBCDate: new Date("2021-09-26"),
   arriveDestinationDate: new Date("2021-09-27"),
-  isNewAddressKnown: "N",
+  isNewAddressKnown: "Y",
   country: "Canada",
-  addressLine1: "123 Main St.",
+  addressLines: [
+    {
+      id: "address-line-1",
+      isValid: true,
+      value: "123 Main St",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "Address Line 2",
+    },
+  ],
   province: "AB",
   city: "Victoria",
   postalCode: "A8V 8V8",
+};
+
+const dummyDataUSA = {
+  lastName: "PICKET BOATXE",
+  phn: "9353 166 544",
+  phone: "250-123-4567",
+  accountType: "AH",
+  personMoving: "AH_ONLY",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "Y",
+  country: "United States",
+  addressLines: [
+    {
+      id: "address-line-1",
+      isValid: true,
+      value: "123 Main St",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "Fakesville",
+    },
+    {
+      id: "address-line-2",
+      isValid: true,
+      value: "11111",
+    },
+  ],
+  province: "AL",
+  city: null,
+  postalCode: null,
 };
 
 const dummyDataNull = {
@@ -41,38 +86,103 @@ const dummyDataNull = {
   postalCode: null,
 };
 
-// const MODULE_NAME = 'form';
-// const RESET_FORM = 'resetForm';
+const dummyDataDep = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "AH_DEP",
+  isAllDependentsMoving: "N",
+  dependentPhns: ["1234"],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+};
 
-const SET_APPLICATION_UUID = "setApplicationUuid";
-const SET_CAPTCHA_TOKEN = "setCaptchaToken";
-const SET_SUBMISSION_DATE = "setSubmissionDate";
-const SET_REFERENCE_NUMBER = "setReferenceNumber";
+const dummyDataDepOnly = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "DEP_ONLY",
+  isAllDependentsMoving: "Y",
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+    {
+      value: "9353 166 545",
+      isValid: true,
+    },
+    {
+      value: "9353 166 546",
+      isValid: true,
+    },
+  ],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+};
 
-// Your info page:
-const SET_LAST_NAME = "setLastName";
-const SET_PHN = "setPhn";
-const SET_PHONE = "setPhone";
-
-// Move Info page
-const SET_MOVE_FROM_BC_DATE = "setMoveFromBCDate";
-const SET_ARRIVE_DESTINATION_DATE = "setArriveDestinationDate";
-const SET_IS_NEW_ADDRESS_KNOWN = "setIsNewAddressKnown";
-const SET_COUNTRY = "setCountry";
-const SET_ADDRESS_LINES = "setAddressLines";
-const SET_PROVINCE = "setProvince";
-const SET_CITY = "setCity";
-const SET_POSTAL_CODE = "setPostalCode";
-
-// Account type page:
-const SET_ACCOUNT_TYPE = "setAccountType";
-const SET_PERSON_MOVING = "setPersonMoving";
-const SET_IS_ALL_DEPENDENTS_MOVING = "setIsAllDependentsMoving";
-const SET_DEPENDENT_PHNS = "setDependentPhns";
-
-// Sending page:
-const SET_SUBMISSION_RESPONSE = "setSubmissionResponse";
-const SET_SUBMISSION_ERROR = "setSubmissionError";
+const dummyDataDepsMoving = {
+  applicationUuid: "defaultuuid",
+  captchaToken: "defaulttoken",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  moveFromBCDate: new Date("2021-09-26"),
+  arriveDestinationDate: new Date("2021-09-27"),
+  isNewAddressKnown: "N",
+  country: "Canada",
+  addressLines: ["default1"],
+  province: "AB",
+  city: "Victoria",
+  postalCode: "A8V 8V8",
+  accountType: "AH",
+  personMoving: "AH_DEP",
+  isAllDependentsMoving: "N",
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+    {
+      value: "9353 166 545",
+      isValid: true,
+    },
+    {
+      value: "9353 166 546",
+      isValid: true,
+    },
+  ],
+  submissionDate: null,
+  referenceNumber: null,
+  submissionResponse: null,
+  submissionError: null,
+};
 
 const storeTemplateNull = {
   state: () => {
@@ -135,159 +245,8 @@ const storeTemplate = {
 
     return state;
   },
-  mutations: {
-    setApplicationUuid(state, payload) {
-      state.applicationUuid = payload;
-    },
-    setCaptchaToken(state, payload) {
-      state.captchaToken = payload;
-    },
-    setSubmissionDate(state, payload) {
-      state.submissionDate = payload;
-    },
-    setReferenceNumber(state, payload) {
-      state.referenceNumber = payload;
-    },
-    setLastName(state, payload) {
-      state.lastName = payload;
-    },
-    setPhn(state, payload) {
-      state.phn = payload;
-    },
-    setPhone(state, payload) {
-      state.phone = payload;
-    },
-    setMoveFromBCDate(state, payload) {
-      state.moveFromBCDate = payload;
-    },
-    setArriveDestinationDate(state, payload) {
-      state.arriveDestinationDate = payload;
-    },
-    setIsNewAddressKnown(state, payload) {
-      state.isNewAddressKnown = payload;
-    },
-    setCountry(state, payload) {
-      state.country = payload;
-    },
-    setAddressLines(state, payload) {
-      state.addressLines = payload;
-    },
-    setProvince(state, payload) {
-      state.province = payload;
-    },
-    setCity(state, payload) {
-      state.city = payload;
-    },
-    setPostalCode(state, payload) {
-      state.postalCode = payload;
-    },
-    setAccountType(state, payload) {
-      state.accountType = payload;
-    },
-    setPersonMoving(state, payload) {
-      state.personMoving = payload;
-    },
-    setIsAllDependentsMoving(state, payload) {
-      state.isAllDependentsMoving = payload;
-    },
-    setDependentPhns(state, payload) {
-      state.dependentPhns = payload;
-    },
-    setSubmissionResponse(state, payload) {
-      state.submissionResponse = payload;
-    },
-    setSubmissionError(state, payload) {
-      state.submissionError = payload;
-    },
-  },
-  actions: {
-    resetForm({ commit }) {
-      commit(SET_APPLICATION_UUID, null);
-      commit(SET_CAPTCHA_TOKEN, null);
-      commit(SET_SUBMISSION_DATE, null);
-      commit(SET_REFERENCE_NUMBER, null);
-      commit(SET_LAST_NAME, null);
-      commit(SET_PHN, null);
-      commit(SET_PHONE, null);
-      commit(SET_MOVE_FROM_BC_DATE, null);
-      commit(SET_ARRIVE_DESTINATION_DATE, null);
-      commit(SET_IS_NEW_ADDRESS_KNOWN, null);
-      commit(SET_COUNTRY, null);
-      commit(SET_ADDRESS_LINES, []);
-      commit(SET_PROVINCE, null);
-      commit(SET_CITY, null);
-      commit(SET_POSTAL_CODE, null);
-      commit(SET_ACCOUNT_TYPE, null);
-      commit(SET_PERSON_MOVING, null);
-      commit(SET_IS_ALL_DEPENDENTS_MOVING, null);
-      commit(SET_DEPENDENT_PHNS, []);
-      commit(SET_SUBMISSION_RESPONSE, null);
-      commit(SET_SUBMISSION_ERROR, null);
-    },
-    setApplicationUuid({ commit }, applicationUuid) {
-      commit(SET_APPLICATION_UUID, applicationUuid);
-    },
-    setCaptchaToken({ commit }, captchaToken) {
-      commit(SET_CAPTCHA_TOKEN, captchaToken);
-    },
-    setSubmissionDate({ commit }, submissionDate) {
-      commit(SET_SUBMISSION_DATE, submissionDate);
-    },
-    setReferenceNumber({ commit }, referenceNumber) {
-      commit(SET_REFERENCE_NUMBER, referenceNumber);
-    },
-    setLastName({ commit }, lastName) {
-      commit(SET_LAST_NAME, lastName);
-    },
-    setPhn({ commit }, phn) {
-      commit(SET_PHN, phn);
-    },
-    setPhone({ commit }, phone) {
-      commit(SET_PHONE, phone);
-    },
-    setMoveFromBCDate({ commit }, moveFromBCDate) {
-      commit(SET_MOVE_FROM_BC_DATE, moveFromBCDate);
-    },
-    setArriveDestinationDate({ commit }, arriveDestinationDate) {
-      commit(SET_ARRIVE_DESTINATION_DATE, arriveDestinationDate);
-    },
-    setIsNewAddressKnown({ commit }, isNewAddressKnown) {
-      commit(SET_IS_NEW_ADDRESS_KNOWN, isNewAddressKnown);
-    },
-    setCountry({ commit }, country) {
-      commit(SET_COUNTRY, country);
-    },
-    setAddressLines({ commit }, addressLines) {
-      commit(SET_ADDRESS_LINES, addressLines);
-    },
-    setProvince({ commit }, province) {
-      commit(SET_PROVINCE, province);
-    },
-    setCity({ commit }, city) {
-      commit(SET_CITY, city);
-    },
-    setPostalCode({ commit }, postalCode) {
-      commit(SET_POSTAL_CODE, postalCode);
-    },
-    setAccountType({ commit }, accountType) {
-      commit(SET_ACCOUNT_TYPE, accountType);
-    },
-    setPersonMoving({ commit }, personMoving) {
-      commit(SET_PERSON_MOVING, personMoving);
-    },
-    setIsAllDependentsMoving({ commit }, isAllDependentsMoving) {
-      commit(SET_IS_ALL_DEPENDENTS_MOVING, isAllDependentsMoving);
-    },
-    setDependentPhns({ commit }, dependentPhns) {
-      commit(SET_DEPENDENT_PHNS, dependentPhns);
-    },
-    setApiResponse({ commit }, response) {
-      commit(SET_SUBMISSION_RESPONSE, response);
-    },
-    setApiError({ commit }, error) {
-      commit(SET_SUBMISSION_ERROR, error);
-    },
-  },
+  mutations: formTemplate.mutations,
+  actions: formTemplate.actions,
   getters: {},
 };
 
@@ -295,13 +254,7 @@ describe("ReviewTableList.vue", () => {
   it("renders", async () => {
     const store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
 
@@ -320,13 +273,7 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
   });
@@ -402,13 +349,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplateNull.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplateNull,
       },
     });
   });
@@ -482,23 +423,13 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 });
 
 describe("ReviewTableList.vue accountTypeTableData() filled", () => {
-  let store;
-
-  beforeEach(() => {
-    store = new Vuex.Store({
+  it("returns an array", async () => {
+    const store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: storeTemplate,
       },
     });
-  });
 
-  it("returns an array", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -509,6 +440,12 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   });
 
   it("returns an array containing who is moving", async () => {
+    const store = new Vuex.Store({
+      modules: {
+        form: storeTemplate,
+      },
+    });
+
     const wrapper = mount(Component, {
       localVue,
       store,
@@ -525,42 +462,136 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     );
   });
 
-  //tests for AH_DEP and DEP_ONLY can and should go here
-});
+  it("adds additional data if account is AH_DEP", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDep);
 
-describe("ReviewTableList.vue moveInfoTableData() filled", () => {
-  let store;
-
-  beforeEach(() => {
-    store = new Vuex.Store({
+    const store = new Vuex.Store({
       modules: {
-        form: {
-          namespaced: true,
-          state: storeTemplate.state,
-          mutations: storeTemplate.mutations,
-          actions: storeTemplate.actions,
-          getters: storeTemplate.getters,
-        },
+        form: tempForm,
       },
     });
-  });
 
-  it("returns an array", async () => {
     const wrapper = mount(Component, {
       localVue,
       store,
     });
+
+    const result = wrapper.vm.accountTypeTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label:
+            "Are all of the dependents on your MSP account moving out of B.C.?",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "No",
+        }),
+      ])
+    );
+  });
+
+  it("adds additional data if account is DEP_ONLY", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDepOnly);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.accountTypeTableData;
+    await wrapper.vm.$nextTick;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Dependent PHN(s):",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "9353 166 544\n9353 166 545\n9353 166 546",
+        }),
+      ])
+    );
+  });
+
+  it("adds additional data if isAllDependentsMoving is set to no", async () => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataDepsMoving);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    const wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+
+    const result = wrapper.vm.accountTypeTableData;
+    await wrapper.vm.$nextTick;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: "Dependent PHN(s):",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "9353 166 544\n9353 166 545\n9353 166 546",
+        }),
+      ])
+    );
+  });
+});
+
+describe("ReviewTableList.vue moveInfoTableData() filled", () => {
+  let store;
+  let wrapper;
+
+  beforeEach(() => {
+    store = new Vuex.Store({
+      modules: {
+        form: storeTemplate,
+      },
+    });
+
+    wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+  });
+
+  it("returns an array", async () => {
     const result = wrapper.vm.moveInfoTableData;
 
     expect(Array.isArray(result)).toEqual(true);
   });
 
   it("returns an array containing permanent move date", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -573,11 +604,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing arrival date", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -590,28 +616,18 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing whether new address is known", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          value: "No",
+          value: "Yes",
         }),
       ])
     );
   });
 
   it("returns an array containing country", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -624,11 +640,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing city", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -641,11 +652,6 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing province", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
@@ -658,17 +664,154 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   });
 
   it("returns an array containing postal code", async () => {
-    const wrapper = mount(Component, {
-      localVue,
-      store,
-    });
-
     const result = wrapper.vm.moveInfoTableData;
 
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           value: "A8V 8V8",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing address lines", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "123 Main St",
+        }),
+      ])
+    );
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Address Line 2",
+        }),
+      ])
+    );
+  });
+});
+
+describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
+  let wrapper;
+
+  beforeEach(() => {
+    const tempForm = cloneDeep(storeTemplate);
+    tempForm.state = cloneDeep(dummyDataUSA);
+
+    const store = new Vuex.Store({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      localVue,
+      store,
+    });
+  });
+
+  it("returns an array", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(Array.isArray(result)).toEqual(true);
+  });
+
+  it("returns an array containing permanent move date", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: formatDate(wrapper.vm.$store.state.form.moveFromBCDate),
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing arrival date", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: formatDate(wrapper.vm.$store.state.form.arriveDestinationDate),
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing whether new address is known", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Yes",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing country", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "United States",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing city", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Fakesville",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing province", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "Alabama",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing postal code", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "11111",
+        }),
+      ])
+    );
+  });
+
+  it("returns an array containing address lines", async () => {
+    const result = wrapper.vm.moveInfoTableData;
+
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          value: "123 Main St",
         }),
       ])
     );

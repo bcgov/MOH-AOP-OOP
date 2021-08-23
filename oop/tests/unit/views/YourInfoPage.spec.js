@@ -182,7 +182,7 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
-jest
+const spyOnLogNavigation = jest
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
 jest
@@ -1239,5 +1239,45 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.isValidationCode2Shown).toEqual(false);
+  });
+});
+
+describe("YourInfoPage.vue created()", () => {
+  let state;
+  let store;
+  let wrapper;
+
+  beforeEach(() => {
+    state = {
+      lastName: "default1",
+      phn: "default2",
+      phone: "default3",
+    };
+
+    store = new Vuex.Store({
+      modules: {
+        form: {
+          state,
+          namespaced: true,
+        },
+      },
+    });
+
+    axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
+
+    wrapper = mount(Component, {
+      store,
+      localVue,
+    });
+  });
+
+  it("calls logNavigation() on page load", () => {
+    expect(spyOnLogNavigation).toHaveBeenCalled();
+  });
+
+  it("sets data to values in state", () => {
+    expect(wrapper.vm.lastName).toEqual("default1");
+    expect(wrapper.vm.phn).toEqual("default2");
+    expect(wrapper.vm.phone).toEqual("default3");
   });
 });
