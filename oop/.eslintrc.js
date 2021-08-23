@@ -15,6 +15,7 @@ module.exports = {
   plugins: [
     "jest", 
     "jest-formatting",
+    "cypress"
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

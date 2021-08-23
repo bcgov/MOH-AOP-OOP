@@ -5,7 +5,7 @@ describe('My First Test', () => {
     expect(true).to.equal(true)
   })
 
-  it.skip('Visits the app root url', () => {
+  it('Visits the app root url', () => {
     cy.visit('/oop')
 
     cy.contains('b', 'I have read and understand this information')
