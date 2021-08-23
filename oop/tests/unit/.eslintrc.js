@@ -25,12 +25,9 @@ module.exports = {
     "jest/no-identical-title": "warn",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
-    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
-    
-    
+    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]  
   },
   overrides: [
-    //Unit tests run in Jest, so environment needs to be Jest
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
@@ -40,15 +37,5 @@ module.exports = {
         jest: true
       }
     },
-    //E2E tests run in Cypress, so environment needs to be Mocha
-    {
-      files: [
-        '**/tests/e2e/**/*.spec.{j,t}s?(x)'
-      ],
-      env: {
-        mocha: true,
-        'cypress/globals': true
-      },
-    }
   ]
 }
