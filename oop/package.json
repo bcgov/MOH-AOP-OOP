@@ -8,7 +8,8 @@
     "test": "vue-cli-service test:unit",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "cypress:open": "cypress open"
   },
   "dependencies": {
     "@bcgov/bootstrap-theme": "git://github.com/bcgov/bootstrap-theme.git#v1.1.3",

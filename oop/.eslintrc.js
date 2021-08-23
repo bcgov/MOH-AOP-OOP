@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   env: {
     node: true
   },
@@ -15,7 +14,7 @@ module.exports = {
   },
   plugins: [
     "jest", 
-    "jest-formatting"
+    "jest-formatting",
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -30,6 +29,7 @@ module.exports = {
     
   },
   overrides: [
+    //Unit tests run in Jest, so environment needs to be Jest
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
@@ -38,6 +38,16 @@ module.exports = {
       env: {
         jest: true
       }
+    },
+    //E2E tests run in Cypress, so environment needs to be Mocha
+    {
+      files: [
+        '**/tests/e2e/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        mocha: true,
+        'cypress/globals': true
+      },
     }
   ]
 }
