@@ -1,4 +1,8 @@
 // https://docs.cypress.io/api/introduction/api.html
+Cypress.on('uncaught:exception', (err, runnable) => {
+  console.log(err);
+  return false;
+})
 
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
@@ -20,6 +24,7 @@ describe("Happy path", () => {
     cy.get('[data-cy=consentContinue]').click()
     cy.get('[data-cy=continueBar]').click()
     
+    //Your Info
     cy.location().should((loc) => {
       expect(loc.href).to.eq(
         'http://localhost:8080/oop/your-info'
@@ -27,6 +32,31 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq('/oop/your-info')
     })
 
-    //Your Info
+    cy.get('[data-cy=yourInfoLastName]').type('CROTOPHAGAXA')
+    /* ***********************please fix this to be a data-cy link instead ****************** */
+    // cy.get('[data-cy=yourInfoPhn]').type('9310134963')
+    cy.get('[id=phn]').type('9310134963')
+    cy.get('[data-cy=continueBar]').click()
+
+    //Account Type
+    cy.location().should((loc) => {
+      expect(loc.href).to.eq(
+        'http://localhost:8080/oop/account-type'
+      )
+      expect(loc.pathname).to.eq('/oop/account-type')
+    })
+    /* ***********************please fix this to be a data-cy link instead ****************** */
+    // cy.get('[dataCy=accountTypeAH]').eq(0).click()
+    cy.get('[id=person-moving-ah]').click({ force: true})
+    cy.get('[data-cy=continueBar]').click()
+
+    //Move Info
+    cy.location().should((loc) => {
+      expect(loc.href).to.eq(
+        'http://localhost:8080/oop/move-info'
+      )
+      expect(loc.pathname).to.eq('/oop/move-info')
+    })
+    
   });
 });

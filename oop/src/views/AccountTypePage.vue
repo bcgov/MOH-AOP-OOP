@@ -193,6 +193,7 @@ export default {
       personMovingRadioItems: [
         {
           id: 'person-moving-ah',
+          // dataCy: 'accountTypeAH',
           label: 'Account holder only',
           value: 'AH_ONLY'
         },
