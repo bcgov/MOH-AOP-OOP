@@ -1,10 +1,32 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
-    cy.visit('http://localhost:8080/oop')
+describe("Happy path", () => {
+  it("completes the app lifecycle without errors", () => {
+    //Home page
+    cy.visit("http://localhost:8080/oop");
+    cy.location().should((loc) => {
+      expect(loc.host).to.eq('localhost:8080')
+      expect(loc.hostname).to.eq('localhost')
+      expect(loc.href).to.eq(
+        'http://localhost:8080/oop'
+      )
+      expect(loc.origin).to.eq('http://localhost:8080')
+      expect(loc.pathname).to.eq('/oop')
+    })
 
-    cy.contains('b', 'I have read and understand this information')
-    expect(true).to.equal(true)
-  })
-})
+    //Captcha
+    cy.get('[data-cy=captchaInput]').type('irobot')
+    cy.get('[data-cy=consentCheckbox]').click()
+    cy.get('[data-cy=consentContinue]').click()
+    cy.get('[data-cy=continueBar]').click()
+    
+    cy.location().should((loc) => {
+      expect(loc.href).to.eq(
+        'http://localhost:8080/oop/your-info'
+      )
+      expect(loc.pathname).to.eq('/oop/your-info')
+    })
+
+    //Your Info
+  });
+});

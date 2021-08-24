@@ -2,6 +2,7 @@
   <div :class='componentClass'>
     <div class="d-flex flex-row-reverse p-3 container">
       <Button :label='buttonLabel'
+              data-cy='continueBar'
               :hasLoader='hasLoader'
               @click='onContinue()'/>
     </div>
