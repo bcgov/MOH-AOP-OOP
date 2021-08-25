@@ -6,6 +6,7 @@
         <label v-bind:for="'monthSelect' + label">Month:</label>
         <select :id="'monthSelect' + label"
                 class="form-control monthSelect"
+                :data-cy="name + 'Month'"
                 v-model="month"
                 @blur="onBlurMonth($event.target.value)"
                 :disabled='disabled'>
@@ -18,6 +19,7 @@
         <input 
             :id="'dayInput' + label"
             class="form-control dayInput"
+            :data-cy="name + 'Day'"
             placeholder="DD"
             v-model="day"
             @blur="onBlurDay($event.target.value)"
@@ -29,6 +31,7 @@
         <input 
             :id="'yearInput' + label"
             class="form-control yearInput"
+            :data-cy="name + 'Year'"
             placeholder="YYYY"
             v-model="year"
             @blur="onBlurYear($event.target.value)"
@@ -106,6 +109,9 @@ export default {
     label: {
       type: String,
       default: 'Date'
+    },
+    name: {
+      type: String,
     }
   },
   data() {
