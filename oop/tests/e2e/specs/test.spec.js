@@ -57,6 +57,8 @@ describe("Happy path", () => {
       )
       expect(loc.pathname).to.eq('/oop/move-info')
     })
-    
+    /* ***********************please fix this to be a data-cy link instead ****************** */
+    // cy.get('[dataCy=accountTypeAH]').eq(0).click()
+    cy.get('[id=is-new-address-known-n]').click({ force: true})
   });
 });
