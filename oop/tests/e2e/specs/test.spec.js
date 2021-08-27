@@ -37,9 +37,7 @@ describe("Happy path", () => {
     });
 
     cy.get("[data-cy=yourInfoLastName]").type("CROTOPHAGAXA");
-    /* ***********************please fix this to be a data-cy link instead ****************** */
-    // cy.get('[data-cy=yourInfoPhn]').type('9310134963')
-    cy.get("[id=phn]").type("9310134963");
+    cy.get('[data-cy=yourInfoPhn]').type('9310134963')
     cy.get("[data-cy=continueBar]").click();
 
     //Account Type

@@ -34,7 +34,7 @@
           </div>
           <div class="modal-footer justify-content-center">
             <Button label="Continue"
-                    data-cy="consentContinue"
+                    cypressId="consentContinue"
                     @click="closeModal()"
                     :disabled="!isCaptchaValid || !isTermsAccepted"/>
           </div>

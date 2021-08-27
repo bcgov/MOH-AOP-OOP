@@ -22,6 +22,7 @@
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
+                      cypressId="yourInfoPhn"
                       v-model='phn'
                       className='mt-3'
                       class='phn-input'
