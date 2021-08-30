@@ -36,8 +36,11 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/your-info");
     });
 
-    cy.get("[data-cy=yourInfoLastName]").type("CROTOPHAGAXA");
-    cy.get('[data-cy=yourInfoPhn]').type('9310134963')
+    // cy.get("[data-cy=yourInfoLastName]").type("CROTOPHAGAXA");
+    // cy.get('[data-cy=yourInfoPhn]').type('9310134963')
+    // credentials for test environment
+    cy.get("[data-cy=yourInfoLastName]").type("POIUYR");
+    cy.get('[data-cy=yourInfoPhn]').type('9874084281')
     cy.get("[data-cy=continueBar]").click();
 
     //Account Type
@@ -45,9 +48,7 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/account-type");
       expect(loc.pathname).to.eq("/oop/account-type");
     });
-    /* ***********************please fix this to be a data-cy link instead ****************** */
-    // cy.get('[dataCy=accountTypeAH]').eq(0).click()
-    cy.get("[id=person-moving-ah]").click({ force: true });
+    cy.get("[data-cy=whoIsMovingperson-moving-ah]").click({ force: true });
     cy.get("[data-cy=continueBar]").click();
 
     //Move Info

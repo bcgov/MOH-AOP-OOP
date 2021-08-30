@@ -13,6 +13,7 @@
             <h2 class="mt-4">Who is moving out of B.C.?</h2>
             <Radio v-model="personMoving"
                   :items="personMovingRadioItems"
+                  cypressId="whoIsMoving"
                   name='personMoving' />
             <div class="text-danger"
                 v-if="$v.personMoving.$dirty && !$v.personMoving.required"
@@ -193,7 +194,6 @@ export default {
       personMovingRadioItems: [
         {
           id: 'person-moving-ah',
-          // dataCy: 'accountTypeAH',
           label: 'Account holder only',
           value: 'AH_ONLY'
         },
