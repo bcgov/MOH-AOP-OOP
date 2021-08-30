@@ -9,8 +9,15 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 //this code pull the current year and adds one.
 //This is to hopefully increase the stability of the test
 
-const testYear = new Date().getFullYear() + 1
-// const testYear = thisYear + 1;
+const testYear = new Date().getFullYear() + 1;
+
+//dev credentials
+// const credentialName = "CROTOPHAGAXA";
+// const credentialPHN = "9310134963";
+
+//test credentials
+const credentialName = "POIUYR";
+const credentialPHN = "9874084281";
 
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
@@ -36,11 +43,8 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/your-info");
     });
 
-    // cy.get("[data-cy=yourInfoLastName]").type("CROTOPHAGAXA");
-    // cy.get('[data-cy=yourInfoPhn]').type('9310134963')
-    // credentials for test environment
-    cy.get("[data-cy=yourInfoLastName]").type("POIUYR");
-    cy.get('[data-cy=yourInfoPhn]').type('9874084281')
+    cy.get("[data-cy=yourInfoLastName]").type(credentialName);
+    cy.get("[data-cy=yourInfoPhn]").type(credentialPHN);
     cy.get("[data-cy=continueBar]").click();
 
     //Account Type
@@ -64,8 +68,18 @@ describe("Happy path", () => {
     cy.get("[data-cy=arriveDestinationDateDay]").type("12");
     cy.get("[data-cy=arriveDestinationDateYear]").type(testYear);
     //Address
-    /* ***********************please fix this to be a data-cy link instead ****************** */
-    // cy.get('[dataCy=accountTypeAH]').eq(0).click()
-    cy.get("[id=is-new-address-known-n]").click({ force: true });
+    cy.get("[data-cy=isNewAddressKnownis-new-address-known-n]").click({
+      force: true,
+    });
+    //could not assign data-cy values to the next two because they're in a different package
+    cy.get("[aria-label=Country]").select("Canada");
+    cy.get("[aria-label=Region]").select("Alberta");
+    cy.get("[data-cy=continueBar]").click();
+
+    //Review page
+    cy.location().should((loc) => {
+      expect(loc.href).to.eq("http://localhost:8080/oop/review");
+      expect(loc.pathname).to.eq("/oop/review");
+    });
   });
 });

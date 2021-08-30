@@ -36,6 +36,7 @@
         <p>Do you know your new address?</p>
         <Radio v-model="isNewAddressKnown"
               :items="isNewAddressKnownRadioItems"
+              cypressId="isNewAddressKnown"
               name='isNewAddressKnown' />
         <div class="text-danger"
               v-if="$v.isNewAddressKnown.$dirty && !$v.isNewAddressKnown.required"
