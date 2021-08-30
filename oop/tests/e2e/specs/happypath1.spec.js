@@ -81,5 +81,29 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/review");
       expect(loc.pathname).to.eq("/oop/review");
     });
+    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR")
+    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281")
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder only")
+    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022")
+    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022")
+    cy.get("[data-cy=ReviewTableElement]").contains("No")
+    cy.get("[data-cy=ReviewTableElement]").contains("Canada")
+    cy.get("[data-cy=ReviewTableElement]").contains("Alberta")
+
+    cy.get("[data-cy=continueBar]").click();
+    
+    //Submission Page
+    cy.location().should((loc) => {
+      expect(loc.href).to.eq("http://localhost:8080/oop/submission");
+      expect(loc.pathname).to.eq("/oop/submission");
+    });
+    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR")
+    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281")
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder only")
+    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022")
+    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022")
+    cy.get("[data-cy=ReviewTableElement]").contains("No")
+    cy.get("[data-cy=ReviewTableElement]").contains("Canada")
+    cy.get("[data-cy=ReviewTableElement]").contains("Alberta")
   });
 });
