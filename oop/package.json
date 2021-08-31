@@ -17,7 +17,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "axios": "^0.21.1",
-    "common-lib-vue": "^1.0.40",
+    "common-lib-vue": "^1.0.42",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "underscore": "^1.13.1",
