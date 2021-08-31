@@ -24,6 +24,7 @@
               <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
               <Radio v-model="isAllDependentsMoving"
                     :items="isAllDependentsMovingRadioItems"
+                    cypressId="isAllDependents"
                     name='isAllDependentsMoving' />
               <div class="text-danger"
                   v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"

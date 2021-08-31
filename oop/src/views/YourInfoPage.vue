@@ -41,6 +41,7 @@
 
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
+                              cypressId="yourInfoPhone"
                               v-model='phone'
                               className='mt-3'
                               class='phone-number'

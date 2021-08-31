@@ -5,6 +5,7 @@
     <input :id="'input' + label"
             name="addressLine"
            class='form-control'
+           data-cy="addressValidator"
            :maxlength='maxlength'
            :value="value"
            @keydown="inputKeyDownHandler($event)"
@@ -16,6 +17,7 @@
           ref="resultItemContainer">
         <div v-for="(address, index) in data"
             :key="index"
+            :data-cy= "cydata"
             :class="'result-item ' + (selectedItemIndex === index ? 'selected' : '')"
             @mouseenter="itemMouseEnterHandler($event, index)"
             @mouseleave="itemMouseLeaveHandler($event, index)"
