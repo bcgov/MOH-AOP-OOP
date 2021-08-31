@@ -69,21 +69,21 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
     //Dates
-    cy.get("[data-cy=moveFromBCDateMonth]").select("January");
-    cy.get("[data-cy=moveFromBCDateDay]").type("11");
-    cy.get("[data-cy=moveFromBCDateYear]").type(testYear);
-    cy.get("[data-cy=arriveDestinationDateMonth]").select("January");
-    cy.get("[data-cy=arriveDestinationDateDay]").type("12");
-    cy.get("[data-cy=arriveDestinationDateYear]").type(testYear);
+    //************************this needs to be data-cy*********************************** */
+    cy.get(".date-picker-icon").eq(0).click();
+    cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
+    cy.get("[data-cy=moveFromBCDateChevronLeft]").click();
+    cy.get("[data-cy=moveFromBCDateDay0]").click();
+    //************************this needs to be data-cy*********************************** */
+    cy.get(".date-picker-icon").eq(1).click();
+    cy.get("[data-cy=arriveDestinationDateDay0]").click();
     //Address
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-y]").click({
       force: true,
     });
-    //could not assign data-cy values to the next two because they're in a different package
-    cy.get("[aria-label=Country]").select("Canada");
-    cy.get("[aria-label=Region]").select("Alberta");
-    cy.get("[data-cy=addressValidator]").type("716 Yates");
-    cy.get("[data-cy=resultsContainer0]").click();
+    cy.get("[data-cy=addressValidator]").type("716 Yates Dr Milton");
+    //************************this needs to be data-cy*********************************** */
+    cy.get(".result-item").eq(0).click();
     
 
     /*
