@@ -9,21 +9,17 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 //this code pull the current year and adds one.
 //This is to hopefully increase the stability of the test
 
-const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
 const testDateMove = new Date()
 testDateMove.setYear(testDateMove.getFullYear() - 1);
 testDateMove.setMonth(testDateMove.getMonth() - 1);
 testDateMove.setDate(1);
 
-const testDateMoveString = `${monthNames[testDateMove.getMonth()]} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`
+const testDateMoveString = `${testDateMove.toLocaleString('default', { month: 'long' })} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`
 
 const testDateArrive = new Date()
 testDateArrive.setDate(1);
 
-const testDateArriveString = `${monthNames[testDateArrive.getMonth()]} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
+const testDateArriveString = `${testDateArrive.toLocaleString('default', { month: 'long' })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
 
 //dev credentials
 const credentialName = "CROTOPHAGAXA";
