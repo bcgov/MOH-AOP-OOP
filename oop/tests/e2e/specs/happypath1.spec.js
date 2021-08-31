@@ -12,12 +12,12 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
-// const credentialName = "CROTOPHAGAXA";
-// const credentialPHN = "9310134963";
+const credentialName = "CROTOPHAGAXA";
+const credentialPHN = "9310 134 963";
 
 //test credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9874084281";
+// const credentialName = "POIUYR";
+// const credentialPHN = "9874 084 281";
 
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
@@ -89,8 +89,8 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/review");
       expect(loc.pathname).to.eq("/oop/review");
     });
-    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR");
-    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281");
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains("Account holder only");
     cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022");
     cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022");
@@ -105,8 +105,8 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/submission");
       expect(loc.pathname).to.eq("/oop/submission");
     });
-    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR");
-    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281");
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains("Account holder only");
     cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022");
     cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022");

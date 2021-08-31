@@ -9,15 +9,29 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 //this code pull the current year and adds one.
 //This is to hopefully increase the stability of the test
 
-const testYear = new Date().getFullYear() + 1;
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+const testDateMove = new Date()
+testDateMove.setYear(testDateMove.getFullYear() - 1);
+testDateMove.setMonth(testDateMove.getMonth() - 1);
+testDateMove.setDate(1);
+
+const testDateMoveString = `${monthNames[testDateMove.getMonth()]} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`
+
+const testDateArrive = new Date()
+testDateArrive.setDate(1);
+
+const testDateArriveString = `${monthNames[testDateArrive.getMonth()]} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
 
 //dev credentials
-// const credentialName = "CROTOPHAGAXA";
-// const credentialPHN = "9310134963";
+const credentialName = "CROTOPHAGAXA";
+const credentialPHN = "9310 134 963";
 
 //test credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9874084281";
+// const credentialName = "POIUYR";
+// const credentialPHN = "9874 084 281";
 
 const credentialPhone = "2345678910"
 
@@ -85,24 +99,27 @@ describe("Happy path", () => {
     //************************this needs to be data-cy*********************************** */
     cy.get(".result-item").eq(0).click();
     
-
-    /*
     cy.get("[data-cy=continueBar]").click();
+    
 
     //Review page
     cy.location().should((loc) => {
       expect(loc.href).to.eq("http://localhost:8080/oop/review");
       expect(loc.pathname).to.eq("/oop/review");
     });
-    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR")
-    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281")
-    cy.get("[data-cy=ReviewTableElement]").contains("Account holder only")
-    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022")
-    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022")
-    cy.get("[data-cy=ReviewTableElement]").contains("No")
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder and dependent(s)")
+    cy.get("[data-cy=ReviewTableElement]").contains(testDateMoveString)
+    cy.get("[data-cy=ReviewTableElement]").contains(testDateArriveString)
+    cy.get("[data-cy=ReviewTableElement]").contains("Yes")
     cy.get("[data-cy=ReviewTableElement]").contains("Canada")
-    cy.get("[data-cy=ReviewTableElement]").contains("Alberta")
-
+    cy.get("[data-cy=ReviewTableElement]").contains("Ontario")
+    cy.get("[data-cy=ReviewTableElement]").contains("716 YATES DR")
+    cy.get("[data-cy=ReviewTableElement]").contains("MILTON")
+    cy.get("[data-cy=ReviewTableElement]").contains("L9T 7R5")
+    
+    
     cy.get("[data-cy=continueBar]").click();
     
     //Submission Page
@@ -110,14 +127,16 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/submission");
       expect(loc.pathname).to.eq("/oop/submission");
     });
-    cy.get("[data-cy=ReviewTableElement]").contains("POIUYR")
-    cy.get("[data-cy=ReviewTableElement]").contains("9874 084 281")
-    cy.get("[data-cy=ReviewTableElement]").contains("Account holder only")
-    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022")
-    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022")
-    cy.get("[data-cy=ReviewTableElement]").contains("No")
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder and dependent(s)")
+    cy.get("[data-cy=ReviewTableElement]").contains(testDateMoveString)
+    cy.get("[data-cy=ReviewTableElement]").contains(testDateArriveString)
+    cy.get("[data-cy=ReviewTableElement]").contains("Yes")
     cy.get("[data-cy=ReviewTableElement]").contains("Canada")
-    cy.get("[data-cy=ReviewTableElement]").contains("Alberta")
-    */
+    cy.get("[data-cy=ReviewTableElement]").contains("Ontario")
+    cy.get("[data-cy=ReviewTableElement]").contains("716 YATES DR")
+    cy.get("[data-cy=ReviewTableElement]").contains("MILTON")
+    cy.get("[data-cy=ReviewTableElement]").contains("L9T 7R5")
   });
 });
