@@ -267,12 +267,6 @@ import { replaceSpecialCharacters } from '../helpers/string';
 import { truncateAddressLines } from '../helpers/address';
 import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
-// import DateInput, {
-//   distantFutureValidator,
-//   distantPastValidator,
-//   beforeDateValidator,
-//   afterDateValidator,
-// } from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import StateInput from '../components/StateInput.vue';

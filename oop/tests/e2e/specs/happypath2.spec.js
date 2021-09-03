@@ -25,7 +25,7 @@ const monthNames = [
 ];
 
 const testDateMove = new Date();
-testDateMove.setHours(5); //causes bugs if not present
+testDateMove.setHours(5); //to prevent time zone bugs
 testDateMove.setDate(1);
 testDateMove.setYear(testDateMove.getFullYear() - 1);
 testDateMove.setMonth(testDateMove.getMonth() - 1);
@@ -35,7 +35,7 @@ const testDateMoveString = `${
 } ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`;
 
 const testDateArrive = new Date();
-testDateArrive.setHours(5); //causes bugs if not present
+testDateArrive.setHours(5); //to prevent time zone bugs
 testDateArrive.setDate(1);
 testDateArrive.setYear(testDateArrive.getFullYear() + 1);
 testDateArrive.setMonth(testDateArrive.getMonth() + 1);
