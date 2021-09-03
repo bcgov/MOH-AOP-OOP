@@ -102,14 +102,14 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
     //Dates
-    //************************this needs to be data-cy*********************************** */
+    // ************************this needs to be data-cy*********************************** 
     cy.get(".date-picker-icon")
       .eq(0)
       .click();
     cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
     cy.get("[data-cy=moveFromBCDateChevronLeft]").click();
     cy.get("[data-cy=moveFromBCDateDay0]").click();
-    //************************this needs to be data-cy*********************************** */
+    // ************************this needs to be data-cy*********************************** 
     cy.get(".date-picker-icon")
       .eq(1)
       .click();
@@ -120,8 +120,10 @@ describe("Happy path", () => {
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-y]").click({
       force: true,
     });
+    
     cy.get("[data-cy=addressValidator]").type("716 Yates Dr Milton");
-    //************************this needs to be data-cy*********************************** */
+   
+    // ************************this needs to be data-cy*********************************** 
     cy.get(".result-item")
       .eq(0)
       .click();
