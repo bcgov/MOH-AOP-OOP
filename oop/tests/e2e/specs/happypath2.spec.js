@@ -9,30 +9,13 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 //this code pull the current year and adjusts it.
 //This is to hopefully increase the stability of the test
 
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 const testDateMove = new Date();
 testDateMove.setHours(5); //to prevent time zone bugs
 testDateMove.setDate(1);
 testDateMove.setYear(testDateMove.getFullYear() - 1);
 testDateMove.setMonth(testDateMove.getMonth() - 1);
 
-const testDateMoveString = `${
-  monthNames[testDateMove.getMonth()]
-} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`;
+const testDateMoveString = `${testDateMove.toLocaleString('default', { month: 'long' })} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`
 
 const testDateArrive = new Date();
 testDateArrive.setHours(5); //to prevent time zone bugs
@@ -40,18 +23,15 @@ testDateArrive.setDate(1);
 testDateArrive.setYear(testDateArrive.getFullYear() + 1);
 testDateArrive.setMonth(testDateArrive.getMonth() + 1);
 
-// const testDateArriveString = `${testDateArrive.toLocaleString('default', { month: 'long' })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
-const testDateArriveString = `${
-  monthNames[testDateArrive.getMonth()]
-} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`;
+const testDateArriveString = `${testDateArrive.toLocaleString('default', { month: 'long' })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
 
 //dev credentials
-const credentialName = "CROTOPHAGAXA";
-const credentialPHN = "9310 134 963";
+// const credentialName = "CROTOPHAGAXA";
+// const credentialPHN = "9310 134 963";
 
 //test credentials
-// const credentialName = "POIUYR";
-// const credentialPHN = "9874 084 281";
+const credentialName = "POIUYR";
+const credentialPHN = "9874 084 281";
 
 const credentialPhone = "2345678910";
 
