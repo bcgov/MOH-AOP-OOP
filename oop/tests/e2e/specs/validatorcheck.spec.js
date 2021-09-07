@@ -21,6 +21,9 @@ const credentialPHN = "9874 084 281";
 
 describe("Validator check", () => {
   it("stops appropriately when it runs into errors", () => {
+    const spy = cy.spy()
+    Cypress.vue.$on('continue', spy)
+
     //Home page
     cy.visit("http://localhost:8080/oop");
     cy.location().should((loc) => {
@@ -46,27 +49,24 @@ describe("Validator check", () => {
     //check last name
     cy.get("[data-cy=yourInfoLastName]").type("potato");
     cy.get("[data-cy=yourInfoPhn]").type(credentialPHN);
-    cy.get("[data-cy=continueBar]").click();
-
-    cy.location().should((loc) => {
-      expect(loc.href).to.not.eq("http://localhost:8080/oop/account-type");
-      expect(loc.pathname).to.not.eq("/oop/account-type");
+    cy.get("[data-cy=continueBar]").click().then(() => {
+      expect(spy).to.not.be.called
     });
+
 
     //check phn
     cy.get("[data-cy=yourInfoLastName]").clear().type(credentialName);
     cy.get("[data-cy=yourInfoPhn]").clear().type("1111111111");
-    cy.get("[data-cy=continueBar]").click();
-
-    cy.location().should((loc) => {
-      expect(loc.href).to.not.eq("http://localhost:8080/oop/account-type");
-      expect(loc.pathname).to.not.eq("/oop/account-type");
+    cy.get("[data-cy=continueBar]").click().then(() => {
+      expect(spy).to.not.be.called
     });
 
     //move to next page
     cy.get("[data-cy=yourInfoLastName]").clear().type(credentialName);
     cy.get("[data-cy=yourInfoPhn]").clear().type(credentialPHN);
-    cy.get("[data-cy=continueBar]").click();
+    cy.get("[data-cy=continueBar]").click().then(() => {
+      expect(spy).to.be.called
+    });;
 
     //Account Type
     cy.location().should((loc) => {
