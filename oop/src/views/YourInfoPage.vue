@@ -11,7 +11,7 @@
                   v-model='lastName'
                   maxlength='30'
                   class='last-name'
-                  data-cy="yourInfoLastName"
+                  cypressId="yourInfoLastName"
                   @input="handleLastNameInputChange"
                   :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
