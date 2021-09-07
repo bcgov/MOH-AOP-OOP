@@ -26,8 +26,8 @@ testDateArrive.setMonth(testDateArrive.getMonth() + 1);
 const testDateArriveString = `${testDateArrive.toLocaleString('default', { month: 'long' })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
 
 //dev credentials
-// const credentialName = "CROTOPHAGAXA";
-// const credentialPHN = "9310 134 963";
+// const credentialName = "FLORIDANAXE";
+// const credentialPHN = "9401 234 687";
 
 //test credentials
 const credentialName = "POIUYR";
