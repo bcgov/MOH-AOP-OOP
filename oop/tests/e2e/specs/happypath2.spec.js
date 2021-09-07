@@ -82,17 +82,11 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
     //Dates
-    // ************************this needs to be data-cy*********************************** 
-    cy.get(".date-picker-icon")
-      .eq(0)
-      .click();
+    cy.get("[data-cy=moveFromBCDateCalendarIcon]").click();
     cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
     cy.get("[data-cy=moveFromBCDateChevronLeft]").click();
     cy.get("[data-cy=moveFromBCDateDay0]").click();
-    // ************************this needs to be data-cy*********************************** 
-    cy.get(".date-picker-icon")
-      .eq(1)
-      .click();
+    cy.get("[data-cy=arriveDestinationDateCalendarIcon]").click();
     cy.get("[data-cy=arriveDestinationDateChevronDoubleRight]").click();
     cy.get("[data-cy=arriveDestinationDateChevronRight]").click();
     cy.get("[data-cy=arriveDestinationDateDay0]").click();
