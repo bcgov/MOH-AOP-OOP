@@ -453,7 +453,7 @@
               v-if="
                 $v.primaryLastName.$dirty &&
                 $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidName
+                !$v.primaryLastName.isValidLastName
               "
               aria-live="assertive"
             >
@@ -514,7 +514,7 @@
               v-if="
                 $v.primaryLastName.$dirty &&
                 $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidName
+                !$v.primaryLastName.isValidLastName
               "
               aria-live="assertive"
             >
@@ -767,7 +767,7 @@ import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
   isValidEmail,
   isValidPhone,
-  isValidName,
+  isValidLastName,
   isValidSecondaryLastName,
   hasSecondaryNumber,
   hasSecondaryLastName,
@@ -776,7 +776,6 @@ import {
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
-import { log } from '../services/logging-service';
 
 export default {
   name: "SubmissionInfo",
@@ -858,7 +857,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -904,7 +903,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -944,7 +943,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -987,7 +986,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         secondaryNumber: {
           alphaNum,
@@ -1058,8 +1057,6 @@ export default {
       this.$store.commit(SET_UPLOADED_FORMS, this.files);
       this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
       this.$store.commit(SET_UPLOADED_CREDENTIALS, this.credentials);
-
-      log({ message: "Submission info to review", error: null }, this.$store.state.uuid);
 
       const path = routes.REVIEW.path;
       this.$router.push(path);

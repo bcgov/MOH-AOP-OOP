@@ -63,9 +63,9 @@ import Footer from "../components/Footer";
 import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
-import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING } from "../store";
+import spaEnvService from "../services/spa-env-service";
+import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from "../store";
 import { scrollTo } from "../helpers/scroll";
-import { log } from '../services/logging-service';
 
 export default {
   name: "LogIn",
@@ -83,7 +83,24 @@ export default {
       bcscRedirect: "",
     };
   },
-  created() {
+  async created() {
+    await spaEnvService
+      .loadEnvs()
+      .then(() => {
+        // load env variables from spa-env-server
+        if (spaEnvService.values) {
+          this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
+          if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === "true") {
+            const path = routes.MAINTENANCE.path;
+            
+            this.$router.push(path);
+          }
+        } else {
+          const path = routes.MAINTENANCE.path;
+          this.$router.push(path);
+        }
+      })
+      .then(() => {
         // Handle BCSC
         if (!this.$route.query.code) {
           // STAGE 1: get the bcsc url and show the user the log in page
@@ -98,10 +115,7 @@ export default {
                 { message: "Error fetching BCSC URL", error: e },
                 this.$store.state.uuid
               );
-            })
-            .finally(() => {
-              this.$store.commit(SET_LOADING, false);
-            });;
+            });
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
           const code = this.$route.query.code;
@@ -111,7 +125,6 @@ export default {
             .then(res => {
               this.$store.commit(SET_FIRST_NAME, res.data.given_name);
               this.$store.commit(SET_LAST_NAME, res.data.family_name);
-              log({ message: "Successful login", error: null }, this.$store.state.uuid);
               const path = routes.SUBMISSION_INFO.path;
               this.$router.push(path);
               scrollTo(0);
@@ -136,11 +149,12 @@ export default {
                     this.$store.state.uuid
                   );
                 });
-            })
-            .finally(() => {
-              this.$store.commit(SET_LOADING, false);
-            });;
+            });
         }
+      })
+      .finally(() => {
+        this.$store.commit(SET_LOADING, false);
+      });
   },
   methods: {
     nextPage() {
