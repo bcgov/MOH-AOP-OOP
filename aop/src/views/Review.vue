@@ -79,7 +79,6 @@ import SummaryMixin from "../mixins/SummaryMixin";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import { routes, stepRoutes } from "../router/routes";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
-import { log } from '../services/logging-service';
 
 export default {
   name: "Review",
@@ -105,7 +104,6 @@ export default {
   },
   methods: {
     nextPage: function () {
-      log({ message: "Review to sending", error: null }, this.$store.state.uuid);
       const path = routes.SENDING.path;
       this.$router.push(path);
       scrollTo(0);
