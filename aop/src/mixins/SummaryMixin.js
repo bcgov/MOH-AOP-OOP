@@ -60,18 +60,18 @@ export default {
     }
 
     if (this.$store.state.uploadType === "AOP") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6); 
+      const label = this.$store.state.uploadedForms[0].fileName.slice(0, -7); 
       this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
     } else if (this.$store.state.uploadType === "COAOP") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
+      const label = this.$store.state.uploadedForms[0].fileName.slice(0, -7);
       this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
     } else if (this.$store.state.uploadType === "OOPA") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -6);
+      const label = this.$store.state.uploadedForms[0].fileName.slice(0, -7);
       this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
     }
 
     if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
-      const label = this.$store.state.uploadedCredentials[0].name.slice(0, -6);
+      const label = this.$store.state.uploadedCredentials[0].fileName.slice(0, -7);
       const credentials = [ { name: "Credentials Document:", value: label } ];
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }

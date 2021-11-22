@@ -616,7 +616,7 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader :images="files" v-model="files" />
+                  <FileUploader v-model="files" />
                   <div
                     class="text-danger"
                     v-if="$v.files.$dirty && !$v.files.required"
@@ -682,7 +682,7 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader :images="credentials" v-model="credentials" />
+                  <FileUploader v-model="credentials" />
                   <div
                     class="text-danger"
                     v-if="
