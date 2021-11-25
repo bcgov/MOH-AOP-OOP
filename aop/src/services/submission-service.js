@@ -198,7 +198,8 @@ export const submitApplication = async (state) => {
       const valid = await validator(AOPApplication);
       if (!valid) {
         // if there are multiple errors only show one
-        const error = `Invalid value in field '${ validator.errors[0].dataPath}'`; 
+        const error = `Invalid value in field '${validator.errors[0].dataPath}'`;
+        console.log('error 4:', error);
         return reject(error);
       }
 
@@ -211,9 +212,11 @@ export const submitApplication = async (state) => {
           return sendAOPApplication(token, AOPApplication)
             .then(applicationResponse => {
               // contains reference number
+              console.log('appResponse:', applicationResponse);
               return resolve(applicationResponse);
             })
             .catch(error => {
+              console.log('error 5:', error);
               return reject('error in sendAOPApplication:', error);
             });
         })
