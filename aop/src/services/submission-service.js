@@ -76,10 +76,12 @@ const sendAttachments = (token, applicationUUID, attachments) => {
           return resolve(responses);
         },
         error => {
+          console.log('error 3:', error);
           return reject(error);
         }
       )
       .catch(error => {
+        console.log('error 2:', error);
         return error;
       });
   });
@@ -214,6 +216,7 @@ export const submitApplication = async (state) => {
             });
         })
         .catch(error => {
+          console.log('error 1:', error);
           return reject('error in sendAttachments:', error);
         });
     });
