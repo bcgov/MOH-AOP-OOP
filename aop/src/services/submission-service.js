@@ -39,13 +39,15 @@ const setAttachmentHeaders = (contentType, token) => {
 };
 
 const sendAttachment = (token, applicationUUID, attachment) => {
+  console.log('attachment:', attachment);
+
   const url = setAttachmentUrl(attachment, applicationUUID);
 
   const headers = setAttachmentHeaders(attachment.contentType, token);
 
   const config = { headers };
 
-  const binary = atob(attachment.fileContent.split(",")[1]);
+  const binary = atob(attachment.source.split(",")[1]);
   const array = [];
 
   for (let i = 0; i < binary.length; i++) {
