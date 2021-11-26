@@ -47,7 +47,7 @@ const sendAttachment = (token, applicationUUID, attachment) => {
 
   const config = { headers };
 
-  const binary = atob(attachment.source.split(",")[1]);
+  const binary = atob(attachment.fileContent.split(",")[1]);
   const array = [];
 
   for (let i = 0; i < binary.length; i++) {

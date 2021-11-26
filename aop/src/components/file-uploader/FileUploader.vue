@@ -18,7 +18,7 @@
         :disabled="value && value.length > 0"
         v-on:button-click="openFileDialog()"
       />
-      <div v-if="value && value.length > 0" class="ml-3 d-flex">{{ value[0].fileName.slice(0, -7) }} 
+      <div v-if="value && value.length > 0" class="ml-3 d-flex">{{ value[0].name.slice(0, -7) }} 
         <button class="remove ml-2" @click="deleteAllImages"><font-awesome-icon icon="times" />Remove</button>
       </div>
       <div v-else class="ml-3">No file selected</div>
@@ -237,9 +237,9 @@ export default {
         const uuid = uuidv4();
 
         images.push({
-          fileName: `${fileName}${imageDataURLs.length > 1 ? '.page-' + (i+1) : ''}`,
+          name: `${fileName}${imageDataURLs.length > 1 ? '.page-' + (i+1) : ''}`,
           contentType: "IMAGE_JPEG",
-          source: imageData,
+          fileContent: imageData,
           documentType: this.documentType,
           description: this.description,
           hash,

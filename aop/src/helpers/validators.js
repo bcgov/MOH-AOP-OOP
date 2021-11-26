@@ -27,8 +27,8 @@ export const hasSecondaryLastName = (value, vm) => {
 }
 
 export const hasDistinctFiles = (value, vm) => {
-  const credentialFileName = value && value[0] && value[0].fileName;
-  const formFileName = vm.files && vm.files[0] && vm.files[0].fileName;
+  const credentialFileName = value && value[0] && value[0].name;
+  const formFileName = vm.files && vm.files[0] && vm.files[0].name;
   return credentialFileName !== formFileName;
 }
 
