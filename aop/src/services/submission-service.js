@@ -39,8 +39,6 @@ const setAttachmentHeaders = (contentType, token) => {
 };
 
 const sendAttachment = (token, applicationUUID, attachment) => {
-  console.log('attachment:', attachment);
-
   const url = setAttachmentUrl(attachment, applicationUUID);
 
   const headers = setAttachmentHeaders(attachment.contentType, token);
@@ -75,16 +73,13 @@ const sendAttachments = (token, applicationUUID, attachments) => {
     return Promise.all(attachmentPromises)
       .then(
         responses => {
-          console.log('Responses for attachments:', responses);
           return resolve(responses);
         },
         error => {
-          console.log('error 3:', error);
           return reject(error);
         }
       )
       .catch(error => {
-        console.log('error 2:', error);
         return error;
       });
   });
@@ -200,7 +195,6 @@ export const submitApplication = async (state) => {
       if (!valid) {
         // if there are multiple errors only show one
         const error = `Invalid value in field '${validator.errors[0].dataPath}'`;
-        console.log('error 4:', error);
         return reject(error);
       }
 
@@ -213,16 +207,13 @@ export const submitApplication = async (state) => {
           return sendAOPApplication(token, AOPApplication)
             .then(applicationResponse => {
               // contains reference number
-              console.log('appResponse:', applicationResponse);
               return resolve(applicationResponse);
             })
             .catch(error => {
-              console.log('error 5:', error);
               return reject('error in sendAOPApplication:', error);
             });
         })
         .catch(error => {
-          console.log('error 1:', error);
           return reject('error in sendAttachments:', error);
         });
     });

@@ -215,7 +215,6 @@ export default {
             if (blob.size > MAX_IMAGE_SIZE_BYTES) {
               resolve(await this.scaleImage(scaledImageData))
             } else {
-              console.log('scaledImageData:', scaledImageData);
               resolve(scaledImageData);
             }
           });
@@ -262,8 +261,6 @@ export default {
           uuid,
           size
         });
-
-        console.log('images:', images);
       }
 
       // Merge new images with existing images.
