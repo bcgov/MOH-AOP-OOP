@@ -210,10 +210,12 @@ export default {
 
           canvas.toBlob(async (blob) => {
             const scaledImageData = canvas.toDataURL('image/jpeg', JPEG_COMPRESSION);
+            img.size = blob.size;
 
             if (blob.size > MAX_IMAGE_SIZE_BYTES) {
               resolve(await this.scaleImage(scaledImageData))
             } else {
+              console.log('scaledImageData:', scaledImageData);
               resolve(scaledImageData);
             }
           });
@@ -228,6 +230,19 @@ export default {
       });
     },
 
+    dataURLtoBlob(dataURL) {
+      //http://mitgux.com/send-canvas-to-server-as-file-using-ajax
+      // Decode the dataURL    
+      var binary = atob(dataURL.split(',')[1]);
+      // Create 8-bit unsigned array
+      var array = [];
+      for(var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+      }
+      // Return our Blob object
+      return new Blob([new Uint8Array(array)], {type: 'image/png'});
+    },
+
     addFileImages(fileName, imageDataURLs) {
       const images = [];
       // Create image objects.
@@ -235,16 +250,20 @@ export default {
         const imageData = imageDataURLs[i];
         const hash = sha1(imageData);
         const uuid = uuidv4();
+        const size = this.dataURLtoBlob(imageDataURLs[i]).size;
 
         images.push({
-          name: `${fileName}${imageDataURLs.length > 1 ? '.page-' + (i+1) : ''}`,
+          name: `${fileName}.page-${i+1}`,
           contentType: "IMAGE_JPEG",
           fileContent: imageData,
           documentType: this.documentType,
           description: this.description,
           hash,
           uuid,
+          size
         });
+
+        console.log('images:', images);
       }
 
       // Merge new images with existing images.
