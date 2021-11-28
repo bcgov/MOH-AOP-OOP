@@ -254,7 +254,7 @@ export default {
 
         images.push({
           name: `${fileName}.page-${i+1}`,
-          contentType: "IMAGE_JPEG",
+          contentType: "image/jpeg",
           fileContent: imageData,
           documentType: this.documentType,
           description: this.description,
