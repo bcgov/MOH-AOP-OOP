@@ -75,6 +75,7 @@ const sendAttachments = (token, applicationUUID, attachments) => {
     return Promise.all(attachmentPromises)
       .then(
         responses => {
+          console.log('Responses for attachments:', responses);
           return resolve(responses);
         },
         error => {
