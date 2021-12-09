@@ -744,7 +744,7 @@ import Input from "../components/Input";
 import MaskedInput from "vue-text-mask";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
-import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
+import { required, minLength, alphaNum } from "vuelidate/lib/validators";
 import { routes, stepRoutes } from "../router/routes";
 import {
   SET_EMAIL_ADDRESS,
@@ -823,11 +823,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -873,11 +871,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -916,11 +912,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -956,11 +950,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
