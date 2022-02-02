@@ -42,7 +42,7 @@
         <div class="row">
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
-              <CountryInput label='Country'
+              <CountryInput label='Jurisdiction'
                             ref="country"
                             className='mt-3'
                             class="country"
