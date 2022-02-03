@@ -128,7 +128,7 @@ export default {
         value: this.$store.state.form.isNewAddressKnown === 'Y' ? 'Yes' : 'No',
       });
       items.push({
-        label: 'Country:',
+        label: 'Jurisdiction:',
         value: this.$store.state.form.country,
       });
       if (this.$store.state.form.country === 'Canada') {

@@ -3,11 +3,12 @@
     <label :for="id">{{label}}</label><br/>
     <country-select 
       :id="id" 
-      aria-label='Country'
+      aria-label='Jurisdiction'
       name="country"
       class="form-control" 
       v-model="country"
       :country="country"
+      placeholder="Select Jurisdiction"
       :countryName="true"/>
   </div>
 </template>
