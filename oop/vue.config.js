@@ -8,5 +8,6 @@ module.exports = {
       },
     }
   },
-  lintOnSave: true
+  lintOnSave: true,
+  transpileDependencies: []
 };
