@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://oop-web-a3c641-test.apps.silver.devops.gov.bc.ca',
+        target: 'https://oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca',
         changeOrigin: true,
       },
     }
