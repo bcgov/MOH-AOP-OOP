@@ -194,7 +194,7 @@ export const submitApplication = async (state) => {
       const valid = await validator(AOPApplication);
       if (!valid) {
         // if there are multiple errors only show one
-        const error = `Invalid value in field '${ validator.errors[0].dataPath}'`; 
+        const error = `Invalid value in field '${validator.errors[0].dataPath}'`;
         return reject(error);
       }
 

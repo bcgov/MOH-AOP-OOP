@@ -47,12 +47,12 @@
         <div class="row">
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
-              <CountryInput label='Country'
+              <CountryInput label='Jurisdiction'
                             ref="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
-              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Jurisdiction is required.</div>
               <!-- If country is CANADA, display these fields -->
               <div v-if="country === 'Canada'">
                 <div class="row">  
@@ -221,13 +221,13 @@
               </div>
             </div>
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
-              <br/><p>Please verify which country you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
-              <CountryInput label='Country'
+              <br/><p>Please verify which jurisdiction you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
+              <CountryInput label='Jurisdiction'
                             ref="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
-              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Country is required.</div>
+              <div class="text-danger" v-if="$v.country.$dirty && !$v.country.required" aria-live="assertive">Jurisdiction is required.</div>
               <div v-if="country === 'Canada'">
                 <ProvinceInput label='Province'
                                 ref="province"

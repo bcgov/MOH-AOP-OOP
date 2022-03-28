@@ -453,7 +453,7 @@
               v-if="
                 $v.primaryLastName.$dirty &&
                 $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidName
+                !$v.primaryLastName.isValidLastName
               "
               aria-live="assertive"
             >
@@ -514,7 +514,7 @@
               v-if="
                 $v.primaryLastName.$dirty &&
                 $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidName
+                !$v.primaryLastName.isValidLastName
               "
               aria-live="assertive"
             >
@@ -616,7 +616,7 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader :images="files" v-model="files" />
+                  <FileUploader v-model="files" />
                   <div
                     class="text-danger"
                     v-if="$v.files.$dirty && !$v.files.required"
@@ -682,7 +682,7 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader :images="credentials" v-model="credentials" />
+                  <FileUploader v-model="credentials" />
                   <div
                     class="text-danger"
                     v-if="
@@ -744,7 +744,7 @@ import Input from "../components/Input";
 import MaskedInput from "vue-text-mask";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
-import { required, minLength, alpha, alphaNum } from "vuelidate/lib/validators";
+import { required, minLength, alphaNum } from "vuelidate/lib/validators";
 import { routes, stepRoutes } from "../router/routes";
 import {
   SET_EMAIL_ADDRESS,
@@ -767,7 +767,7 @@ import { scrollTo, scrollToError } from "../helpers/scroll";
 import {
   isValidEmail,
   isValidPhone,
-  isValidName,
+  isValidLastName,
   isValidSecondaryLastName,
   hasSecondaryNumber,
   hasSecondaryLastName,
@@ -776,7 +776,6 @@ import {
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
-import { log } from '../services/logging-service';
 
 export default {
   name: "SubmissionInfo",
@@ -824,11 +823,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -858,7 +855,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -874,11 +871,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -904,7 +899,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -917,11 +912,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -944,7 +937,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         comments: {
           hasNoInvalidJSON,
@@ -957,11 +950,9 @@ export default {
         },
         firstName: {
           required,
-          alpha,
         },
         lastName: {
           required,
-          alpha,
         },
         phoneNumber: {
           isValidPhone,
@@ -987,7 +978,7 @@ export default {
         },
         primaryLastName: {
           required,
-          isValidName,
+          isValidLastName,
         },
         secondaryNumber: {
           alphaNum,
@@ -1058,8 +1049,6 @@ export default {
       this.$store.commit(SET_UPLOADED_FORMS, this.files);
       this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
       this.$store.commit(SET_UPLOADED_CREDENTIALS, this.credentials);
-
-      log({ message: "Submission info to review", error: null }, this.$store.state.uuid);
 
       const path = routes.REVIEW.path;
       this.$router.push(path);
