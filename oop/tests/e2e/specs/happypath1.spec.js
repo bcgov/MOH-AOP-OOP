@@ -80,7 +80,7 @@ describe("Happy path", () => {
       force: true,
     });
     //could not assign data-cy values to the next two because they're in a different package
-    cy.get("[aria-label=Country]").select("Canada");
+    cy.get("[aria-label=Jurisdiction]").select("Canada");
     cy.get("[aria-label=Region]").select("Alberta");
     cy.get("[data-cy=continueBar]").click();
 
