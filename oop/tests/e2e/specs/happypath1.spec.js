@@ -12,8 +12,8 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
-const credentialName = "CROTOPHAGAXA";
-const credentialPHN = "9310 134 963";
+const credentialName = "POIUYR";
+const credentialPHN = "9873 608 392";
 
 //test credentials
 // const credentialName = "POIUYR";
@@ -92,8 +92,8 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains("Account holder only");
-    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022");
-    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022");
+    cy.get("[data-cy=ReviewTableElement]").contains(`January 11, ${testYear}`);
+    cy.get("[data-cy=ReviewTableElement]").contains(`January 12, ${testYear}`);
     cy.get("[data-cy=ReviewTableElement]").contains("No");
     cy.get("[data-cy=ReviewTableElement]").contains("Canada");
     cy.get("[data-cy=ReviewTableElement]").contains("Alberta");
@@ -108,8 +108,8 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains("Account holder only");
-    cy.get("[data-cy=ReviewTableElement]").contains("January 11, 2022");
-    cy.get("[data-cy=ReviewTableElement]").contains("January 12, 2022");
+    cy.get("[data-cy=ReviewTableElement]").contains(`January 11, ${testYear}`);
+    cy.get("[data-cy=ReviewTableElement]").contains(`January 12, ${testYear}`);
     cy.get("[data-cy=ReviewTableElement]").contains("No");
     cy.get("[data-cy=ReviewTableElement]").contains("Canada");
     cy.get("[data-cy=ReviewTableElement]").contains("Alberta");
