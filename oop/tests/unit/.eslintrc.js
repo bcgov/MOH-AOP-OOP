@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   env: {
     node: true
   },
@@ -15,7 +14,8 @@ module.exports = {
   },
   plugins: [
     "jest", 
-    "jest-formatting"
+    "jest-formatting",
+    "cypress"
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -25,9 +25,7 @@ module.exports = {
     "jest/no-identical-title": "warn",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
-    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
-    
-    
+    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]  
   },
   overrides: [
     {
@@ -38,6 +36,6 @@ module.exports = {
       env: {
         jest: true
       }
-    }
+    },
   ]
 }

@@ -11,6 +11,7 @@
                   v-model='lastName'
                   maxlength='30'
                   class='last-name'
+                  cypressId="yourInfoLastName"
                   @input="handleLastNameInputChange"
                   :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
@@ -21,6 +22,7 @@
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
+                      cypressId="yourInfoPhn"
                       v-model='phn'
                       className='mt-3'
                       class='phn-input'
@@ -39,6 +41,7 @@
 
             <PhoneNumberInput id='phone-input'
                               label='Phone number (optional)'
+                              cypressId="yourInfoPhone"
                               v-model='phone'
                               className='mt-3'
                               class='phone-number'

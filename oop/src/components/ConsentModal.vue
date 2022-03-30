@@ -23,6 +23,7 @@
                 class="text-success">Captcha successfully verified.</div>
             <div class="mt-3">
               <input type="checkbox"
+                    data-cy="consentCheckbox"
                     id="is-terms-accepted"
                     class="d-inline"
                     v-model="isTermsAccepted" />
@@ -33,6 +34,7 @@
           </div>
           <div class="modal-footer justify-content-center">
             <Button label="Continue"
+                    cypressId="consentContinue"
                     @click="closeModal()"
                     :disabled="!isCaptchaValid || !isTermsAccepted"/>
           </div>
