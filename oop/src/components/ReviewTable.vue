@@ -3,6 +3,7 @@
       :style="{'background-color': backgroundColor}">
     <div v-for="element in elements"
         :key="element.label"
+        :data-cy="'ReviewTableElement'"
         class="bcgov-row d-flex">
       <div class="bcgov-table-cell label">
         <div class="table-cell-max">{{element.label}}</div>

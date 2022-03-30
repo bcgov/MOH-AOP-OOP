@@ -13,6 +13,8 @@
           <div class="col-md-6">
             <DateInput label="Permanent move from B.C."
                       className='mt-3'
+                      cypressId="moveFromBCDate"
+                      name="moveFromBCDate"
                       v-model="moveFromBCDate"/>
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && !$v.moveFromBCDate.required" aria-live="assertive">A valid date of departure is required.</div>
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
@@ -20,6 +22,8 @@
             <div class="text-danger" v-if="$v.moveFromBCDate.$dirty && $v.moveFromBCDate.required && !$v.moveFromBCDate.beforeDateValidator" aria-live="assertive">Date of departure must be before the date of arrival.</div>
             <DateInput label="Arrival in new destination"
                       className='mt-3'
+                      cypressId="arriveDestinationDate"
+                      name="arriveDestinationDate"
                       v-model="arriveDestinationDate"/>
             <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && !$v.arriveDestinationDate.required" aria-live="assertive">A valid date of arrival is required.</div>
             <div class="text-danger" v-if="$v.arriveDestinationDate.$dirty && $v.arriveDestinationDate.required && !$v.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
@@ -34,6 +38,7 @@
         <p>Do you know your new address?</p>
         <Radio v-model="isNewAddressKnown"
               :items="isNewAddressKnownRadioItems"
+              cypressId="isNewAddressKnown"
               name='isNewAddressKnown' />
         <div class="text-danger"
               v-if="$v.isNewAddressKnown.$dirty && !$v.isNewAddressKnown.required"
@@ -262,12 +267,6 @@ import { replaceSpecialCharacters } from '../helpers/string';
 import { truncateAddressLines } from '../helpers/address';
 import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
-import DateInput, {
-  distantFutureValidator,
-  distantPastValidator,
-  beforeDateValidator,
-  afterDateValidator,
-} from '../components/DateInput.vue';
 import CountryInput from '../components/CountryInput.vue';
 import ProvinceInput from '../components/ProvinceInput.vue';
 import StateInput from '../components/StateInput.vue';
@@ -275,8 +274,13 @@ import AddressInput from '../components/AddressInput.vue';
 import AddressValidator from '@/components/AddressValidator.vue';
 import {
   PostalCodeInput,
+  DateInput,
   Button,
   Radio,
+  distantFutureValidator,
+  distantPastValidator,
+  beforeDateValidator,
+  afterDateValidator,
 } from 'common-lib-vue';
 import Input from '../components/Input.vue';
 import PageContent from '../components/PageContent.vue';
