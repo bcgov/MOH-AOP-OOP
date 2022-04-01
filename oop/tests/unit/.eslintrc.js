@@ -10,7 +10,7 @@ module.exports = {
     'plugin:jest-formatting/recommended'
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
   plugins: [
     "jest", 
