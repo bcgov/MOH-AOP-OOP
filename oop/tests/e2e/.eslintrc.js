@@ -1,6 +1,7 @@
 module.exports = {
   plugins: [
-    'cypress'
+    'cypress',
+    'mocha'
   ],
   env: {
     mocha: true,
