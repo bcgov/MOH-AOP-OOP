@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 Cypress.on("uncaught:exception", (err, runnable) => {
-  console.log(err);
+  console.log(err, runnable);
   return false;
 });
 
@@ -12,8 +12,8 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9873 608 392";
+const credentialName = "LOGIONXD";
+const credentialPHN = "9340 291 911";
 
 //test credentials
 // const credentialName = "POIUYR";
