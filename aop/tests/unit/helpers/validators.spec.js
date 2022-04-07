@@ -1,4 +1,4 @@
-import { isValidPhone } from "@/helpers/validators.js";
+import { isValidPhone, isValidEmail } from "@/helpers/validators.js";
 
 var expect = require('chai').expect
 
@@ -44,4 +44,43 @@ describe("Helper validators.js isValidPhone", () => {
       expect(result).to.be.false;
     })
     
+})
+
+describe("Helper validators.js isValidEmail", () => {
+  it("matches a standard email", () => {
+    const result = isValidEmail("something@mail.ca");
+    expect(result).to.be.true;
+  })
+  it("matches a standard email (2)", () => {
+    const result = isValidEmail("a@a.aa");
+    expect(result).to.be.true;
+  })
+  it("matches a standard email that starts with a special character", () => {
+    const result = isValidEmail("!@a.aa");
+    expect(result).to.be.true;
+  })
+  it("does NOT match if a special character comes after the @ sign", () => {
+    const result = isValidEmail("a@!.aa");
+    expect(result).to.be.false;
+  })
+  it("does NOT match if a special character comes after the .", () => {
+    const result = isValidEmail("a@a.!a");
+    expect(result).to.be.false;
+  })
+  it("does NOT match if there's nothing before the @ sign", () => {
+    const result = isValidEmail("@mail.ca");
+    expect(result).to.be.false;
+  })
+  it("does NOT match if there's nothing between the @ and .", () => {
+    const result = isValidEmail("something@.ca");
+    expect(result).to.be.false;
+  })
+  it("does NOT match if there's nothing after the .", () => {
+    const result = isValidEmail("something@mail.");
+    expect(result).to.be.false;
+  })
+  it("does NOT match if there's only one letter after the .", () => {
+    const result = isValidEmail("something@mail.a");
+    expect(result).to.be.false;
+  })
 })
