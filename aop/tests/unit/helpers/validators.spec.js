@@ -5,6 +5,7 @@ import {
   isValidSecondaryLastName,
   hasSecondaryNumber,
   hasSecondaryLastName,
+  hasDistinctFiles,
 } from "@/helpers/validators.js";
 
 var expect = require("chai").expect;
@@ -283,6 +284,18 @@ describe("Helper validators.js hasSecondaryLastName", () => {
     const result = hasSecondaryLastName(['a'], {secondaryLastName: []});
     expect(result).to.be.false;
   });
+});
+
+describe("Helper validators.js hasDistinctFiles", () => {
+  //this function needs to be passed a value and a vm
+  it("returns true when passed matching values", () => {
+    const result = hasDistinctFiles([{name:"whatever"}], {files: [{name: "whatever2"}]});
+    expect(result).to.be.true;
+  });
+  it("returns false when passed matching values", () => {
+    const result = hasDistinctFiles([{name:"whatever"}], {files: [{name: "whatever"}]});
+    expect(result).to.be.false;
+  });  
 });
 
 /*
