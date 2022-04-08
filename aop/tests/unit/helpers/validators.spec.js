@@ -2,6 +2,7 @@ import {
   isValidPhone,
   isValidEmail,
   isValidLastName,
+  isValidSecondaryLastName,
 } from "@/helpers/validators.js";
 
 var expect = require("chai").expect;
@@ -137,6 +138,10 @@ describe("Helper validators.js isValidLastName", () => {
     const result = isValidLastName("W-");
     expect(result).to.be.true;
   });
+  it("matches a lowercase string", () => {
+    const result = isValidLastName("wu");
+    expect(result).to.be.true;
+  });
   it("does NOT match when the string starts with a special character", () => {
     const result = isValidLastName("-W");
     expect(result).to.be.false;
@@ -163,6 +168,61 @@ describe("Helper validators.js isValidLastName", () => {
   });
   it("does NOT match when passed an empty string", () => {
     const result = isValidLastName("");
+    expect(result).to.be.false;
+  });
+});
+
+describe("Helper validators.js isValidSecondaryLastName", () => {
+  it("matches a standard surname", () => {
+    const result = isValidSecondaryLastName("Anderson");
+    expect(result).to.be.true;
+  });
+  it("matches a standard surname (2)", () => {
+    const result = isValidSecondaryLastName("Wu");
+    expect(result).to.be.true;
+  });
+  it("matches a string that has a period in it", () => {
+    const result = isValidSecondaryLastName("W.");
+    expect(result).to.be.true;
+  });
+  it("matches a string that has a space in it", () => {
+    const result = isValidSecondaryLastName("W ");
+    expect(result).to.be.true;
+  });
+  it("matches a string that has an apostrophe in it", () => {
+    const result = isValidSecondaryLastName("W'");
+    expect(result).to.be.true;
+  });
+  it("matches a string that has a dash in it", () => {
+    const result = isValidSecondaryLastName("W-");
+    expect(result).to.be.true;
+  });
+  it("matches an empty string", () => {
+    const result = isValidSecondaryLastName("");
+    expect(result).to.be.true;
+  });
+  it("does NOT match when the string starts with a special character", () => {
+    const result = isValidSecondaryLastName("-W");
+    expect(result).to.be.false;
+  });
+  it("does NOT match when the string contains a number", () => {
+    const result = isValidSecondaryLastName("Anderso2n");
+    expect(result).to.be.false;
+  });
+  it("does NOT match when the string contains an unauthorized special character", () => {
+    const result = isValidSecondaryLastName("Anderso(n");
+    expect(result).to.be.false;
+  });
+  it("does NOT match when passed an integer", () => {
+    const result = isValidSecondaryLastName(2);
+    expect(result).to.be.false;
+  });
+  it("does NOT match when passed an empty array", () => {
+    const result = isValidSecondaryLastName([]);
+    expect(result).to.be.false;
+  });
+  it("does NOT match when passed an empty object", () => {
+    const result = isValidSecondaryLastName({});
     expect(result).to.be.false;
   });
 });
