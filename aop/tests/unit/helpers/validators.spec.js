@@ -3,6 +3,7 @@ import {
   isValidEmail,
   isValidLastName,
   isValidSecondaryLastName,
+  hasSecondaryNumber,
 } from "@/helpers/validators.js";
 
 var expect = require("chai").expect;
@@ -226,3 +227,40 @@ describe("Helper validators.js isValidSecondaryLastName", () => {
     expect(result).to.be.false;
   });
 });
+
+describe("Helper validators.js hasSecondaryNumber", () => {
+  //pass value, vm
+  it("returns true when passed a value and secondary number", () => {
+    const result = hasSecondaryNumber("a", {secondaryNumber: "a"});
+    expect(result).to.be.true;
+  });
+  it("returns true when passed no value but a secondary number", () => {
+    const result = hasSecondaryNumber("", {secondaryNumber: "a"});
+    expect(result).to.be.true;
+  });
+  it("returns true when passed two empty values", () => {
+    const result = hasSecondaryNumber("", {secondaryNumber: ""});
+    expect(result).to.be.true;
+  });
+  it("returns false when passed value and empty secondary", () => {
+    const result = hasSecondaryNumber("a", {secondaryNumber: ""});
+    expect(result).to.be.false;
+  });
+  it("works the same with values contained in arrays", () => {
+    const result = hasSecondaryNumber([], {secondaryNumber: ['a']});
+    expect(result).to.be.true;
+  });
+  it("works the same with values contained in arrays (2)", () => {
+    const result = hasSecondaryNumber(['a'], {secondaryNumber: []});
+    expect(result).to.be.false;
+  });
+});
+
+/*
+describe("Helper validators.js functionName", () => {
+  it("does something", () => {
+    const result = function("Anderson");
+    expect(result).to.be.true;
+  });
+});
+*/
