@@ -4,6 +4,7 @@ import {
   isValidLastName,
   isValidSecondaryLastName,
   hasSecondaryNumber,
+  hasSecondaryLastName,
 } from "@/helpers/validators.js";
 
 var expect = require("chai").expect;
@@ -229,7 +230,7 @@ describe("Helper validators.js isValidSecondaryLastName", () => {
 });
 
 describe("Helper validators.js hasSecondaryNumber", () => {
-  //pass value, vm
+  //this function needs to be passed a value and a vm
   it("returns true when passed a value and secondary number", () => {
     const result = hasSecondaryNumber("a", {secondaryNumber: "a"});
     expect(result).to.be.true;
@@ -252,6 +253,34 @@ describe("Helper validators.js hasSecondaryNumber", () => {
   });
   it("works the same with values contained in arrays (2)", () => {
     const result = hasSecondaryNumber(['a'], {secondaryNumber: []});
+    expect(result).to.be.false;
+  });
+});
+
+describe("Helper validators.js hasSecondaryLastName", () => {
+  //this function needs to be passed a value and a vm
+  it("returns true when passed a value and secondary number", () => {
+    const result = hasSecondaryLastName("a", {secondaryLastName: "a"});
+    expect(result).to.be.true;
+  });
+  it("returns true when passed no value but a secondary number", () => {
+    const result = hasSecondaryLastName("", {secondaryLastName: "a"});
+    expect(result).to.be.true;
+  });
+  it("returns true when passed two empty values", () => {
+    const result = hasSecondaryLastName("", {secondaryLastName: ""});
+    expect(result).to.be.true;
+  });
+  it("returns false when passed value and empty secondary", () => {
+    const result = hasSecondaryLastName("a", {secondaryLastName: ""});
+    expect(result).to.be.false;
+  });
+  it("works the same with values contained in arrays", () => {
+    const result = hasSecondaryLastName([], {secondaryLastName: ['a']});
+    expect(result).to.be.true;
+  });
+  it("works the same with values contained in arrays (2)", () => {
+    const result = hasSecondaryLastName(['a'], {secondaryLastName: []});
     expect(result).to.be.false;
   });
 });
