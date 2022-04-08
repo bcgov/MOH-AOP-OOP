@@ -6,6 +6,7 @@ import {
   hasSecondaryNumber,
   hasSecondaryLastName,
   hasDistinctFiles,
+  hasNoInvalidJSON,
 } from "@/helpers/validators.js";
 
 var expect = require("chai").expect;
@@ -298,11 +299,21 @@ describe("Helper validators.js hasDistinctFiles", () => {
   });  
 });
 
-/*
-describe("Helper validators.js functionName", () => {
-  it("does something", () => {
-    const result = function("Anderson");
+describe("Helper validators.js hasNoInvalidJSON", () => {
+  it("returns true with valid input", () => {
+    const result = hasNoInvalidJSON("valid text");
     expect(result).to.be.true;
   });
+  it("returns false with invalid input, backslash", () => {
+    const result = hasNoInvalidJSON("\\ invalid text");
+    expect(result).to.be.false;
+  });
+  it("returns false with invalid input, forward slash", () => {
+    const result = hasNoInvalidJSON("/ invalid text");
+    expect(result).to.be.false;
+  });
+  it("returns false with invalid input, double quote", () => {
+    const result = hasNoInvalidJSON(`" invalid text`);
+    expect(result).to.be.false;
+  });
 });
-*/
