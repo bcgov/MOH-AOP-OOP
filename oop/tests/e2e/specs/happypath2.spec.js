@@ -1,6 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 Cypress.on("uncaught:exception", (err, runnable) => {
-  console.log(err);
+  console.log(err, runnable);
   return false;
 });
 
@@ -30,8 +30,8 @@ const testDateArriveString = `${testDateArrive.toLocaleString('default', { month
 // const credentialPHN = "9401 234 687";
 
 //test credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9873 608 392";
+const credentialName = "LOGIONXD";
+const credentialPHN = "9340 291 911";
 
 const credentialPhone = "2345678910";
 

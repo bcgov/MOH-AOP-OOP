@@ -432,6 +432,7 @@ describe("ReviewPage.vue", () => {
 describe("ReviewPage.vue submitForm()", () => {
   let wrapper;
   let store;
+  // eslint-disable-next-line
   let spyOnRouter;
 
   let tempForm = cloneDeep(formTemplate.default);
