@@ -1,3 +1,5 @@
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+
 module.exports = {
   publicPath: '/aop/',
   devServer: {
@@ -7,5 +9,10 @@ module.exports = {
         changeOrigin: true
       },
     }
+  },
+  configureWebpack: {
+    plugins: [
+      new NodePolyfillPlugin()
+    ]
   }
 }

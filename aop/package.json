@@ -5,11 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "start": "node server.js",
-    "test:coverage": "echo \"No test specified\" && exit 0",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js",
+    "test:coverage": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme.git#v1.1.3",
@@ -29,6 +29,7 @@
     "mdn-polyfills": "^5.20.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
+    "node-polyfill-webpack-plugin": "^1.1.4",
     "pdfjs-dist": "2.6.347",
     "sha1": "^1.1.1",
     "underscore": "^1.13.1",
@@ -42,15 +43,16 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-e2e-cypress": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-unit-mocha": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "^4.5.16",
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "@vue/cli-plugin-e2e-cypress": "^5.0.4",
+    "@vue/cli-plugin-router": "^5.0.4",
+    "@vue/cli-plugin-unit-mocha": "^5.0.4",
+    "@vue/cli-plugin-vuex": "^5.0.4",
+    "@vue/cli-service": "^5.0.4",
     "@vue/test-utils": "^1.0.3",
     "axe-core": "^4.1.4",
     "chai": "^4.1.2",
+    "cypress": "^8.3.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
