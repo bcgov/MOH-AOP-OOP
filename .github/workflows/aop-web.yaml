@@ -30,7 +30,7 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        node-version: [10.22.x]
+        node-version: [12]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
