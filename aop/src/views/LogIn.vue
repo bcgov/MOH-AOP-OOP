@@ -66,6 +66,7 @@ import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
 import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from "../store";
 import { scrollTo } from "../helpers/scroll";
+import settings from '../settings';
 
 export default {
   name: "LogIn",
@@ -158,6 +159,12 @@ export default {
   },
   methods: {
     nextPage() {
+      if (settings.bypassLogin) {
+        const path = routes.SUBMISSION_INFO.path;
+        this.$router.push(path);
+        scrollTo(0);
+        return;
+      }
       // BCSC: send user for authentication when they click the button
       window.location.href = this.bcscRedirect;
     },
