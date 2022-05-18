@@ -138,7 +138,7 @@ export default {
               const errorMessage = `Error reading page ${pageNumber} of the PDF.`;
               try {
                 const imageSource = await this.getPage(pdfDoc, pageNumber);
-                const imageData = await this.getImageData(imageSource);
+                let imageData = await this.getImageData(imageSource);
                 if (imageData.size > MAX_IMAGE_SIZE_BYTES) {
                   imageData = await this.scaleImage(imageData);
                 } else if (imageData.size < MIN_IMAGE_SIZE_BYTES) {
