@@ -46,10 +46,12 @@ PDFJS.workerSrc = pdfJsWorker;
 PDFJS.disableWorker = true;
 PDFJS.disableStream = true;
 
+const MIN_IMAGE_SIZE_BYTES = 20000;
 const MAX_IMAGE_SIZE_BYTES = 1048576;
 const MAX_IMAGE_COUNT = 20;
 const IMAGE_REDUCTION_SCALE_FACTOR = 0.8;
-const JPEG_COMPRESSION = 0.5;
+const IMAGE_CONTENT_TYPE = 'image/jpeg';
+const JPEG_COMPRESSION = 0.8;
 
 export default {
   name: 'FileUploader',
@@ -133,12 +135,26 @@ export default {
               return;
             }
             for (let pageNumber = 1; pageNumber <= pdfDoc.numPages; pageNumber++) {
+              const errorMessage = `Error reading page ${pageNumber} of the PDF.`;
               try {
-                const imageData = await this.getPage(pdfDoc, pageNumber);
-                const scaledImage = await this.scaleImage(imageData);
-                images.push(scaledImage);
-              } catch {
-                reject(`Error reading page ${pageNumber} of the PDF.`);
+                const imageSource = await this.getPage(pdfDoc, pageNumber);
+                const imageData = await this.getImageData(imageSource);
+                if (imageData.size > MAX_IMAGE_SIZE_BYTES) {
+                  imageData = await this.scaleImage(imageData);
+                } else if (imageData.size < MIN_IMAGE_SIZE_BYTES) {
+                  // If no pages were large enough, reject with an error message
+                  if (pageNumber === pdfDoc.numPages && images.length < 1) {
+                    reject(`PDF size is too small, please upload a larger PDF`);
+                  } else {
+                    // If a single page is too small (less than a line of text) do not include it
+                    console.log(`Image size of page ${pageNumber} is too small, removing...`);
+                  }
+                } else {
+                  images.push(imageData);
+                }
+              } catch (error) {
+                console.log(errorMessage, error);
+                reject(errorMessage);
                 return;
               }
             }
@@ -175,7 +191,7 @@ export default {
 
           const renderTask = page.render(renderContext);
           renderTask.promise.then(() => {
-            const dataURL = canvas.toDataURL('image/jpeg', JPEG_COMPRESSION);
+            const dataURL = canvas.toDataURL(IMAGE_CONTENT_TYPE, JPEG_COMPRESSION);
             resolve(dataURL);
           },
           (error) => {
@@ -184,6 +200,53 @@ export default {
         }).catch((error) => {
           reject(error);
         });
+      });
+    },
+
+    getImageData(imageSource) {
+      return new Promise((resolve, reject) => {
+        // We create an image to receive the Data URI
+        const img = document.createElement('img');
+
+        // When the event "onload" is triggered we can resize the image.
+        img.onload = async () => {
+          // We create a canvas and get its context.
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          const width = Math.floor(img.width);
+          const height = Math.floor(img.height);
+
+          // We set the dimensions at the wanted size.
+          canvas.width = width;
+          canvas.height = height;
+
+          // We resize the image with the canvas method drawImage();
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(async (blob) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              resolve({
+                fileContent: event.target.result,
+                size: blob.size,
+                width,
+                height,
+              });
+            };
+            reader.onerror = () => {
+              reject();
+            }
+            reader.readAsDataURL(blob);
+          }, IMAGE_CONTENT_TYPE, JPEG_COMPRESSION);
+        };
+
+        img.onerror = () => {
+          reject();
+        }
+
+        // We put the Data URI in the image's src attribute
+        img.src = imageSource;
       });
     },
 
@@ -209,52 +272,47 @@ export default {
           ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
           canvas.toBlob(async (blob) => {
-            const scaledImageData = canvas.toDataURL('image/jpeg', JPEG_COMPRESSION);
-            img.size = blob.size;
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+              const scaledImageData = {
+                fileContent: event.target.result,
+                size: blob.size,
+                width: targetWidth,
+                height: targetHeight,
+              };
 
-            if (blob.size > MAX_IMAGE_SIZE_BYTES) {
-              resolve(await this.scaleImage(scaledImageData))
-            } else {
-              resolve(scaledImageData);
-            }
-          });
+              if (blob.size > MAX_IMAGE_SIZE_BYTES) {
+                resolve(await this.scaleImage(scaledImageData))
+              } else {
+                resolve(scaledImageData);
+              }
+            };
+            reader.readAsDataURL(blob);
+          }, IMAGE_CONTENT_TYPE, JPEG_COMPRESSION);
         };
 
         img.onerror = () => {
           reject();
-        }
+        };
 
         // We put the Data URI in the image's src attribute
-        img.src = imageData;
+        img.src = imageData.fileContent;
       });
     },
 
-    dataURLtoBlob(dataURL) {
-      //http://mitgux.com/send-canvas-to-server-as-file-using-ajax
-      // Decode the dataURL    
-      var binary = atob(dataURL.split(',')[1]);
-      // Create 8-bit unsigned array
-      var array = [];
-      for(var i = 0; i < binary.length; i++) {
-          array.push(binary.charCodeAt(i));
-      }
-      // Return our Blob object
-      return new Blob([new Uint8Array(array)], {type: 'image/png'});
-    },
-
-    addFileImages(fileName, imageDataURLs) {
+    addFileImages(fileName, imageObjects) {
       const images = [];
       // Create image objects.
-      for (let i=0; i<imageDataURLs.length; i++) {
-        const imageData = imageDataURLs[i];
-        const hash = sha1(imageData);
+      for (let i=0; i < imageObjects.length; i++) {
+        const imageObject = imageObjects[i];
+        const hash = sha1(imageObject.fileContent);
         const uuid = uuidv4();
-        const size = this.dataURLtoBlob(imageDataURLs[i]).size;
+        const size = imageObject.size;
 
         images.push({
           name: `${fileName}.page-${i+1}`,
-          contentType: "image/jpeg",
-          fileContent: imageData,
+          contentType: IMAGE_CONTENT_TYPE,
+          fileContent: imageObject.fileContent,
           documentType: this.documentType,
           description: this.description,
           hash,
