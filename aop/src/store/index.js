@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import dummyData from './dummy-data';
+import settings from '../settings';
 
 export const SET_UUID = 'setUUID';
 export const SET_LOADING = "setLoading";
@@ -34,30 +36,38 @@ export const SET_SALT = "setSalt";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    uuid: '',
-    loading: true,
-    showSignOutModal: false,
-    showMobileProgress: false,
-    uploadType: '',
-    credentialsRequired: '',
-    firstName: '',
-    lastName: '',
-    emailAddress: '',
-    phoneNumber: '',
-    phoneExtension: '',
-    organization: '',
-    facility: '',
-    submissionType: '',
-    primaryNumber: '',
-    primaryLastName: '',
-    secondaryNumber: '',
-    secondaryLastName: '',
-    comments: '',
-    uploadedForms: [],
-    uploadedCredentials: [],
-    apiResponse: '',
-    salt: '',
+  state: () => {
+    const state = {
+      uuid: '',
+      loading: true,
+      showSignOutModal: false,
+      showMobileProgress: false,
+      uploadType: '',
+      credentialsRequired: '',
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      phoneNumber: '',
+      phoneExtension: '',
+      organization: '',
+      facility: '',
+      submissionType: '',
+      primaryNumber: '',
+      primaryLastName: '',
+      secondaryNumber: '',
+      secondaryLastName: '',
+      comments: '',
+      uploadedForms: [],
+      uploadedCredentials: [],
+      apiResponse: '',
+      salt: '',
+    };
+
+    if (settings.useDummyData) {
+      Object.assign(state, dummyData);
+    }
+
+    return state;
   },
   mutations: {
     setUUID(state, payload) {

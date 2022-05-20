@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
-          node-version: "10"
+          node-version: "12"
       - name: Unit tests w/ coverage
         run: npm run test:coverage
       # - name: LINTing
@@ -30,7 +30,7 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        node-version: [10.22.x]
+        node-version: [12.22.x]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1

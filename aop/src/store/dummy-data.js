@@ -1,0 +1,16 @@
+export default {
+  uploadType: 'OOPA',
+  credentialsRequired: 'false',
+  firstName: 'Jane',
+  lastName: 'Doe',
+  emailAddress: 'test@test.com',
+  phoneNumber: '(555) 555-5555',
+  phoneExtension: '',
+  facility: 'FacName',
+  submissionType: 'New Submission',
+  primaryNumber: 'C1234',
+  primaryLastName: 'Daniels',
+  secondaryNumber: '',
+  secondaryLastName: '',
+  comments: 'Lorem ipsum sit dolor',
+}

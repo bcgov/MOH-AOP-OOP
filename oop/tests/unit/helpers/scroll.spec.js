@@ -3,9 +3,6 @@ import * as scroll from "@/helpers/scroll.js";
 const spyOnWindowScrollTo = jest
   .spyOn(window, "scrollTo")
   .mockImplementation(jest.fn);
-const spyOnScrollTo = jest.spyOn(scroll, "scrollTo");
-const spyOnScrollToElement = jest.spyOn(scroll, "scrollToElement");
-// .mockImplementation(jest.fn)
 
 describe("Helper scroll.js scrollTo()", () => {
   afterEach(() => {
