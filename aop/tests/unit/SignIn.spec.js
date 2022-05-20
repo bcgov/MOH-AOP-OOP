@@ -1,18 +1,17 @@
-// import { expect } from "chai";
-// import { shallowMount, createLocalVue } from "@vue/test-utils";
-// import VueRouter from 'vue-router';
-// import SignIn from "../../src/views/SignIn.vue";
+import { shallowMount, createLocalVue } from "@vue/test-utils";
+import VueRouter from 'vue-router';
+import LogIn from "../../src/views/LogIn";
 
-// // const localVue = createLocalVue();
-// // localVue.use(VueRouter);
-// // const router = new VueRouter;
+const localVue = createLocalVue();
+localVue.use(VueRouter);
+const router = new VueRouter;
 
-// // describe("SignIn.vue", () => {
-// //   it("renders", () => {
-// //     const wrapper = shallowMount(SignIn, {
-// //       localVue,
-// //       router
-// //     });
-// //     expect(wrapper.text()).to.include("BC Services Card");
-// //   });
-// // });
+describe("LogIn.vue", () => {
+  it("renders", () => {
+    const wrapper = shallowMount(LogIn, {
+      localVue,
+      router
+    });
+    expect(wrapper.text()).to.include("BC Services Card");
+  });
+});
