@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { routes } from './routes';
 import pageStateService from '../services/page-state-service';
@@ -11,7 +10,6 @@ import SubmissionPage from '../views/SubmissionPage.vue';
 import SubmissionErrorPage from '../views/SubmissionErrorPage.vue';
 import MaintenancePage from '../views/MaintenancePage.vue';
 
-Vue.use(VueRouter);
 pageStateService.importPageRoutes(routes);
 
 const routeCollection = [
