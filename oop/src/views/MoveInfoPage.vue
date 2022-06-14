@@ -288,7 +288,7 @@ import TipBox from '../components/TipBox.vue';
 import {
   required,
   maxLength,
-} from 'vuelidate/lib/validators';
+} from '@vuelidate/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,

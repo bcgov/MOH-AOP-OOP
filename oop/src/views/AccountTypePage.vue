@@ -126,7 +126,7 @@ import {
   SET_IS_ALL_DEPENDENTS_MOVING,
   SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';

@@ -1,4 +1,4 @@
-import VueRouter from 'vue-router';
+import { createRouter,  createWebHistory } from 'vue-router';
 import { routes } from './routes';
 import pageStateService from '../services/page-state-service';
 import AccountTypePage from '../views/AccountTypePage.vue';
@@ -55,9 +55,10 @@ const routeCollection = [
   }
 ];
 
-const router = new VueRouter({
+const router = createRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  history: createWebHistory(),
   routes: routeCollection
 });
 

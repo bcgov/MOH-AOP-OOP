@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import Vuelidate from 'vuelidate';
+import { useVuelidate } from '@vuelidate/core'
 import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
@@ -44,7 +44,7 @@ if (isIE()) {
 const app = createApp(App)
   .use(store)
   .use(router)
-  .use(Vuelidate)
+  .use(useVuelidate)
   .use(Vuex)
 app.mount('#app')
 

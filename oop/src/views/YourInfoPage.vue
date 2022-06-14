@@ -100,7 +100,7 @@ import {
   PhoneNumberInput,
   phnValidator
 } from 'common-lib-vue';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
