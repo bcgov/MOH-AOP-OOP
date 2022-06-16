@@ -12,7 +12,7 @@ import MaintenancePage from '../views/MaintenancePage.vue';
 
 pageStateService.importPageRoutes(routes);
 
-const routeCollection = [
+export const routeCollection = [
   {
     path: routes.HOME_PAGE.path,
     name: routes.HOME_PAGE.name,

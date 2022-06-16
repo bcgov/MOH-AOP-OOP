@@ -1,11 +1,12 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import VueRouter from "vue-router";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
 import Component from "@/views/HomePage.vue";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 import axios from "axios";
+import { routeCollection } from "@/router/index";
 
 const mockAxiosResponse = {
   data: {
@@ -117,10 +118,10 @@ const mockAxiosResponseMaintenance = {
   request: {},
 };
 
-const localVue = createLocalVue();
-localVue.use(VueRouter);
-localVue.use(Vuex);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
 
 const scrollHelper = require("@/helpers/scroll");
 
@@ -153,14 +154,15 @@ describe("HomePage.vue", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
   });
 
@@ -179,7 +181,7 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
@@ -190,8 +192,9 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
   });
 
@@ -213,7 +216,7 @@ describe("HomePage.vue nextPage()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
@@ -224,9 +227,9 @@ describe("HomePage.vue nextPage()", () => {
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -263,7 +266,7 @@ describe("HomePage.vue created()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
@@ -279,9 +282,9 @@ describe("HomePage.vue created()", () => {
     );
 
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
