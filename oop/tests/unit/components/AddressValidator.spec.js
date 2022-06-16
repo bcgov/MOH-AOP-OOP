@@ -1,8 +1,5 @@
-import { mount, createLocalVue } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import axios from "axios";
-import Vuex from "vuex";
-import Vue from "vue";
-import Vuelidate from "vuelidate";
 import Component from "@/components/AddressValidator.vue";
 
 const mockAddressResponse = {
@@ -35,15 +32,13 @@ jest.mock("axios", () => ({
   get: jest.fn(),
 }));
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
-
 describe("AddressValidator.vue", () => {
   it("renders", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
     });
@@ -54,8 +49,10 @@ describe("AddressValidator.vue", () => {
 describe("AddressValidator.vue processResponse()", () => {
   it("should format API response into a specific format", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
     });
@@ -78,8 +75,10 @@ describe("AddressValidator.vue lookup()", () => {
   it("returns an empty array when not given a proper query", async () => {
     const query = "asdfgjkl;";
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
     });
@@ -95,8 +94,10 @@ describe("AddressValidator.vue lookup()", () => {
   it("short circuits and returns an empty array when not given a query at all", async () => {
     const query = "";
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
     });
@@ -111,8 +112,10 @@ describe("AddressValidator.vue lookup()", () => {
   it("returns formatted data when given a proper query", async () => {
     const query = "716 Yates";
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
     });
@@ -131,8 +134,10 @@ describe("AddressValidator.vue lookup()", () => {
 describe("AddressValidator.vue inputKeyDownHandler()", () => {
   it("changes selected dropdown when the down button is pressed", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -186,8 +191,10 @@ describe("AddressValidator.vue inputKeyDownHandler()", () => {
 
   it("changes selected dropdown when the up button is pressed", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -241,8 +248,10 @@ describe("AddressValidator.vue inputKeyDownHandler()", () => {
 
   it("clears the data when the escape button is pressed", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -274,8 +283,10 @@ describe("AddressValidator.vue inputKeyDownHandler()", () => {
 
   it("calls the selectItemIndex() function when the enter button is pressed", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -300,8 +311,10 @@ describe("AddressValidator.vue inputKeyDownHandler()", () => {
 describe("AddressValidator.vue selectItemIndex()", () => {
   it("emits a signal with the value passed through as a parameter", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -327,8 +340,10 @@ describe("AddressValidator.vue selectItemIndex()", () => {
 
   it("clears the data and selectedItemIndex", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -357,8 +372,10 @@ describe("AddressValidator.vue selectItemIndex()", () => {
 describe("AddressValidator.vue mouse handlers", () => {
   it("changes the selectedItemIndex on mouseover enter", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -376,8 +393,10 @@ describe("AddressValidator.vue mouse handlers", () => {
 
   it("sets the selectedItemIndex to null on mouseover exit", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -396,8 +415,10 @@ describe("AddressValidator.vue mouse handlers", () => {
 describe("AddressValidator.vue blurResultsContainer()", () => {
   it("resets data and selectedItemIndex when the function is called", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -423,8 +444,10 @@ describe("AddressValidator.vue blurResultsContainer()", () => {
 describe("AddressValidator.vue inputHandler()", () => {
   it("emits signal on function call", () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
@@ -442,8 +465,10 @@ describe("AddressValidator.vue inputHandler()", () => {
 
   it("resets isPerformingLookupCancelTimeout and isPerformingLookup on function call", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      propsData: {
+      global: {
+        plugins: [],
+      },
+      props: {
         id: "address-line-1",
       },
       data() {
