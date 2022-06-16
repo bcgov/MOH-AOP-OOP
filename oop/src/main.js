@@ -46,6 +46,6 @@ const app = createApp(App)
   .use(router)
   .use(useVuelidate)
   .use(Vuex)
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 
-app.component('font-awesome-icon', FontAwesomeIcon)

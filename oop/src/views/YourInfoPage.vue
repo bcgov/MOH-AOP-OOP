@@ -100,6 +100,7 @@ import {
   PhoneNumberInput,
   phnValidator
 } from 'common-lib-vue';
+import useVuelidate from "@vuelidate/core";
 import { required } from '@vuelidate/validators';
 import {
   MODULE_NAME as formModule,
@@ -164,9 +165,10 @@ export default {
       phoneInputStyle: {
         width: '160px',
         maxWidth: '100%',
-      }
+      },
     }
   },
+  setup () { return { $v: useVuelidate() } },
   created() {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
