@@ -1,16 +1,12 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
 import Component from "@/components/ConsentModal.vue";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 describe("ConsentModal.vue", () => {
   const wrapper = shallowMount(Component, {
-    localVue,
+    global: {
+      plugins: [],
+    },
     mocks: {
       $store: {
         state: {
@@ -40,7 +36,9 @@ describe("ConsentModal.vue", () => {
 describe("ConsentModal.vue getFocusableEls()", () => {
   it("returns an array", () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -69,7 +67,9 @@ describe("ConsentModal.vue getFocusableEls()", () => {
 
   it("has a length greater than zero", () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -98,7 +98,9 @@ describe("ConsentModal.vue getFocusableEls()", () => {
 describe("ConsentModal.vue handleCaptchaLoaded()", () => {
   it("assigns the results of getFocusableEls() to data", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -137,7 +139,7 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
 
 describe("ConsentModal.vue handleCaptchaVerified()", () => {
   it("changes captchaValid to true on function call", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           namespaced: true,
@@ -152,7 +154,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     });
 
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       store,
 
       data: () => {
@@ -177,7 +181,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
       setCaptchaToken: jest.fn(),
     };
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           namespaced: true,
@@ -190,7 +194,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     });
 
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       store,
 
       data: () => {
@@ -215,7 +221,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
       setCaptchaToken: jest.fn(),
     };
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           namespaced: true,
@@ -228,7 +234,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     });
 
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       store,
 
       data: () => {
@@ -251,7 +259,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
 describe("ConsentModal.vue closeModal()", () => {
   const wrapper = shallowMount(Component, {
-    localVue,
+    global: {
+      plugins: [],
+    },
     mocks: {
       $store: {
         state: {
@@ -303,7 +313,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
 
   it("calls handleTab() on function call", () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -331,7 +343,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
 
   it("calls handleTabBackwards() on function call with shift key", () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -362,7 +376,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
 
   it("calls neither function if the button pressed isn't tab", () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -404,7 +420,9 @@ describe("ConsentModal.vue handleTab()", () => {
 
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -439,7 +457,9 @@ describe("ConsentModal.vue handleTab()", () => {
 
   it("moves focus from the first element to the second if the first is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -474,7 +494,9 @@ describe("ConsentModal.vue handleTab()", () => {
 
   it("moves focus from the last element to the first if the last is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -508,7 +530,9 @@ describe("ConsentModal.vue handleTab()", () => {
 
   it("should call focus function on focused element", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -552,7 +576,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
 
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -586,7 +612,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
 
   it("moves focus from the second element to the first if the second is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -621,7 +649,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
 
   it("moves focus from the first element to the last if the first is focused", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
@@ -655,7 +685,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
 
   it("should call focus function on focused element", async () => {
     const wrapper = shallowMount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
       mocks: {
         $store: {
           state: {
