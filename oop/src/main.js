@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { useVuelidate } from '@vuelidate/core'
+import useVuelidate from '@vuelidate/core'
 import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
