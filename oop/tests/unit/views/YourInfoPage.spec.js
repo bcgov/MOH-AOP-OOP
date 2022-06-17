@@ -1,18 +1,13 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { mount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import Component from "@/views/YourInfoPage.vue";
 import axios from "axios";
 import logService from "@/services/log-service";
 import apiService from "@/services/api-service";
 import pageStateService from "@/services/page-state-service";
 import formTemplate from "@/store/modules/form";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 const mockResponse = {
   data: {
@@ -208,6 +203,15 @@ const scrollHelper = require("@/helpers/scroll");
 const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
 
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
+
+const spyOnRouter = jest
+  .spyOn(router, "push")
+  .mockImplementation(() => Promise.resolve("pushed"));
+
 describe("YourInfoPage.vue", () => {
   let state;
   let store;
@@ -219,7 +223,7 @@ describe("YourInfoPage.vue", () => {
       phone: null,
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: {
           state,
@@ -233,8 +237,9 @@ describe("YourInfoPage.vue", () => {
 
   it("renders", () => {
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
     expect(wrapper.element).toBeDefined();
   });
@@ -242,7 +247,7 @@ describe("YourInfoPage.vue", () => {
 
 describe("YourInfoPage.vue nameValidator()", () => {
   it("validates as true when supplied a last name", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -255,8 +260,9 @@ describe("YourInfoPage.vue nameValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -266,7 +272,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
   });
 
   it("validates as false when supplied a falsy last name value", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -279,8 +285,9 @@ describe("YourInfoPage.vue nameValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -292,7 +299,7 @@ describe("YourInfoPage.vue nameValidator()", () => {
 
 describe("YourInfoPage.vue phoneValidator()", () => {
   it("does not throw an error when supplied a string containing 10 numerical digits", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -305,8 +312,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -316,7 +324,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
   });
 
   it("does not throw an error when supplied a null value, as the field is optional", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -329,8 +337,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -340,7 +349,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
   });
 
   it("does throw an error when phone number length <10", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -353,8 +362,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -364,7 +374,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
   });
 
   it("does throw an error when phone number contains invalid characters", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -377,8 +387,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -388,7 +399,7 @@ describe("YourInfoPage.vue phoneValidator()", () => {
   });
 
   it("strips out surplus invalid characters so the phone number length is correct", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -401,8 +412,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     wrapper.vm.$v.$touch();
@@ -428,7 +440,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   });
 
   it("throws an error, does not call api service when last name is not present", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -441,8 +453,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
@@ -456,7 +469,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   });
 
   it("throws an error, does not call api service when phn is not present", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -469,8 +482,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
@@ -484,7 +498,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   });
 
   it("does call api service when last name and phn are present", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -499,8 +513,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
 
     jest
@@ -525,7 +540,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   });
 
   it("runs the code in case 0 (success) when info is found in the database", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -541,8 +556,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
       data: () => {
         return {
           accountType: "default",
@@ -567,7 +583,7 @@ describe("YourInfoPage.vue nextPage()", () => {
   });
 
   it("runs the code in case 1 (error) when info doesn't match what's found in the database", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: {
           state: {
@@ -584,8 +600,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
     const wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
       data: () => {
         return {
           accountType: "default",
@@ -646,7 +663,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
         },
       },
     };
-    store = new Vuex.Store(storeTemplate);
+    store = createStore(storeTemplate);
   });
 
   afterEach(() => {
@@ -660,19 +677,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("renders", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -683,19 +690,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("updates the last name in the store with whatever is in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -711,19 +708,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("updates the phn in the store with whatever is in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -738,19 +725,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("updates the phone in the store with whatever is in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -764,19 +741,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("updates the account type in the store with whatever is in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -793,19 +760,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("if account type is DEP, it updates the setPersonMoving in the store to null", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -822,19 +779,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("if account type is DEP, it updates the isAllDependentsMoving in the store to null", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -853,19 +800,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("if account type is DEP, it updates the dependentPhns in the store to an empty array", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -882,19 +819,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("calls pageStateService", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -906,19 +833,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("calls scrollTo with the parameter 0", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
 
@@ -929,25 +846,11 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
   });
 
   it("calls routerPush to change page", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
     });
-
-    const spyOnRouter = jest
-      .spyOn($router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
 
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
@@ -1005,23 +908,13 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
       },
     };
 
-    store = new Vuex.Store(storeTemplate);
+    store = createStore(storeTemplate);
   });
 
   it("renders", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1035,19 +928,9 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
   });
 
   it("sets validation code 1 to false in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1067,19 +950,9 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
   });
 
   it("sets validation code 2 to false in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1148,23 +1021,13 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
       },
     };
 
-    store = new Vuex.Store(storeTemplate);
+    store = createStore(storeTemplate);
   });
 
   it("renders", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1178,19 +1041,9 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
   });
 
   it("sets validation code 1 to false in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1210,19 +1063,9 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
   });
 
   it("sets validation code 2 to false in the data", async () => {
-    const $route = {
-      path: "/",
-    };
-
-    const $router = new VueRouter({
-      $route,
-    });
-
     const wrapper = mount(Component, {
-      store,
-      localVue,
-      mocks: {
-        $router,
+      global: {
+        plugins: [store, router],
       },
       data: () => {
         return dataTemplate;
@@ -1254,7 +1097,7 @@ describe("YourInfoPage.vue created()", () => {
       phone: "default3",
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: {
           state,
@@ -1266,8 +1109,9 @@ describe("YourInfoPage.vue created()", () => {
     axios.get.mockImplementationOnce(() => Promise.resolve(mockResponse));
 
     wrapper = mount(Component, {
-      store,
-      localVue,
+      global: {
+        plugins: [store],
+      },
     });
   });
 

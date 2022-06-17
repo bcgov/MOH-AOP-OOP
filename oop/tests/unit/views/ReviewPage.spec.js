@@ -1,8 +1,6 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/ReviewPage.vue";
@@ -10,6 +8,7 @@ import axios from "axios";
 import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
 import { routes, routeStepOrder } from "@/router/routes";
+import { routeCollection } from "@/router/index";
 
 const scrollHelper = require("@/helpers/scroll");
 
@@ -51,11 +50,10 @@ const spyOnVisitPage = jest
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
 
 const mockSubmit = {
   data: {
@@ -406,15 +404,15 @@ describe("ReviewPage.vue", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -439,15 +437,15 @@ describe("ReviewPage.vue submitForm()", () => {
   tempForm.state = dummyFormData;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     spyOnRouter = jest
@@ -502,16 +500,16 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
   tempForm.state = dummyFormData;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
-      propsData: {
+      global: {
+        plugins: [store, router],
+      },
+      props: {
         isSystemUnavailable: false,
       },
     });
@@ -611,15 +609,15 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
   let spyOnRouter;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     spyOnRouter = jest
@@ -662,15 +660,15 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -709,15 +707,15 @@ describe("ReviewPage.vue created()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -742,15 +740,15 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   tempForm.state = dummyFormData;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 

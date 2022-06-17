@@ -1,8 +1,7 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { mount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import Component from "@/views/AccountTypePage.vue";
 import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
@@ -10,11 +9,10 @@ import * as formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 import axios from "axios";
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
 
 jest.mock("axios", () => ({
   get: jest.fn(),
@@ -112,16 +110,16 @@ describe("AccountTypePage.vue", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplate);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -142,16 +140,16 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplate);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -190,16 +188,16 @@ describe("AccountTypePage.vue saveValues()", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplate);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -266,16 +264,16 @@ describe("AccountTypePage.vue nextPage()", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplate);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -325,16 +323,16 @@ describe("AccountTypePage.vue addDependentField()", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate6);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -377,16 +375,16 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   it("returns an array that's the same length as the array in the store if the store contains 6-9 elements", async () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate6);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -405,16 +403,16 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
 
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate3);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -427,16 +425,16 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   it("returns an array containing the values of the store if the store contains 6-9 elements", async () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate6);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -455,16 +453,16 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   it("returns an array containing the values of the store if the store contains 1-5 elements", async () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate3);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     const result = wrapper.vm.getDependentPhns();
@@ -490,16 +488,16 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
   it("changes the dependentPhns to an array of 5 null values when 5 or less dependent fields are present", async () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate3);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
 
@@ -513,16 +511,16 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
   it("changes the dependentPhns to an array of null values equal to the number of dependent fields", async () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(storeTemplate6);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
     expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6");
 
@@ -541,16 +539,16 @@ describe("AccountTypePage.vue validateFields() $v errors", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplateInvalid);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -880,16 +878,16 @@ describe("AccountTypePage.vue validateFields()", () => {
   beforeEach(() => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(stateTemplate);
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      store,
-      localVue,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 

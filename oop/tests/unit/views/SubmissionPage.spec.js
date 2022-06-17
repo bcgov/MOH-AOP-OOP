@@ -1,8 +1,7 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionPage.vue";
@@ -59,27 +58,25 @@ const dummyData = {
   submissionError: null,
 };
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
 
 describe("SubmissionPage.vue", () => {
   let wrapper;
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -98,15 +95,15 @@ describe("SubmissionPage.vue printPage()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
@@ -127,15 +124,15 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
   let spyOnRouter;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate.default),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
 
     spyOnRouter = jest
@@ -183,15 +180,15 @@ describe("SubmissionPage.vue created()", () => {
     let tempForm = cloneDeep(formTemplate.default);
     tempForm.state = cloneDeep(dummyData);
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: tempForm,
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
