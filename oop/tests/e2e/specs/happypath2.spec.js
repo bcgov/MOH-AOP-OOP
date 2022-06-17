@@ -40,11 +40,7 @@ describe("Happy path", () => {
     //Home page
     cy.visit("http://localhost:8080/oop");
     cy.location().should((loc) => {
-      expect(loc.host).to.eq("localhost:8080");
-      expect(loc.hostname).to.eq("localhost");
-      expect(loc.href).to.eq("http://localhost:8080/oop");
-      expect(loc.origin).to.eq("http://localhost:8080");
-      expect(loc.pathname).to.eq("/oop");
+      expect(loc.pathname).to.eq("/oop/");
     });
 
     //Captcha
