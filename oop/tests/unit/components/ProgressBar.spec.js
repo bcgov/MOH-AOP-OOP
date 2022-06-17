@@ -1,23 +1,15 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import Component from "@/components/ProgressBar.vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import pageStateService from "@/services/page-state-service";
 import { cloneDeep } from "lodash";
 import * as stepRoutes from "@/router/step-routes";
 import { routeStepOrder } from "@/router/routes";
 import * as formTemplate from "@/store/modules/form";
 import * as appTemplate from "@/store/modules/app";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-const router = new VueRouter();
 
 const scrollHelper = require("@/helpers/scroll");
 // const addressHelper = require("@/helpers/address");
@@ -38,6 +30,11 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
+
 const spyOnRouter = jest
   .spyOn(router, "push")
   .mockImplementation(() => Promise.resolve("pushed"));
@@ -51,23 +48,22 @@ describe("ProgressBar.vue", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
         app: cloneDeep(appTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
       global: {
+        plugins: [store],
         stubs: {
           FontAwesomeIcon: {
             template: "<span />",
           },
         },
       },
-      propsData: {
+      props: {
         currentPath: routeStepOrder[1].path,
         routes: stepRoutes.default,
       },
@@ -90,23 +86,22 @@ describe("ProgressBar.vue onClickLink()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
         app: cloneDeep(appTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
       global: {
+        plugins: [store],
         stubs: {
           FontAwesomeIcon: {
             template: "<span />",
           },
         },
       },
-      propsData: {
+      props: {
         currentPath: routeStepOrder[1].path,
         routes: stepRoutes.default,
       },
@@ -187,23 +182,22 @@ describe("ProgressBar.vue openDropdown() and closeDropdown()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate.default),
         app: cloneDeep(appTemplate.default),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
       global: {
+        plugins: [store],
         stubs: {
           FontAwesomeIcon: {
             template: "<span />",
           },
         },
       },
-      propsData: {
+      props: {
         currentPath: routeStepOrder[1].path,
         routes: stepRoutes.default,
       },
@@ -236,23 +230,22 @@ describe("ProgressBar.vue getLinkStyles()", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate.default),
         app: cloneDeep(appTemplate.default),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
       global: {
+        plugins: [store],
         stubs: {
           FontAwesomeIcon: {
             template: "<span />",
           },
         },
       },
-      propsData: {
+      props: {
         currentPath: routeStepOrder[1].path,
         routes: stepRoutes.default,
       },
