@@ -1,24 +1,21 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import Vuelidate from "vuelidate";
+import { mount } from "@vue/test-utils";
 import Component from "@/components/ContinueBar.vue";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 describe("ContinueBar.vue", () => {
   it("renders", () => {
     const wrapper = mount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
     });
     expect(wrapper.element).toBeDefined();
   });
 
   it("emits continue event correctly through built in method", () => {
     const wrapper = mount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
     });
     wrapper.vm.onContinue();
     expect(wrapper.emitted().continue).toBeTruthy();
@@ -26,7 +23,9 @@ describe("ContinueBar.vue", () => {
 
   it("runs continue method on button click", async () => {
     const wrapper = mount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
     });
     const spyOnContinue = jest.spyOn(wrapper.vm, "onContinue");
     await wrapper.find("button").trigger("click");
