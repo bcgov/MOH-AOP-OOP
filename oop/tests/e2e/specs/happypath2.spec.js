@@ -30,8 +30,8 @@ const testDateArriveString = `${testDateArrive.toLocaleString('default', { month
 // const credentialPHN = "9401 234 687";
 
 //test credentials
-const credentialName = "LOGIONXD";
-const credentialPHN = "9340 291 911";
+const credentialName = "POIUYR";
+const credentialPHN = "9873 541 262";
 
 const credentialPhone = "2345678910";
 
