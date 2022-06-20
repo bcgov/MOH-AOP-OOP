@@ -15,10 +15,10 @@
                   @input="handleLastNameInputChange"
                   :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
-                v-if="v.lastName.$dirty && !v.lastName.required"
+                v-if="v$.lastName.$dirty && !v$.lastName.required"
                 aria-live="assertive">Last name is required.</div>
             <div class="text-danger"
-                v-if="v.lastName.$dirty && v.lastName.required && !v.lastName.nameValidation"
+                v-if="v$.lastName.$dirty && v$.lastName.required && !v$.lastName.nameValidation"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
@@ -30,10 +30,10 @@
                       ref="phnInput"
                       :inputStyle='phnInputStyle' />
             <div class="text-danger"
-                v-if="v.phn.$dirty && !v.phn.required"
+                v-if="v$.phn.$dirty && !v$.phn.required"
                 aria-live="assertive">Personal Health Number is required.</div>
             <div class="text-danger"
-                v-if="v.phn.$dirty && v.phn.required && !v.phn.phnValidation"
+                v-if="v$.phn.$dirty && v$.phn.required && !v$.phn.phnValidation"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
                 v-if="isValidationCode1Shown || isValidationCode2Shown"
@@ -47,7 +47,7 @@
                               class='phone-number'
                               :inputStyle='phoneInputStyle' />
             <div class="text-danger"
-                v-if="v.phn.$dirty && !v.phone.phoneValidator"
+                v-if="v$.phn.$dirty && !v$.phone.phoneValidator"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
 
@@ -168,7 +168,7 @@ export default {
       },
     }
   },
-  setup () { return { v: useVuelidate() } },
+  setup () { return { v$: useVuelidate() } },
   created() {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
@@ -201,8 +201,8 @@ export default {
       this.isValidationCode2Shown = false;
       this.isSystemUnavailable = false;
 
-      this.v.$touch()
-      if (this.v.$invalid) {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
         scrollToError();
         return;
       }
