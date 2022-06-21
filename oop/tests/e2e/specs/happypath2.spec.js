@@ -15,7 +15,9 @@ testDateMove.setDate(1);
 testDateMove.setYear(testDateMove.getFullYear() - 1);
 testDateMove.setMonth(testDateMove.getMonth() - 1);
 
-const testDateMoveString = `${testDateMove.toLocaleString('default', { month: 'long' })} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`
+const testDateMoveString = `${testDateMove.toLocaleString("default", {
+  month: "long",
+})} ${testDateMove.getDate()}, ${testDateMove.getFullYear()}`;
 
 const testDateArrive = new Date();
 testDateArrive.setHours(5); //to prevent time zone bugs
@@ -23,23 +25,28 @@ testDateArrive.setDate(1);
 testDateArrive.setYear(testDateArrive.getFullYear() + 1);
 testDateArrive.setMonth(testDateArrive.getMonth() + 1);
 
-const testDateArriveString = `${testDateArrive.toLocaleString('default', { month: 'long' })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`
+const testDateArriveString = `${testDateArrive.toLocaleString("default", {
+  month: "long",
+})} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`;
 
 //dev credentials
-// const credentialName = "FLORIDANAXE";
-// const credentialPHN = "9401 234 687";
+// const credentialName = "POIUYR";
+// const credentialPHN = "9873 541 262";
+// const credentialPhone = "2345678910";
 
 //test credentials
 const credentialName = "POIUYR";
 const credentialPHN = "9873 541 262";
-
 const credentialPhone = "2345678910";
+
+const testUrl = "http://localhost:8080/oop/";
 
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit("http://localhost:8080/oop");
+    cy.visit(testUrl);
     cy.location().should((loc) => {
+      expect(loc.href).to.eq(testUrl);
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -62,7 +69,6 @@ describe("Happy path", () => {
 
     //Account Type
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/account-type");
       expect(loc.pathname).to.eq("/oop/account-type");
     });
     cy.get("[data-cy=whoIsMovingperson-moving-ahad]").click({ force: true });
@@ -74,7 +80,6 @@ describe("Happy path", () => {
 
     //Move Info
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/move-info");
       expect(loc.pathname).to.eq("/oop/move-info");
     });
     //Dates
@@ -90,7 +95,7 @@ describe("Happy path", () => {
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-y]").click({
       force: true,
     });
-    
+
     cy.get("[data-cy=addressValidator]").type("716 Yates Dr Milton");
     cy.get("[data-cy=addressValidatorResult0]").click();
 
@@ -98,7 +103,6 @@ describe("Happy path", () => {
 
     //Review page
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/review");
       expect(loc.pathname).to.eq("/oop/review");
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
@@ -120,7 +124,6 @@ describe("Happy path", () => {
 
     //Submission Page
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/submission");
       expect(loc.pathname).to.eq("/oop/submission");
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);

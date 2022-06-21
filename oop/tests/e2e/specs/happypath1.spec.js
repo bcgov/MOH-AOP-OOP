@@ -12,18 +12,21 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
+// const credentialName = "POIUYR";
+// const credentialPHN = "9873 541 262";
+
+//test credentials
 const credentialName = "POIUYR";
 const credentialPHN = "9873 541 262";
 
-//test credentials
-// const credentialName = "POIUYR";
-// const credentialPHN = "9874 084 281";
+const testUrl = "http://localhost:8080/oop/";
 
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit("http://localhost:8080/oop/");
+    cy.visit(testUrl);
     cy.location().should((loc) => {
+      expect(loc.href).to.eq(testUrl);
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -35,7 +38,6 @@ describe("Happy path", () => {
 
     //Your Info
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/your-info");
       expect(loc.pathname).to.eq("/oop/your-info");
     });
 
@@ -45,7 +47,6 @@ describe("Happy path", () => {
 
     //Account Type
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/account-type");
       expect(loc.pathname).to.eq("/oop/account-type");
     });
     cy.get("[data-cy=whoIsMovingperson-moving-ah]").click({ force: true });
@@ -53,7 +54,6 @@ describe("Happy path", () => {
 
     //Move Info
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/move-info");
       expect(loc.pathname).to.eq("/oop/move-info");
     });
     //Dates
@@ -65,10 +65,10 @@ describe("Happy path", () => {
     cy.get("[data-cy=moveFromBCDateDay]").type("11");
     cy.get("[data-cy=moveFromBCDateYear]").type(testYear);
     cy.get("select")
-    .find("option[data-cy=arriveDestinationDateMonth0]")
-    .then(($el) => $el.get(0).setAttribute("selected", "selected"))
-    .parent()
-    .trigger("change");
+      .find("option[data-cy=arriveDestinationDateMonth0]")
+      .then(($el) => $el.get(0).setAttribute("selected", "selected"))
+      .parent()
+      .trigger("change");
     cy.get("[data-cy=arriveDestinationDateDay]").type("12");
     cy.get("[data-cy=arriveDestinationDateYear]").type(testYear);
     //Address
@@ -82,7 +82,6 @@ describe("Happy path", () => {
 
     //Review page
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/review");
       expect(loc.pathname).to.eq("/oop/review");
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
@@ -98,7 +97,6 @@ describe("Happy path", () => {
 
     //Submission Page
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/submission");
       expect(loc.pathname).to.eq("/oop/submission");
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
