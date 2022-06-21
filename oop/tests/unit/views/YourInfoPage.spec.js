@@ -265,10 +265,10 @@ describe("YourInfoPage.vue nameValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.lastName.$error).toEqual(false);
+    expect(wrapper.vm.v$.lastName.$error).toEqual(false);
   });
 
   it("validates as false when supplied a falsy last name value", async () => {
@@ -290,10 +290,10 @@ describe("YourInfoPage.vue nameValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.lastName.$error).toEqual(true);
+    expect(wrapper.vm.v$.lastName.$error).toEqual(true);
   });
 });
 
@@ -317,10 +317,10 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.phone.$error).toEqual(false);
+    expect(wrapper.vm.v$.phone.$error).toEqual(false);
   });
 
   it("does not throw an error when supplied a null value, as the field is optional", async () => {
@@ -342,10 +342,10 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.phone.$error).toEqual(false);
+    expect(wrapper.vm.v$.phone.$error).toEqual(false);
   });
 
   it("does throw an error when phone number length <10", async () => {
@@ -367,10 +367,10 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.phone.$error).toEqual(true);
+    expect(wrapper.vm.v$.phone.$error).toEqual(true);
   });
 
   it("does throw an error when phone number contains invalid characters", async () => {
@@ -392,10 +392,10 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.phone.$error).toEqual(true);
+    expect(wrapper.vm.v$.phone.$error).toEqual(true);
   });
 
   it("strips out surplus invalid characters so the phone number length is correct", async () => {
@@ -417,10 +417,10 @@ describe("YourInfoPage.vue phoneValidator()", () => {
       },
     });
 
-    wrapper.vm.$v.$touch();
+    wrapper.vm.v$.$touch();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.phone.$error).toEqual(false);
+    expect(wrapper.vm.v$.phone.$error).toEqual(false);
   });
 });
 
@@ -463,7 +463,7 @@ describe("YourInfoPage.vue nextPage()", () => {
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.$invalid).toEqual(true);
+    expect(wrapper.vm.v$.$invalid).toEqual(true);
     expect(mockApiService).not.toHaveBeenCalled();
     expect(spyOnScrollToError).toHaveBeenCalled();
   });
@@ -492,7 +492,7 @@ describe("YourInfoPage.vue nextPage()", () => {
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.$invalid).toEqual(true);
+    expect(wrapper.vm.v$.$invalid).toEqual(true);
     expect(mockApiService).not.toHaveBeenCalled();
     expect(spyOnScrollToError).toHaveBeenCalled();
   });
@@ -529,7 +529,7 @@ describe("YourInfoPage.vue nextPage()", () => {
     wrapper.vm.nextPage();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.$invalid).toEqual(false);
     expect(spyOnScrollToError).not.toHaveBeenCalled();
     expect(mockApiService).toHaveBeenCalledWith(
       "defaultCaptchaToken",
