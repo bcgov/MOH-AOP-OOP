@@ -1,5 +1,4 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from 'vuex';
 import dummyData from './dummy-data';
 import settings from '../settings';
 
@@ -33,9 +32,7 @@ export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
 export const SET_SALT = "setSalt";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: () => {
     const state = {
       uuid: '',

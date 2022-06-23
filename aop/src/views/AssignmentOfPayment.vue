@@ -10,6 +10,7 @@
 import TimeoutModal from "../components/TimeoutModal";
 import SignOutModal from "../components/SignOutModal";
 import { mapState } from "vuex";
+import IdleJs from "idle-js";
 
 export default {
   name: "AssignmentOfPayment",
@@ -23,6 +24,17 @@ export default {
       showSignOut: false,
     };
   },
+  created() {
+    const self = this;
+    const idle = new IdleJs({
+      idle: 900000, // idle time in ms
+      onIdle() {
+        self.showTimeout = true;
+      },
+    })
+
+    idle.start();
+  },
   computed: mapState(['showSignOutModal']),
   watch: {
     showSignOutModal(newVal) {
@@ -30,9 +42,6 @@ export default {
         this.showSignOut = true;
       }
     }
-  },
-  onIdle() {
-    this.showTimeout = true;
   },
   methods: {
     handleModalClose() {

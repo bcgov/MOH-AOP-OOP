@@ -1,4 +1,4 @@
 export default {
-  useDummyData: false,
-  bypassLogin: false,
+  useDummyData: true,
+  bypassLogin: true,
 };

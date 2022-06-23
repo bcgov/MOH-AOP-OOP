@@ -58,7 +58,7 @@ export default {
   created() {
     window.addEventListener('keyup', this.handleKeyDown);
   },
-  destroyed() {
+  unmounted() {
     window.removeEventListener('keyup', this.handleKeyDown);
   },
   mounted() {
