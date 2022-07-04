@@ -2,7 +2,6 @@ import App from "./App.vue";
 import { createApp } from 'vue';
 import router from "./router";
 import store from "./store";
-// import IdleVue from 'idle-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faArrowLeft,

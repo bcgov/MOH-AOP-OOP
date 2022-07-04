@@ -48,14 +48,6 @@ export default {
     ContinueBar,
   },
   mixins: [FocusHeaderMixin],
-  data: () => {
-    return {
-      message: "",
-    };
-  },
-  created() {
-    this.message = this.$store.state.apiResponse.toString();
-  },
   methods: {
     navigateToFormSelect() {
       const path = routes.SUBMISSION_INFO.path;
