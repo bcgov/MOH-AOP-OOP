@@ -38,21 +38,17 @@
                 <div>
                   <div class='mb-3'>
                     <div v-for="(phn, index) in dependentPhns"
-                        :key='index'
-                        :set="v = v$.dependentPhns.$each[index]"
-                        class='mt-3'>
-                      <PhnInput :label='"PHN: Dependent " + (index + 1)'
-                                :id='"phn" + index'
-                                v-model='phn.value'
-                                class='phn-input'/>
-                      <div class="text-danger"
-                          v-if="v.value.$dirty && !v.value.phnValidator"
-                          aria-live="assertive">This is not a valid Personal Health Number.</div>
-                      <div class="text-danger"
-                          v-if="v.value.$dirty && index === 0 && !v$.dependentPhns.atLeastOnePhnValidator"
-                          aria-live="assertive">Dependent Personal Health Number is required.</div>
-                    </div>
+                      :key='index'
+                      class='mt-3'>
+                        <p>Index: {{index}} </p>
+                        <PhnInputWrapper
+                        :childIndex='index'
+                        :childPhn='phn'
+                        />
                   </div>
+                  <div class="text-danger"                          
+                      aria-live="assertive">Dependent Personal Health Number is required.</div>
+                    </div>
                   <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
                     <Button label='+ Add dependent'
                             @click='addDependentField()'
@@ -114,7 +110,7 @@ import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import {
   Button,
-  PhnInput,
+  // PhnInput,
   Radio,
   phnValidator
 } from 'common-lib-vue';
@@ -131,6 +127,7 @@ import apiService from '../services/api-service';
 import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';
 import useVuelidate from "@vuelidate/core";
+import PhnInputWrapper from '../components/PhnInputWrapper.vue';
 
 const localPhnValidator = (value) => {
   if (!value) {
@@ -179,9 +176,10 @@ export default {
     Button,
     ContinueBar,
     PageContent,
-    PhnInput,
+    // PhnInput,
     Radio,
-    TipBox
+    TipBox,
+    PhnInputWrapper
   },
   data: () => {
     return {
@@ -267,11 +265,7 @@ export default {
       }
       if (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N') {
           validations.dependentPhns = {
-            $each: {
-              value: {
-                phnValidator: localPhnValidator,
-              },
-            },
+            phnValidator: localPhnValidator,
             atLeastOnePhnValidator,
             phnIsUniqueValidator,
           };
@@ -391,8 +385,19 @@ export default {
           isValid: true,
         }
       }
-    }
-  },
+    },
+    checkValidPhn(index) {
+      const enteredPhn = this.dependentPhns[index].value
+      console.log("potato3", this.dependentPhns[index].value)
+      
+      // if (Array.isArray(index)) {
+      //  console.log("not an array")
+      // return false
+      // }
+      console.log(phnValidator(enteredPhn))
+      return phnValidator(enteredPhn);
+    }, 
+  },   
   watch: {
     accountType(newValue) {
       if (this.isPageLoaded) {
