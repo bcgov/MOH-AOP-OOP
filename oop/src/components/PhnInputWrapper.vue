@@ -1,7 +1,5 @@
 <template>
   <div>
-    
-    "before thingie" {{ v$.phnData.$dirty }} "after thingie"
     <PhnInput
       :label="'PHN: Dependent ' + (childIndex + 1)"
       :id="'phn' + childIndex"
@@ -10,7 +8,7 @@
       @input="handleFocus"
       @blur="handleBlur"
     />
-    <div class="text-danger" v-if="(v$.phnData !== '') && v$.phnData.phnValidator.$invalid && v$.phnData.$dirty" aria-live="assertive">
+    <div class="text-danger" v-if="this.phnData  && v$.phnData.phnValidator.$invalid && v$.phnData.$dirty" aria-live="assertive">
       This is not a valid Personal Health Number.
     </div>
   </div>
@@ -31,7 +29,7 @@ export default {
   },
   data: () => {
     return {
-    phnData: "defaultphn"
+    phnData: null
     }
   },
   props: {
@@ -58,6 +56,7 @@ export default {
       return this.v$.$reset()
     },
     handleBlur () {
+      this.$emit('updatePhn', this.phnData, this.childIndex);
       return this.v$.phnData.$touch()
     }
   }

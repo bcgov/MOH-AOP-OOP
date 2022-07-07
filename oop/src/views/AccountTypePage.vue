@@ -40,13 +40,14 @@
                     <div v-for="(phn, index) in dependentPhns"
                       :key='index'
                       class='mt-3'>
-                        <p>Index: {{index}} </p>
+
                         <PhnInputWrapper
                         :childIndex='index'
                         :childPhn='phn'
+                        @updatePhn="updateDependentPhns"
                         />
                   </div>
-                  <div class="text-danger"                          
+                  <div class="text-danger" v-if="!v$.dependentPhns.atLeastOnePhnValidator"
                       aria-live="assertive">Dependent Personal Health Number is required.</div>
                     </div>
                   <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
@@ -396,7 +397,10 @@ export default {
       // }
       console.log(phnValidator(enteredPhn))
       return phnValidator(enteredPhn);
-    }, 
+    },
+    updateDependentPhns(newPhn, newIndex) {
+      console.log("updateDependentPhns function called", newPhn, newIndex)
+    }
   },   
   watch: {
     accountType(newValue) {
