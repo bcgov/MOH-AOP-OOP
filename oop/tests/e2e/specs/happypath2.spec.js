@@ -38,6 +38,7 @@ const testDateArriveString = `${testDateArrive.toLocaleString("default", {
 const credentialName = "POIUYR";
 const credentialPHN = "9873 541 262";
 const credentialPhone = "2345678910";
+const credentialDependent = "9873 541 248"
 
 const testUrl = "http://localhost:8080/oop/";
 
@@ -72,9 +73,10 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/account-type");
     });
     cy.get("[data-cy=whoIsMovingperson-moving-ahad]").click({ force: true });
-    cy.get("[data-cy=isAllDependentsis-all-dependents-moving-y]").click({
+    cy.get("[data-cy=isAllDependentsis-all-dependents-moving-n]").click({
       force: true,
     });
+    cy.get("[data-cy=phn0]").type(credentialDependent);
 
     cy.get("[data-cy=continueBar]").click();
 

@@ -7,6 +7,7 @@
       v-model="phnData"
       @input="handleFocus"
       @blur="handleBlur"
+      :data-cy="'phn' + childIndex"
     />
     <div
       class="text-danger"
