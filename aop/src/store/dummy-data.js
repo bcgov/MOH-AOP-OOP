@@ -13,4 +13,5 @@ export default {
   secondaryNumber: '',
   secondaryLastName: '',
   comments: 'Lorem ipsum sit dolor',
+  apiResponse: '',
 }

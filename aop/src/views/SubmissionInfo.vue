@@ -24,6 +24,7 @@
               name="uploadType"
               v-model="uploadType"
               @change="resetFiles"
+              @blur="handleBlurField(v$.uploadType)"
               required
               aria-required="true"
             />&nbsp;
@@ -41,6 +42,7 @@
               name="uploadType"
               v-model="uploadType"
               @change="resetFiles"
+              @blur="handleBlurField(v$.uploadType)"
             />&nbsp;
             <label for="COAOP"
               >Diagnostic Facility Services Cancellation of Assignment of
@@ -56,6 +58,7 @@
               name="uploadType"
               v-model="uploadType"
               @change="resetFiles"
+              @blur="handleBlurField(v$.uploadType)"
             />&nbsp;
             <label for="OOPA"
               >Laboratory Services Outpatient Operator Payment Administration
@@ -64,7 +67,7 @@
           </div>
           <div
             class="text-danger"
-            v-if="$v.uploadType.$dirty && !$v.uploadType.required"
+            v-if="v$.uploadType.$dirty && v$.uploadType.required.$invalid"
           >
             Field is required
           </div>
@@ -85,6 +88,7 @@
               name="credentialsRequired"
               v-model="credentialsRequired"
               @change="resetCredentials"
+              @blur="handleBlurField(v$.credentialsRequired)"
             />&nbsp;
             <label for="no">No</label>
           </div>
@@ -97,15 +101,16 @@
               name="credentialsRequired"
               v-model="credentialsRequired"
               @change="resetCredentials"
+              @blur="handleBlurField(v$.credentialsRequired)"
             />&nbsp;
             <label for="yes">Yes</label>
           </div>
           <div
             class="text-danger"
             v-if="
-              $v.credentialsRequired.$dirty &&
+              v$.credentialsRequired.$dirty &&
               uploadType === 'AOP' &&
-              !$v.credentialsRequired.required
+              v$.credentialsRequired.required.$invalid
             "
           >
             Field is required
@@ -205,23 +210,26 @@
             Provide details below about the person submitting the form (clerk,
             administrator, etc.)
           </p>
-          <Input :label="'First name'" v-model="firstName" :disabled="true" />
+          <Input :label="'First name'" v-model="firstName" :disabled="true" :inputStyle="mediumStyles"/>
           <Input
             :label="'Last name'"
             :className="'mt-3'"
             v-model="lastName"
             :disabled="true"
+            :inputStyle="mediumStyles"
           />
           <Input
             :label="'Email address'"
             :className="'mt-3'"
-            v-model="$v.emailAddress.$model"
-            :maxlength="100"
+            v-model="emailAddress"
+            @blur="handleBlurField(v$.emailAddress)"
+            maxlength="100"
             :required="true"
+            :inputStyle="mediumStyles"
           />
           <div
             class="text-danger"
-            v-if="$v.emailAddress.$dirty && !$v.emailAddress.required"
+            v-if="v$.emailAddress.$dirty && v$.emailAddress.required.$invalid"
             aria-live="assertive"
           >
             Email address is required
@@ -229,9 +237,9 @@
           <div
             class="text-danger"
             v-if="
-              $v.emailAddress.$dirty &&
-              $v.emailAddress.required &&
-              !$v.emailAddress.isValidEmail
+              v$.emailAddress.$dirty &&
+              !v$.emailAddress.required.$invalid &&
+              v$.emailAddress.isValidEmail.$invalid
             "
             aria-live="assertive"
           >
@@ -240,37 +248,22 @@
 
           <div class="mt-3">
             <label for="phone">Phone number:</label><br />
-            <masked-input
+            <input
               id="phone"
               type="text"
               name="phoneNumber"
               class="form-control"
+              v-maska="{ mask: '(Z##) ###-####', tokens: { 'Z': { pattern: /[1-9]/ }}}" 
               v-model="phoneNumber"
               :required="true"
               :aria-required="true"
-              @change="handlePhoneChange"
-              :mask="[
-                '(',
-                /[1-9]/,
-                /\d/,
-                /\d/,
-                ')',
-                ' ',
-                /\d/,
-                /\d/,
-                /\d/,
-                '-',
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-              ]"
-            >
-            </masked-input>
+              :style="mediumStyles"
+              @blur="handleBlurField(v$.phoneNumber)"
+            />
           </div>
           <div
             class="text-danger"
-            v-if="$v.phoneNumber.$dirty && !$v.phoneNumber.isValidPhone"
+            v-if="v$.phoneNumber.$dirty && v$.phoneNumber.isValidPhone.$invalid"
             aria-live="assertive"
           >
             Valid phone number is required
@@ -278,27 +271,16 @@
 
           <div class="mt-3">
             <label for="extension">Phone extension (optional):</label><br />
-            <masked-input
+            <input
               id="extension"
               type="text"
               name="phoneExtension"
               class="form-control"
               v-model="phoneExtension"
-              :guide="false"
-              :mask="[
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-                /\d/,
-              ]"
-            >
-            </masked-input>
+              :style="mediumStyles"
+              @blur="handleBlurField(v$.phoneExtension)"
+              v-maska="{ mask: '##########'}"
+            />
           </div>
 
           <div
@@ -308,13 +290,15 @@
             <Input
               :label="'Organization'"
               :className="'mt-3'"
-              v-model="$v.organization.$model"
-              :maxlength="70"
+              v-model="organization"
+              @blur="handleBlurField(v$.organization)"
+              maxlength="70"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.organization.$dirty && !$v.organization.required"
+              v-if="v$.organization.$dirty && v$.organization.required.$invalid"
               aria-live="assertive"
             >
               Organization is required
@@ -322,9 +306,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.organization.$dirty &&
-                $v.organization.required &&
-                !$v.organization.hasNoInvalidJSON
+                v$.organization.$dirty &&
+                !v$.organization.required.$invalid &&
+                v$.organization.hasNoInvalidJSON.$invalid
               "
               aria-live="assertive"
             >
@@ -336,13 +320,15 @@
             <Input
               :label="'Facility name'"
               :className="'mt-3'"
-              v-model="$v.facility.$model"
-              :maxlength="70"
+              v-model="facility"
+              @blur="handleBlurField(v$.facility)"
+              maxlength="70"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.facility.$dirty && !$v.facility.required"
+              v-if="v$.facility.$dirty && v$.facility.required.$invalid"
               aria-live="assertive"
             >
               Facility name is required
@@ -350,9 +336,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.facility.$dirty &&
-                $v.facility.required &&
-                !$v.facility.hasNoInvalidJSON
+                v$.facility.$dirty &&
+                !v$.facility.required.$invalid &&
+                v$.facility.hasNoInvalidJSON.$invalid
               "
               aria-live="assertive"
             >
@@ -374,7 +360,8 @@
                 id="new"
                 value="New Submission"
                 name="submissionType"
-                v-model="$v.submissionType.$model"
+                v-model="submissionType"
+                @blur="handleBlurField(v$.submissionType)"
                 required
                 aria-required="true"
               />&nbsp;
@@ -387,13 +374,14 @@
                 id="revised"
                 value="Revised Submission"
                 name="submissionType"
-                v-model="$v.submissionType.$model"
+                v-model="submissionType"
+                @blur="handleBlurField(v$.submissionType)"
               />&nbsp;
               <label for="revised">Revised submission</label>
             </div>
             <div
               class="text-danger"
-              v-if="$v.submissionType.$dirty && !$v.submissionType.required"
+              v-if="v$.submissionType.$dirty && v$.submissionType.required.$invalid"
               aria-live="assertive"
             >
               Please indicate if this is a new or revised submission
@@ -404,20 +392,22 @@
             <Input
               :label="'Practitioner number'"
               :className="'mt-3'"
-              v-model="$v.primaryNumber.$model"
-              :maxlength="5"
+              v-model="primaryNumber"
+              @blur="handleBlurField(v$.primaryNumber)"
+              maxlength="5"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.required"
+              v-if="v$.primaryNumber.$dirty && v$.primaryNumber.required.$invalid"
               aria-live="assertive"
             >
               Practitioner number is required
             </div>
             <div
               class="text-danger"
-              v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.alphaNum"
+              v-if="v$.primaryNumber.$dirty && v$.primaryNumber.alphaNum.$invalid"
               aria-live="assertive"
             >
               Invalid practitioner number
@@ -425,9 +415,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.primaryNumber.$dirty &&
-                $v.primaryNumber.alphaNum &&
-                !$v.primaryNumber.minLength
+                v$.primaryNumber.$dirty &&
+                !v$.primaryNumber.alphaNum.$invalid &&
+                v$.primaryNumber.minLength.$invalid
               "
               aria-live="assertive"
             >
@@ -437,13 +427,15 @@
             <Input
               :label="'Practitioner last name'"
               :className="'mt-3'"
-              v-model="$v.primaryLastName.$model"
-              :maxlength="29"
+              v-model="primaryLastName"
+              @blur="handleBlurField(v$.primaryLastName)"
+              maxlength="29"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.required"
+              v-if="v$.primaryLastName.$dirty && v$.primaryLastName.required.$invalid"
               aria-live="assertive"
             >
               Practitioner last name is required
@@ -451,9 +443,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.primaryLastName.$dirty &&
-                $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidLastName
+                v$.primaryLastName.$dirty &&
+                !v$.primaryLastName.required.$invalid &&
+                v$.primaryLastName.isValidLastName.$invalid
               "
               aria-live="assertive"
             >
@@ -465,20 +457,22 @@
             <Input
               :label="'Primary practitioner number'"
               :className="'mt-3'"
-              v-model="$v.primaryNumber.$model"
-              :maxlength="5"
+              v-model="primaryNumber"
+              @blur="handleBlurField(v$.primaryNumber)"
+              maxlength="5"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.required"
+              v-if="v$.primaryNumber.$dirty && v$.primaryNumber.required.$invalid"
               aria-live="assertive"
             >
               Primary practitioner number is required
             </div>
             <div
               class="text-danger"
-              v-if="$v.primaryNumber.$dirty && !$v.primaryNumber.alphaNum"
+              v-if="v$.primaryNumber.$dirty && v$.primaryNumber.alphaNum.$invalid"
               aria-live="assertive"
             >
               Invalid primary practitioner number
@@ -486,9 +480,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.primaryNumber.$dirty &&
-                $v.primaryNumber.alphaNum &&
-                !$v.primaryNumber.minLength
+                v$.primaryNumber.$dirty &&
+                !v$.primaryNumber.alphaNum.$invalid &&
+                v$.primaryNumber.minLength.$invalid
               "
               aria-live="assertive"
             >
@@ -498,13 +492,15 @@
             <Input
               :label="'Primary practitioner last name'"
               :className="'mt-3'"
-              v-model="$v.primaryLastName.$model"
-              :maxlength="29"
+              v-model="primaryLastName"
+              @blur="handleBlurField(v$.primaryLastName)"
+              maxlength="29"
               :required="true"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.primaryLastName.$dirty && !$v.primaryLastName.required"
+              v-if="v$.primaryLastName.$dirty && v$.primaryLastName.required.$invalid"
               aria-live="assertive"
             >
               Primary practitioner last name is required
@@ -512,9 +508,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.primaryLastName.$dirty &&
-                $v.primaryLastName.required &&
-                !$v.primaryLastName.isValidLastName
+                v$.primaryLastName.$dirty &&
+                !v$.primaryLastName.required.$invalid &&
+                v$.primaryLastName.isValidLastName.$invalid
               "
               aria-live="assertive"
             >
@@ -524,12 +520,14 @@
             <Input
               :label="'Secondary practitioner number (optional)'"
               :className="'mt-3'"
-              :maxlength="5"
-              v-model="$v.secondaryNumber.$model"
+              maxlength="5"
+              v-model="secondaryNumber"
+              @blur="handleBlurField(v$.secondaryNumber)"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
-              v-if="$v.secondaryNumber.$dirty && !$v.secondaryNumber.alphaNum"
+              v-if="v$.secondaryNumber.$dirty && v$.secondaryNumber.alphaNum.$invalid"
               aria-live="assertive"
             >
               Invalid secondary practitioner number
@@ -537,9 +535,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.secondaryNumber.$dirty &&
-                $v.secondaryNumber.alphaNum &&
-                !$v.secondaryNumber.minLength
+                v$.secondaryNumber.$dirty &&
+                !v$.secondaryNumber.alphaNum.$invalid &&
+                v$.secondaryNumber.minLength.$invalid
               "
               aria-live="assertive"
             >
@@ -548,9 +546,9 @@
             <div
               class="text-danger"
               v-if="
-                $v.secondaryLastName.$dirty &&
-                $v.secondaryLastName.isValidSecondaryLastName &&
-                !$v.secondaryLastName.hasSecondaryNumber
+                v$.secondaryLastName.$dirty &&
+                !v$.secondaryLastName.isValidSecondaryLastName.$invalid &&
+                v$.secondaryLastName.hasSecondaryNumber.$invalid
               "
               aria-live="assertive"
             >
@@ -561,14 +559,16 @@
             <Input
               :label="'Secondary practitioner last name (optional)'"
               :className="'mt-3'"
-              v-model="$v.secondaryLastName.$model"
-              :maxlength="29"
+              v-model="secondaryLastName"
+              @blur="handleBlurField(v$.secondaryLastName)"
+              maxlength="29"
+              :inputStyle="mediumStyles"
             />
             <div
               class="text-danger"
               v-if="
-                $v.secondaryLastName.$dirty &&
-                !$v.secondaryLastName.isValidSecondaryLastName
+                v$.secondaryLastName.$dirty &&
+                v$.secondaryLastName.isValidSecondaryLastName.$invalid
               "
               aria-live="assertive"
             >
@@ -577,10 +577,10 @@
             <div
               class="text-danger"
               v-if="
-                $v.secondaryNumber.$dirty &&
-                $v.secondaryNumber.alphaNum &&
-                $v.secondaryNumber.minLength &&
-                !$v.secondaryNumber.hasSecondaryLastName
+                v$.secondaryNumber.$dirty &&
+                !v$.secondaryNumber.alphaNum.$invalid &&
+                !v$.secondaryNumber.minLength.$invalid &&
+                v$.secondaryNumber.hasSecondaryLastName.$invalid
               "
               aria-live="assertive"
             >
@@ -597,11 +597,12 @@
               maxlength="210"
               alt="comments"
               name="comments"
-              v-model="$v.comments.$model"
+              v-model="comments"
+              @blur="handleBlurField(v$.comments)"
             />
             <div
               class="text-danger"
-              v-if="$v.comments.$dirty && !$v.comments.hasNoInvalidJSON"
+              v-if="v$.comments.$dirty && v$.comments.hasNoInvalidJSON.$invalid"
               aria-live="assertive"
             >
               Invalid comment
@@ -616,10 +617,10 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader v-model="files" />
+                  <FileUploader id="files" v-model="files" />
                   <div
                     class="text-danger"
-                    v-if="$v.files.$dirty && !$v.files.required"
+                    v-if="v$.files.$dirty && v$.files.required.$invalid"
                     aria-live="assertive"
                   >
                     Please upload required document
@@ -627,11 +628,11 @@
                   <div
                     class="text-danger"
                     v-if="
-                      $v.files.$dirty &&
+                      v$.files.$dirty &&
                       credentialsRequired &&
-                      $v.files.required &&
-                      $v.credentials &&
-                      !$v.credentials.hasDistinctFiles
+                      !v$.files.required.$invalid &&
+                      v$.credentials &&
+                      v$.credentials.hasDistinctFiles.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -682,13 +683,13 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader v-model="credentials" />
+                  <FileUploader id="credentials" v-model="credentials" />
                   <div
                     class="text-danger"
                     v-if="
-                      $v.credentials.$dirty &&
+                      v$.credentials.$dirty &&
                       credentialsRequired &&
-                      !$v.credentials.required
+                      v$.credentials.required.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -697,10 +698,10 @@
                   <div
                     class="text-danger"
                     v-if="
-                      $v.credentials.$dirty &&
+                      v$.credentials.$dirty &&
                       credentialsRequired &&
-                      $v.credentials.required &&
-                      !$v.credentials.hasDistinctFiles
+                      !v$.credentials.required.$invalid &&
+                      v$.credentials.hasDistinctFiles.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -740,11 +741,12 @@ import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import ContinueBar from "../components/ContinueBar";
-import Input from "../components/Input";
-import MaskedInput from "vue-text-mask";
+import { Input } from "common-lib-vue";
+import { maska }from "maska";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
-import { required, minLength, alphaNum } from "vuelidate/lib/validators";
+import { required, minLength, alphaNum } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 import { routes, stepRoutes } from "../router/routes";
 import {
   SET_EMAIL_ADDRESS,
@@ -776,6 +778,7 @@ import {
 } from "../helpers/validators";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
+import { mediumStyles } from "../constants/input-styles";
 
 export default {
   name: "SubmissionInfo",
@@ -786,10 +789,10 @@ export default {
     FileUploader,
     Input,
     Loader,
-    MaskedInput,
     Footer,
   },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],
+  directives: { maska },
   data: () => {
     return {
       stepRoutes: stepRoutes,
@@ -802,15 +805,19 @@ export default {
       phoneExtension: "",
       organization: "",
       facility: "",
-      files: null,
-      credentials: null,
+      files: [],
+      credentials: [],
       submissionType: "",
       primaryNumber: "",
       primaryLastName: "",
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
+      mediumStyles: mediumStyles
     };
+  },
+  setup () {
+    return { v$: useVuelidate() }
   },
   validations() {
     if (this.uploadType === "AOP" && this.credentialsRequired === "true") {
@@ -1021,13 +1028,15 @@ export default {
     this.credentials = this.$store.state.uploadedCredentials;
   },
   methods: {
-    handlePhoneChange() {
-      this.$v.phoneNumber.$touch();
+    handleBlurField(validationObject) {
+      if (validationObject) {
+        validationObject.$touch();
+      }
     },
     nextPage() {
-      this.$v.$touch();
+      this.v$.$touch();
 
-      if (this.$v.$invalid) {
+      if (this.v$.$invalid) {
         scrollToError();
         return;
       }
@@ -1134,9 +1143,4 @@ h6 {
   }
 }
 
-@media (min-width: 576px) {
-  input.form-control {
-    width: 50%;
-  }
-}
 </style>

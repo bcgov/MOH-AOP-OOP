@@ -15,7 +15,21 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
-import 'cypress-axe';
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+beforeEach(() => {
+  cy.intercept('POST', '/aop/api/aopIntegration/**', { 
+    statusCode: 200,
+    body: {
+      returnCode: 'success',
+      uuid: '11111-11111-11111-11111',
+      refNumber: '1'
+    } 
+  });
+  
+  cy.intercept('POST', '/aop/api/submit-attachment/**', {
+    statusCode: 200,
+    body: {
+      returnCode: 'success'
+    }
+  })
+})

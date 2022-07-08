@@ -1,4 +1,4 @@
-import VueRouter from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 import AssignmentOfPayment from "../views/AssignmentOfPayment.vue";
 import { routes } from "./routes";
 
@@ -8,9 +8,8 @@ window.onpopstate = function (event) {
   navPushed = true;
 };
 
-const router = new VueRouter({
-  mode: "history",
-  base: '/aop/',
+const router = createRouter({
+  history: createWebHistory('/aop/'),
   routes: [
     {
       path: routes.SIGN_IN.path,

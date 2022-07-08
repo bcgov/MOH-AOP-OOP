@@ -15,10 +15,10 @@
       <Button
         label="Select a file"
         :styling="buttonStyles"
-        :disabled="value && value.length > 0"
+        :disabled="modelValue && modelValue.length > 0"
         v-on:button-click="openFileDialog()"
       />
-      <div v-if="value && value.length > 0" class="ml-3 d-flex">{{ value[0].name.slice(0, -7) }} 
+      <div v-if="modelValue && modelValue.length > 0" class="ml-3 d-flex">{{ modelValue[0].name.slice(0, -7) }} 
         <button class="remove ml-2" @click="deleteAllImages"><font-awesome-icon icon="times" />Remove</button>
       </div>
       <div v-else class="ml-3">No file selected</div>
@@ -33,14 +33,17 @@
 
 <script>
 import Button from '../Button.vue';
-import * as PDFJS from 'pdfjs-dist/es5/build/pdf';
-import pdfJsWorker from 'pdfjs-dist/es5/build/pdf.worker.entry';
+import * as PDFJS from 'pdfjs-dist/legacy/build/pdf';
+import pdfJsWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
 import sha1 from 'sha1';
 import { v4 as uuidv4 } from 'uuid';
 
 // Polyfills
+import { ReadableStream } from 'web-streams-polyfill';
+window.ReadableStream = window.ReadableStream || ReadableStream;
 import 'mdn-polyfills/MouseEvent';
 import 'mdn-polyfills/HTMLCanvasElement.prototype.toBlob';
+import '../../polyfills/DOMMatrix';
 
 PDFJS.workerSrc = pdfJsWorker;
 PDFJS.disableWorker = true;
@@ -59,7 +62,7 @@ export default {
     Button
   },
   props: {
-    value: {
+    modelValue: {
       type: Array,
       default: () => []
     },
@@ -94,7 +97,7 @@ export default {
       this.errorMessage = null;
 
       // Process each file selected.
-      for (let i=0; i<files.length; i++) {
+      for (let i = 0; i < files.length; i++) {
         this.processFile(files[i]);
       }
 
@@ -325,31 +328,32 @@ export default {
       if (this.allowMultipleFiles) {
         const imagesToAdd = [];
         images.forEach((image) => {
-          const existingIndex = this.value.findIndex((existingImage) => existingImage.hash === image.hash);
+          const existingIndex = this.modelValue.findIndex((existingImage) => existingImage.hash === image.hash);
           // If image doesn't already exist, 
           if (existingIndex === -1) {
             imagesToAdd.push(image);
           }
         });
-        this.$emit('input', [
-          ...this.value,
+        this.$emit('update:modelValue', [
+          ...this.modelValue,
           ...imagesToAdd,
         ]);
       }
       // Else, replace images in model.
       else {
-        this.$emit('input', images);
+        this.$emit('update:modelValue', images);
       }
     },
     deleteAllImages() {
-      this.$emit("input", []);
+      this.$emit("update:modelValue", []);
     },
   },
   computed: {
     buttonStyles() {
-      return this.images && this.images.length > 0 ? 'BC-Gov-SecondaryButton BC-Gov-SecondaryButton-disabled' : 'BC-Gov-SecondaryButton';
+      return this.modelValue && this.modelValue.length > 0 ? 'BC-Gov-SecondaryButton BC-Gov-SecondaryButton-disabled' : 'BC-Gov-SecondaryButton';
     }
-  }
+  },
+  emits: ['update:modelValue']
 }
 </script>
 

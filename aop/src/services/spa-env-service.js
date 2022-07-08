@@ -23,7 +23,9 @@ const stringifiedEnvs = JSON.stringify(serverEnvs);
  */
 class SpaEnvService {
   
-  values = null;
+  constructor() {
+    this.values = null;
+  }
 
   loadEnvs() {
     const headers = {
