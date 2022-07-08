@@ -8,7 +8,13 @@
       @input="handleFocus"
       @blur="handleBlur"
     />
-    <div class="text-danger" v-if="this.phnData  && v$.phnData.phnValidator.$invalid && v$.phnData.$dirty" aria-live="assertive">
+    <div
+      class="text-danger"
+      v-if="
+        v$.phnData.phnValidator.$invalid && v$.phnData.$dirty
+      "
+      aria-live="assertive"
+    >
       This is not a valid Personal Health Number.
     </div>
   </div>
@@ -17,7 +23,7 @@
 <script>
 import { PhnInput } from "common-lib-vue";
 import useVuelidate from "@vuelidate/core";
-import { phnValidator } from 'common-lib-vue';
+import { optionalValidator, phnValidator } from "common-lib-vue";
 
 export default {
   name: "PhnInputWrapper",
@@ -29,8 +35,8 @@ export default {
   },
   data: () => {
     return {
-    phnData: null
-    }
+      phnData: null,
+    };
   },
   props: {
     childIndex: {
@@ -43,23 +49,23 @@ export default {
   validations() {
     const validations = {
       phnData: {
-        phnValidator
+        phnValidator: optionalValidator(phnValidator),
       },
     };
     return validations;
   },
   methods: {
-    getChildVModel () {
-      return String('phn1' ) + this.childIndex
+    getChildVModel() {
+      return String("phn1") + this.childIndex;
     },
-    handleFocus () {
-      return this.v$.$reset()
+    handleFocus() {
+      return this.v$.$reset();
     },
-    handleBlur () {
-      this.$emit('updatePhn', this.phnData, this.childIndex);
-      return this.v$.phnData.$touch()
-    }
-  }
+    handleBlur() {
+      this.$emit("updatePhn", this.phnData, this.childIndex);
+      return this.v$.phnData.$touch();
+    },
+  },
 };
 </script>
 

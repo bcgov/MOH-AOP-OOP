@@ -40,14 +40,13 @@
                     <div v-for="(phn, index) in dependentPhns"
                       :key='index'
                       class='mt-3'>
-
                         <PhnInputWrapper
                         :childIndex='index'
                         :childPhn='phn'
                         @updatePhn="updateDependentPhns"
                         />
                   </div>
-                  <div class="text-danger" v-if="!v$.dependentPhns.atLeastOnePhnValidator"
+                  <div class="text-danger" v-if="v$.dependentPhns.$dirty && v$.dependentPhns.atLeastOnePhnValidator.$invalid"
                       aria-live="assertive">Dependent Personal Health Number is required.</div>
                     </div>
                   <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
@@ -56,7 +55,7 @@
                             className='mb-3'/>
                   </div>
                   <div class="text-danger"
-                      v-if="v$.dependentPhns.$dirty && !v$.dependentPhns.phnIsUniqueValidator"
+                      v-if="v$.dependentPhns.$dirty && v$.dependentPhns.phnIsUniqueValidator.$invalid"
                       aria-live="assertive">Personal Health Numbers must be unique.
                   </div>
                   <div class="text-danger"
@@ -129,13 +128,6 @@ import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';
 import useVuelidate from "@vuelidate/core";
 import PhnInputWrapper from '../components/PhnInputWrapper.vue';
-
-const localPhnValidator = (value) => {
-  if (!value) {
-    return true;
-  }
-  return phnValidator(value);
-};
 
 const atLeastOnePhnValidator = (phns) => {
   if (phns) {
@@ -266,7 +258,6 @@ export default {
       }
       if (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N') {
           validations.dependentPhns = {
-            phnValidator: localPhnValidator,
             atLeastOnePhnValidator,
             phnIsUniqueValidator,
           };
@@ -389,17 +380,10 @@ export default {
     },
     checkValidPhn(index) {
       const enteredPhn = this.dependentPhns[index].value
-      console.log("potato3", this.dependentPhns[index].value)
-      
-      // if (Array.isArray(index)) {
-      //  console.log("not an array")
-      // return false
-      // }
-      console.log(phnValidator(enteredPhn))
       return phnValidator(enteredPhn);
     },
     updateDependentPhns(newPhn, newIndex) {
-      console.log("updateDependentPhns function called", newPhn, newIndex)
+      this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
     }
   },   
   watch: {
