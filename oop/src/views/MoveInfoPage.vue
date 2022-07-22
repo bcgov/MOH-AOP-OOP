@@ -16,19 +16,19 @@
                       cypressId="moveFromBCDate"
                       name="moveFromBCDate"
                       v-model="moveFromBCDate"/>
-            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && !v$.moveFromBCDate.required" aria-live="assertive">A valid date of departure is required.</div>
-            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required && !v$.moveFromBCDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
-            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required && !v$.moveFromBCDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required && !v$.moveFromBCDate.beforeDateValidator" aria-live="assertive">Date of departure must be before the date of arrival.</div>
+            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required.$invalid" aria-live="assertive">A valid date of departure is required.</div>
+            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && !v$.moveFromBCDate.required.$invalid && v$.moveFromBCDate.distantFutureValidator.$invalid" aria-live="assertive">Date is too far in the future.</div>
+            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && !v$.moveFromBCDate.required.$invalid && v$.moveFromBCDate.distantPastValidator.$invalid" aria-live="assertive">Date is too far in the past.</div>
+            <div class="text-danger" v-if="v$.moveFromBCDate.$dirty && !v$.moveFromBCDate.required.$invalid && v$.moveFromBCDate.beforeDateValidator.$invalid" aria-live="assertive">Date of departure must be before the date of arrival.</div>
             <DateInput label="Arrival in new destination"
                       className='mt-3'
                       cypressId="arriveDestinationDate"
                       name="arriveDestinationDate"
                       v-model="arriveDestinationDate"/>
-            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && !v$.arriveDestinationDate.required" aria-live="assertive">A valid date of arrival is required.</div>
-            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && v$.arriveDestinationDate.required && !v$.arriveDestinationDate.distantFutureValidator" aria-live="assertive">Date is too far in the future.</div>
-            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && v$.arriveDestinationDate.required && !v$.arriveDestinationDate.distantPastValidator" aria-live="assertive">Date is too far in the past.</div>
-            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && v$.arriveDestinationDate.required && !v$.arriveDestinationDate.afterDateValidator" aria-live="assertive">Date of arrival must be after the date of departure.</div>
+            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && v$.arriveDestinationDate.required.$invalid" aria-live="assertive">A valid date of arrival is required.</div>
+            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && !v$.arriveDestinationDate.required.$invalid && v$.arriveDestinationDate.distantFutureValidator.$invalid" aria-live="assertive">Date is too far in the future.</div>
+            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && !v$.arriveDestinationDate.required.$invalid && v$.arriveDestinationDate.distantPastValidator.$invalid" aria-live="assertive">Date is too far in the past.</div>
+            <div class="text-danger" v-if="v$.arriveDestinationDate.$dirty && !v$.arriveDestinationDate.required.$invalid && v$.arriveDestinationDate.afterDateValidator.$invalid" aria-live="assertive">Date of arrival must be after the date of departure.</div>
           </div>
         </div>
         
@@ -47,7 +47,7 @@
         <div class="row">
           <div class="col-sm-7">
             <div v-if='isNewAddressKnown === "Y"' class="is-new-address-known-y">
-              <CountryInput label='Jurisdiction'
+              <CountrySelect label='Jurisdiction'
                             ref="country"
                             className='mt-3'
                             class="country"
@@ -55,30 +55,28 @@
               <div class="text-danger" v-if="v$.country.$dirty && !v$.country.required" aria-live="assertive">Jurisdiction is required.</div>
               <!-- If country is CANADA, display these fields -->
               <div v-if="country === 'Canada'">
-                <div class="row">  
+                <div class="row col-md-7 mt-3">  
                   <div v-for="(addressLine, index) in addressLines"
                               :key='index'
-                              :set="v = v$.addressLines.$each[index]"
-                              class='col-md-7 mt-3'>
-                    <AddressValidator v-if="isAddressValidatorEnabled &&
-                                            index === 0 &&
-                                            country === 'Canada'"
+                              class=''>
+                    <AddressDoctorInput v-if="isAddressValidatorEnabled &&
+                                            index === 0"
                                       label="Address line 1"
-                                      v-model="addressLine.value"
+                                      v-model="addressLines[index].value"
                                       id="address-line-1"
                                       class="address-line"
                                       serviceUrl="/oop/api/address"
                                       @addressSelected="addressSelectedHandler($event)" />
                     <AddressInput v-else
                                   :label='"Address line " + (index + 1)'
-                                  v-model="addressLine.value"
+                                  v-model="addressLines[index].value"
                                   class="address-line"
                                   maxlength='25'/>
                     <div class="text-danger"
-                        v-if="index === 0 && v.value.$dirty && !v$.addressLines.addressLineOneValidator"
+                        v-if="index === 0 && v$.addressLines.$dirty && !v$.addressLines.addressLineOneValidator"
                         aria-live="assertive">Address line 1 is required.</div>             
                     <div class="text-danger"
-                        v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                        v-if="v$.addressLines.$dirty && !v$.addressLines.specialCharacterValidator"
                         aria-live="assertive">Address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                   </div>
                   <div v-if="addressLines.length < getMaxAddressLines()" class="col-md-1 address-row-margin d-flex align-items-end">
@@ -97,145 +95,142 @@
                       class="city"
                       v-model="city"
                       maxlength='22' />
-                <div class="text-danger" v-if="v$.city.$dirty && !v$.city.required" aria-live="assertive">City is required.</div>
+                <div class="text-danger" v-if="v$.city.$dirty && v$.city.required.$invalid" aria-live="assertive">City is required.</div>
                 <div class="text-danger"
-                      v-if="v$.city.$dirty && v$.city.required && !v$.city.specialCharacterValidator"
+                      v-if="v$.city.$dirty && !v$.city.required.$invalid && v$.city.specialCharacterValidator.$invalid"
                       aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>             
                 <div class="text-danger"
-                      v-if="v$.city.$dirty && v$.city.required && !v$.city.maxLength"
+                      v-if="v$.city.$dirty && !v$.city.required.$invalid && v$.city.maxLength.$invalid"
                       aria-live="assertive">City exceeds the maximum number of allowable characters.</div>  
-                <ProvinceInput label='Province'
+                <p>before thing {{province}} after thing</p>
+                <RegionSelect label='Province'
                                 ref="province"
                                 className='mt-3'
                                 class="province"
                                 v-model="province" />
-                <div class="text-danger" v-if="v$.province.$dirty && !v$.province.required" aria-live="assertive">Province is required.</div>
-                <div class="text-danger" v-if="v$.province.$dirty && v$.province.required && !v$.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>      
+                <div class="text-danger" v-if="v$.province.$dirty && v$.province.required.$invalid" aria-live="assertive">Province is required.</div>
+                <div class="text-danger" v-if="v$.province.$dirty && !v$.province.required.$invalid && v$.province.nonBCValidator.$invalid" aria-live="assertive">Address entered must be outside of BC.</div>      
                 <PostalCodeInput id="postalCode"
                       label="Postal code"
                       className='mt-3'
                       class="postal-code"
                       v-model="postalCode"/>
-                <div class="text-danger" v-if="v$.postalCode.$dirty && !v$.postalCode.required" aria-live="assertive">Postal code is required.</div>
-                <div class="text-danger" v-if="v$.postalCode.$dirty && v$.postalCode.required && !v$.postalCode.canadaPostalCodeLengthValidator" aria-live="assertive">The postal code you entered is not valid.</div>
-                <div class="text-danger" v-if="v$.postalCode.$dirty && v$.postalCode.required && !v$.postalCode.nonBCPostalCodeValidator" aria-live="assertive">Postal code entered must be outside of BC.</div>
+                <div class="text-danger" v-if="v$.postalCode.$dirty && v$.postalCode.required.$invalid" aria-live="assertive">Postal code is required.</div>
+                <div class="text-danger" v-if="v$.postalCode.$dirty && !v$.postalCode.required.$invalid && v$.postalCode.canadaPostalCodeLengthValidator.$invalid" aria-live="assertive">The postal code you entered is not valid.</div>
+                <div class="text-danger" v-if="v$.postalCode.$dirty && !v$.postalCode.required.$invalid && v$.postalCode.nonBCPostalCodeValidator.$invalid" aria-live="assertive">Postal code entered must be outside of BC.</div>
               </div>
               <!-- If country is UNITED STATES, display these fields -->
               <div v-else-if="country === 'United States'">
-                <div class="row">  
-                  <div v-for="(addressLine, index) in addressLines"
-                              :key='index'
-                              :set="v = v$.addressLines.$each[index]"
-                              class='col-md-7 mt-3'>
-                    <div v-if="index === 0">
+                <div class='row col-md-7 mt-3'>  
+                  
+                    
                       <AddressInput label="Street address" 
-                                  v-model="addressLine.value"
+                                  v-model="usStreetAddress"
                                   class="address-line"
                                   id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !v.value.isRequired"
-                              aria-live="assertive">Street address is required.</div>             
+                              v-if="v$.usStreetAddress.$dirty && v$.usStreetAddress.required.$invalid"
+                              aria-live="assertive">Street address is required.</div>
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                            v-if="v$.usStreetAddress.$dirty && v$.usStreetAddress.specialCharacterValidator.$invalid"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
-                    </div>
-                    <div v-else-if="index === 1">
+                    
+                    
                       <AddressInput label="City" 
-                                  v-model="addressLine.value"
+                                  v-model="usCity"
                                   class="address-line"
                                   id="address-line-2"
                                   maxlength='18'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.isRequired"
+                               v-if="v$.usCity.$dirty && v$.usCity.required.$invalid"
                               aria-live="assertive">City is required.</div>           
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                            v-if="v$.usCity.$dirty && v$.usCity.specialCharacterValidator.$invalid"
                             aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
+                      
+                      
                       <StateInput label='State'
                                 ref="province"
                                 className='mt-3'
                                 class="province"
-                                v-model="province" />
-                      <div class="text-danger" v-if="v$.province.$dirty && !v$.province.required" aria-live="assertive">State is required.</div>
-                    </div>
-                    <div v-else-if="index === 2">
+                                v-model="state" />
+                      <div class="text-danger" v-if="v$.state.$dirty && v$.state.required.$invalid" aria-live="assertive">State is required.</div>
+                    
+                    
                       <AddressInput label="Zip code (optional)" 
-                                  v-model="addressLine.value"
+                                  v-model="zipCode"
                                   class="address-line"
                                   id="address-line-3"
                                   maxlength='6'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !v.value.isRequired"
+                              v-if="v$.zipCode.$dirty && v$.zipCode.required.$invalid"
                               aria-live="assertive">Zip code is required.</div>
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.specialCharacterValidator"
+                            v-if="v$.zipCode.$dirty && v$.zipCode.specialCharacterValidator.$invalid"
                             aria-live="assertive">Zip code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
-                    </div>
-                  </div>
+                    
+                  
                 </div>
               </div>
               <div v-else>
                 <!-- If country is other than CANADA or UNITED STATES, display these fields -->
-                <div class="row">  
-                  <div v-for="(addressLine, index) in addressLines"
-                              :key='index'
-                              :set="v = v$.addressLines.$each[index]"
-                              class='col-md-7 mt-3'>
-                    <div v-if="index === 0">
+                <div class="row col-md-7 mt-3">  
+                    
                       <AddressInput label="Street address" 
-                                  v-model="addressLine.value"
+                                  v-model="otherStreetAddress"
                                   class="address-line"
                                   id="address-line-1"
                                   maxlength='25'/>
                         <div class="text-danger"
-                              v-if="v.value.$dirty && !v.value.required"
+                              v-if="v$.otherStreetAddress.$dirty && v$.otherStreetAddress.required.$invalid"
                               aria-live="assertive">Street address is required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
+                            v-if="v$.otherStreetAddress.$dirty && v$.otherStreetAddress.specialCharacterValidator.$invalid"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
-                    </div>
-                    <div v-else-if="index === 1">
+                    
+                    
                       <AddressInput label="City, Province" 
-                                  v-model="addressLine.value"
+                                  v-model="otherCity"
                                   class="address-line"
                                   id="address-line-2"
                                   maxlength='25'/>
                         <div class="text-danger"
-                               v-if="v.value.$dirty && !v.value.required"
+                               v-if="v$.otherCity.$dirty && v$.otherCity.required.$invalid"
                               aria-live="assertive">City and province are required.</div>             
                         <div class="text-danger"
-                            v-if="v.value.$dirty && !v.value.addressLineWithCommaValidator"
+                            v-if="v$.otherCity.$dirty && v$.otherCity.specialCharacterValidator.$invalid"
                             aria-live="assertive">City and province cannot include special characters except comma, hyphen, period, apostrophe, number sign and blank space.</div>
-                    </div>
-                  </div>
+                    
+                  
                 </div>
+                <p>before zip code thing {{ otherZipCode }} after thing</p>
                 <Input label='Zip/postal code (optional)'
                       className='mt-3'
                       class="city"
-                      v-model="city"
+                      v-model="otherZipCode"
                       maxlength='22' />
                 <div class="text-danger"
-                    v-if="v$.city.$dirty && !v$.city.specialCharacterValidator"
+                    v-if="v$.otherZipCode.$dirty && v$.otherZipCode.specialCharacterValidator.$invalid"
                     aria-live="assertive">Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
               </div>
             </div>
             <div v-else-if="isNewAddressKnown === 'N'" class="is-new-address-known-n">
               <br/><p>Please verify which jurisdiction you’re moving to. If you’re moving within Canada, please also verify which province you’re moving to.</p>
-              <CountryInput label='Jurisdiction'
+              <CountrySelect label='Jurisdiction'
                             ref="country"
                             className='mt-3'
                             class="country"
                             v-model="country" />
               <div class="text-danger" v-if="v$.country.$dirty && !v$.country.required" aria-live="assertive">Jurisdiction is required.</div>
               <div v-if="country === 'Canada'">
-                <ProvinceInput label='Province'
+                <RegionSelect label='Province'
                                 ref="province"
                                 className='mt-3'
                                 class="province"
-                                v-model="province" />
-                <div class="text-danger" v-if="v$.province.$dirty && !v$.province.required" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
-                <div class="text-danger" v-if="v$.province.$dirty && v$.province.required && !v$.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+                                v-model="otherProvince" />
+                <div class="text-danger" v-if="v$.otherProvince.$dirty && !v$.otherProvince.required" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
+                <div class="text-danger" v-if="v$.otherProvince.$dirty && v$.otherProvince.required && !v$.otherProvince.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
             </div>
           </div>
@@ -267,22 +262,23 @@ import { replaceSpecialCharacters } from '../helpers/string';
 import { truncateAddressLines } from '../helpers/address';
 import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
 import ContinueBar from '../components/ContinueBar.vue';
-import CountryInput from '../components/CountryInput.vue';
-import ProvinceInput from '../components/ProvinceInput.vue';
 import StateInput from '../components/StateInput.vue';
 import AddressInput from '../components/AddressInput.vue';
-import AddressValidator from '@/components/AddressValidator.vue';
+// import AddressValidator from '@/components/AddressValidator.vue';
 import {
+  AddressDoctorInput,
   PostalCodeInput,
   DateInput,
   Button,
   Radio,
+  Input,
   distantFutureValidator,
   distantPastValidator,
   beforeDateValidator,
   afterDateValidator,
+  CountrySelect,
+  RegionSelect,
 } from 'common-lib-vue';
-import Input from '../components/Input.vue';
 import useVuelidate from "@vuelidate/core";
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
@@ -344,20 +340,42 @@ export const addressLineWithCommaValidator = (addressLines) => {
   }
 };
 
+export const usAddressLineValidator = (addressLines) => {
+  // console.log("us address line validator reached")
+  // const variable = 2
+  // if (variable === 1) {
+  //   return true;
+  // }
+  for (const line of addressLines) {
+    
+    if (!specialCharacterValidator(line.value)) {
+      return true;
+    }
+    
+
+      // Validates required address line fields
+      // return (value !== '' && value !== null);
+    
+  }
+  return false
+  // return true;
+}
+
 export default {
   name: 'MoveInfoPage',
   components: {
+    AddressDoctorInput,
     ContinueBar,
     DateInput,
     Input,
     PageContent,
     PostalCodeInput,
-    CountryInput,
-    ProvinceInput,
+    CountrySelect,
+    RegionSelect,
     StateInput,
     TipBox,
     AddressInput,
-    AddressValidator,
+    // AddressValidator,
     Button,
     Radio,
   },
@@ -368,9 +386,18 @@ export default {
       arriveDestinationDate: null,
       isNewAddressKnown: null,
       addressLines: [],
+      usStreetAddress: null,
+      otherStreetAddress: null,
+      zipCode: null,
+      otherZipCode: null,
+      vuelidateExternalResults: {},
       country: null,
       province: null,
+      state: null,
+      otherProvince: null,
       city: null,
+      usCity: null,
+      otherCity: null,
       postalCode: null,
       showServerValidationError: false,
       isPageLoaded: false,
@@ -451,15 +478,37 @@ export default {
         required,
       },
       province: {},
+      state: {},
+      otherProvince: {},
+      usCity: {
+        required,
+        specialCharacterValidator,
+      },
+      otherCity: {
+        required,
+        specialCharacterValidator,
+      },
+      usStreetAddress: { 
+        required, 
+        specialCharacterValidator,
+      },
+      otherStreetAddress: {
+        required, 
+        specialCharacterValidator,
+      },
+      zipCode: {
+        required, 
+        specialCharacterValidator,
+      },
+      otherZipCode: {
+        specialCharacterValidator,
+      },
     }
     if (this.isNewAddressKnown === 'Y'){
       if (this.country === 'Canada'){
         validations.addressLines = {
-          $each: {
-            value: {
-              specialCharacterValidator
-            },
-          },
+          //this originally had an $each and needs to be fixed
+          specialCharacterValidator,
           addressLineOneValidator,
         },
         validations.city = {
@@ -478,35 +527,16 @@ export default {
         };
       }
       else if (this.country === 'United States'){
-        validations.addressLines = {
-          $each: {
-            value: {
-              specialCharacterValidator,
-              isRequired: (value, addressLine) => {
-                // Make the Zip code (address line 3) optional if the country is USA
-                const index = this.addressLines.findIndex(() => addressLine.id === 'address-line-3');
-                if (index === 0){
-                  return true;
-                }
-                
-                // Validates required address line fields
-                return (value !== '' && value !== null);
-              }
-            },
-          },
-        },
+        validations.addressLines = {},
         validations.province = {
           required
         };
       }
       else {
         validations.addressLines = {
-          $each: {
-            value: {
-              required,
-              addressLineWithCommaValidator: addressLineWithCommaValidator(this.addressLines),
-            },
-          },
+          //this originally had an $each and needs to be fixed
+          required,
+          addressLineWithCommaValidator: addressLineWithCommaValidator(this.addressLines),
         },
         validations.city = {
           specialCharacterValidator,
@@ -524,6 +554,7 @@ export default {
   methods: {
     validateFields() {
       this.v$.$touch()
+      console.log("potato", this.v$)
       if (this.v$.$invalid) {
         scrollToError();
         return;
@@ -596,6 +627,7 @@ export default {
       return CAN_MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
+      console.log("address selected handler reached")
       const addressLines = truncateAddressLines(address.addressLines, 25);
 
       // Remove all but first address line.
@@ -610,7 +642,9 @@ export default {
         this.addressLines[i].value = replaceSpecialCharacters(addressLines[i]);
       }
       this.city = replaceSpecialCharacters(address.city);
+      console.log("kumquat before province", this.province, address.province)
       this.province = replaceSpecialCharacters(address.province);
+      console.log("kumquat after province", this.province, address.province)
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
