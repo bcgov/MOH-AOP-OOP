@@ -102,7 +102,6 @@
                 <div class="text-danger"
                       v-if="v$.city.$dirty && !v$.city.required.$invalid && v$.city.maxLength.$invalid"
                       aria-live="assertive">City exceeds the maximum number of allowable characters.</div>  
-                <p>before thing {{province}} after thing</p>
                 <RegionSelect label='Province'
                                 ref="province"
                                 className='mt-3'
@@ -122,8 +121,6 @@
               <!-- If country is UNITED STATES, display these fields -->
               <div v-else-if="country === 'United States'">
                 <div class='row col-md-7 mt-3'>  
-                  
-                    
                       <AddressInput label="Street address" 
                                   v-model="usStreetAddress"
                                   class="address-line"
@@ -135,8 +132,7 @@
                         <div class="text-danger"
                             v-if="v$.usStreetAddress.$dirty && v$.usStreetAddress.specialCharacterValidator.$invalid"
                             aria-live="assertive">Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
-                    
-                    
+
                       <AddressInput label="City" 
                                   v-model="usCity"
                                   class="address-line"
@@ -149,14 +145,12 @@
                             v-if="v$.usCity.$dirty && v$.usCity.specialCharacterValidator.$invalid"
                             aria-live="assertive">City cannot include special characters except hyphen, period, apostrophe, number sign and blank space.</div>
                       
-                      
                       <StateInput label='State'
                                 ref="province"
                                 className='mt-3'
                                 class="province"
                                 v-model="state" />
                       <div class="text-danger" v-if="v$.state.$dirty && v$.state.required.$invalid" aria-live="assertive">State is required.</div>
-                    
                     
                       <AddressInput label="Zip code (optional)" 
                                   v-model="zipCode"
@@ -201,10 +195,8 @@
                         <div class="text-danger"
                             v-if="v$.otherCity.$dirty && v$.otherCity.specialCharacterValidator.$invalid"
                             aria-live="assertive">City and province cannot include special characters except comma, hyphen, period, apostrophe, number sign and blank space.</div>
-                    
                   
                 </div>
-                <p>before zip code thing {{ otherZipCode }} after thing</p>
                 <Input label='Zip/postal code (optional)'
                       className='mt-3'
                       class="city"
@@ -264,7 +256,6 @@ import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidat
 import ContinueBar from '../components/ContinueBar.vue';
 import StateInput from '../components/StateInput.vue';
 import AddressInput from '../components/AddressInput.vue';
-// import AddressValidator from '@/components/AddressValidator.vue';
 import {
   AddressDoctorInput,
   PostalCodeInput,
@@ -341,24 +332,14 @@ export const addressLineWithCommaValidator = (addressLines) => {
 };
 
 export const usAddressLineValidator = (addressLines) => {
-  // console.log("us address line validator reached")
-  // const variable = 2
-  // if (variable === 1) {
-  //   return true;
-  // }
   for (const line of addressLines) {
-    
     if (!specialCharacterValidator(line.value)) {
       return true;
     }
-    
-
-      // Validates required address line fields
-      // return (value !== '' && value !== null);
-    
+    // Validates required address line fields
+    // return (value !== '' && value !== null);
   }
   return false
-  // return true;
 }
 
 export default {
@@ -375,7 +356,6 @@ export default {
     StateInput,
     TipBox,
     AddressInput,
-    // AddressValidator,
     Button,
     Radio,
   },
@@ -507,7 +487,6 @@ export default {
     if (this.isNewAddressKnown === 'Y'){
       if (this.country === 'Canada'){
         validations.addressLines = {
-          //this originally had an $each and needs to be fixed
           specialCharacterValidator,
           addressLineOneValidator,
         },
@@ -534,7 +513,6 @@ export default {
       }
       else {
         validations.addressLines = {
-          //this originally had an $each and needs to be fixed
           required,
           addressLineWithCommaValidator: addressLineWithCommaValidator(this.addressLines),
         },
@@ -554,7 +532,6 @@ export default {
   methods: {
     validateFields() {
       this.v$.$touch()
-      console.log("potato", this.v$)
       if (this.v$.$invalid) {
         scrollToError();
         return;
@@ -627,7 +604,6 @@ export default {
       return CAN_MIN_ADDRESS_LINES;
     },
     addressSelectedHandler(address) {
-      console.log("address selected handler reached")
       const addressLines = truncateAddressLines(address.addressLines, 25);
 
       // Remove all but first address line.
@@ -642,9 +618,7 @@ export default {
         this.addressLines[i].value = replaceSpecialCharacters(addressLines[i]);
       }
       this.city = replaceSpecialCharacters(address.city);
-      console.log("kumquat before province", this.province, address.province)
       this.province = replaceSpecialCharacters(address.province);
-      console.log("kumquat after province", this.province, address.province)
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
