@@ -5,7 +5,7 @@
             name="addressLine"
            class='form-control'
            :maxlength='maxlength'
-           :value="value"
+           :modelValue="modelValue"
            @input="inputHandler($event)" />
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   name: 'AddressInput',
   components: {},
   props: {
-    value: {
+    modelValue: {
       type: String,
     },
     label: {
@@ -31,9 +31,11 @@ export default {
       default: '1000'
     },
   },
+  emits: ['update:modelValue'],
   methods: {
     inputHandler(event) {
-      this.$emit('input', event.target.value);
+      let value = event.target.value;
+      this.$emit('update:modelValue', value);
     }
   }
 }

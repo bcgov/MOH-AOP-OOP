@@ -7,7 +7,7 @@
            class='form-control'
            data-cy="addressValidator"
            :maxlength='maxlength'
-           :value="value"
+           :modelValue="value"
            @keydown="inputKeyDownHandler($event)"
            @input="inputHandler($event)" />
     <div class="results-container"
@@ -37,7 +37,7 @@ const MIN_LOOKUP_LENGTH = 3;
 export default {
   name: 'AddressValidator',
   props: {
-    value: {
+    modelValue: {
       type: String,
     },
     id: {
@@ -184,7 +184,7 @@ export default {
       event.stopPropagation();
     },
     inputHandler(event) {
-      this.$emit('input', event.target.value);
+      this.$emit('update:modelValue', event.target.value);
 
       if (this.isPerformingLookupCancelTimeout) {
         clearTimeout(this.isPerformingLookupCancelTimeout);
@@ -221,7 +221,7 @@ export default {
     }
   },
   watch: {
-    value: _.debounce(function (newValue) {
+    modelValue: _.debounce(function (newValue) {
       if (this.isComponentLoaded &&
         this.isPerformingLookup &&
         newValue &&
