@@ -75,9 +75,8 @@ describe("Happy path", () => {
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-n]").click({
       force: true,
     });
-    //could not assign data-cy values to the next two because they're in a different package
-    cy.get("[aria-label=Jurisdiction]").select("Canada");
-    cy.get("[aria-label=Region]").select("Alberta");
+    cy.get("[data-cy=jurisdictionSelect]").select("Canada").type('{enter}', {force: true});
+    cy.get("[data-cy=regionSelect]").select('Alberta').type('{enter}', {force: true});
     cy.get("[data-cy=continueBar]").click();
 
     //Review page

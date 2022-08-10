@@ -51,6 +51,7 @@
                             ref="country"
                             className='mt-3'
                             class="country"
+                            cypressId="jurisdictionSelect"
                             v-model="country" />
               <div class="text-danger" v-if="v$.country.$dirty && !v$.country.required" aria-live="assertive">Jurisdiction is required.</div>
               <!-- If country is CANADA, display these fields -->
@@ -66,6 +67,7 @@
                                       id="address-line-1"
                                       class="address-line"
                                       serviceUrl="/oop/api/address"
+                                      cypressId="addressDoctorInput"
                                       @addressSelected="addressSelectedHandler($event)" />
                     <AddressInput v-else
                                   :label='"Address line " + (index + 1)'
@@ -106,6 +108,7 @@
                                 ref="province"
                                 className='mt-3'
                                 class="province"
+                                cypressId="regionSelect"
                                 v-model="province" />
                 <div class="text-danger" v-if="v$.province.$dirty && v$.province.required.$invalid" aria-live="assertive">Province is required.</div>
                 <div class="text-danger" v-if="v$.province.$dirty && !v$.province.required.$invalid && v$.province.nonBCValidator.$invalid" aria-live="assertive">Address entered must be outside of BC.</div>      
@@ -220,6 +223,7 @@
                                 ref="province"
                                 className='mt-3'
                                 class="province"
+                                cypressId="regionSelect"
                                 v-model="otherProvince" />
                 <div class="text-danger" v-if="v$.otherProvince.$dirty && !v$.otherProvince.required" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
                 <div class="text-danger" v-if="v$.otherProvince.$dirty && v$.otherProvince.required && !v$.otherProvince.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
@@ -244,6 +248,7 @@ import {
   routes,
   isPastPath
 } from '../router/routes';
+import { getProvinceNameFromCode } from '../helpers/provinces';
 import {
   scrollTo,
   scrollToError,
@@ -618,7 +623,7 @@ export default {
         this.addressLines[i].value = replaceSpecialCharacters(addressLines[i]);
       }
       this.city = replaceSpecialCharacters(address.city);
-      this.province = replaceSpecialCharacters(address.province);
+      this.province = getProvinceNameFromCode(replaceSpecialCharacters(address.province));
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
@@ -686,9 +691,7 @@ export default {
         }
         this.setFieldsToNull();
         this.province = null;
-        if (this.$refs.country){
-          this.$refs.country.country = 'Canada';
-        }
+        this.country='Canada';
       }
     },
   },

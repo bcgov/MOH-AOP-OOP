@@ -98,8 +98,8 @@ describe("Happy path", () => {
       force: true,
     });
 
-    cy.get("[data-cy=addressValidator]").type("716 Yates Dr Milton");
-    cy.get("[data-cy=addressValidatorResult0]").click();
+    cy.get("[data-cy=addressDoctorInput]").type("716 Yates Dr Milton");
+    cy.get("[data-cy=addressDoctorInput0]").click();
 
     cy.get("[data-cy=continueBar]").click();
 

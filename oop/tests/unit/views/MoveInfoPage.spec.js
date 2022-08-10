@@ -706,7 +706,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.$invalid).toBeTruthy();
+    expect(wrapper.vm.v$.$invalid).toBeTruthy();
     expect(spyOnScrollToError).toHaveBeenCalled();
   });
 
@@ -722,14 +722,14 @@ describe("MoveInfoPage.vue validateFields()", () => {
     await wrapper.setData(cloneDeep(dataTemplateFilled));
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.moveFromBCDate.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.arriveDestinationDate.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.isNewAddressKnown.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.country.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.province.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.addressLines.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.city.$invalid).toEqual(false);
-    expect(wrapper.vm.$v.postalCode.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.moveFromBCDate.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.arriveDestinationDate.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.isNewAddressKnown.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.country.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.province.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.addressLines.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.city.$invalid).toEqual(false);
+    expect(wrapper.vm.v$.postalCode.$invalid).toEqual(false);
   });
 
   it("doesn't return invalid when given proper data", async () => {
@@ -749,7 +749,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$v.$invalid).toBeFalsy();
+    expect(wrapper.vm.v$.$invalid).toBeFalsy();
   });
 
   it("calls setFieldsToNull when country isn't known", async () => {
