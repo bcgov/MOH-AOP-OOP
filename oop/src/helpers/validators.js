@@ -12,6 +12,8 @@ export const nonBCValidator = (value) => {
 export const hasEmptyPostalCode = (value) => {
     return (value === null || value === '');
 };
+
+//invalidCharValidator is... not used anywhere that I can see?
 export const invalidCharValidator = (value) => {
     if (!hasEmptyPostalCode(value)){
         const criteria = RegExp('^(?=.*[a-zA-Z0-9])[a-zA-Z0-9 ]*$');
@@ -19,6 +21,19 @@ export const invalidCharValidator = (value) => {
     }
     return true;
 };
+
+//specialCharacterValidator is used in MoveInfoPage and AddressLine
+export const specialCharacterValidator = (value) => {
+    console.log("special character validator called", value)
+    if (!value) {
+      console.log("no value, return true")
+      return true;
+    }
+    const criteria = /^[0-9a-zA-Z-.'# ]*$/;
+    console.log("criteria test", criteria.test(value))
+    return criteria.test(value);
+  };
+
 export const nonBCPostalCodeValidator = (value) => {
     if (!hasEmptyPostalCode(value)){
         const criteria = RegExp('^[Vv]\\d[A-Za-z][ ]?\\d[A-Za-z]\\d$');
