@@ -24,13 +24,10 @@ export const invalidCharValidator = (value) => {
 
 //specialCharacterValidator is used in MoveInfoPage and AddressLine
 export const specialCharacterValidator = (value) => {
-    console.log("special character validator called", value)
     if (!value) {
-      console.log("no value, return true")
       return true;
     }
     const criteria = /^[0-9a-zA-Z-.'# ]*$/;
-    console.log("criteria test", criteria.test(value))
     return criteria.test(value);
   };
 
