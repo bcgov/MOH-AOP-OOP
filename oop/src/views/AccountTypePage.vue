@@ -110,7 +110,6 @@ import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import {
   Button,
-  // PhnInput,
   Radio,
   phnValidator
 } from 'common-lib-vue';
@@ -169,7 +168,6 @@ export default {
     Button,
     ContinueBar,
     PageContent,
-    // PhnInput,
     Radio,
     TipBox,
     PhnInputWrapper
