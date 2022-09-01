@@ -17,8 +17,10 @@ describe("StateInput.vue", () => {
         plugins: [],
       },
     });
-    wrapper.vm.inputHandler("PlaceholderRegion");
-    expect(wrapper.emitted().input).toBeTruthy();
-    expect(wrapper.emitted().input).toEqual([["PlaceholderRegion"]]);
+    console.log("kumquat", wrapper.emitted())
+    wrapper.vm.onChange("PlaceholderRegion");
+    console.log("kumquat2", wrapper.emitted())
+    expect(wrapper.emitted()).toBeTruthy();
+    expect(wrapper.emitted()).toEqual({'update:modelValue': [ [ 'PlaceholderRegion' ] ]});
   });
 });

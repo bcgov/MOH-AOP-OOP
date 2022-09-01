@@ -666,7 +666,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.city).toEqual("CAMBRIDGE");
-    expect(wrapper.vm.province).toEqual("ON");
+    expect(wrapper.vm.province).toEqual("Ontario");
     expect(wrapper.vm.postalCode).toEqual("N1P 0A3");
   });
 });
@@ -839,7 +839,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [store],
+        plugins: [store, router],
       },
       data: () => dataTemplateCopy,
     });
@@ -902,7 +902,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [store],
+        plugins: [store, router],
       },
       data: () => dataTemplateCopy,
     });
