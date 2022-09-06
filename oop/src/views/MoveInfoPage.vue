@@ -221,7 +221,7 @@
                                 cypressId="regionSelect"
                                 v-model="province" />
                 <div class="text-danger" v-if="v$.province.$dirty && v$.province.required.$invalid" aria-live="assertive">Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process.</div>
-                <div class="text-danger" v-if="v$.province.$dirty && v$.province.required && v$.province.nonBCValidator" aria-live="assertive">Address entered must be outside of BC.</div>
+                <div class="text-danger" v-if="v$.province.$dirty && v$.province.required && v$.province.nonBCValidator.$invalid" aria-live="assertive">Address entered must be outside of BC.</div>
               </div>
             </div>
           </div>

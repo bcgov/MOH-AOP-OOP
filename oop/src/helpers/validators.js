@@ -7,7 +7,7 @@ export const postalCodeValidator = (value) => {
     return criteria.test(value);
 };
 export const nonBCValidator = (value) => {
-    return (value !== 'BC');
+    return (value !== 'BC' && value !== 'British Columbia');
 };
 export const hasEmptyPostalCode = (value) => {
     return (value === null || value === '');
