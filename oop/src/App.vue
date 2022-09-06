@@ -4,8 +4,9 @@
             imagePath='/oop/images/' />
     <main>
       <div class="container stepper">
-        <ProgressBar :currentPath='$router.currentRoute.path'
-                    :routes='stepRoutes'/>
+        <PageStepper :currentPath='$router.currentRoute.value.path'
+                    :routes='stepRoutes'
+                    @onClickLink='handleClickStepperLink($event)'/>
       </div>
       <router-view/>
     </main>
@@ -21,17 +22,21 @@ import './styles/styles.css';
 import project from '../package.json';
 import {
   Header,
-  Footer
+  Footer,
+  PageStepper,
 } from 'common-lib-vue';
-import ProgressBar from '@/components/ProgressBar.vue';
 import stepRoutes from '@/router/step-routes';
+import pageStateService from '@/services/page-state-service';
+import { isPastPath } from '@/router/routes';
+import environment from '@/settings';
+import { scrollTo } from '@/helpers/scroll';
 
 export default {
   name: 'App',
   components: {
     Header: Header,
     Footer: Footer,
-    ProgressBar: ProgressBar
+    PageStepper: PageStepper,
   },
   data: () => {
     return {
@@ -42,6 +47,20 @@ export default {
   },
   created() {
     document.title = this.pageTitle;
+  },
+  methods: {
+    handleClickStepperLink(path) {
+      if (this.currentPath !== path && 
+        (
+          environment.bypassRouteGuards ||
+          isPastPath(path, this.currentPath)
+        )) {
+        pageStateService.setPageIncomplete(this.currentPath);
+        pageStateService.setPageComplete(path);
+        this.$router.push(path);
+        scrollTo(0);
+      }
+    },
   }
 }
 </script>
