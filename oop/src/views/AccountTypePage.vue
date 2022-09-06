@@ -90,7 +90,7 @@
         </div>
       </div>
     </PageContent>
-    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" />
+    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" cypressId="continueBar" />
   </div>
 </template>
 
@@ -106,10 +106,10 @@ import {
   scrollToElement,
   getTopScrollPosition
 } from '../helpers/scroll';
-import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import {
   Button,
+  ContinueBar,
   Radio,
   phnValidator
 } from 'common-lib-vue';

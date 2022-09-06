@@ -234,7 +234,7 @@
         </div>
       </div>
     </PageContent>
-    <ContinueBar @continue="validateFields()" :hasLoader="isLoading" buttonLabel='Review'/>
+    <ContinueBar @continue="validateFields()" :hasLoader="isLoading" buttonLabel='Review' cypressId="continueBar"/>
   </div>
 </template>
 <script>
@@ -253,11 +253,11 @@ import {
 import { replaceSpecialCharacters } from '../helpers/string';
 import { truncateAddressLines } from '../helpers/address';
 import { nonBCPostalCodeValidator, nonBCValidator, canadaPostalCodeLengthValidator } from '../helpers/validators';
-import ContinueBar from '../components/ContinueBar.vue';
 import StateInput from '../components/StateInput.vue';
 import {
   AddressDoctorInput,
   PostalCodeInput,
+  ContinueBar,
   DateInput,
   Button,
   Radio,

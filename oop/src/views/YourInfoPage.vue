@@ -76,7 +76,8 @@
       </div>
     </PageContent>
     <ContinueBar @continue='nextPage()'
-                 :hasLoader='isLoading'/>
+                 :hasLoader='isLoading'
+                 cypressId="continueBar"/>
   </div>
 </template>
 
@@ -91,10 +92,10 @@ import {
   scrollToError,
   getTopScrollPosition
 } from '../helpers/scroll';
-import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
 import {
+  ContinueBar,
   Input,
   PhnInput,
   PhoneNumberInput,
