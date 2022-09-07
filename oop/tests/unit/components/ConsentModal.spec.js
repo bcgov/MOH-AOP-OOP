@@ -1,21 +1,40 @@
 import { shallowMount } from "@vue/test-utils";
 import { createStore } from "vuex";
 import Component from "@/components/ConsentModal.vue";
+import * as formTemplate from "@/store/modules/form";
+import { cloneDeep } from "lodash";
+
+const stateTemplate = {
+  applicationUuid: "111",
+  lastName: "defaultlastname",
+  phn: "defaultphn",
+  phone: "defaultphone",
+  accountType: "AH",
+  personMoving: "AH_DEP",
+  isAllDependentsMoving: "N",
+  dependentPhns: [
+    {
+      value: "9353 166 544",
+      isValid: true,
+    },
+  ],
+};
+
+let tempForm = cloneDeep(formTemplate.default);
+let store = null;
+tempForm.state = cloneDeep(stateTemplate);
+store = createStore({
+  modules: {
+    form: tempForm,
+  },
+});
 
 describe("ConsentModal.vue", () => {
   const wrapper = shallowMount(Component, {
     global: {
-      plugins: [],
+      plugins: [store],
     },
-    mocks: {
-      $store: {
-        state: {
-          form: {
-            applicationUuid: "default1",
-          },
-        },
-      },
-    },
+
     data: () => {
       return {
         focusableEls: [],
@@ -33,20 +52,12 @@ describe("ConsentModal.vue", () => {
   });
 });
 
+
 describe("ConsentModal.vue getFocusableEls()", () => {
   it("returns an array", () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
-      },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
+        plugins: [store],
       },
       data: () => {
         return {
@@ -68,16 +79,7 @@ describe("ConsentModal.vue getFocusableEls()", () => {
   it("has a length greater than zero", () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
-      },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
+        plugins: [store],
       },
       data: () => {
         return {
@@ -99,16 +101,7 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
   it("assigns the results of getFocusableEls() to data", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
-      },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
+        plugins: [store],
       },
       data: () => {
         return {
@@ -155,9 +148,8 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      store,
 
       data: () => {
         return {
@@ -195,9 +187,8 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      store,
 
       data: () => {
         return {
@@ -235,9 +226,8 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      store,
 
       data: () => {
         return {
@@ -260,16 +250,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 describe("ConsentModal.vue closeModal()", () => {
   const wrapper = shallowMount(Component, {
     global: {
-      plugins: [],
-    },
-    mocks: {
-      $store: {
-        state: {
-          form: {
-            applicationUuid: "default1",
-          },
-        },
-      },
+      plugins: [store],
     },
     data: () => {
       return {
@@ -314,17 +295,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
   it("calls handleTab() on function call", () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: [],
@@ -344,17 +317,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
   it("calls handleTabBackwards() on function call with shift key", () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: [],
@@ -377,17 +342,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
   it("calls neither function if the button pressed isn't tab", () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: [],
@@ -421,17 +378,9 @@ describe("ConsentModal.vue handleTab()", () => {
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -458,17 +407,9 @@ describe("ConsentModal.vue handleTab()", () => {
   it("moves focus from the first element to the second if the first is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -495,17 +436,9 @@ describe("ConsentModal.vue handleTab()", () => {
   it("moves focus from the last element to the first if the last is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -531,17 +464,9 @@ describe("ConsentModal.vue handleTab()", () => {
   it("should call focus function on focused element", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -577,17 +502,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -613,17 +530,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
   it("moves focus from the second element to the first if the second is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -650,17 +559,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
   it("moves focus from the first element to the last if the first is focused", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
+        plugins: [store],
       },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
-      },
+
       data: () => {
         return {
           focusableEls: mockElements,
@@ -686,16 +587,7 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
   it("should call focus function on focused element", async () => {
     const wrapper = shallowMount(Component, {
       global: {
-        plugins: [],
-      },
-      mocks: {
-        $store: {
-          state: {
-            form: {
-              applicationUuid: "default1",
-            },
-          },
-        },
+        plugins: [store],
       },
       data: () => {
         return {
