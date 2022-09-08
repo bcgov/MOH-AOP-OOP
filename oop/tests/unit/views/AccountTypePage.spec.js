@@ -245,14 +245,16 @@ describe("AccountTypePage.vue saveValues()", () => {
 
   it("changes dependentPhns in store", async () => {
     await wrapper.vm.$nextTick();
-    await wrapper.setData({ dependentPhns: ["updateddependentphns"] });
+    await wrapper.setData({ dependentPhns: [
+      {1: "updateddependentphns"}
+    ] });
     await wrapper.vm.$nextTick();
 
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([
-      "updateddependentphns",
+      {1: "updateddependentphns"}
     ]);
   });
 });
