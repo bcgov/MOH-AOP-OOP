@@ -1,7 +1,7 @@
 <template>
   <div :class="className">
     <label :for="id">{{label}}</label><br/>
-    <region-select 
+    <select 
       :id="id" 
       aria-label='Region'
       name="region"
