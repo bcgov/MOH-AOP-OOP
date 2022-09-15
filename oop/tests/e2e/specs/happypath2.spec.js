@@ -122,6 +122,15 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains("MILTON");
     cy.get("[data-cy=ReviewTableElement]").contains("L9T 7R5");
 
+    //Test page stepper
+    cy.get("[data-cy=pageStepper2]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/move-info");
+    });
+    cy.get("[data-cy=continueBar]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/review");
+    });
     cy.get("[data-cy=continueBar]").click();
 
     //Submission Page

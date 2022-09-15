@@ -6,6 +6,7 @@
       <div class="container stepper">
         <PageStepper :currentPath='$router.currentRoute.value.path'
                     :routes='stepRoutes'
+                    :cypressId="'pageStepper'"
                     @onClickLink='handleClickStepperLink($event)'/>
       </div>
       <router-view/>
