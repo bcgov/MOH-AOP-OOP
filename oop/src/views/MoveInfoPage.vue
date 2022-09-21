@@ -66,7 +66,7 @@
                       label="Address line 1"
                       v-model="addressLines[index].value"
                       id="address-line-1"
-                      className='mt-3 address-line-width'
+                      className='mt-3'
                       class='address-line'
                       serviceUrl="/oop/api/address"
                       cypressId="addressDoctorInput"
@@ -710,6 +710,7 @@ export default {
 </script>
 
 <style scoped>
+
 .address-row {
   display: flex;
   flex-wrap: nowrap;
@@ -734,20 +735,20 @@ export default {
   margin-right: 1em;
 }
 
-@media (min-width: 577px) and (max-width: 768px) {
-  /*The following two styles fix a display bug with the address line/address doctor components.
-If not present, they don't align with the other components on the page in the medium view. */
+/* resize address line to fit + - buttons to the side at medium size*/
+@media (min-width: 768px) and (max-width: 991.98px) {
   .address-line-width {
-    width: inherit;
-  }
-
-  .address-line-v-for {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+    max-width: 215px;
   }
 }
 
+/*display + - buttons in the same row as address line at large sizes*/
+@media (min-width: 767.98px) {
+  .address-line-v-for {
+    display: flex;    
+  }
+}
+  
 .add-remove-button {
   min-width: 50px;
   min-height: 40px;
