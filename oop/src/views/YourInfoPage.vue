@@ -15,10 +15,10 @@
                   @input="handleLastNameInputChange"
                   :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
-                v-if="v$.lastName.$dirty && !v$.lastName.required"
+                v-if="v$.lastName.$dirty && v$.lastName.required.$invalid"
                 aria-live="assertive">Last name is required.</div>
             <div class="text-danger"
-                v-if="v$.lastName.$dirty && v$.lastName.required && !v$.lastName.nameValidation"
+                v-if="v$.lastName.$dirty && !v$.lastName.required.$invalid && v$.lastName.nameValidation.$invalid"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
@@ -30,10 +30,10 @@
                       ref="phnInput"
                       :inputStyle='phnInputStyle' />
             <div class="text-danger"
-                v-if="v$.phn.$dirty && !v$.phn.required"
+                v-if="v$.phn.$dirty && v$.phn.required.$invalid"
                 aria-live="assertive">Personal Health Number is required.</div>
             <div class="text-danger"
-                v-if="v$.phn.$dirty && v$.phn.required && !v$.phn.phnValidation"
+                v-if="v$.phn.$dirty && !v$.phn.required.$invalid && v$.phn.phnValidation.$invalid"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
                 v-if="isValidationCode1Shown || isValidationCode2Shown"
@@ -47,7 +47,7 @@
                               class='phone-number'
                               :inputStyle='phoneInputStyle' />
             <div class="text-danger"
-                v-if="v$.phn.$dirty && !v$.phone.phoneValidator"
+                v-if="v$.phn.$dirty && v$.phone.phoneValidator.$invalid"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
 
