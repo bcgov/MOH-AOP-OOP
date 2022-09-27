@@ -68,6 +68,7 @@
                       id="address-line-1"
                       className='mt-3'
                       class='address-line'
+                      placeholder='Example: 111-215 Sample Road'
                       serviceUrl="/oop/api/address"
                       cypressId="addressDoctorInput"
                       @addressSelected="addressSelectedHandler($event)"
