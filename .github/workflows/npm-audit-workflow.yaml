@@ -1,0 +1,35 @@
+name: npm audit workflow
+on:
+  push:
+    branches:
+      - oop-vue-upgrade
+  workflow_dispatch:
+    inputs:
+      source_tag:
+        description: "Source Image Tag"
+        required: true
+        default: "latest"
+  # schedule:
+  #   - cron: '0 0 1 * *'
+defaults:
+  run:
+    working-directory: ./oop
+jobs:
+  scan:
+    name: npm audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./oop
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag	: true
+        name: run npm-audit-action
