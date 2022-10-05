@@ -168,7 +168,7 @@
               >
                 Jurisdiction is required.
               </div>
-              <div v-if="country !== ''">
+              <div v-if="country">
                 <!-- Address -->
                 <div v-if="country === 'Canada'">
                   <div
@@ -201,6 +201,20 @@
                         aria-live="assertive"
                       >
                         Address line 1 is required.
+                      </div>
+                      <div
+                        class="text-danger"
+                        v-if="
+                          index === 0 &&
+                          v$.addressLines.$dirty &&
+                          !v$.addressLines.addressLineOneValidator.$invalid &&
+                          v$.addressLines
+                            .addressLineOneSpecialCharacterValidator.$invalid
+                        "
+                        aria-live="assertive"
+                      >
+                        Address cannot include special characters except hyphen,
+                        period, apostrophe, number sign and blank space.
                       </div>
                     </div>
                     <div v-else class="address-line-width">
@@ -307,7 +321,9 @@
                   <div
                     class="text-danger"
                     v-if="
-                      v$.city.$dirty && !v$.city.required && v$.city.maxLength
+                      v$.city.$dirty &&
+                      !v$.city.required.$invalid &&
+                      v$.city.maxLength.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -411,15 +427,9 @@
                   />
                   <div
                     class="text-danger"
-                    v-if="v$.zipCode.$dirty && v$.zipCode.required"
-                    aria-live="assertive"
-                  >
-                    Zip code is required.
-                  </div>
-                  <div
-                    class="text-danger"
                     v-if="
-                      v$.zipCode.$dirty && v$.zipCode.specialCharacterValidator
+                      v$.zipCode.$dirty &&
+                      v$.zipCode.specialCharacterValidator.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -443,7 +453,8 @@
                   <div
                     class="text-danger"
                     v-if="
-                      v$.zipCode.$dirty && v$.zipCode.specialCharacterValidator
+                      v$.zipCode.$dirty &&
+                      v$.zipCode.specialCharacterValidator.$invalid
                     "
                     aria-live="assertive"
                   >
@@ -452,59 +463,59 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              v-else-if="isNewAddressKnown === 'N'"
+              class="is-new-address-known-n"
+            >
+              <br />
+              <p>
+                Please verify which jurisdiction you’re moving to. If you’re
+                moving within Canada, please also verify which province you’re
+                moving to.
+              </p>
+              <CountrySelect
+                label="Jurisdiction"
+                ref="country"
+                className="mt-3"
+                class="country"
+                v-model="country"
+              />
               <div
-                v-else-if="isNewAddressKnown === 'N'"
-                class="is-new-address-known-n"
+                class="text-danger"
+                v-if="v$.country.$dirty && v$.country.required.$invalid"
+                aria-live="assertive"
               >
-                <br />
-                <p>
-                  Please verify which jurisdiction you’re moving to. If you’re
-                  moving within Canada, please also verify which province you’re
-                  moving to.
-                </p>
-                <CountrySelect
-                  label="Jurisdiction"
-                  ref="country"
+                Jurisdiction is required.
+              </div>
+              <div v-if="country === 'Canada'">
+                <RegionSelect
+                  label="Province"
+                  ref="province"
                   className="mt-3"
-                  class="country"
-                  v-model="country"
+                  class="province"
+                  cypressId="regionSelect"
+                  v-model="province"
                 />
                 <div
                   class="text-danger"
-                  v-if="v$.country.$dirty && !v$.country.required"
+                  v-if="v$.province.$dirty && v$.province.required.$invalid"
                   aria-live="assertive"
                 >
-                  Jurisdiction is required.
+                  Province is required. If you don't know which province you're
+                  moving to, please contact HIBC for more information about your
+                  MSP cancellation process.
                 </div>
-                <div v-if="country === 'Canada'">
-                  <RegionSelect
-                    label="Province"
-                    ref="province"
-                    className="mt-3"
-                    class="province"
-                    cypressId="regionSelect"
-                    v-model="province"
-                  />
-                  <div
-                    class="text-danger"
-                    v-if="v$.province.$dirty && v$.province.required.$invalid"
-                    aria-live="assertive"
-                  >
-                    Province is required. If you don't know which province
-                    you're moving to, please contact HIBC for more information
-                    about your MSP cancellation process.
-                  </div>
-                  <div
-                    class="text-danger"
-                    v-if="
-                      v$.province.$dirty &&
-                      v$.province.required &&
-                      v$.province.nonBCValidator.$invalid
-                    "
-                    aria-live="assertive"
-                  >
-                    Address entered must be outside of BC.
-                  </div>
+                <div
+                  class="text-danger"
+                  v-if="
+                    v$.province.$dirty &&
+                    v$.province.required &&
+                    v$.province.nonBCValidator.$invalid
+                  "
+                  aria-live="assertive"
+                >
+                  Address entered must be outside of BC.
                 </div>
               </div>
             </div>
@@ -606,9 +617,17 @@ const addressLineOneValidator = (addressLines) => {
   return false;
 };
 
+const addressLineOneSpecialCharacterValidator = (addressLines) => {
+  if (addressLines && addressLines[0]) {
+    if (addressLines[0].value && addressLines[0].value !== "") {
+      return specialCharacterValidator(addressLines[0].value);
+    }
+  }
+  return false;
+};
+
 export const specialCharacterWithCommaValidator = (value) => {
   const criteria = /^[0-9a-zA-Z,-.'# ]*$/;
-  console.log("addressLineWithCommaValidator called", criteria.test(value));
   return criteria.test(value);
 };
 
@@ -743,7 +762,11 @@ export default {
         required,
       },
       addressLines: {},
-      city: {},
+      city: {
+        specialCharacterWithCommaValidator,
+        required,
+        maxLength: maxLength(22),
+      },
       province: {},
       postalCode: {},
       otherStreetAddress: {},
@@ -754,16 +777,12 @@ export default {
       if (this.country === "Canada") {
         (validations.addressLines = {
           addressLineOneValidator,
+          addressLineOneSpecialCharacterValidator,
         }),
-          (validations.city = {
+          (validations.province = {
             required,
-            specialCharacterValidator,
-            maxLength: maxLength(22),
-          });
-        (validations.province = {
-          required,
-          nonBCValidator,
-        }),
+            nonBCValidator,
+          }),
           (validations.postalCode = {
             required,
             canadaPostalCodeLengthValidator,
@@ -774,10 +793,6 @@ export default {
           (validations.zipCode = {});
       } else if (this.country === "United States") {
         (validations.addressLines = {}),
-          (validations.city = {
-            specialCharacterValidator,
-            required,
-          }),
           (validations.province = {
             required,
           }),
@@ -789,23 +804,23 @@ export default {
           (validations.state = {
             required,
           }),
-          (validations.zipCode = {});
+          (validations.zipCode = {
+            specialCharacterValidator,
+          });
       } else {
         (validations.addressLines = {
           required,
         }),
-          (validations.city = {
-            specialCharacterWithCommaValidator,
-            required,
-          });
-        (validations.province = {}),
+          (validations.province = {}),
           (validations.postalCode = {}),
           (validations.otherStreetAddress = {
             specialCharacterValidator,
             required,
           }),
           (validations.state = {}),
-          (validations.zipCode = {});
+          (validations.zipCode = {
+            specialCharacterValidator,
+          });
       }
     } else if (this.isNewAddressKnown === "N" && this.country === "Canada") {
       validations.province = {
