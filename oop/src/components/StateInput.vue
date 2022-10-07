@@ -8,7 +8,7 @@
             v-model="state"
             :modelValue="modelValue"
             @change="onChange($event.target.value)">
-      <option :value="null" label="Select State" selected></option>
+      <option :value="value" label="Select State" selected></option>
       <option v-for="(state, index) in statesList" :key="index" :value="state.abbreviation">{{state.name}}</option>
     </select>
   </div>
@@ -25,7 +25,7 @@ export default {
       type: String,
       default: '',
     },
-    modelValue: {
+    value: {
       type: String,
     },
     label: {
