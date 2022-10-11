@@ -762,11 +762,7 @@ export default {
         required,
       },
       addressLines: {},
-      city: {
-        specialCharacterWithCommaValidator,
-        required,
-        maxLength: maxLength(22),
-      },
+      city: {},
       province: {},
       postalCode: {},
       otherStreetAddress: {},
@@ -779,6 +775,11 @@ export default {
           addressLineOneValidator,
           addressLineOneSpecialCharacterValidator,
         }),
+          (validations.city = {
+            specialCharacterWithCommaValidator,
+            required,
+            maxLength: maxLength(22),
+          }),
           (validations.province = {
             required,
             nonBCValidator,
@@ -793,6 +794,11 @@ export default {
           (validations.zipCode = {});
       } else if (this.country === "United States") {
         (validations.addressLines = {}),
+          (validations.city = {
+            specialCharacterWithCommaValidator,
+            required,
+            maxLength: maxLength(22),
+          }),
           (validations.province = {
             required,
           }),
@@ -807,10 +813,13 @@ export default {
           (validations.zipCode = {
             specialCharacterValidator,
           });
-      } else {
-        (validations.addressLines = {
-          required,
-        }),
+      } else { //any other country besides Canada and US
+        (validations.addressLines = {}),
+          (validations.city = {
+            specialCharacterWithCommaValidator,
+            required,
+            maxLength: maxLength(22),
+          }),
           (validations.province = {}),
           (validations.postalCode = {}),
           (validations.otherStreetAddress = {
