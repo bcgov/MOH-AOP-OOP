@@ -304,7 +304,7 @@
                     v-if="v$.city.$dirty && v$.city.required.$invalid"
                     aria-live="assertive"
                   >
-                    City is required.
+                    {{ cityAndProvincePlural }} {{ cityAndProvinceVerb }} required.
                   </div>
                   <div
                     class="text-danger"
@@ -315,7 +315,7 @@
                     "
                     aria-live="assertive"
                   >
-                    City cannot include special characters except hyphen,
+                    {{ cityAndProvincePlural }} cannot include special characters except hyphen,
                     period, apostrophe, number sign and blank space.
                   </div>
                   <div
@@ -327,7 +327,7 @@
                     "
                     aria-live="assertive"
                   >
-                    City exceeds the maximum number of allowable characters.
+                    {{ cityAndProvincePlural }} field exceeds the maximum number of allowable characters.
                   </div>
                 </div>
                 <!-- Province/State -->
@@ -813,7 +813,8 @@ export default {
           (validations.zipCode = {
             specialCharacterValidator,
           });
-      } else { //any other country besides Canada and US
+      } else {
+        //any other country besides Canada and US
         (validations.addressLines = {}),
           (validations.city = {
             specialCharacterWithCommaValidator,
@@ -994,12 +995,25 @@ export default {
         isValid: true,
       };
     },
+    isCityAndProvince() {
+      if (this.isNewAddressKnown === "Y" && this.country !== "Canada" && this.country !== "United States") {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   computed: {
     isAddressValidatorEnabled() {
       return (
         spaEnvService.values.SPA_ENV_OOP_ENABLE_ADDRESS_VALIDATOR === "true"
       );
+    },
+    cityAndProvincePlural() {
+      return (this.isCityAndProvince() ? "City and province" : "City");
+    },
+    cityAndProvinceVerb() {
+      return (this.isCityAndProvince() ? "are" : "is");
     },
   },
   watch: {
