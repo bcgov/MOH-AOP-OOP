@@ -111,7 +111,6 @@ import {
   Button,
   ContinueBar,
   Radio,
-  phnValidator
 } from 'common-lib-vue';
 import {
   MODULE_NAME as formModule,
@@ -375,10 +374,6 @@ export default {
           isValid: true,
         }
       }
-    },
-    checkValidPhn(index) {
-      const enteredPhn = this.dependentPhns[index].value
-      return phnValidator(enteredPhn);
     },
     updateDependentPhns(newPhn, newIndex) {
       this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
