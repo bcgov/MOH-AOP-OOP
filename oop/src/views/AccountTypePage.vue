@@ -376,7 +376,11 @@ export default {
       }
     },
     updateDependentPhns(newPhn, newIndex) {
-      this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
+      if ( this.dependentPhns[newIndex]) {
+        console.log("yes")
+        return this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
+      }
+      console.log("no")
     }
   },   
   watch: {

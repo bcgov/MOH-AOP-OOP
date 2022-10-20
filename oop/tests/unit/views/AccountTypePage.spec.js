@@ -1042,3 +1042,97 @@ describe("AccountTypePage.vue validateFields()", () => {
     expect(spyOnLogError).toHaveBeenCalled();
   });
 });
+
+describe("AccountTypePage.vue updateDependentPhns()", () => {
+  let wrapper = null;
+  let store = null;
+
+  afterEach(() => {
+    jest.resetModules();
+    jest.clearAllMocks();
+  });
+
+  it("changes the value of the given index of the dependentPhns array to the value given", async () => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+    });
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
+
+    wrapper.vm.updateDependentPhns("1234", 0);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("1234");
+  });
+
+  it("changes the value of the given index of the dependentPhns array to the value given (2)", async () => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+    });
+    expect(wrapper.vm.dependentPhns[1]["value"]).toEqual("default2");
+
+    wrapper.vm.updateDependentPhns("1234", 1);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.dependentPhns[1]["value"]).toEqual("1234");
+  });
+
+  it("does not break when passed a null index", async () => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+    });
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
+
+    wrapper.vm.updateDependentPhns("1234", null);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
+  });
+
+  it("does not break when passed a null phn", async () => {
+    let tempForm = cloneDeep(formTemplate.default);
+    tempForm.state = cloneDeep(storeTemplate3);
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = mount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+    });
+    expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
+
+    wrapper.vm.updateDependentPhns(null , 0);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.dependentPhns[0]["value"]).toBeNull();
+  });
+});
