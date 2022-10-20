@@ -304,7 +304,8 @@
                     v-if="v$.city.$dirty && v$.city.required.$invalid"
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} {{ cityAndProvinceVerb }} required.
+                    {{ cityAndProvincePlural }}
+                    {{ cityAndProvinceVerb }} required.
                   </div>
                   <div
                     class="text-danger"
@@ -315,8 +316,9 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} cannot include special characters except hyphen,
-                    period, apostrophe, number sign and blank space.
+                    {{ cityAndProvincePlural }} cannot include special
+                    characters except hyphen, period, apostrophe, number sign
+                    and blank space.
                   </div>
                   <div
                     class="text-danger"
@@ -327,7 +329,8 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} field exceeds the maximum number of allowable characters.
+                    {{ cityAndProvincePlural }} field exceeds the maximum number
+                    of allowable characters.
                   </div>
                 </div>
                 <!-- Province/State -->
@@ -608,7 +611,7 @@ const CAN_MAX_ADDRESS_LINES = 3;
 const US_ADDRESS_LINES = 3;
 const INTERNATIONAL_ADDRESS_LINES = 2;
 
-const addressLineOneValidator = (addressLines) => {
+export const addressLineOneValidator = (addressLines) => {
   if (addressLines && addressLines[0]) {
     if (addressLines[0].value && addressLines[0].value !== "") {
       return true;
@@ -617,11 +620,14 @@ const addressLineOneValidator = (addressLines) => {
   return false;
 };
 
-const addressLineOneSpecialCharacterValidator = (addressLines) => {
-  if (addressLines && addressLines[0]) {
-    if (addressLines[0].value && addressLines[0].value !== "") {
-      return specialCharacterValidator(addressLines[0].value);
-    }
+export const addressLineOneSpecialCharacterValidator = (addressLines) => {
+  if (
+    addressLines &&
+    addressLines[0] &&
+    addressLines[0].value &&
+    addressLines[0].value !== ""
+  ) {
+    return specialCharacterValidator(addressLines[0].value);
   }
   return false;
 };
@@ -996,7 +1002,11 @@ export default {
       };
     },
     isCityAndProvince() {
-      if (this.isNewAddressKnown === "Y" && this.country !== "Canada" && this.country !== "United States") {
+      if (
+        this.isNewAddressKnown === "Y" &&
+        this.country !== "Canada" &&
+        this.country !== "United States"
+      ) {
         return true;
       } else {
         return false;
@@ -1010,10 +1020,10 @@ export default {
       );
     },
     cityAndProvincePlural() {
-      return (this.isCityAndProvince() ? "City and province" : "City");
+      return this.isCityAndProvince() ? "City and province" : "City";
     },
     cityAndProvinceVerb() {
-      return (this.isCityAndProvince() ? "are" : "is");
+      return this.isCityAndProvince() ? "are" : "is";
     },
   },
   watch: {
