@@ -2,11 +2,12 @@ import { shallowMount } from "@vue/test-utils";
 import { createStore } from "vuex";
 import { createRouter, createWebHistory } from "vue-router";
 import { routeCollection } from "@/router/index";
-import Component from "@/views/MoveInfoPage.vue";
+import Component, {addressLineOneSpecialCharacterValidator} from "@/views/MoveInfoPage.vue";
 import pageStateService from "@/services/page-state-service";
 import logService from "@/services/log-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
+import { specialCharacterValidator } from "@/helpers/validators";
 
 const mutations = formTemplate.mutations;
 const actions = formTemplate.actions;
@@ -1053,5 +1054,31 @@ describe("MoveInfoPage.vue created()", () => {
       Math.max(wrapper.vm.getMinAddressLines(), wrapper.vm.addressLines.length)
     );
     expect(wrapper.vm.currNumOfAddressLines).toEqual(2);
+  });
+});
+
+describe("MoveInfoPage.vue addressLineOneSpecialCharacterValidator()", () => {
+  it("returns false when passed null", () => {
+    expect(addressLineOneSpecialCharacterValidator()).toEqual(false);
+  });
+
+  it("returns false when passed a non-array", () => {
+    expect(addressLineOneSpecialCharacterValidator("potato")).toEqual(false);
+  });
+
+  it("returns false when passed an array with no value", () => {
+    expect(addressLineOneSpecialCharacterValidator(["potato"])).toEqual(false);
+  });
+
+  it("returns false when passed an array with null value", () => {
+    expect(addressLineOneSpecialCharacterValidator([{value: ""}])).toEqual(false);
+  });
+
+  it("returns the value of specialCharacterValidator() when passed an array with present value (true)", () => {
+    expect(addressLineOneSpecialCharacterValidator([{value: "potato"}])).toEqual(specialCharacterValidator("potato"));
+  });
+
+  it("returns the value of specialCharacterValidator() when passed an array with present value (false)", () => {
+    expect(addressLineOneSpecialCharacterValidator([{value: "///"}])).toEqual(false);
   });
 });
