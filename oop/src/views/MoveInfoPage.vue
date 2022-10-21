@@ -637,20 +637,6 @@ export const specialCharacterWithCommaValidator = (value) => {
   return criteria.test(value);
 };
 
-export const addressLineArrayValidator = (addressLines) => {
-  if (addressLines.constructor !== Array) {
-    return false;
-  }
-  for (const line of addressLines) {
-    if (!specialCharacterValidator(line.value)) {
-      return true;
-    }
-    // Validates required address line fields
-    // return (value !== '' && value !== null);
-  }
-  return false;
-};
-
 export default {
   name: "MoveInfoPage",
   components: {
