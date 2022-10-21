@@ -2,7 +2,11 @@ import { shallowMount } from "@vue/test-utils";
 import { createStore } from "vuex";
 import { createRouter, createWebHistory } from "vue-router";
 import { routeCollection } from "@/router/index";
-import Component, {addressLineOneSpecialCharacterValidator} from "@/views/MoveInfoPage.vue";
+import Component, {
+  addressLineOneSpecialCharacterValidator,
+  specialCharacterWithCommaValidator,
+  addressLineArrayValidator,
+} from "@/views/MoveInfoPage.vue";
 import pageStateService from "@/services/page-state-service";
 import logService from "@/services/log-service";
 import formTemplate from "@/store/modules/form";
@@ -124,8 +128,8 @@ const router = createRouter({
 });
 
 const spyOnRouter = jest
-.spyOn(router, "push")
-.mockImplementation(() => Promise.resolve("pushed"));
+  .spyOn(router, "push")
+  .mockImplementation(() => Promise.resolve("pushed"));
 
 describe("MoveInfoPage.vue", () => {
   const dataTemplateCopy = cloneDeep(dataTemplate);
@@ -764,8 +768,6 @@ describe("MoveInfoPage.vue validateFields()", () => {
       data: () => dataTemplateCopy,
     });
 
-
-
     const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
 
     const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
@@ -1071,14 +1073,92 @@ describe("MoveInfoPage.vue addressLineOneSpecialCharacterValidator()", () => {
   });
 
   it("returns false when passed an array with null value", () => {
-    expect(addressLineOneSpecialCharacterValidator([{value: ""}])).toEqual(false);
+    expect(addressLineOneSpecialCharacterValidator([{ value: "" }])).toEqual(
+      false
+    );
   });
 
   it("returns the value of specialCharacterValidator() when passed an array with present value (true)", () => {
-    expect(addressLineOneSpecialCharacterValidator([{value: "potato"}])).toEqual(specialCharacterValidator("potato"));
+    expect(
+      addressLineOneSpecialCharacterValidator([{ value: "potato" }])
+    ).toEqual(specialCharacterValidator("potato"));
   });
 
   it("returns the value of specialCharacterValidator() when passed an array with present value (false)", () => {
-    expect(addressLineOneSpecialCharacterValidator([{value: "///"}])).toEqual(false);
+    expect(addressLineOneSpecialCharacterValidator([{ value: "///" }])).toEqual(
+      false
+    );
+  });
+});
+
+describe("MoveInfoPage.vue specialCharacterWithCommaValidator()", () => {
+  it("returns true when passed null", () => {
+    expect(specialCharacterWithCommaValidator()).toEqual(true);
+  });
+
+  it("returns true when passed string without special characters", () => {
+    expect(specialCharacterWithCommaValidator("potato")).toEqual(true);
+  });
+
+  it("returns true when passed string with a comma and other passing characters", () => {
+    expect(specialCharacterWithCommaValidator("potato,-.'#")).toEqual(true);
+  });
+
+  it("returns false when passed string with special characters", () => {
+    expect(specialCharacterWithCommaValidator("potato///")).toEqual(false);
+  });
+});
+
+describe("MoveInfoPage.vue updateAddressLine()", () => {
+  let wrapper;
+  let store;
+  let before;
+
+  let tempForm = cloneDeep(formTemplate);
+  tempForm.state = cloneDeep(dataTemplateFilled);
+  const dataTemplateCopy = cloneDeep(dataTemplate);
+
+  beforeEach(() => {
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = shallowMount(Component, {
+      global: {
+        plugins: [store],
+      },
+      data: () => {
+        return dataTemplateCopy;
+      },
+    });
+
+    before = wrapper.vm.addressLines[0].value;
+  });
+
+  it("updates value of given index with given string", () => {
+    wrapper.vm.updateAddressLine("potato", 0);
+    expect(wrapper.vm.addressLines[0].value).toEqual("potato");
+  });
+
+  it("doesn't update when passed null index", () => {
+    wrapper.vm.updateAddressLine("potato", null);
+    expect(wrapper.vm.addressLines[0].value).toEqual(before);
+  });
+
+  it("doesn't update when passed null string", () => {
+    wrapper.vm.updateAddressLine(null, 0);
+    expect(wrapper.vm.addressLines[0].value).toEqual(before);
+  });
+
+  it("doesn't update when passed non-integer index", () => {
+    wrapper.vm.updateAddressLine("potato", "potato");
+    expect(wrapper.vm.addressLines[0].value).toEqual(before);
+  });
+
+  it("doesn't update when passed non-string value", () => {
+    wrapper.vm.updateAddressLine(0, 0);
+    expect(wrapper.vm.addressLines[0].value).toEqual(before);
   });
 });
