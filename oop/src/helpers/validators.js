@@ -13,15 +13,6 @@ export const hasEmptyPostalCode = (value) => {
     return (value === null || value === '');
 };
 
-//invalidCharValidator is... not used anywhere that I can see?
-export const invalidCharValidator = (value) => {
-    if (!hasEmptyPostalCode(value)){
-        const criteria = RegExp('^(?=.*[a-zA-Z0-9])[a-zA-Z0-9 ]*$');
-        return criteria.test(value);
-    }
-    return true;
-};
-
 //specialCharacterValidator is used in MoveInfoPage and AddressLine
 export const specialCharacterValidator = (value) => {
     if (!value) {
