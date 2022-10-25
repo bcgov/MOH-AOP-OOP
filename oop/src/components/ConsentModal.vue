@@ -74,7 +74,7 @@ export default {
     window.addEventListener('keydown', this.handleKeyDown);
     document.body.classList.add('no-scroll');
   },
-  onUnmounted() {
+  unmounted() {
     window.removeEventListener('keydown', this.handleKeyDown);
     document.body.classList.remove('no-scroll');
   },
