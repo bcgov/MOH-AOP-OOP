@@ -245,16 +245,14 @@ describe("AccountTypePage.vue saveValues()", () => {
 
   it("changes dependentPhns in store", async () => {
     await wrapper.vm.$nextTick();
-    await wrapper.setData({ dependentPhns: [
-      {1: "updateddependentphns"}
-    ] });
+    await wrapper.setData({ dependentPhns: [{ 1: "updateddependentphns" }] });
     await wrapper.vm.$nextTick();
 
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([
-      {1: "updateddependentphns"}
+      { 1: "updateddependentphns" },
     ]);
   });
 });
@@ -626,8 +624,7 @@ describe("AccountTypePage.vue validateFields()", () => {
     config: {
       url: "/oop/api/oopIntegration/validateDep",
       method: "post",
-      data:
-        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9874084281","dependentPHNs":["9874084274"]}',
+      data: '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9874084281","dependentPHNs":["9874084274"]}',
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -703,8 +700,7 @@ describe("AccountTypePage.vue validateFields()", () => {
     config: {
       url: "/oop/api/oopIntegration/validateDep",
       method: "post",
-      data:
-        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
+      data: '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -780,8 +776,7 @@ describe("AccountTypePage.vue validateFields()", () => {
     config: {
       url: "/oop/api/oopIntegration/validateDep",
       method: "post",
-      data:
-        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
+      data: '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -857,8 +852,7 @@ describe("AccountTypePage.vue validateFields()", () => {
     config: {
       url: "/oop/api/oopIntegration/validateDep",
       method: "post",
-      data:
-        '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
+      data: '{"applicationUuid":"50e972ce-dc5d-4f16-ac28-2e579eab317b","phn":"9310134963","dependentPHNs":["9353166544"]}',
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
@@ -1131,7 +1125,7 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
 
-    wrapper.vm.updateDependentPhns(null , 0);
+    wrapper.vm.updateDependentPhns(null, 0);
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.dependentPhns[0]["value"]).toBeNull();
   });

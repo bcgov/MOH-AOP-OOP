@@ -38,7 +38,7 @@ const testDateArriveString = `${testDateArrive.toLocaleString("default", {
 const credentialName = "POIUYR";
 const credentialPHN = "9873 541 262";
 const credentialPhone = "2345678910";
-const credentialDependent = "9873 541 248"
+const credentialDependent = "9873 541 248";
 
 const testUrl = "http://localhost:8080/oop/";
 

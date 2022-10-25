@@ -11,9 +11,7 @@
     />
     <div
       class="text-danger"
-      v-if="
-        v$.phnData.phnValidator.$invalid && v$.phnData.$dirty
-      "
+      v-if="v$.phnData.phnValidator.$invalid && v$.phnData.$dirty"
       aria-live="assertive"
     >
       This is not a valid Personal Health Number.

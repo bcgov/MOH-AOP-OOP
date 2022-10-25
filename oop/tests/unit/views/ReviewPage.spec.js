@@ -115,8 +115,7 @@ const mockSubmit = {
   config: {
     url: "/oop/api/oopIntegration/submission",
     method: "post",
-    data:
-      '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
+    data: '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
@@ -195,8 +194,7 @@ const mockSubmitError1 = {
   config: {
     url: "/oop/api/oopIntegration/submission",
     method: "post",
-    data:
-      '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
+    data: '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
@@ -275,8 +273,7 @@ const mockSubmitError2 = {
   config: {
     url: "/oop/api/oopIntegration/submission",
     method: "post",
-    data:
-      '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
+    data: '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
@@ -355,8 +352,7 @@ const mockSubmitError3 = {
   config: {
     url: "/oop/api/oopIntegration/submission",
     method: "post",
-    data:
-      '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
+    data: '{"uuid":"6e42086b-5692-4faf-8389-6c8cd7f3a5df","submissionDate":"2021-08-05","outOfProvinceMove":{"lastName":"PALXD","phn":"9310134963","phoneNumber":null,"applicantRole":"AH","whoIsMoving":"AH_ONLY","allDependentsMoving":false,"dependentPHNs":[],"moveFromBCDate":"2021-08-20","arriveDestinationDate":"2021-08-21","isNewAddressKnown":false,"newAddress":{"country":"Canada","addressLines":[],"province":"AB","city":null,"postalCode":null}}}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",

@@ -13,7 +13,7 @@
     <div
       class="text-danger"
       v-if="
-      v$.addressLine.$dirty && 
+        v$.addressLine.$dirty &&
         v$.addressLine.specialCharacterValidator.$invalid
       "
       aria-live="assertive"
@@ -53,7 +53,7 @@ export default {
   validations() {
     const validations = {
       addressLine: {
-        specialCharacterValidator
+        specialCharacterValidator,
       },
     };
     return validations;

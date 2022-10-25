@@ -78,8 +78,10 @@ describe("Happy path", () => {
     // the following line of code should work but doesn't for some reason (Cypress bug?)
     // I left in a workaround directly below it, but if it ever starts working, data-cy is the preferred approach
     // cy.get("[data-cy='jurisdictionSelect']").select("Canada").type('{enter}', {force: true});
-    cy.get("[aria-label=Jurisdiction]").select("Canada").type('{enter}', {force: true});
-    cy.get("[data-cy=regionSelect]").select('Alberta').type('{enter}');
+    cy.get("[aria-label=Jurisdiction]")
+      .select("Canada")
+      .type("{enter}", { force: true });
+    cy.get("[data-cy=regionSelect]").select("Alberta").type("{enter}");
     cy.get("[data-cy=continueBar]").click();
 
     //Review page

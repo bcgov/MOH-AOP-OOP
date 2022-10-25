@@ -52,7 +52,6 @@ describe("ConsentModal.vue", () => {
   });
 });
 
-
 describe("ConsentModal.vue getFocusableEls()", () => {
   it("returns an array", () => {
     const wrapper = shallowMount(Component, {

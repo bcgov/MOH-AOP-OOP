@@ -71,8 +71,7 @@ const mockResponse = {
   config: {
     url: "/oop/api/oopIntegration/validatePhnName",
     method: "post",
-    data:
-      '{"applicationUuid":"89695849-cfc1-49ef-8bc9-552a71b891f1","lastName":"PICKET BOATXE","phn":"9353166544"}',
+    data: '{"applicationUuid":"89695849-cfc1-49ef-8bc9-552a71b891f1","lastName":"PICKET BOATXE","phn":"9353166544"}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
@@ -152,8 +151,7 @@ const mockResponsePhnDoesNotMatch = {
   config: {
     url: "/oop/api/oopIntegration/validatePhnName",
     method: "post",
-    data:
-      '{"applicationUuid":"f4c826ed-5c30-4127-9cc8-c4d4cf358d42","lastName":"aaaaaaaaaa","phn":"9353166544"}',
+    data: '{"applicationUuid":"f4c826ed-5c30-4127-9cc8-c4d4cf358d42","lastName":"aaaaaaaaaa","phn":"9353166544"}',
     headers: {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",

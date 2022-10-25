@@ -19,6 +19,8 @@ describe("StateInput.vue", () => {
     });
     wrapper.vm.onChange("PlaceholderRegion");
     expect(wrapper.emitted()).toBeTruthy();
-    expect(wrapper.emitted()).toEqual({'update:modelValue': [ [ 'PlaceholderRegion' ] ]});
+    expect(wrapper.emitted()).toEqual({
+      "update:modelValue": [["PlaceholderRegion"]],
+    });
   });
 });
