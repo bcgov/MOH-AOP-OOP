@@ -290,9 +290,9 @@
                 <div class="mt-3">
                   <Input
                     :label="
-                      country === 'Canada' || country === 'United States'
-                        ? 'City'
-                        : 'City, Province'
+                      isCityAndProvince()
+                        ? 'City, Province'
+                        : 'City'
                     "
                     className="mt-3"
                     class="city"
@@ -981,15 +981,16 @@ export default {
       this.city = null;
     },
     updateAddressLine(newLine, newIndex) {
-      this.addressLines[newIndex] = {
-        id: `address-line-${newIndex}`,
-        value: newLine,
-        isValid: true,
-      };
+      if (typeof newLine === 'string' && Number.isInteger(newIndex)) {
+        this.addressLines[newIndex] = {
+          id: `address-line-${newIndex}`,
+          value: newLine,
+          isValid: true,
+        } 
+      }
     },
     isCityAndProvince() {
       if (
-        this.isNewAddressKnown === "Y" &&
         this.country !== "Canada" &&
         this.country !== "United States"
       ) {
