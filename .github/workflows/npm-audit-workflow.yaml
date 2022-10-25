@@ -2,15 +2,15 @@ name: npm audit workflow
 on:
   push:
     branches:
-      - oop-vue-upgrade
+      - main
   workflow_dispatch:
     inputs:
       source_tag:
         description: "Source Image Tag"
         required: true
         default: "latest"
-  # schedule:
-  #   - cron: '0 0 1 * *'
+  schedule:
+    - cron: '0 0 1 * *'
 defaults:
   run:
     working-directory: ./oop
