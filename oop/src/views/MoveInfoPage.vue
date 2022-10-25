@@ -289,11 +289,7 @@
                 <!-- City -->
                 <div class="mt-3">
                   <Input
-                    :label="
-                      isCityAndProvince()
-                        ? 'City, Province'
-                        : 'City'
-                    "
+                    :label="isCityAndProvince() ? 'City, Province' : 'City'"
                     className="mt-3"
                     class="city"
                     v-model="city"
@@ -981,19 +977,16 @@ export default {
       this.city = null;
     },
     updateAddressLine(newLine, newIndex) {
-      if (typeof newLine === 'string' && Number.isInteger(newIndex)) {
+      if (typeof newLine === "string" && Number.isInteger(newIndex)) {
         this.addressLines[newIndex] = {
           id: `address-line-${newIndex}`,
           value: newLine,
           isValid: true,
-        } 
+        };
       }
     },
     isCityAndProvince() {
-      if (
-        this.country !== "Canada" &&
-        this.country !== "United States"
-      ) {
+      if (this.country !== "Canada" && this.country !== "United States") {
         return true;
       } else {
         return false;
