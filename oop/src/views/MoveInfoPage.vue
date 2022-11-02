@@ -787,9 +787,7 @@ export default {
             required,
             maxLength: maxLength(22),
           }),
-          (validations.province = {
-            required,
-          }),
+          (validations.province = {}),
           (validations.postalCode = {}),
           (validations.otherStreetAddress = {
             specialCharacterValidator,
@@ -831,6 +829,7 @@ export default {
   methods: {
     validateFields() {
       this.v$.$touch();
+      console.log("kumquat", this.v$)
       if (this.v$.$invalid) {
         scrollToError();
         return;
