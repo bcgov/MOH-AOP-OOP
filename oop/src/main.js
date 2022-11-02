@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import useVuelidate from '@vuelidate/core'
-import Vuex from 'vuex';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -45,7 +44,6 @@ const app = createApp(App)
   .use(store)
   .use(router)
   .use(useVuelidate)
-  .use(Vuex)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
 
