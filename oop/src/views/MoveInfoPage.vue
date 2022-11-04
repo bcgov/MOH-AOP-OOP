@@ -262,6 +262,7 @@
                       class="address-line"
                       id="address-line-1"
                       maxlength="25"
+                      data-cy="usaOtherStreetAddress"
                     />
                     <div
                       class="text-danger"
@@ -294,6 +295,7 @@
                     class="city"
                     v-model="city"
                     maxlength="22"
+                    data-cy="city"
                   />
                   <div
                     class="text-danger"
@@ -382,6 +384,7 @@
                     className="mt-3"
                     class="postal-code"
                     v-model="postalCode"
+                    cypressId="postalCode"
                   />
                   <div
                     class="text-danger"
@@ -415,27 +418,6 @@
                     Postal code entered must be outside of BC.
                   </div>
                 </div>
-                <div v-else-if="country === 'United States'">
-                  <Input
-                    label="Zip code (optional)"
-                    v-model="zipCode"
-                    class="address-line"
-                    className="mt-3"
-                    id="address-line-3"
-                    maxlength="6"
-                  />
-                  <div
-                    class="text-danger"
-                    v-if="
-                      v$.zipCode.$dirty &&
-                      v$.zipCode.specialCharacterValidator.$invalid
-                    "
-                    aria-live="assertive"
-                  >
-                    Zip code cannot include special characters except hyphen,
-                    period, apostrophe, number sign and blank space.
-                  </div>
-                </div>
                 <div v-else>
                   <!-- Any other jurisdiction-->
                   <Input
@@ -448,6 +430,7 @@
                     class="city"
                     v-model="zipCode"
                     maxlength="22"
+                    cypressId="zipCode"
                   />
                   <div
                     class="text-danger"

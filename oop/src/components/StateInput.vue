@@ -6,7 +6,8 @@
             name="state"
             class="form-control"
             v-model="state"
-            @change="onChange($event.target.value)">
+            @change="onChange($event.target.value)"
+            data-cy="state">
       <option :value="value" label="Select State" selected></option>
       <option v-for="(state, index) in statesList" :key="index" :value="state.abbreviation">{{state.name}}</option>
     </select>
