@@ -84,7 +84,11 @@ describe("Happy path", () => {
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
-    //Dates
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("A valid date of departure is required.");
+    cy.contains("A valid date of arrival is required.");
+    cy.contains("Please select one of the options above.");
+    // //Dates
     cy.get("[data-cy=moveFromBCDateCalendarIcon]").click();
     cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
     cy.get("[data-cy=moveFromBCDateChevronLeft]").click();
@@ -93,10 +97,163 @@ describe("Happy path", () => {
     cy.get("[data-cy=arriveDestinationDateChevronDoubleRight]").click();
     cy.get("[data-cy=arriveDestinationDateChevronRight]").click();
     cy.get("[data-cy=arriveDestinationDateDay0]").click();
-    //Address
+    // //Address
+    cy.get("[data-cy=isNewAddressKnownis-new-address-known-n]").click({
+      force: true,
+    });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Province is required. If you don't know which province you're moving to, please contact HIBC for more information about your MSP cancellation process."
+    );
+
+    cy.get("[data-cy=regionSelect]").select("British Columbia").type("{enter}");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Address entered must be outside of BC.");
+
+    cy.get("[aria-label=Jurisdiction]")
+      .select("Select a jurisdiction")
+      .type("{enter}", { force: true });
+    cy.contains("Jurisdiction is required.");
+
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-y]").click({
       force: true,
     });
+    cy.get("[data-cy=continueBar]").click();
+
+    // the following line of code should work but doesn't for some reason (Cypress bug?)
+    // I left in a workaround directly below it, but if it ever starts working, data-cy is the preferred approach
+    // cy.get("[data-cy='jurisdictionSelect']").select("Canada").type('{enter}', {force: true});
+    cy.get("[aria-label=Jurisdiction]")
+      .select("Select a jurisdiction")
+      .type("{enter}", { force: true });
+    cy.contains("Jurisdiction is required.");
+
+    //USA required fields check
+
+    cy.get("[aria-label=Jurisdiction]")
+      .select("United States")
+      .type("{enter}", { force: true });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Street address is required.");
+    cy.contains("City is required.");
+    cy.contains("State is required.");
+
+    //USA other checks
+    cy.get("[data-cy=usaOtherStreetAddress]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    cy.get("[data-cy=city]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "City cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    cy.get("[data-cy=zipCode]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    //USA ready to continue
+    cy.get("[data-cy=usaOtherStreetAddress]").clear();
+    cy.get("[data-cy=city]").clear();
+    cy.get("[data-cy=zipCode]").clear();
+    cy.get("[data-cy=usaOtherStreetAddress]").type("111");
+    cy.get("[data-cy=city]").type("Fakesville");
+    cy.get("[data-cy=state]")
+      .select("Alabama")
+      .type("{enter}", { force: true });
+
+    cy.get("[data-cy=continueBar]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/review");
+    });
+    cy.get("[data-cy=pageStepper2]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/move-info");
+    });
+
+    //Afghanistan
+
+    cy.get("[aria-label=Jurisdiction]")
+      .select("Afghanistan")
+      .type("{enter}", { force: true });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Street address is required.");
+    cy.contains("City and province are required.");
+
+    cy.get("[data-cy=usaOtherStreetAddress]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Street address cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    cy.get("[data-cy=city]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "City and province cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    cy.get("[data-cy=zipCode]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+
+    //Afghanistan ready to continue
+    cy.get("[data-cy=usaOtherStreetAddress]").clear();
+    cy.get("[data-cy=city]").clear();
+    cy.get("[data-cy=zipCode]").clear();
+    cy.get("[data-cy=usaOtherStreetAddress]").type("111");
+    cy.get("[data-cy=city]").type("Fakesville");
+
+    cy.get("[data-cy=continueBar]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/review");
+    });
+    cy.get("[data-cy=pageStepper2]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/move-info");
+    });
+
+    //Canada
+
+    cy.get("[aria-label=Jurisdiction]")
+      .select("Canada")
+      .type("{enter}", { force: true });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Address line 1 is required.");
+    cy.contains("City is required.");
+    cy.contains("Province is required.");
+    cy.contains("Postal code is required.");
+
+    cy.get("[data-cy=addressDoctorInput]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "Address cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+    cy.get("[data-cy=addressDoctorInput]").clear();
+
+    cy.get("[data-cy=city]").type("%%%");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains(
+      "City cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+    );
+    cy.get("[data-cy=city]").clear();
+
+    cy.get("[data-cy=regionSelect]").select("British Columbia").type("{enter}");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Address entered must be outside of BC.");
+
+    cy.get("[data-cy=postalCode]").type("A");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("The postal code you entered is not valid.");
+    cy.get("[data-cy=postalCode]").clear().type("V1A1A1");
+    cy.contains("Postal code entered must be outside of BC.");
+    cy.get("[data-cy=postalCode]").clear();
 
     cy.get("[data-cy=addressDoctorInput]").type("716 Yates Dr Milton");
     cy.get("[data-cy=addressDoctorInput0]").click();
@@ -122,15 +279,6 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains("MILTON");
     cy.get("[data-cy=ReviewTableElement]").contains("L9T 7R5");
 
-    //Test page stepper
-    cy.get("[data-cy=pageStepper2]").click();
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq("/oop/move-info");
-    });
-    cy.get("[data-cy=continueBar]").click();
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq("/oop/review");
-    });
     cy.get("[data-cy=continueBar]").click();
 
     //Submission Page
