@@ -8,6 +8,7 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 //To prevent code written in 2021 from failing in 2025 because the date is too far back,
 //this code pull the current year and adjusts it.
 //This is to hopefully increase the stability of the test
+const testYear = new Date().getFullYear() + 1;
 
 const testDateMove = new Date();
 testDateMove.setHours(5); //to prevent time zone bugs
@@ -88,6 +89,61 @@ describe("Happy path", () => {
     cy.contains("A valid date of departure is required.");
     cy.contains("A valid date of arrival is required.");
     cy.contains("Please select one of the options above.");
+
+    cy.get("select")
+      .find("option[data-cy=moveFromBCDateMonth0]")
+      .then(($el) => $el.get(0).setAttribute("selected", "selected"))
+      .parent()
+      .trigger("change");
+    cy.get("select")
+      .find("option[data-cy=arriveDestinationDateMonth0]")
+      .then(($el) => $el.get(0).setAttribute("selected", "selected"))
+      .parent()
+      .trigger("change");
+    cy.get("[data-cy=moveFromBCDateDay]").type("11");
+    cy.get("[data-cy=moveFromBCDateYear]").type("1111");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Date is too far in the past.");
+    cy.get("[data-cy=moveFromBCDateYear]").clear();
+
+    cy.get("[data-cy=arriveDestinationDateDay]").type("12");
+    cy.get("[data-cy=arriveDestinationDateYear]").type("1111");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Date is too far in the past.");
+    cy.get("[data-cy=arriveDestinationDateYear]").clear();
+
+    cy.get("[data-cy=moveFromBCDateYear]").clear().type("2222");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Date is too far in the future.")
+    cy.get("[data-cy=moveFromBCDateYear]").clear();
+
+    cy.get("[data-cy=arriveDestinationDateYear]").type("2222");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Date is too far in the future.")
+    cy.get("[data-cy=arriveDestinationDateYear]").clear();
+
+    cy.get("[data-cy=moveFromBCDateYear]").type(testYear);
+    cy.get("[data-cy=moveFromBCDateDay]").clear().type("35");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("A valid date of departure is required.")
+
+    cy.get("[data-cy=arriveDestinationDateYear]").type(testYear);
+    cy.get("[data-cy=arriveDestinationDateDay]").clear().type("35");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("A valid date of arrival is required.")
+
+    cy.get("[data-cy=moveFromBCDateDay]").clear().type("8");
+    cy.get("[data-cy=arriveDestinationDateDay]").clear().type("5");
+    cy.get("[data-cy=continueBar]").click();
+
+    cy.contains("Date of departure must be before the date of arrival.")
+    cy.contains("Date of arrival must be after the date of departure.")
+
+    cy.get("[data-cy=moveFromBCDateDay]").clear();
+    cy.get("[data-cy=arriveDestinationDateDay]").clear();
+    cy.get("[data-cy=moveFromBCDateYear]").clear();
+    cy.get("[data-cy=arriveDestinationDateYear]").clear();
+
     // //Dates
     cy.get("[data-cy=moveFromBCDateCalendarIcon]").click();
     cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
