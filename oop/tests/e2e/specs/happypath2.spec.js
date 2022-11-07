@@ -85,11 +85,13 @@ describe("Happy path", () => {
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
+    //Move Info-- Required checks
     cy.get("[data-cy=continueBar]").click();
     cy.contains("A valid date of departure is required.");
     cy.contains("A valid date of arrival is required.");
     cy.contains("Please select one of the options above.");
 
+    //Move Info-- Date validation checks
     cy.get("select")
       .find("option[data-cy=moveFromBCDateMonth0]")
       .then(($el) => $el.get(0).setAttribute("selected", "selected"))
@@ -144,7 +146,6 @@ describe("Happy path", () => {
     cy.get("[data-cy=moveFromBCDateYear]").clear();
     cy.get("[data-cy=arriveDestinationDateYear]").clear();
 
-    // //Dates
     cy.get("[data-cy=moveFromBCDateCalendarIcon]").click();
     cy.get("[data-cy=moveFromBCDateChevronDoubleLeft]").click();
     cy.get("[data-cy=moveFromBCDateChevronLeft]").click();
@@ -153,7 +154,8 @@ describe("Happy path", () => {
     cy.get("[data-cy=arriveDestinationDateChevronDoubleRight]").click();
     cy.get("[data-cy=arriveDestinationDateChevronRight]").click();
     cy.get("[data-cy=arriveDestinationDateDay0]").click();
-    // //Address
+
+    //Move Info-- Address checks
     cy.get("[data-cy=isNewAddressKnownis-new-address-known-n]").click({
       force: true,
     });
@@ -184,7 +186,7 @@ describe("Happy path", () => {
       .type("{enter}", { force: true });
     cy.contains("Jurisdiction is required.");
 
-    //USA required fields check
+    //Move Info-- Address checks (USA)
 
     cy.get("[aria-label=Jurisdiction]")
       .select("United States")
@@ -194,7 +196,6 @@ describe("Happy path", () => {
     cy.contains("City is required.");
     cy.contains("State is required.");
 
-    //USA other checks
     cy.get("[data-cy=usaOtherStreetAddress]").type("%%%");
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
@@ -232,7 +233,7 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
 
-    //Afghanistan
+    //Move Info-- Address checks (Other)
 
     cy.get("[aria-label=Jurisdiction]")
       .select("Afghanistan")
@@ -259,7 +260,7 @@ describe("Happy path", () => {
       "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
     );
 
-    //Afghanistan ready to continue
+    //Other ready to continue
     cy.get("[data-cy=usaOtherStreetAddress]").clear();
     cy.get("[data-cy=city]").clear();
     cy.get("[data-cy=zipCode]").clear();
@@ -275,7 +276,7 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/move-info");
     });
 
-    //Canada
+    //Move Info-- Address checks (Canada)
 
     cy.get("[aria-label=Jurisdiction]")
       .select("Canada")
