@@ -53,13 +53,13 @@
     <ContinueBar @continue='navigateToHomePage()'
                 buttonLabel='Submit a new form'
                 :isSticky='false'
-                class="continue-bar"/>
+                class="continue-bar"
+                cypressId="continueBar"/>
   </div>
 </template>
 
 <script>
 import PageContent from '../components/PageContent.vue';
-import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
 import { formatDate } from '../helpers/date';
 import pageStateService from '../services/page-state-service';
@@ -70,6 +70,9 @@ import {
 } from '../store/modules/form';
 import { scrollTo } from '../helpers/scroll';
 import logService from '../services/log-service';
+import {
+  ContinueBar
+} from 'common-lib-vue';
 
 export default {
   name: 'SubmissionPage',

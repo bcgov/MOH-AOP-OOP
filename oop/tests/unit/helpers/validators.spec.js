@@ -3,7 +3,6 @@ import {
   postalCodeValidator,
   nonBCValidator,
   hasEmptyPostalCode,
-  invalidCharValidator,
   nonBCPostalCodeValidator,
   canadaPostalCodeLengthValidator,
 } from "@/helpers/validators.js";
@@ -108,20 +107,6 @@ describe("Helper validators.js hasEmptyPostalCode()", () => {
     const result = hasEmptyPostalCode(undefined);
     expect(result).toEqual(false);
   });
-});
-
-describe("Helper validators.js invalidCharValidator()", () => {
-  it("returns true if passed null value", () => {
-    const result = invalidCharValidator(null);
-    expect(result).toEqual(true);
-  });
-
-  it("returns true if passed empty string", () => {
-    const result = invalidCharValidator("");
-    expect(result).toEqual(true);
-  });
-
-  //function is not currently in use, so further tests were not written
 });
 
 describe("Helper validators.js nonBCPostalCodeValidator()", () => {

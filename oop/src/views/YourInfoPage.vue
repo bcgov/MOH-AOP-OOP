@@ -15,10 +15,10 @@
                   @input="handleLastNameInputChange"
                   :inputStyle="lastNameInputStyle"/>
             <div class="text-danger"
-                v-if="$v.lastName.$dirty && !$v.lastName.required"
+                v-if="v$.lastName.$dirty && v$.lastName.required.$invalid"
                 aria-live="assertive">Last name is required.</div>
             <div class="text-danger"
-                v-if="$v.lastName.$dirty && $v.lastName.required && !$v.lastName.nameValidation"
+                v-if="v$.lastName.$dirty && !v$.lastName.required.$invalid && v$.lastName.nameValidation.$invalid"
                 aria-live="assertive">Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.</div>
             <PhnInput label='Personal Health Number (PHN)'
                       id="phn"
@@ -30,10 +30,10 @@
                       ref="phnInput"
                       :inputStyle='phnInputStyle' />
             <div class="text-danger"
-                v-if="$v.phn.$dirty && !$v.phn.required"
+                v-if="v$.phn.$dirty && v$.phn.required.$invalid"
                 aria-live="assertive">Personal Health Number is required.</div>
             <div class="text-danger"
-                v-if="$v.phn.$dirty && $v.phn.required && !$v.phn.phnValidation"
+                v-if="v$.phn.$dirty && !v$.phn.required.$invalid && v$.phn.phnValidation.$invalid"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
                 v-if="isValidationCode1Shown || isValidationCode2Shown"
@@ -47,7 +47,7 @@
                               class='phone-number'
                               :inputStyle='phoneInputStyle' />
             <div class="text-danger"
-                v-if="$v.phn.$dirty && !$v.phone.phoneValidator"
+                v-if="v$.phn.$dirty && v$.phone.phoneValidator.$invalid"
                 aria-live="assertive">The phone number you entered is not valid.</div>
             <br/>
 
@@ -76,7 +76,8 @@
       </div>
     </PageContent>
     <ContinueBar @continue='nextPage()'
-                 :hasLoader='isLoading'/>
+                 :hasLoader='isLoading'
+                 cypressId="continueBar"/>
   </div>
 </template>
 
@@ -91,16 +92,17 @@ import {
   scrollToError,
   getTopScrollPosition
 } from '../helpers/scroll';
-import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
 import {
+  ContinueBar,
   Input,
   PhnInput,
   PhoneNumberInput,
   phnValidator
 } from 'common-lib-vue';
-import { required } from 'vuelidate/lib/validators';
+import useVuelidate from "@vuelidate/core";
+import { required } from '@vuelidate/validators';
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
@@ -164,9 +166,10 @@ export default {
       phoneInputStyle: {
         width: '160px',
         maxWidth: '100%',
-      }
+      },
     }
   },
+  setup () { return { v$: useVuelidate() } },
   created() {
     this.lastName = this.$store.state.form.lastName;
     this.phn = this.$store.state.form.phn;
@@ -199,8 +202,8 @@ export default {
       this.isValidationCode2Shown = false;
       this.isSystemUnavailable = false;
 
-      this.$v.$touch()
-      if (this.$v.$invalid) {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
         scrollToError();
         return;
       }
@@ -295,10 +298,11 @@ export default {
     handlePhnInputChange() {
       this.isValidationCode1Shown = false;
       this.isValidationCode2Shown = false;
-      // Refocus on element when backspacing on PHN. This is a bug with the 'vue-text-mask', where it loses focus when triggering a Vue rerender caused by an 'input' event.
-      setTimeout(() => {
-        this.$refs.phnInput.focus();
-      }, 0);
+      // Refocus on element when backspacing on PHN. A Vue2 bug caused issues with the 'vue-text-mask', where it loses focus when triggering a Vue rerender caused by an 'input' event. 
+      // Issue seems to be resolved in Vue 3, but I've left the code here in case it ever comes back.
+      // setTimeout(() => {
+      //   this.$refs.phnInput.focus();
+      // }, 0);
     }
   },
   // Required in order to block back navigation.

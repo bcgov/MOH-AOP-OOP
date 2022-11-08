@@ -1,17 +1,12 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import Vuelidate from "vuelidate";
+import { mount } from "@vue/test-utils";
 import Component from "@/views/MaintenancePage.vue";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 describe("MaintenancePage.vue", () => {
   it("renders", () => {
     const wrapper = mount(Component, {
-      localVue,
+      global: {
+        plugins: [],
+      },
     });
     expect(wrapper.element).toBeDefined();
   });

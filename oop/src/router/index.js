@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter,  createWebHistory } from 'vue-router';
 import { routes } from './routes';
 import pageStateService from '../services/page-state-service';
 import AccountTypePage from '../views/AccountTypePage.vue';
@@ -11,10 +10,9 @@ import SubmissionPage from '../views/SubmissionPage.vue';
 import SubmissionErrorPage from '../views/SubmissionErrorPage.vue';
 import MaintenancePage from '../views/MaintenancePage.vue';
 
-Vue.use(VueRouter);
 pageStateService.importPageRoutes(routes);
 
-const routeCollection = [
+export const routeCollection = [
   {
     path: routes.HOME_PAGE.path,
     name: routes.HOME_PAGE.name,
@@ -57,9 +55,10 @@ const routeCollection = [
   }
 ];
 
-const router = new VueRouter({
+const router = createRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
+  history: createWebHistory(process.env.BASE_URL),
   routes: routeCollection
 });
 

@@ -34,7 +34,7 @@
         <p>10-15 minutes</p>
       </div>
     </PageContent>
-    <ContinueBar @continue='nextPage()'/>
+    <ContinueBar @continue='nextPage()' cypressId="continueBar"/>
   </div>
 </template>
 
@@ -54,9 +54,11 @@ import {
   scrollTo,
   getTopScrollPosition
 } from '../helpers/scroll';
-import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import ConsentModal from '../components/ConsentModal.vue';
+import {
+  ContinueBar
+} from 'common-lib-vue';
 import { v4 as uuidv4 } from 'uuid';
 import {
   MODULE_NAME as formModule,

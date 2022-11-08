@@ -6,8 +6,9 @@
             name="state"
             class="form-control"
             v-model="state"
-            @input="inputHandler($event.target.value)">
-      <option :value="null" label="Select State" selected></option>
+            @change="onChange($event.target.value)"
+            data-cy="state">
+      <option :value="value" label="Select State" selected></option>
       <option v-for="(state, index) in statesList" :key="index" :value="state.abbreviation">{{state.name}}</option>
     </select>
   </div>
@@ -42,13 +43,14 @@ export default {
       statesList: US_STATES,
     }
   },
+  emits: ['update:modelValue'],
   created() {
     this.state = this.value;
   },
   methods: {
-    inputHandler(value) {
-      this.$emit('input', value);
-    }
+    onChange(modelValue) {
+      this.$emit('update:modelValue', modelValue);
+    },
   }
 }
 </script>

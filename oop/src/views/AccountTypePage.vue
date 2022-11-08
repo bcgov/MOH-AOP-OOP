@@ -16,7 +16,7 @@
                   cypressId="whoIsMoving"
                   name='personMoving' />
             <div class="text-danger"
-                v-if="$v.personMoving.$dirty && !$v.personMoving.required"
+                v-if="v$.personMoving.$dirty && v$.personMoving.required.$invalid"
                 aria-live="assertive">This field is required.</div>
 
             <div v-if='personMoving === "AH_DEP"'
@@ -27,7 +27,7 @@
                     cypressId="isAllDependents"
                     name='isAllDependentsMoving' />
               <div class="text-danger"
-                  v-if="$v.isAllDependentsMoving.$dirty && !$v.isAllDependentsMoving.required"
+                  v-if="v$.isAllDependentsMoving.$dirty && v$.isAllDependentsMoving.required.$invalid"
                   aria-live="assertive">Please select one of the options above.</div>
             </div>
 
@@ -38,28 +38,24 @@
                 <div>
                   <div class='mb-3'>
                     <div v-for="(phn, index) in dependentPhns"
-                        :key='index'
-                        :set="v = $v.dependentPhns.$each[index]"
-                        class='mt-3'>
-                      <PhnInput :label='"PHN: Dependent " + (index + 1)'
-                                :id='"phn" + index'
-                                v-model='phn.value'
-                                class='phn-input'/>
-                      <div class="text-danger"
-                          v-if="v.value.$dirty && !v.value.phnValidator"
-                          aria-live="assertive">This is not a valid Personal Health Number.</div>
-                      <div class="text-danger"
-                          v-if="v.value.$dirty && index === 0 && !$v.dependentPhns.atLeastOnePhnValidator"
-                          aria-live="assertive">Dependent Personal Health Number is required.</div>
-                    </div>
+                      :key='index'
+                      class='mt-3'>
+                        <PhnInputWrapper
+                        :childIndex='index'
+                        :childPhn='phn'
+                        @updatePhn="updateDependentPhns"
+                        />
                   </div>
+                  <div class="text-danger" v-if="v$.dependentPhns.$dirty && v$.dependentPhns.atLeastOnePhnValidator.$invalid"
+                      aria-live="assertive">Dependent Personal Health Number is required.</div>
+                    </div>
                   <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
                     <Button label='+ Add dependent'
                             @click='addDependentField()'
                             className='mb-3'/>
                   </div>
                   <div class="text-danger"
-                      v-if="$v.dependentPhns.$dirty && !$v.dependentPhns.phnIsUniqueValidator"
+                      v-if="v$.dependentPhns.$dirty && v$.dependentPhns.phnIsUniqueValidator.$invalid"
                       aria-live="assertive">Personal Health Numbers must be unique.
                   </div>
                   <div class="text-danger"
@@ -94,7 +90,7 @@
         </div>
       </div>
     </PageContent>
-    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" />
+    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" cypressId="continueBar" />
   </div>
 </template>
 
@@ -110,13 +106,11 @@ import {
   scrollToElement,
   getTopScrollPosition
 } from '../helpers/scroll';
-import ContinueBar from '../components/ContinueBar.vue';
 import PageContent from '../components/PageContent.vue';
 import {
   Button,
-  PhnInput,
+  ContinueBar,
   Radio,
-  phnValidator
 } from 'common-lib-vue';
 import {
   MODULE_NAME as formModule,
@@ -126,17 +120,12 @@ import {
   SET_IS_ALL_DEPENDENTS_MOVING,
   SET_DEPENDENT_PHNS,
 } from '../store/modules/form';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
 import TipBox from '../components/TipBox.vue';
-
-const localPhnValidator = (value) => {
-  if (!value) {
-    return true;
-  }
-  return phnValidator(value);
-};
+import useVuelidate from "@vuelidate/core";
+import PhnInputWrapper from '../components/PhnInputWrapper.vue';
 
 const atLeastOnePhnValidator = (phns) => {
   if (phns) {
@@ -178,9 +167,9 @@ export default {
     Button,
     ContinueBar,
     PageContent,
-    PhnInput,
     Radio,
-    TipBox
+    TipBox,
+    PhnInputWrapper
   },
   data: () => {
     return {
@@ -223,6 +212,7 @@ export default {
       ]
     }
   },
+  setup () { return { v$: useVuelidate() } },
   created() {
     this.accountType = this.$store.state.form.accountType;
     this.personMoving = this.$store.state.form.personMoving;
@@ -265,11 +255,6 @@ export default {
       }
       if (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N') {
           validations.dependentPhns = {
-            $each: {
-              value: {
-                phnValidator: localPhnValidator,
-              },
-            },
             atLeastOnePhnValidator,
             phnIsUniqueValidator,
           };
@@ -282,8 +267,8 @@ export default {
       this.isServerValidationErrorShown = false;
       this.isSystemUnavailable = false;
 
-      this.$v.$touch()
-      if (this.$v.$invalid) {
+      this.v$.$touch()
+      if (this.v$.$invalid) {
         scrollToError();
         return;
       }
@@ -389,8 +374,13 @@ export default {
           isValid: true,
         }
       }
+    },
+    updateDependentPhns(newPhn, newIndex) {
+      if ( this.dependentPhns[newIndex]) {
+        return this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
+      }
     }
-  },
+  },   
   watch: {
     accountType(newValue) {
       if (this.isPageLoaded) {

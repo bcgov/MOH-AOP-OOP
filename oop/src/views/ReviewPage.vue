@@ -14,13 +14,13 @@
     </PageContent>
     <ContinueBar @continue='submitForm()'
                 :hasLoader='isLoading'
-                buttonLabel='Submit'/>
+                buttonLabel='Submit'
+                cypressId="continueBar"/>
   </div>
 </template>
 
 <script>
 import PageContent from '../components/PageContent.vue';
-import ContinueBar from '../components/ContinueBar.vue';
 import ReviewTableList from '../components/ReviewTableList.vue';
 import pageStateService from '../services/page-state-service';
 import {
@@ -40,6 +40,9 @@ import {
 } from '../store/modules/form';
 import apiService from '../services/api-service';
 import logService from '../services/log-service';
+import {
+  ContinueBar
+} from 'common-lib-vue';
 
 export default {
   name: 'ReviewPage',

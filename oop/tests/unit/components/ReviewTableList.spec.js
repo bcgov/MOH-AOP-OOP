@@ -1,15 +1,9 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
+import { mount } from "@vue/test-utils";
 import { cloneDeep } from "lodash";
-import Vuelidate from "vuelidate";
+import { createStore } from "vuex";
 import Component from "@/components/ReviewTableList.vue";
 import { formatDate } from "@/helpers/date";
 import * as formTemplate from "@/store/modules/form";
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-Vue.use(Vuelidate);
 
 const dummyData = {
   lastName: "PICKET BOATXE",
@@ -252,15 +246,16 @@ const storeTemplate = {
 
 describe("ReviewTableList.vue", () => {
   it("renders", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: storeTemplate,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     expect(wrapper.element).toBeDefined();
@@ -271,7 +266,7 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: storeTemplate,
       },
@@ -280,8 +275,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
   it("returns an array with three elements in it", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
     const result = wrapper.vm.yourInfoTableData;
 
@@ -291,8 +287,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
   it("returns the last name from the VueX store if it is present", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -310,8 +307,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
   it("returns the PHN from the VueX store if it is present", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -327,8 +325,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
 
   it("returns the Phone number from the VueX store if it is present", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -347,7 +346,7 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: storeTemplateNull,
       },
@@ -356,8 +355,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
   it("returns an array with three elements in it", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
     const result = wrapper.vm.yourInfoTableData;
 
@@ -367,8 +367,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
   it("returns an array containing a null last name", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -387,8 +388,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
   it("returns an array containing a null PHN", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -405,8 +407,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
   it("returns an array containing a null phone number", async () => {
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.yourInfoTableData;
@@ -424,15 +427,16 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
 
 describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   it("returns an array", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: storeTemplate,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
     const result = wrapper.vm.accountTypeTableData;
 
@@ -440,15 +444,16 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
   });
 
   it("returns an array containing who is moving", async () => {
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: storeTemplate,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.accountTypeTableData;
@@ -466,15 +471,16 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const tempForm = cloneDeep(storeTemplate);
     tempForm.state = cloneDeep(dummyDataDep);
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.accountTypeTableData;
@@ -501,15 +507,16 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const tempForm = cloneDeep(storeTemplate);
     tempForm.state = cloneDeep(dummyDataDepOnly);
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.accountTypeTableData;
@@ -536,15 +543,16 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const tempForm = cloneDeep(storeTemplate);
     tempForm.state = cloneDeep(dummyDataDepsMoving);
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     const wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
 
     const result = wrapper.vm.accountTypeTableData;
@@ -573,15 +581,16 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
   let wrapper;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: storeTemplate,
       },
     });
 
     wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
   });
 
@@ -703,15 +712,16 @@ describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
     const tempForm = cloneDeep(storeTemplate);
     tempForm.state = cloneDeep(dummyDataUSA);
 
-    const store = new Vuex.Store({
+    const store = createStore({
       modules: {
         form: tempForm,
       },
     });
 
     wrapper = mount(Component, {
-      localVue,
-      store,
+      global: {
+        plugins: [store],
+      },
     });
   });
 

@@ -1,21 +1,39 @@
-import { mount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import Component from "@/App.vue";
+import { createStore } from "vuex";
+import * as formTemplate from "@/store/modules/form";
+import { cloneDeep } from "lodash";
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
+
+let tempForm = cloneDeep(formTemplate.default);
+let store = createStore({
+  modules: {
+    form: tempForm,
+  },
+});
 
 describe("App.vue", () => {
   it("renders", () => {
-    const wrapper = mount(Component, {
-      localVue,
-      router,
+    const wrapper = shallowMount(Component, {
+      global: {
+        plugins: [store, router],
+      },
+      data: () => {
+        return {
+          focusableEls: [],
+          focusedEl: null,
+          captchaAPIBasePath: "/oop/api/captcha",
+          applicationUuid: "111",
+          isCaptchaValid: false,
+          isTermsAccepted: false,
+        };
+      },
     });
     expect(wrapper.element).toBeDefined();
   });

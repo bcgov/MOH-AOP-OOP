@@ -1,7 +1,7 @@
 <template>
   <div :class="className">
     <label :for="id">{{label}}</label><br/>
-    <region-select 
+    <select 
       :id="id" 
       aria-label='Region'
       name="region"
@@ -16,9 +16,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import vueCountryRegionSelect from 'vue-country-region-select';
-Vue.use(vueCountryRegionSelect);
 
 export const getProvinceNameFromCode = (provinceCode) => {
   const provinceMap = {

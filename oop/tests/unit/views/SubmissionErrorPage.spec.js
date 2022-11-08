@@ -1,8 +1,7 @@
-import { shallowMount, createLocalVue } from "@vue/test-utils";
-import Vuex from "vuex";
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Vuelidate from "vuelidate";
+import { shallowMount } from "@vue/test-utils";
+import { createStore } from "vuex";
+import { createRouter, createWebHistory } from "vue-router";
+import { routeCollection } from "@/router/index";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionErrorPage.vue";
@@ -18,27 +17,25 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-Vue.use(Vuelidate);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-const router = new VueRouter();
+const router = createRouter({
+  history: createWebHistory(),
+  routes: routeCollection,
+});
 
 describe("SubmissionErrorPage.vue", () => {
   let wrapper;
   let store;
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         form: cloneDeep(formTemplate),
       },
     });
     wrapper = shallowMount(Component, {
-      localVue,
-      store,
-      router,
+      global: {
+        plugins: [store, router],
+      },
     });
   });
 
