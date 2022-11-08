@@ -812,7 +812,6 @@ export default {
   methods: {
     validateFields() {
       this.v$.$touch();
-      console.log("kumquat", this.v$)
       if (this.v$.$invalid) {
         scrollToError();
         return;
