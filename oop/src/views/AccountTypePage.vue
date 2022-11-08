@@ -16,7 +16,7 @@
                   cypressId="whoIsMoving"
                   name='personMoving' />
             <div class="text-danger"
-                v-if="v$.personMoving.$dirty && !v$.personMoving.required"
+                v-if="v$.personMoving.$dirty && v$.personMoving.required.$invalid"
                 aria-live="assertive">This field is required.</div>
 
             <div v-if='personMoving === "AH_DEP"'
@@ -27,7 +27,7 @@
                     cypressId="isAllDependents"
                     name='isAllDependentsMoving' />
               <div class="text-danger"
-                  v-if="v$.isAllDependentsMoving.$dirty && !v$.isAllDependentsMoving.required"
+                  v-if="v$.isAllDependentsMoving.$dirty && v$.isAllDependentsMoving.required.$invalid"
                   aria-live="assertive">Please select one of the options above.</div>
             </div>
 
