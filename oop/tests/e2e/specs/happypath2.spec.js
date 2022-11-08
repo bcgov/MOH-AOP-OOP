@@ -63,6 +63,31 @@ describe("Happy path", () => {
       expect(loc.href).to.eq("http://localhost:8080/oop/your-info");
       expect(loc.pathname).to.eq("/oop/your-info");
     });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Last name is required.");
+    cy.contains("Personal Health Number is required.");
+
+    cy.get("[data-cy=yourInfoLastName]").type("111");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.");
+    cy.get("[data-cy=yourInfoLastName]").clear();
+
+    cy.get("[data-cy=yourInfoPhn]").type("111");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("This is not a valid Personal Health Number.");
+    cy.get("[data-cy=yourInfoPhn]").clear();
+
+    cy.get("[data-cy=yourInfoPhone]").type("111");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("The phone number you entered is not valid.");
+    cy.get("[data-cy=yourInfoPhone]").clear();
+
+    cy.get("[data-cy=yourInfoLastName]").type("AAA");
+    cy.get("[data-cy=yourInfoPhn]").type("9999 999 998");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("The last name and/or PHN you entered does not match our records.");
+    cy.get("[data-cy=yourInfoLastName]").clear();
+    cy.get("[data-cy=yourInfoPhn]").clear();
 
     cy.get("[data-cy=yourInfoLastName]").type(credentialName);
     cy.get("[data-cy=yourInfoPhn]").type(credentialPHN);
@@ -73,11 +98,24 @@ describe("Happy path", () => {
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/oop/account-type");
     });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("This field is required.");
     cy.get("[data-cy=whoIsMovingperson-moving-ahad]").click({ force: true });
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Please select one of the options above.");
     cy.get("[data-cy=isAllDependentsis-all-dependents-moving-n]").click({
       force: true,
     });
-    cy.get("[data-cy=phn0]").type(credentialDependent);
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Dependent Personal Health Number is required.");
+    cy.get("[data-cy=phn0]").type("9999 999 998");
+    cy.get("[data-cy=phn1]").type("9999 999 998");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("Personal Health Numbers must be unique.");
+    cy.get("[data-cy=phn1]").clear();
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("At least one of the Personal Health Numbers does not match our records.");
+    cy.get("[data-cy=phn0]").clear().type(credentialDependent);
 
     cy.get("[data-cy=continueBar]").click();
 

@@ -7,7 +7,7 @@
       v-model="phnData"
       @input="handleFocus"
       @blur="handleBlur"
-      :data-cy="'phn' + childIndex"
+      :cypressId="'phn' + childIndex"
     />
     <div
       class="text-danger"
