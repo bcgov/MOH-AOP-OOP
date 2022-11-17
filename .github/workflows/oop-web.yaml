@@ -25,9 +25,8 @@ jobs:
         with:
           source: "mirror"
           oc: "latest"
-      - name: Echo output of installer
-        if: always()
-        run: echo "${{ steps.install_clients.outputs.installed }}"
+      - name: Check that tools-installer works
+        run: oc version
 
       - name: Unit tests
         run: npm run test
