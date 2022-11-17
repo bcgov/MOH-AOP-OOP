@@ -81,9 +81,10 @@ jobs:
           oc: "latest"
       - name: Generate/Tag Artifact Build
         run: |
+          ls
           'oc version'
-          'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
-          'oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev'
+        # 'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
+        # 'oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev'
       # - name: Image Build
       #   env:
       #     NAMESPACE: a3c641-tools
