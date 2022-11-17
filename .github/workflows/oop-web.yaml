@@ -27,8 +27,8 @@ jobs:
       #     oc: "latest"
       # - name: Check that tools-installer works
       #   run: oc version
-      - run: |
-        ls
+      - name: Check directory
+        run: ls
 
       - name: Unit tests
         run: npm run test
