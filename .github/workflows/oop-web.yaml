@@ -15,7 +15,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run:
+      - run: |
         ls
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
