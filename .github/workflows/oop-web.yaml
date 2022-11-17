@@ -76,7 +76,7 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Artifact Build
-      - uses: redhat-actions/openshift-tools-installer@v1
+        uses: redhat-actions/openshift-tools-installer@v1
         with:
           source: "mirror"
           oc: "latest"
@@ -95,7 +95,7 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Image Build
-      - uses: redhat-actions/openshift-tools-installer@v1
+        uses: redhat-actions/openshift-tools-installer@v1
         with:
           source: "mirror"
           oc: "latest"
