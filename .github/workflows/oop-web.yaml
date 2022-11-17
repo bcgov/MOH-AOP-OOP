@@ -15,8 +15,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-        ls
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
@@ -29,6 +27,8 @@ jobs:
       #     oc: "latest"
       # - name: Check that tools-installer works
       #   run: oc version
+      - run: |
+        ls
 
       - name: Unit tests
         run: npm run test
