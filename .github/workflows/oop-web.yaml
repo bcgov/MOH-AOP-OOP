@@ -21,12 +21,12 @@ jobs:
           node-version: "12"
       - name: Install dependencies
         run: npm ci
-      - uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          source: "mirror"
-          oc: "latest"
-      - name: Check that tools-installer works
-        run: oc version
+      # - uses: redhat-actions/openshift-tools-installer@v1
+      #   with:
+      #     source: "mirror"
+      #     oc: "latest"
+      # - name: Check that tools-installer works
+      #   run: oc version
 
       - name: Unit tests
         run: npm run test
@@ -76,6 +76,10 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Artifact Build
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: "mirror"
+          oc: "latest"
         run: |
           'oc version'
           'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
@@ -91,6 +95,10 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Image Build
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: "mirror"
+          oc: "latest"
         run: |
           'oc version'
           'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
