@@ -76,7 +76,6 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Artifact Build
-        shell: bash
         run: |
           'oc version'
           'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
@@ -92,7 +91,6 @@ jobs:
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Generate/Tag Image Build
-        shell: bash
         run: |
           'oc version'
           'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
