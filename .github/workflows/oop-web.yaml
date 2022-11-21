@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./oop
+        working-directory: ../../../
     needs: [test, build]
     steps:
       # - name: Artifact Build
