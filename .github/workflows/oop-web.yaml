@@ -8,12 +8,12 @@ on:
       - "oop/src/**/*.scss"
       - "oop/package*.json"
   workflow_dispatch:
-defaults:
-  run:
-    working-directory: ./oop
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+    run:
+      working-directory: ./oop
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
@@ -28,7 +28,7 @@ jobs:
       # - name: Check that tools-installer works
       #   run: oc version
       - name: Check directory
-        run: ls
+        run: pwd
 
       - name: Unit tests
         run: npm run test
@@ -38,6 +38,9 @@ jobs:
       #   run: npm run test:schema
   build:
     runs-on: ubuntu-latest
+    defaults:
+    run:
+      working-directory: ./oop
     needs: [test]
     strategy:
       matrix:
@@ -86,7 +89,7 @@ jobs:
           oc: "latest"
       - name: Generate/Tag Artifact Build
         run: |
-          ls
+          pwd
           'oc version'
         # 'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
         # 'oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev'
