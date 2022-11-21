@@ -13,9 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-          working-directory: ../../../
-    run:
-      working-directory: ./oop
+        working-directory: ./oop
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
