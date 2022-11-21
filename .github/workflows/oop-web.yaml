@@ -12,6 +12,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     defaults:
+      run:
+          working-directory: ../../../
     run:
       working-directory: ./oop
     steps:
