@@ -70,11 +70,11 @@ jobs:
   image-build:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        # working-directory: ../../../
-        working-directory: ./oop
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     working-directory: ../../../
+    #     working-directory: ./oop
     needs: [test, build]
     steps:
       # - name: Artifact Build
