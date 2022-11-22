@@ -97,7 +97,7 @@ jobs:
       - run: |
           pwd
           ls
-          'oc version'
+        # 'oc version'
         # 'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
         # 'oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev'
       # - name: Image Build
@@ -116,6 +116,8 @@ jobs:
           source: "mirror"
           oc: "latest"
       - run: |
+          pwd
+          ls
           'oc version'
           'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
           'oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
