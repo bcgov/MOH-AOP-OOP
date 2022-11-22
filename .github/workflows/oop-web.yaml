@@ -105,14 +105,14 @@ jobs:
       #     version: "latest"
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-      - name: Generate/Tag Artifact Build
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          source: "mirror"
-          oc: "latest"
-      - run: |
-          pwd
-          ls
+      # - name: Generate/Tag Artifact Build
+      #   uses: redhat-actions/openshift-tools-installer@v1
+      #   with:
+      #     source: "mirror"
+      #     oc: "latest"
+      # - run: |
+      #     pwd
+      #     ls
         # 'oc version'
         # 'oc start-build oop-web-artifact-build -n a3c641-tools --follow'
         # 'oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev'
@@ -126,11 +126,11 @@ jobs:
       #     version: "latest"
       #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
       #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-      - name: Generate/Tag Image Build
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          source: "mirror"
-          oc: "latest"
+      # - name: Generate/Tag Image Build
+      #   uses: redhat-actions/openshift-tools-installer@v1
+      #   with:
+      #     source: "mirror"
+      #     oc: "latest"
       - run: |
           pwd
           ls
