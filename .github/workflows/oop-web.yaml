@@ -22,16 +22,16 @@ jobs:
           node-version: "12"
       - name: Install dependencies
         run: npm ci
-      - uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          source: "mirror"
-          oc: "latest"
-      - name: Check that tools-installer works
-        run: oc version
-      - name: Check directory
-        run: | 
-          pwd
-          ls
+      # - uses: redhat-actions/openshift-tools-installer@v1
+      #   with:
+      #     source: "mirror"
+      #     oc: "latest"
+      # - name: Check that tools-installer works
+      #   run: oc version
+      # - name: Check directory
+      #   run: | 
+      #     pwd
+      #     ls
 
       - name: Unit tests
         run: npm run test
@@ -63,6 +63,16 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
+      - uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: "mirror"
+          oc: "latest"
+      - name: Check that tools-installer works (2)
+        run: oc version
+      - name: Check directory
+        run: | 
+          pwd
+          ls
       - name: npm install and build
         run: |
           npm ci
