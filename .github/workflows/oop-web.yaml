@@ -12,6 +12,8 @@ env:
   NAMESPACE: a3c641-tools
   ARTIFACT_BUILD_NAME: oop-web-artifact-build
   ARTIFACT_IMAGE_NAME: oop-web-artifacts
+  BUILD_NAME: oop-web-image-build
+  IMAGE_NAME: oop-web
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,8 +30,6 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm run test
-      - name: Check node version
-        run: node -v
       # - name: LINTing
       #   run: npm run test:lint
       # - name: OpenAPI Schema
@@ -49,8 +49,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Check node version
-        run: node -v
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -60,10 +58,6 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - name: Check directory
-        run: | 
-          pwd
-          ls
       - name: npm install and build
         run: |
           npm ci
@@ -78,8 +72,6 @@ jobs:
         node-version: [12.x]
     # defaults:
     #   run:
-    #     shell: bash
-    #     working-directory: ../../../
     #     working-directory: ./oop
     needs: [test, build]
     steps:
@@ -87,33 +79,13 @@ jobs:
         with:
           source: "mirror"
           oc: "latest"
-      - name: Check node version
-        run: node -v
       - name: Log in to Openshift
         run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
       - name: Generate Artifact Build
         run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Tag Artifact Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
-      # - name: Image Build
-      #   env:
-      #     NAMESPACE: a3c641-tools
-      #     BUILD_NAME: oop-web-image-build
-      #     IMAGE_NAME: oop-web
-      #   uses: redhat-developer/openshift-actions@v1.1
-      #   with:
-      #     version: "latest"
-      #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-      #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-      # - name: Generate/Tag Image Build
-      #   uses: redhat-actions/openshift-tools-installer@v1
-      #   with:
-      #     source: "mirror"
-      #     oc: "latest"
-      - run: |
-          pwd
-          ls
-          oc version
-          node -v
-        # 'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-        # 'oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
+      - name: Generate Image Build
+        run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Tag Image Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev
