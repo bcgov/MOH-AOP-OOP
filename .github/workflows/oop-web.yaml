@@ -24,6 +24,8 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm run test
+      - name: Check node version
+        run: node -v
       # - name: LINTing
       #   run: npm run test:lint
       # - name: OpenAPI Schema
@@ -43,6 +45,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Check node version
+        run: node -v
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -81,6 +85,8 @@ jobs:
           oc: "latest"
       - name: Check that tools-installer works (3)
         run: oc version
+      - name: Check node version
+        run: node -v
       # - name: Artifact Build
       #   env:
       #     NAMESPACE: a3c641-tools
@@ -115,5 +121,6 @@ jobs:
           pwd
           ls
           oc version
+          node -v
         # 'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
         # 'oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
