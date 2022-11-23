@@ -83,8 +83,6 @@ jobs:
         with:
           source: "mirror"
           oc: "latest"
-      - name: Check that tools-installer works (3)
-        run: oc version
       - name: Check node version
         run: node -v
       # - name: Artifact Build
@@ -97,11 +95,12 @@ jobs:
         #   version: "latest"
         #   openshift_server_url: ${{ secrets.OpenShiftServerURL}}
         #   parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-      - name: Generate/Tag Artifact Build
-        run: |
-          oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
-          oc start-build oop-web-artifact-build -n a3c641-tools --follow
-          oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev
+      - name: Log in to Openshift
+        run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
+      - name: Generate Artifact Build
+        run: oc start-build oop-web-artifact-build -n a3c641-tools --follow
+      - name: Tag Artifact Build
+        run: oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev
       # - name: Image Build
       #   env:
       #     NAMESPACE: a3c641-tools
