@@ -8,6 +8,10 @@ on:
       - "oop/src/**/*.scss"
       - "oop/package*.json"
   workflow_dispatch:
+env:
+  NAMESPACE: a3c641-tools
+  ARTIFACT_BUILD_NAME: oop-web-artifact-build
+  ARTIFACT_IMAGE_NAME: oop-web-artifacts
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -85,22 +89,12 @@ jobs:
           oc: "latest"
       - name: Check node version
         run: node -v
-      # - name: Artifact Build
-      #   env:
-      #     NAMESPACE: a3c641-tools
-      #     BUILD_NAME: oop-web-artifact-build
-      #     IMAGE_NAME: oop-web-artifacts
-        # uses: redhat-developer/openshift-actions@v1.1
-        # with:
-        #   version: "latest"
-        #   openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-        #   parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
       - name: Log in to Openshift
         run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
       - name: Generate Artifact Build
-        run: oc start-build oop-web-artifact-build -n a3c641-tools --follow
+        run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Tag Artifact Build
-        run: oc tag -n a3c641-tools a3c641-tools/oop-web-artifacts:latest a3c641-tools/oop-web-artifacts:dev
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
       # - name: Image Build
       #   env:
       #     NAMESPACE: a3c641-tools
