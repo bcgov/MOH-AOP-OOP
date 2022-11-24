@@ -87,5 +87,7 @@ jobs:
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
       - name: Generate Image Build
         run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Check image name
+        run:  oc get is oop-web -o yaml
       - name: Tag Image Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev
