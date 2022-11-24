@@ -87,5 +87,8 @@ jobs:
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
       - name: Generate Image Build
         run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Time delay
+        # to give time for Openshift to process the build so it doesn't tag the wrong image
+        run: sleep 180s
       - name: Tag Image Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev
