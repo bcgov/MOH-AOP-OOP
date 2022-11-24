@@ -5,7 +5,6 @@ import { routeCollection } from "@/router/index";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionPage.vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import pageStateService from "@/services/page-state-service";
 import logService from "@/services/log-service";
 
