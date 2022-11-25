@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
         working-directory: ./oop
     steps:
       - uses: actions/checkout@main
@@ -40,7 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
         working-directory: ./oop
     needs: [test]
     strategy:
