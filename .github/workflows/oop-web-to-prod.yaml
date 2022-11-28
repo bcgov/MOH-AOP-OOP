@@ -1,5 +1,5 @@
 name: oop-web deploy to prod
-on: 
+on:
   workflow_dispatch:
 defaults:
   run:
