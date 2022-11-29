@@ -5,7 +5,6 @@ import { routeCollection } from "@/router/index";
 import { cloneDeep } from "lodash";
 import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionErrorPage.vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import logService from "@/services/log-service";
 
 const spyOnLogNavigation = jest

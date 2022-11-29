@@ -8,12 +8,20 @@ on:
       - "oop/src/**/*.scss"
       - "oop/package*.json"
   workflow_dispatch:
-defaults:
-  run:
-    working-directory: ./oop
+env:
+  NAMESPACE: a3c641-tools
+  ARTIFACT_BUILD_NAME: oop-web-artifact-build
+  ARTIFACT_IMAGE_NAME: oop-web-artifacts
+  BUILD_NAME: oop-web-image-build
+  IMAGE_NAME: oop-web
+  SOURCE_IMAGE_TAG: latest
+  TARGET_IMAGE_TAG: dev
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./oop
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
@@ -23,12 +31,15 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm run test
-      # - name: LINTing
-      #   run: npm run test:lint
+      - name: LINTing
+        run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./oop
     needs: [test]
     strategy:
       matrix:
@@ -56,33 +67,25 @@ jobs:
   image-build:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./oop
     needs: [test, build]
     steps:
-      - name: Artifact Build
-        env:
-          NAMESPACE: a3c641-tools
-          BUILD_NAME: oop-web-artifact-build
-          IMAGE_NAME: oop-web-artifacts
-        uses: redhat-developer/openshift-actions@v1.1
+      - uses: redhat-actions/openshift-tools-installer@v1
         with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
-      - name: Image Build
-        env:
-          NAMESPACE: a3c641-tools
-          BUILD_NAME: oop-web-image-build
-          IMAGE_NAME: oop-web
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
+          source: "mirror"
+          oc: "latest"
+      - name: Log in to Openshift
+        run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
+      - name: Generate Artifact Build
+        run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Tag Artifact Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
+      - name: Generate Image Build
+        run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Time delay
+        # to give time for Openshift to process the build so it doesn't tag the wrong image
+        run: sleep 180s
+      - name: Tag Image Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
