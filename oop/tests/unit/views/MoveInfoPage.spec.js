@@ -5,7 +5,6 @@ import { routeCollection } from "@/router/index";
 import Component, {
   addressLineOneSpecialCharacterValidator,
   specialCharacterWithCommaValidator,
-  addressLineArrayValidator,
 } from "@/views/MoveInfoPage.vue";
 import pageStateService from "@/services/page-state-service";
 import logService from "@/services/log-service";
