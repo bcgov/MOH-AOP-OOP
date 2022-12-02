@@ -65,7 +65,7 @@ jobs:
         env:
           CI: "true"
   image-build:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     # defaults:
     #   run:
@@ -81,7 +81,7 @@ jobs:
       - name: Generate Artifact Build
         run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Tag Artifact Build
-        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:latest ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:dev
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${TARGET_IMAGE_TAG}
       - name: Generate Image Build
         run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Time delay
