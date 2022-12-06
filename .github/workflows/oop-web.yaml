@@ -6,6 +6,7 @@ on:
       - "oop/src/**/*.ts"
       - "oop/src/**/*.js"
       - "oop/src/**/*.scss"
+      - "oop/src/**/*.vue"
       - "oop/package*.json"
   workflow_dispatch:
 env:
