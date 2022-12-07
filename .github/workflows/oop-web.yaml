@@ -84,6 +84,6 @@ jobs:
         run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Time delay
         # to give time for Openshift to process the build so it doesn't tag the wrong image
-        run: sleep 180s
+        run: sleep 20s
       - name: Tag Image Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
