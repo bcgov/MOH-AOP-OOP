@@ -1,5 +1,6 @@
-# aop
+# AOP
 
+This directory contains the code for the frontend portion of the Assignment of Payment application. It is deployed on OpenShift, to learn more about this refer to [the docs](https://github.com/bcgov/MOH-MSP-Enrolment/blob/main/doc/Overview.md).
 ## Project setup
 ```
 npm install
@@ -29,6 +30,9 @@ npm run test:e2e
 ```
 npm run lint
 ```
+
+### Dev Settings
+To more easily move through the application during development, and bypass things like BCSC auth, adjust the settings in `src/settings.js`.
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
