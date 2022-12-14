@@ -534,7 +534,10 @@
 <script>
 import pageStateService from "../services/page-state-service";
 import { routes, isPastPath } from "../router/routes";
-import { getProvinceNameFromCode } from "../helpers/provinces";
+import {
+  getProvinceNameFromCode,
+  getProvinceCodeFromName,
+} from "../helpers/provinces";
 import {
   scrollTo,
   scrollToError,
@@ -827,6 +830,9 @@ export default {
           if (this.country !== "Canada") {
             this.province = null;
           }
+        }
+        if (this.province) {
+          this.province = getProvinceCodeFromName(this.province);
         }
 
         // Only eliminate empty address lines if country is Canada

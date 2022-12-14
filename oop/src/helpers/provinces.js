@@ -14,9 +14,22 @@ export const provinceMap = {
   YT: "Yukon",
 };
 
+//returns fully spelled out province name
 export const getProvinceNameFromCode = (provinceCode) => {
   if (provinceCode && provinceMap[provinceCode]) {
     return provinceMap[provinceCode];
   }
   return provinceCode;
+};
+
+//returns abbreviation
+export const getProvinceCodeFromName = (provinceName) => {
+  if (provinceName) {
+    for (const key in provinceMap) {
+      if (provinceMap[key] === provinceName) {
+        return key;
+      }
+    }
+  }
+  return provinceName;
 };
