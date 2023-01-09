@@ -164,35 +164,30 @@ export default {
         }
       }
       else {
-        const addressLines = this.$store.state.form.addressLines;
-        if (addressLines[0] && addressLines[0].value !== null){
+        if (this.$store.state.form.otherStreetAddress !== null){
           items.push({
             label: 'Street address:',
-            value: addressLines[0].value,
+            value: this.$store.state.form.otherStreetAddress,
           });
         }
-        if (addressLines[1] && addressLines[1].value !== null){
+        if (this.$store.state.form.city !== null){
+          const cityLabel = this.$store.state.form.country === 'United States' ? 'City:' : 'City, Province:';
           items.push({
-            label: this.$store.state.form.country === 'United States' ? 'City:' : 'City, Province:',
-            value: addressLines[1].value,
-          });
-          if (this.$store.state.form.country === 'United States' && this.$store.state.form.province !== null){
-            items.push({
-              label: 'State:',
-              value: getStateNameFromCode(this.$store.state.form.province),
-            });
-          }
-        }
-        if (addressLines[2] && addressLines[2].value !== null && addressLines[2].value !== ''){
-          items.push({
-            label: 'Zip code (optional):',
-            value: addressLines[2].value,
-          });
-        }
-        if (this.$store.state.form.city !== null && this.$store.state.form.city !== ''){
-          items.push({
-            label: 'Zip/postal code (optional):',
+            label: cityLabel,
             value: this.$store.state.form.city,
+          });
+        }
+        if (this.$store.state.form.state !== null){
+          items.push({
+            label: 'State:',
+            value: getStateNameFromCode(this.$store.state.form.state),
+          });
+        }
+        if (this.$store.state.form.zipCode !== null){
+          const zipLabel = this.$store.state.form.country === 'United States' ? 'Zip code (optional):' : 'Zip/postal code (optional):';
+          items.push({
+            label: zipLabel,
+            value: this.$store.state.form.zipCode,
           });
         }
       }
