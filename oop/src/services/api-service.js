@@ -54,18 +54,12 @@ class ApiService {
         }
       });
     }
-    // If country is USA, add a special case: append city and state into one field - addressLines[1]
+    // If country is USA, add a special case: append otherStreetAddress as addressLines[0], then append city and state into one field - addressLines[1]
     else if (formState.country === 'United States'){
-      for (let i=0; i<formState.addressLines.length; i++) {
-        if (formState.addressLines[i] && formState.addressLines[i].value){
-          if (i === 1){
-            const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
-            addressLines.push(appendedCityState);
-          }
-          else {
-            addressLines.push(formState.addressLines[i].value);
-          }
-        }
+      addressLines.push( formState.otherStreetAddress);
+      addressLines.push( formState.city + ' ' +  formState.state + ' USA');
+      if (formState.zipCode) {
+        addressLines.push( formState.zipCode);
       }
     }
     // Otherwise, add a special case: remove commas from "City, province" field
