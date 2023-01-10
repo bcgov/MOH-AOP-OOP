@@ -23,6 +23,9 @@ export const SET_ADDRESS_LINES = 'setAddressLines';
 export const SET_PROVINCE = 'setProvince';
 export const SET_CITY = 'setCity';
 export const SET_POSTAL_CODE = 'setPostalCode';
+export const SET_OTHER_STREET_ADDRESS = 'setOtherStreetAddress';
+export const SET_ZIP_CODE = 'setZipCode';
+export const SET_USA_STATE = 'setUsaState';
 
 // Account type page:
 export const SET_ACCOUNT_TYPE = 'setAccountType';
@@ -51,6 +54,9 @@ export default {
       province: null,
       city: null,
       postalCode: null,
+      otherStreetAddress: null,
+      zipCode: null,
+      state: null,
       accountType: null,
       personMoving: null,
       isAllDependentsMoving: null,
@@ -111,6 +117,15 @@ export default {
     setPostalCode(state, payload) {
       state.postalCode = payload;
     },
+    setOtherStreetAddress(state, payload) {
+      state.otherStreetAddress = payload;
+    },
+    setZipCode(state, payload) {
+      state.zipCode = payload;
+    },
+    setUsaState(state, payload) {
+      state.state = payload;
+    },
     setAccountType(state, payload) {
       state.accountType = payload;
     },
@@ -147,6 +162,9 @@ export default {
       commit(SET_PROVINCE, null);
       commit(SET_CITY, null);
       commit(SET_POSTAL_CODE, null);
+      commit(SET_OTHER_STREET_ADDRESS, null);
+      commit(SET_ZIP_CODE, null);
+      commit(SET_USA_STATE, null);
       commit(SET_ACCOUNT_TYPE, null);
       commit(SET_PERSON_MOVING, null);
       commit(SET_IS_ALL_DEPENDENTS_MOVING, null);
@@ -198,6 +216,15 @@ export default {
     },
     setPostalCode({ commit }, postalCode) {
       commit(SET_POSTAL_CODE, postalCode);
+    },
+    setOtherStreetAddress({ commit }, otherStreetAddress) {
+      commit(SET_OTHER_STREET_ADDRESS, otherStreetAddress);
+    },
+    setZipCode({ commit }, zipCode) {
+      commit(SET_ZIP_CODE, zipCode);
+    },
+    setUsaState({ commit }, state) {
+      commit(SET_USA_STATE, state);
     },
     setAccountType({ commit }, accountType) {
       commit(SET_ACCOUNT_TYPE, accountType);
