@@ -259,3 +259,14 @@ export const getStateNameFromCode = (stateCode) => {
   }
   return stateCode;
 };
+
+export const getStateCodeFromName = (stateName) => {
+  if (stateName) {
+    for (const state of US_STATES){
+      if (stateName === state.name){
+        return state.abbreviation;
+      }
+    }
+  }
+  return stateName;
+};
