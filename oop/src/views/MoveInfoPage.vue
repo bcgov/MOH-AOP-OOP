@@ -683,7 +683,9 @@ export default {
       : [];
     this.otherStreetAddress = this.$store.state.form.otherStreetAddress;
     this.country = this.$store.state.form.country;
-    this.province = this.$store.state.form.province;
+    //The Province gets stored in the Vue Store as an acronym/code, but the RegionSelect component needs a fully spelled out name to display the selected province
+    //This code converts it to a code for display, and the validateFields() function handles formatting back before it dispatches back to the store
+    this.province = getProvinceNameFromCode(this.$store.state.form.province);
     this.state = this.$store.state.form.state;
     this.city = this.$store.state.form.city;
     this.postalCode = this.$store.state.form.postalCode;
