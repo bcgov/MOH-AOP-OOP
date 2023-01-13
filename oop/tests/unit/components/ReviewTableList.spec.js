@@ -46,7 +46,7 @@ const dummyDataUSA = {
   state: "AL",
   city: "Fakesville",
   zipCode: "11111",
-  otherStreetAddress: "123 Main St"
+  otherStreetAddress: "123 Main St",
 };
 
 const dummyDataNull = {

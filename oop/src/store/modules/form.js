@@ -143,7 +143,7 @@ export default {
     },
     setSubmissionError(state, payload) {
       state.submissionError = payload;
-    }
+    },
   },
   actions: {
     resetForm({ commit }) {
@@ -243,7 +243,7 @@ export default {
     },
     setApiError({ commit }, error) {
       commit(SET_SUBMISSION_ERROR, error);
-    }
+    },
   },
-  getters: {}
+  getters: {},
 };
