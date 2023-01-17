@@ -583,6 +583,9 @@ import {
   SET_PROVINCE,
   SET_POSTAL_CODE,
   SET_MOVE_FROM_BC_DATE,
+  SET_OTHER_STREET_ADDRESS,
+  SET_ZIP_CODE,
+  SET_USA_STATE
 } from "../store/modules/form";
 import logService from "../services/log-service";
 import spaEnvService from "@/services/spa-env-service";
@@ -678,10 +681,15 @@ export default {
     this.addressLines = this.$store.state.form.addressLines
       ? [...this.$store.state.form.addressLines]
       : [];
+    this.otherStreetAddress = this.$store.state.form.otherStreetAddress;
     this.country = this.$store.state.form.country;
-    this.province = this.$store.state.form.province;
+    //The Province gets stored in the Vue Store as an acronym/code, but the RegionSelect component needs a fully spelled out name to display the selected province
+    //This code converts it to a code for display, and the validateFields() function handles formatting back before it dispatches back to the store
+    this.province = getProvinceNameFromCode(this.$store.state.form.province);
+    this.state = this.$store.state.form.state;
     this.city = this.$store.state.form.city;
     this.postalCode = this.$store.state.form.postalCode;
+    this.zipCode = this.$store.state.form.zipCode;
 
     setTimeout(() => {
       this.isPageLoaded = true;
@@ -885,6 +893,19 @@ export default {
           this.postalCode
         );
 
+        this.$store.dispatch(
+          formModule + "/" + SET_OTHER_STREET_ADDRESS,
+          this.otherStreetAddress
+        );
+        this.$store.dispatch(
+          formModule + "/" + SET_ZIP_CODE,
+          this.zipCode
+        );
+        this.$store.dispatch(
+          formModule + "/" + SET_USA_STATE,
+          this.state
+        );
+
         const toPath = routes.REVIEW_PAGE.path;
         pageStateService.setPageComplete(toPath);
         pageStateService.visitPage(toPath);
@@ -960,8 +981,11 @@ export default {
           }, 0);
         }
       }
-      // Set city to null
+      this.otherStreetAddress = null;
       this.city = null;
+      this.state = null;
+      this.postalCode = null;
+      this.zipCode = null;
     },
     updateAddressLine(newLine, newIndex) {
       if (typeof newLine === "string" && Number.isInteger(newIndex)) {

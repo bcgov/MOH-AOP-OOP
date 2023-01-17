@@ -5,11 +5,11 @@
             aria-label='State'
             name="state"
             class="form-control"
-            v-model="state"
+            v-model="stateInput"
             @change="onChange($event.target.value)"
             data-cy="state">
-      <option :value="value" label="Select State" selected></option>
-      <option v-for="(state, index) in statesList" :key="index" :value="state.abbreviation">{{state.name}}</option>
+      <option label="Select State" selected></option>
+      <option v-for="(state, index) in statesList" :key="index" :modelValue="state.abbreviation">{{state.name}}</option>
     </select>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: String,
     },
     label: {
@@ -39,13 +39,13 @@ export default {
   },
   data() {
     return {
-      state: null,
+      stateInput: null,
       statesList: US_STATES,
     }
   },
   emits: ['update:modelValue'],
   created() {
-    this.state = this.value;
+    this.stateInput = this.modelValue;
   },
   methods: {
     onChange(modelValue) {

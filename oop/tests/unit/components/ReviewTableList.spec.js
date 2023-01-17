@@ -42,26 +42,11 @@ const dummyDataUSA = {
   arriveDestinationDate: new Date("2021-09-27"),
   isNewAddressKnown: "Y",
   country: "United States",
-  addressLines: [
-    {
-      id: "address-line-1",
-      isValid: true,
-      value: "123 Main St",
-    },
-    {
-      id: "address-line-2",
-      isValid: true,
-      value: "Fakesville",
-    },
-    {
-      id: "address-line-2",
-      isValid: true,
-      value: "11111",
-    },
-  ],
-  province: "AL",
-  city: null,
-  postalCode: null,
+  addressLines: [],
+  state: "AL",
+  city: "Fakesville",
+  zipCode: "11111",
+  otherStreetAddress: "123 Main St",
 };
 
 const dummyDataNull = {

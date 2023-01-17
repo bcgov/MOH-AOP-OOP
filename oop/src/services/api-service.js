@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { formatISODate } from '../helpers/date';
 import { replaceSpecialCharacters } from '../helpers/string';
+import { getStateCodeFromName } from '../helpers/us-states';
 
 const BASE_API_PATH = '/oop/api/';
 const VALIDATE_LAST_NAME_PHN_URL = BASE_API_PATH + 'oopIntegration/validatePhnName';
@@ -38,6 +39,7 @@ class ApiService {
     const dependentPhns = [];
     const addressLines = [];
     let phoneNumber = null;
+    let payloadCity = null;
 
     formState.dependentPhns.forEach((phn) => {
       if (phn.value) {
@@ -54,27 +56,22 @@ class ApiService {
         }
       });
     }
-    // If country is USA, add a special case: append city and state into one field - addressLines[1]
+    // If country is USA, add a special case: append otherStreetAddress as addressLines[0], then append city and state into one field - addressLines[1]
     else if (formState.country === 'United States'){
-      for (let i=0; i<formState.addressLines.length; i++) {
-        if (formState.addressLines[i] && formState.addressLines[i].value){
-          if (i === 1){
-            const appendedCityState = formState.addressLines[1].value + ' ' +  formState.province + ' USA';
-            addressLines.push(appendedCityState);
-          }
-          else {
-            addressLines.push(formState.addressLines[i].value);
-          }
-        }
+      addressLines.push( formState.otherStreetAddress);
+      //State must be in 2-digit abbreviation form for the JSON Payload
+      addressLines.push( formState.city + ' ' +  getStateCodeFromName(formState.state) + ' USA');
+      if (formState.zipCode) {
+        addressLines.push( formState.zipCode);
       }
     }
     // Otherwise, add a special case: remove commas from "City, province" field
     else {
-      if (formState.addressLines[0] && formState.addressLines[0].value){
-        addressLines.push(formState.addressLines[0].value);
+      if (formState.otherStreetAddress){
+        addressLines.push(formState.otherStreetAddress);
       }
-      if (formState.addressLines[1] && formState.addressLines[1].value){
-        addressLines.push(formState.addressLines[1].value.replace(',', ''));
+      if (formState.city){
+        addressLines.push(formState.city.replace(',', ''));
       }
     }
 
@@ -85,6 +82,14 @@ class ApiService {
         .replace(/\+|-/g, '') // + or - symbol
         .replace('(', '')
         .replace(')', '');
+    }
+
+    if (formState.country === 'United States') {
+      payloadCity = null;
+    } else if (formState.country === 'Canada') {
+      payloadCity = formState.city;
+    } else {
+      payloadCity = formState.zipCode; 
     }
 
     const whoIsMoving = formState.accountType === 'DEP' ? 'DEP_ONLY' : formState.personMoving
@@ -106,7 +111,7 @@ class ApiService {
           country: replaceSpecialCharacters(formState.country),
           addressLines: addressLines,
           province: formState.country === 'United States' ? null : formState.province,
-          city: formState.city,
+          city: payloadCity,
           postalCode: postalCode
         }
       }

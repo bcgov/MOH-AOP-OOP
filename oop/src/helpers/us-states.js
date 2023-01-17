@@ -251,11 +251,22 @@ export const US_STATES = [
 
 export const getStateNameFromCode = (stateCode) => {
   if (stateCode) {
-    for (const state of US_STATES){
-      if (stateCode === state.abbreviation){
+    for (const state of US_STATES) {
+      if (stateCode === state.abbreviation) {
         return state.name;
       }
     }
   }
   return stateCode;
+};
+
+export const getStateCodeFromName = (stateName) => {
+  if (stateName) {
+    for (const state of US_STATES) {
+      if (stateName === state.name) {
+        return state.abbreviation;
+      }
+    }
+  }
+  return stateName;
 };

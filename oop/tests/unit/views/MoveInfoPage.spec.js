@@ -1041,7 +1041,7 @@ describe("MoveInfoPage.vue created()", () => {
       },
     ]);
     expect(wrapper.vm.country).toEqual("Canada");
-    expect(wrapper.vm.province).toEqual("ON");
+    expect(wrapper.vm.province).toEqual("Ontario");
     expect(wrapper.vm.city).toEqual("Fakesville");
     expect(wrapper.vm.postalCode).toEqual("H0H 0H0");
   });
