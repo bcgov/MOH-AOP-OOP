@@ -2,11 +2,9 @@
   <div>
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
-      <h1>Under maintenance</h1>
-      <p>
-        This application is currently down for maintenance. Please try again in
-        a few hours.
-      </p>
+      <h1>Maintenance mode</h1>
+      <hr />
+      <p>{{ maintenanceMessage }}</p>
     </main>
     <Footer />
   </div>
@@ -24,6 +22,15 @@ export default {
     Header,
   },
   mixins: [FocusHeaderMixin],
+  data: () => {
+    return {
+      maintenanceMessage:
+        "This application is currently unavailable due to maintenance. Please try again later.",
+    };
+  },
+  created() {
+    this.maintenanceMessage = this.$store.state.maintenanceMessage;
+  },
 };
 </script>
 

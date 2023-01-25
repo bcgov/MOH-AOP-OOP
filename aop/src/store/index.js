@@ -31,6 +31,7 @@ export const SET_UPLOADED_FORMS = "setUploadedForms";
 export const SET_UPLOADED_CREDENTIALS = "setUploadedCredentials";
 export const SET_API_RESPONSE = "setApiResponse";
 export const SET_SALT = "setSalt";
+export const SET_MAINTENANCE_MESSAGE = "setMaintenanceMessage";
 
 export default createStore({
   state: () => {
@@ -58,6 +59,7 @@ export default createStore({
       uploadedCredentials: [],
       apiResponse: '',
       salt: '',
+      maintenanceMessage: '',
     };
 
     if (settings.useDummyData) {
@@ -135,6 +137,9 @@ export default createStore({
     },
     setSalt(state, payload) {
       state.salt = payload;
+    },
+    setMaintenanceMessage(state, payload) {
+      state.maintenanceMessage = payload;
     },
   },
   actions: {

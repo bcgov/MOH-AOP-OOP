@@ -64,7 +64,7 @@ import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
-import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT } from "../store";
+import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT, SET_MAINTENANCE_MESSAGE } from "../store";
 import { scrollTo } from "../helpers/scroll";
 import settings from '../settings';
 
@@ -91,6 +91,7 @@ export default {
         // load env variables from spa-env-server
         if (spaEnvService.values) {
           this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
+          this.$store.commit(SET_MAINTENANCE_MESSAGE, spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_MESSAGE);
           if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === "true") {
             const path = routes.MAINTENANCE.path;
             
