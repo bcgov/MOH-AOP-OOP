@@ -29,7 +29,9 @@ export default {
     };
   },
   created() {
-    this.maintenanceMessage = this.$store.state.maintenanceMessage;
+    if (this && this.$store && this.$store.state && this.$store.state.maintenanceMessage) {
+      this.maintenanceMessage = this.$store.state.maintenanceMessage;
+    }
   },
 };
 </script>
