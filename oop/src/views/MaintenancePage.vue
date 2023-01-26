@@ -25,7 +25,9 @@ export default {
     };
   },
   created() {
-    this.maintenanceMessage = this.$store.state.form.maintenanceMessage;
+    if (this && this.$store && this.$store.state && this.$store.state.form && this.$store.state.form.maintenanceMessage) {
+      this.maintenanceMessage = this.$store.state.form.maintenanceMessage;
+    }
   },
 }
 </script>
