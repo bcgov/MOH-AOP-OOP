@@ -8,6 +8,7 @@ export const SET_APPLICATION_UUID = 'setApplicationUuid';
 export const SET_CAPTCHA_TOKEN = 'setCaptchaToken';
 export const SET_SUBMISSION_DATE = 'setSubmissionDate';
 export const SET_REFERENCE_NUMBER = 'setReferenceNumber';
+export const SET_MAINTENANCE_MESSAGE = 'setMaintenanceMessage';
 
 // Your info page:
 export const SET_LAST_NAME = 'setLastName';
@@ -65,6 +66,7 @@ export default {
       referenceNumber: null,
       submissionResponse: null,
       submissionError: null,
+      maintenanceMessage: null,
     };
     if (settings.useDummyData) {
       Object.assign(state, dummyData);
@@ -83,6 +85,9 @@ export default {
     },
     setReferenceNumber(state, payload) {
       state.referenceNumber = payload;
+    },
+    setMaintenanceMessage(state, payload) {
+      state.maintenanceMessage = payload;
     },
     setLastName(state, payload) {
       state.lastName = payload;
@@ -183,6 +188,9 @@ export default {
     },
     setReferenceNumber({ commit }, referenceNumber) {
       commit(SET_REFERENCE_NUMBER, referenceNumber);
+    },
+    setMaintenanceMessage({ commit }, maintenanceMessage) {
+      commit(SET_MAINTENANCE_MESSAGE, maintenanceMessage);
     },
     setLastName({ commit }, lastName) {
       commit(SET_LAST_NAME, lastName);

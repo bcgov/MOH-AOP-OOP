@@ -62,7 +62,8 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import {
   MODULE_NAME as formModule,
-  SET_APPLICATION_UUID
+  SET_APPLICATION_UUID,
+  SET_MAINTENANCE_MESSAGE
 } from '../store/modules/form';
 import logService from '../services/log-service';
 
@@ -85,6 +86,7 @@ export default {
     await spaEnvService.loadEnvs()
       .then(() => {
         if (spaEnvService.values && spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_FLAG === "true") {
+          this.$store.commit(formModule + '/' + SET_MAINTENANCE_MESSAGE, spaEnvService.values.SPA_ENV_OOP_MAINTENANCE_MESSAGE);
           const toPath = routes.MAINTENANCE_PAGE.path;
           pageStateService.setPageComplete(toPath);
           pageStateService.visitPage(toPath);
