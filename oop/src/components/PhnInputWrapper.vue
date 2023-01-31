@@ -29,6 +29,11 @@ export default {
   components: {
     PhnInput,
   },
+  mounted() {
+    if (this.childPhn && this.childPhn.value) {
+      this.phnData = this.childPhn.value;
+    }
+  },
   setup() {
     return { v$: useVuelidate({}) };
   },

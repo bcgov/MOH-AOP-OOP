@@ -42,6 +42,11 @@ export default {
       addressLine: null,
     };
   },
+  mounted() {
+    if (this.childAddressLine && this.childAddressLine.value) {
+      this.addressLine = this.childAddressLine.value;
+    }
+  },
   props: {
     childIndex: {
       type: Number,
