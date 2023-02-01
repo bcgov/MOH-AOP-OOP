@@ -19,10 +19,10 @@ jobs:
       - uses: actions/setup-node@main
         with:
           node-version: "12"
-      - name: Unit tests w/ coverage
-        run: npm run test:coverage
-      # - name: LINTing
-      #   run: npm run test:lint
+      - name: Unit tests
+        run: npm run test:unit
+      - name: LINTing
+        run: npm run test:lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
