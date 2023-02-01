@@ -24,7 +24,7 @@ jobs:
       - name: Unit tests
         run: npm run test:unit
       - name: LINTing
-        run: npm run test:lint
+        run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
