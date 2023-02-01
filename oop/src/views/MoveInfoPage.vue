@@ -235,6 +235,7 @@
                       <Button
                         label="+"
                         @click="addAddressField()"
+                        cypressId="addAddressField"
                         class="add-remove-button mt-2 mt-sm-5 form-control"
                       />
                     </div>

@@ -69,7 +69,9 @@ describe("Happy path", () => {
 
     cy.get("[data-cy=yourInfoLastName]").type("111");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters.");
+    cy.contains(
+      "Last name must begin with a letter and cannot include special characters except hyphens, periods, apostrophes and blank characters."
+    );
     cy.get("[data-cy=yourInfoLastName]").clear();
 
     cy.get("[data-cy=yourInfoPhn]").type("111");
@@ -85,7 +87,9 @@ describe("Happy path", () => {
     cy.get("[data-cy=yourInfoLastName]").type("AAA");
     cy.get("[data-cy=yourInfoPhn]").type("9999 999 998");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("The last name and/or PHN you entered does not match our records.");
+    cy.contains(
+      "The last name and/or PHN you entered does not match our records."
+    );
     cy.get("[data-cy=yourInfoLastName]").clear();
     cy.get("[data-cy=yourInfoPhn]").clear();
 
@@ -114,8 +118,26 @@ describe("Happy path", () => {
     cy.contains("Personal Health Numbers must be unique.");
     cy.get("[data-cy=phn1]").clear();
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("At least one of the Personal Health Numbers does not match our records.");
+    cy.contains(
+      "At least one of the Personal Health Numbers does not match our records."
+    );
     cy.get("[data-cy=phn0]").clear().type(credentialDependent);
+
+    cy.get("[data-cy=continueBar]").click();
+
+    //check that PHN data is stored properly + shows on page when you return
+
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/move-info");
+    });
+    cy.get("[data-cy=pageStepper1]").click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/oop/account-type");
+    });
+
+    cy.get("[data-cy=phn0]")
+      .should("have.attr", "data-mask-raw-value")
+      .and("match", /9873541248/);
 
     cy.get("[data-cy=continueBar]").click();
 
@@ -154,30 +176,30 @@ describe("Happy path", () => {
 
     cy.get("[data-cy=moveFromBCDateYear]").clear().type("2222");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("Date is too far in the future.")
+    cy.contains("Date is too far in the future.");
     cy.get("[data-cy=moveFromBCDateYear]").clear();
 
     cy.get("[data-cy=arriveDestinationDateYear]").type("2222");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("Date is too far in the future.")
+    cy.contains("Date is too far in the future.");
     cy.get("[data-cy=arriveDestinationDateYear]").clear();
 
     cy.get("[data-cy=moveFromBCDateYear]").type(testYear);
     cy.get("[data-cy=moveFromBCDateDay]").clear().type("35");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("A valid date of departure is required.")
+    cy.contains("A valid date of departure is required.");
 
     cy.get("[data-cy=arriveDestinationDateYear]").type(testYear);
     cy.get("[data-cy=arriveDestinationDateDay]").clear().type("35");
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("A valid date of arrival is required.")
+    cy.contains("A valid date of arrival is required.");
 
     cy.get("[data-cy=moveFromBCDateDay]").clear().type("8");
     cy.get("[data-cy=arriveDestinationDateDay]").clear().type("5");
     cy.get("[data-cy=continueBar]").click();
 
-    cy.contains("Date of departure must be before the date of arrival.")
-    cy.contains("Date of arrival must be after the date of departure.")
+    cy.contains("Date of departure must be before the date of arrival.");
+    cy.contains("Date of arrival must be after the date of departure.");
 
     cy.get("[data-cy=moveFromBCDateDay]").clear();
     cy.get("[data-cy=arriveDestinationDateDay]").clear();
