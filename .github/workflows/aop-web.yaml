@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./oop
+        working-directory: ./aop
     needs: [test, build]
     steps:
       - uses: redhat-actions/openshift-tools-installer@v1
