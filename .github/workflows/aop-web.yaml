@@ -22,6 +22,9 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aop
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
