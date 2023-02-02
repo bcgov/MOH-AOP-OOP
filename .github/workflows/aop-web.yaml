@@ -70,9 +70,9 @@ jobs:
   image-build:
     # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./aop
+    # defaults:
+    #   run:
+    #     working-directory: ./aop
     needs: [test, build]
     steps:
       - uses: redhat-actions/openshift-tools-installer@v1
