@@ -81,10 +81,7 @@ jobs:
           oc: "latest"
       - name: Log in to Openshift
         run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
-      # - name: Generate Artifact Build
-      #   run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
-      # - name: Tag Artifact Build
-      #   run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${TARGET_IMAGE_TAG}
+
       - name: Generate Image Build
         run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Time delay
