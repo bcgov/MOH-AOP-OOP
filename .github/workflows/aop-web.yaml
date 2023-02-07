@@ -8,29 +8,45 @@ on:
       - "aop/src/**/*.scss"
       - "aop/package*.json"
   workflow_dispatch:
-defaults:
-  run:
-    working-directory: ./aop
+env:
+  NAMESPACE: a3c641-tools
+  ARTIFACT_BUILD_NAME: aop-web-artifact-build
+  ARTIFACT_IMAGE_NAME: aop-web-artifacts
+  BUILD_NAME: aop-web-image-build
+  IMAGE_NAME: aop-web
+  SOURCE_IMAGE_TAG: latest
+  TARGET_IMAGE_TAG: dev
+# defaults:
+#   run:
+#     working-directory: ./aop
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aop
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
           node-version: "12"
-      - name: Unit tests w/ coverage
-        run: npm run test:coverage
-      # - name: LINTing
-      #   run: npm run test:lint
+      - name: Install dependencies
+        run: npm ci
+      - name: Unit tests
+        run: npm run test:unit
+      - name: LINTing
+        run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aop
     needs: [test]
     strategy:
       matrix:
-        node-version: [12.22.x]
+        node-version: [12.x]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -52,35 +68,27 @@ jobs:
         env:
           CI: "true"
   image-build:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./aop
     needs: [test, build]
     steps:
-      - name: Artifact Build
-        env:
-          NAMESPACE: a3c641-tools
-          BUILD_NAME: aop-web-artifact-build
-          IMAGE_NAME: aop-web-artifacts
-        uses: redhat-developer/openshift-actions@v1.1
+      - uses: redhat-actions/openshift-tools-installer@v1
         with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
-      - name: Image Build
-        env:
-          NAMESPACE: a3c641-tools
-          BUILD_NAME: aop-web-image-build
-          IMAGE_NAME: aop-web
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
+          source: "mirror"
+          oc: "latest"
+      - name: Log in to Openshift
+        run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
+      - name: Generate Artifact Build
+        run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Tag Artifact Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${TARGET_IMAGE_TAG}
+      - name: Generate Image Build
+        run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Time delay
+        # to give time for Openshift to process the build so it doesn't tag the wrong image
+        run: sleep 30s
+      - name: Tag Image Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
