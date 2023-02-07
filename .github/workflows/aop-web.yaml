@@ -85,10 +85,10 @@ jobs:
         run: oc start-build ${ARTIFACT_BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Tag Artifact Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${ARTIFACT_IMAGE_NAME}:${TARGET_IMAGE_TAG}
-      # - name: Generate Image Build
-        # run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
-      # - name: Time delay
+      - name: Generate Image Build
+        run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
+      - name: Time delay
         # to give time for Openshift to process the build so it doesn't tag the wrong image
-        # run: sleep 30s
-      # - name: Tag Image Build
-        # run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
+        run: sleep 30s
+      - name: Tag Image Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
