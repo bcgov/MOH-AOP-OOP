@@ -18,11 +18,6 @@ jest.mock("@/helpers/scroll", () => ({
   scrollToError: jest.fn(),
 }));
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
-}));
-
 describe("Sending.vue", () => {
   // This is a Shallow Mount as opposed to a regular mount because this test only checks for rendering
   it("renders", () => {
