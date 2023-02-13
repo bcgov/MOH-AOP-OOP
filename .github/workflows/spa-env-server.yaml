@@ -72,13 +72,13 @@ jobs:
         run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
       - name: Check version
         run: oc version
-      # - name: Generate Build
-      #   run: 'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-      # - name: Time delay
+      - name: Generate Build
+        run: 'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
+      - name: Time delay
       #   # to give time for Openshift to process the build so it doesn't tag the wrong image
-      #   run: sleep 30s
-      # - name: Tag Image Build
-      #   run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}'
+        run: sleep 30s
+      - name: Tag Image Build
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}'
 
       # - name: S2I Build
       #   env:
