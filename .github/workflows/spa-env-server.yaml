@@ -11,12 +11,12 @@ env:
   IMAGE_NAME: spa-env-server
   SOURCE_IMAGE_TAG: latest
   TARGET_IMAGE_TAG: dev
-defaults:
-  run:
-    working-directory: ./spa-env-server
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./spa-env-server
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
@@ -32,6 +32,9 @@ jobs:
       #   run: npm run test:schema
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./spa-env-server
     needs: [test]
     strategy:
       matrix:
