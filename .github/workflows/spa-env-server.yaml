@@ -73,7 +73,7 @@ jobs:
       - name: Check version
         run: oc version
       - name: Generate Build
-        run: 'oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
+        run: oc start-build ${BUILD_NAME} -n ${NAMESPACE} --follow
       - name: Time delay
       #   # to give time for Openshift to process the build so it doesn't tag the wrong image
         run: sleep 30s
