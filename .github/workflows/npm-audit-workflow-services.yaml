@@ -1,8 +1,8 @@
 name: npm audit workflow services
 on:
   push:
-    branches:
-      - main
+    # branches:
+      # - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 1 * *"
