@@ -1,4 +1,4 @@
-name: npm audit workflow
+name: npm audit workflow oop
 on:
   push:
     branches:
