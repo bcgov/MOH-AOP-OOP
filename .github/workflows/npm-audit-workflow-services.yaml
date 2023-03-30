@@ -1,0 +1,135 @@
+name: npm audit workflow
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"
+jobs:
+  scan-address-service:
+    name: npm audit address service
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./address-service
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./address-service
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
+  scan-bcsc-service:
+    name: npm audit bc services card
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bcsc-service
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./bcsc-service
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
+  scan-captcha-service:
+    name: npm audit captcha service
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./captcha-service
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./captcha-service
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
+  scan-msp-service:
+    name: npm audit msp service
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./msp-service
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./msp-service
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
+  scan-spa-env-server:
+    name: npm audit spa env server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./spa-env-server
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./spa-env-server
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
+  scan-splunk-forwarder:
+    name: npm audit splunk forwarder
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./splunk-forwarder
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@main
+        with:
+          node-version: "12"
+      - name: install dependencies
+        run: npm ci
+      - uses: oke-py/npm-audit-action@v1.8.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          working_directory: ./splunk-forwarder
+          issue_labels: vulnerability
+          dedupe_issues: true
+          production_flag: true
+        name: run npm-audit-action
