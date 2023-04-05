@@ -1,7 +1,6 @@
 import { shallowMount } from "@vue/test-utils";
 import LogIn from "../../src/views/LogIn.vue";
 import { createStore } from "vuex";
-// import router from "../../src/router/index";
 import store from "../../src/store/index";
 
 const testStore = createStore({
