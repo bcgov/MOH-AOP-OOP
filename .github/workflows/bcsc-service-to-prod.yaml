@@ -1,28 +1,23 @@
 name: bcsc-service deploy to prod
 on: 
   workflow_dispatch:
-    inputs:
-      source_tag:
-        description: 'Source Image Tag'     
-        required: true
-        default: 'latest'
 defaults:
   run:
     working-directory: ./
+env:
+  NAMESPACE: a3c641-tools
+  IMAGE_NAME: bcsc-service
+  SOURCE_IMAGE_TAG: test
+  TARGET_IMAGE_TAG: prod
 jobs:
   ocp-integration:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Prod
-        env:
-          NAMESPACE: a3c641-tools
-          TARGET_IMAGE_TAG: prod
-        uses: redhat-developer/openshift-actions@v1.1
+      - uses: redhat-actions/openshift-tools-installer@v1
         with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/bcsc-service:${{github.event.inputs.source_tag}} ${NAMESPACE}/bcsc-service:${TARGET_IMAGE_TAG}'
+          source: "mirror"
+          oc: "latest"
+      - name: Log in to Openshift
+        run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
+      - name: Deploy to Prod
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
