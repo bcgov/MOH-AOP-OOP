@@ -1,5 +1,5 @@
 name: bcsc-service deploy to prod
-on: 
+on:
   workflow_dispatch:
 defaults:
   run:

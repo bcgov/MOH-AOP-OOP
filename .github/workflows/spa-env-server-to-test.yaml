@@ -1,12 +1,12 @@
 name: spa-env-server deploy to test
-on: 
+on:
   workflow_dispatch:
 defaults:
   run:
     working-directory: ./
 env:
   NAMESPACE: a3c641-tools
-  IMAGE_NAME: spa-env-server 
+  IMAGE_NAME: spa-env-server
   SOURCE_IMAGE_TAG: dev
   TARGET_IMAGE_TAG: test
 jobs:

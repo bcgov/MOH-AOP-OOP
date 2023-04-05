@@ -1,5 +1,5 @@
 name: captcha-service deploy to test
-on: 
+on:
   workflow_dispatch:
 defaults:
   run:
