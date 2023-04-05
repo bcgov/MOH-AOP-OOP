@@ -79,18 +79,3 @@ jobs:
         run: sleep 30s
       - name: Tag Image Build
         run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}
-
-      # - name: S2I Build
-      #   env:
-      #     NAMESPACE: a3c641-tools
-      #     BUILD_NAME: spa-env-server-main-build
-      #     IMAGE_NAME: spa-env-server
-      #   uses: redhat-developer/openshift-actions@v1.1
-      #   with:
-      #     version: "latest"
-      #     openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-      #     parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-      #     cmd: |
-      #       'version'
-      #       'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
-      #       'tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:latest ${NAMESPACE}/${IMAGE_NAME}:dev'
