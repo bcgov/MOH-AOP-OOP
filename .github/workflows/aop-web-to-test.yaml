@@ -1,28 +1,23 @@
 name: aop-web deploy to test
-on: 
+on:
   workflow_dispatch:
-    inputs:
-      source_tag:
-        description: 'Source Image Tag'     
-        required: true
-        default: 'latest'
 defaults:
   run:
     working-directory: ./
+env:
+  NAMESPACE: a3c641-tools
+  IMAGE_NAME: aop-web
+  SOURCE_IMAGE_TAG: dev
+  TARGET_IMAGE_TAG: test
 jobs:
   ocp-integration:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Test
-        env:
-          NAMESPACE: a3c641-tools
-          TARGET_IMAGE_TAG: test
-        uses: redhat-developer/openshift-actions@v1.1
+      - uses: redhat-actions/openshift-tools-installer@v1
         with:
-          version: "latest"
-          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
-          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
-          cmd: |
-            'version'
-            'tag -n ${NAMESPACE} ${NAMESPACE}/aop-web:${{github.event.inputs.source_tag}} ${NAMESPACE}/aop-web:${TARGET_IMAGE_TAG}'
+          source: "mirror"
+          oc: "latest"
+      - name: Log in to Openshift
+        run: oc login --token=${{ secrets.OpenShiftToken }} --server=${{ secrets.OpenShiftServerURL}}
+      - name: Deploy to Test
+        run: oc tag -n ${NAMESPACE} ${NAMESPACE}/${IMAGE_NAME}:${SOURCE_IMAGE_TAG} ${NAMESPACE}/${IMAGE_NAME}:${TARGET_IMAGE_TAG}

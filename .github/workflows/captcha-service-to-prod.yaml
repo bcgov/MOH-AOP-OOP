@@ -1,17 +1,16 @@
 name: captcha-service deploy to prod
-on: 
+on:
   workflow_dispatch:
     inputs:
       source_tag:
-        description: 'Source Image Tag'     
+        description: "Source Image Tag"
         required: true
-        default: 'latest'
+        default: "latest"
 defaults:
   run:
     working-directory: ./
 jobs:
   ocp-integration:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Prod

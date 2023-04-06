@@ -32,7 +32,7 @@ npm run lint
 ```
 
 ### Dev Settings
-To more easily move through the application during development, and bypass things like BCSC auth, adjust the settings in `src/settings.js`.
+To more easily move through the application during development, and bypass things like BCSC auth, adjust the settings in `src/settings.js`. The E2E test suite won't pass unless you temporarily set both "useDummyData" and "bypassLogin" to true.
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

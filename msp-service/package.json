@@ -23,11 +23,11 @@
   "homepage": "https://github.com/bcgov/MOH-AOP-OOP#msp-service/readme",
   "dependencies": {
     "colors": "^1.1.2",
-    "express": "^4.15.0",
+    "express": "^4.18.2",
     "http-proxy-middleware": "^0.17.4",
     "json-stringify-safe": "^5.0.1",
-    "jsonwebtoken": "^7.3.0",
-    "moment": "^2.20.1",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "winston": "^2.3.1"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "gulp-clean": "^0.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.22"
   },
   "engines": {
     "node": ">=10.0.0"

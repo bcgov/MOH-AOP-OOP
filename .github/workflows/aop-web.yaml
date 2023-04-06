@@ -16,9 +16,6 @@ env:
   IMAGE_NAME: aop-web
   SOURCE_IMAGE_TAG: latest
   TARGET_IMAGE_TAG: dev
-# defaults:
-#   run:
-#     working-directory: ./aop
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -70,9 +67,6 @@ jobs:
   image-build:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./aop
     needs: [test, build]
     steps:
       - uses: redhat-actions/openshift-tools-installer@v1

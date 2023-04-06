@@ -11,7 +11,6 @@ env:
   TARGET_IMAGE_TAG: prod
 jobs:
   ocp-integration:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: redhat-actions/openshift-tools-installer@v1

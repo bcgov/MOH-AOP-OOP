@@ -19,12 +19,12 @@
     "test:schema": "echo \"WARNING: No schema specified\" && exit 0"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "express-basic-auth": "^1.1.5",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "express-basic-auth": "^1.2.1",
     "json-stringify-safe": "^5.0.1",
-    "jsonwebtoken": "^8.3.0",
-    "moment-timezone": "^0.5.21",
+    "jsonwebtoken": "^9.0.0",
+    "moment-timezone": "^0.5.43",
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
     "winston": "^3.1.0",
@@ -35,7 +35,7 @@
     "gulp-clean": "^0.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.22"
   },
   "engines": {
     "node": ">=10.0.0"
