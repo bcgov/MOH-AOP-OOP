@@ -1,6 +1,6 @@
 {
   "name": "captcha-service",
-  "version": "7.3.0",
+  "version": "7.3.2",
   "description": "A reusable, secure and reliable CAPTCHA microservice for service providers to use within online digital services.",
   "main": "lib/index.js",
   "scripts": {
