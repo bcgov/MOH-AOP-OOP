@@ -1,6 +1,6 @@
 {
   "name": "spa-env-server",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Serve environment variables of server to remote SPAs (no secrets! only public info)",
   "license": "Apache-2.0",
   "repository": {
