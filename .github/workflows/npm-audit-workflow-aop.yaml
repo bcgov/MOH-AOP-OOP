@@ -1,4 +1,4 @@
-name: npm audit workflow
+name: npm audit workflow aop
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
     - cron: "0 0 1 * *"
 defaults:
   run:
-    working-directory: ./oop
+    working-directory: ./aop
 jobs:
   scan:
     name: npm audit
@@ -23,7 +23,7 @@ jobs:
       - uses: oke-py/npm-audit-action@v1.8.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          working_directory: ./oop
+          working_directory: ./aop
           issue_labels: vulnerability
           dedupe_issues: true
           production_flag: true
