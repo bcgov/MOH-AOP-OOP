@@ -31,15 +31,32 @@ const testDateArriveString = `${testDateArrive.toLocaleString("default", {
 })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`;
 
 //dev credentials
+const credentialName = "S WRENCHXE";
+const credentialPHN = "9332 287 999";
+const credentialPhone = "6049648192";
+const credentialDependent = "9302 111 173";
+
+//test credentials
 // const credentialName = "POIUYR";
 // const credentialPHN = "9873 541 262";
 // const credentialPhone = "2345678910";
+// const credentialDependent = "9873 541 248";
 
-//test credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9873 541 262";
-const credentialPhone = "2345678910";
-const credentialDependent = "9873 541 248";
+const credentialPhoneFormatted =
+  "(" +
+  credentialPhone.substring(0, 3) +
+  ") " +
+  credentialPhone.substring(3, 6) +
+  "-" +
+  credentialPhone.substring(6);
+
+const credentialDependentRegex = new RegExp(
+  credentialDependent.substring(0, 4) +
+    "\\s?" +
+    credentialDependent.substring(5, 8) +
+    "\\s?" +
+    credentialDependent.substring(9, 12)
+);
 
 const testUrl = "http://localhost:8080/oop/";
 
@@ -137,7 +154,7 @@ describe("Happy path", () => {
 
     cy.get("[data-cy=phn0]")
       .should("have.attr", "data-mask-raw-value")
-      .and("match", /9873541248/);
+      .and("match", credentialDependentRegex);
 
     cy.get("[data-cy=continueBar]").click();
 
@@ -383,7 +400,7 @@ describe("Happy path", () => {
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
-    cy.get("[data-cy=ReviewTableElement]").contains("(234) 567-8910");
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPhoneFormatted);
     cy.get("[data-cy=ReviewTableElement]").contains(
       "Account holder and dependent(s)"
     );
@@ -404,7 +421,7 @@ describe("Happy path", () => {
     });
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
-    cy.get("[data-cy=ReviewTableElement]").contains("(234) 567-8910");
+    cy.get("[data-cy=ReviewTableElement]").contains(credentialPhoneFormatted);
     cy.get("[data-cy=ReviewTableElement]").contains(
       "Account holder and dependent(s)"
     );
