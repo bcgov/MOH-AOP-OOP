@@ -12,12 +12,12 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
-// const credentialName = "POIUYR";
-// const credentialPHN = "9873 541 262";
+const credentialName = "PABAXA";
+const credentialPHN = "9311 826 254";
 
 //test credentials
-const credentialName = "POIUYR";
-const credentialPHN = "9873 541 262";
+// const credentialName = "POIUYR";
+// const credentialPHN = "9873 541 262";
 
 const testUrl = "http://localhost:8080/oop/";
 
