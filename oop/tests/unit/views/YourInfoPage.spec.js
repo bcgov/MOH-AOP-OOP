@@ -495,6 +495,64 @@ describe("YourInfoPage.vue nextPage()", () => {
     expect(spyOnScrollToError).toHaveBeenCalled();
   });
 
+  it("throws an error, does not call api service when phn is invalid", async () => {
+    const store = createStore({
+      modules: {
+        form: {
+          state: {
+            lastName: "Picket Boatxe",
+            phn: "9999 999 999",
+            phone: "2222222222",
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(Component, {
+      global: {
+        plugins: [store],
+      },
+    });
+
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.v$.$invalid).toEqual(true);
+    expect(mockApiService).not.toHaveBeenCalled();
+    expect(spyOnScrollToError).toHaveBeenCalled();
+  });
+
+  it("throws an error, does not call api service when phn passes mod check but starts with a number that's not 9", async () => {
+    const store = createStore({
+      modules: {
+        form: {
+          state: {
+            lastName: "Picket Boatxe",
+            phn: "8999 999 998",
+            phone: "2222222222",
+          },
+          namespaced: true,
+        },
+      },
+    });
+    const wrapper = mount(Component, {
+      global: {
+        plugins: [store],
+      },
+    });
+
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponse));
+
+    wrapper.vm.nextPage();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.v$.$invalid).toEqual(true);
+    expect(mockApiService).not.toHaveBeenCalled();
+    expect(spyOnScrollToError).toHaveBeenCalled();
+  });
+
   it("does call api service when last name and phn are present", async () => {
     const store = createStore({
       modules: {
