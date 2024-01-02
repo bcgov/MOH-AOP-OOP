@@ -6,7 +6,7 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 
 //At last check, there is code in the program that checks for dates in the distant future/past
 //To prevent code written in 2021 from failing in 2025 because the date is too far back,
-//this code pull the current year and adjusts it.
+//this code pulls the current year and adjusts it.
 //This is to hopefully increase the stability of the test
 const testYear = new Date().getFullYear() + 1;
 
@@ -95,6 +95,10 @@ describe("Happy path", () => {
     cy.get("[data-cy=continueBar]").click();
     cy.contains("This is not a valid Personal Health Number.");
     cy.get("[data-cy=yourInfoPhn]").clear();
+    cy.get("[data-cy=yourInfoPhn]").type("8999999998");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("This is not a valid Personal Health Number.");
+    cy.get("[data-cy=yourInfoPhn]").clear();
 
     cy.get("[data-cy=yourInfoPhone]").type("111");
     cy.get("[data-cy=continueBar]").click();
@@ -129,6 +133,10 @@ describe("Happy path", () => {
     });
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Dependent Personal Health Number is required.");
+    cy.get("[data-cy=phn0]").type("8999 999 998");
+    cy.get("[data-cy=continueBar]").click();
+    cy.contains("This is not a valid Personal Health Number.");
+    cy.get("[data-cy=phn0]").clear();
     cy.get("[data-cy=phn0]").type("9999 999 998");
     cy.get("[data-cy=phn1]").type("9999 999 998");
     cy.get("[data-cy=continueBar]").click();
