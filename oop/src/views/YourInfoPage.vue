@@ -33,7 +33,7 @@
                 v-if="v$.phn.$dirty && v$.phn.required.$invalid"
                 aria-live="assertive">Personal Health Number is required.</div>
             <div class="text-danger"
-                v-if="v$.phn.$dirty && !v$.phn.required.$invalid && v$.phn.phnValidation.$invalid"
+                v-if="v$.phn.$dirty && !v$.phn.required.$invalid && (v$.phn.phnValidation.$invalid || v$.phn.phnNineValidation.$invalid)"
                 aria-live="assertive">This is not a valid Personal Health Number.</div>
             <div class="text-danger"
                 v-if="isValidationCode1Shown || isValidationCode2Shown"
@@ -92,6 +92,7 @@ import {
   scrollToError,
   getTopScrollPosition
 } from '../helpers/scroll';
+import { phnNineValidator } from '../helpers/validators';
 import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
 import {
@@ -99,7 +100,8 @@ import {
   Input,
   PhnInput,
   PhoneNumberInput,
-  phnValidator
+  phnValidator,
+  optionalValidator
 } from 'common-lib-vue';
 import useVuelidate from "@vuelidate/core";
 import { required } from '@vuelidate/validators';
@@ -190,6 +192,7 @@ export default {
       phn: {
         required,
         phnValidation: phnValidator,
+        phnNineValidation: optionalValidator(phnNineValidator),
       },
       phone: {
         phoneValidator,
