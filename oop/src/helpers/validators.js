@@ -37,3 +37,14 @@ export const canadaPostalCodeLengthValidator = (value) => {
   }
   return true;
 };
+
+export const phnNineValidator = (value) => {
+  //first digit of PHN needs to be a 9, otherwise trigger validation error
+  if (typeof value !== "string") {
+    return false;
+  }
+  if (value && value[0] === "9") {
+    return true;
+  }
+  return false;
+};
