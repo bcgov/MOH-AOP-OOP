@@ -124,7 +124,7 @@ describe("Happy path", () => {
       expect(loc.pathname).to.eq("/oop/account-type");
     });
     cy.get("[data-cy=continueBar]").click();
-    cy.contains("This field is required.");
+    cy.contains("Who is moving out of B.C. is required.");
     cy.get("[data-cy=whoIsMovingperson-moving-ahad]").click({ force: true });
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Please select one of the options above.");
