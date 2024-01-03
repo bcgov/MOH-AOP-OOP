@@ -17,7 +17,7 @@
                   name='personMoving' />
             <div class="text-danger"
                 v-if="v$.personMoving.$dirty && v$.personMoving.required.$invalid"
-                aria-live="assertive">This field is required.</div>
+                aria-live="assertive">Who is moving out of B.C. is required.</div>
 
             <div v-if='personMoving === "AH_DEP"'
                 class="person-moving">
