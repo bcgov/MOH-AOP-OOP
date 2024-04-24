@@ -1161,3 +1161,96 @@ describe("MoveInfoPage.vue updateAddressLine()", () => {
     expect(wrapper.vm.addressLines[0].value).toEqual(before);
   });
 });
+
+describe("MoveInfoPage.vue cityMaxLength()", () => {
+  let wrapper;
+  let store;
+
+  let tempForm = cloneDeep(formTemplate);
+  tempForm.state = cloneDeep(dataTemplateFilled);
+
+  beforeEach(() => {
+    store = createStore({
+      modules: {
+        form: tempForm,
+      },
+    });
+
+    wrapper = shallowMount(Component, {
+      global: {
+        plugins: [store],
+      },
+    });
+  });
+
+  it("returns expected values", () => {
+    //these test values are hardcoded because they are database constraints and not expected to change
+    expect(wrapper.vm.cityMaxLength("Canada")).toEqual(22);
+    expect(wrapper.vm.cityMaxLength("United States")).toEqual(18);
+    expect(wrapper.vm.cityMaxLength("Other")).toEqual(25);
+    expect(wrapper.vm.cityMaxLength()).toEqual(25);    
+  });
+
+  it("triggers a validation error when these fields are exceeded (Canada)", async () => {
+    const testCityBefore = "abcdefghijklmnopqrstuv"; //22 characters, valid
+    const testCityAfter = "abcdefghijklmnopqrstuvw"; //23 characters, invalid
+    const testCountry = "Canada";   
+    //set city and country in the data 
+    wrapper.vm.city = testCityBefore;   
+    wrapper.vm.country = testCountry;
+    //await next tick to ensure validation parameters update properly, eg 22 -> 18
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    //check to make sure data store updated properly
+    expect(wrapper.vm.city).toEqual(testCityBefore);
+    expect(wrapper.vm.country).toEqual(testCountry);
+    expect(wrapper.vm.v$.city.$invalid).toBe(false);
+    //change city value
+    wrapper.vm.city = testCityAfter;
+    expect(wrapper.vm.city).toEqual(testCityAfter);
+    //check to make sure validation changes accordingly
+    expect(wrapper.vm.v$.city.$invalid).toBe(true);
+  });
+
+  it("triggers a validation error when these fields are exceeded (United States)", async () => {
+    const testCityBefore = "abcdefghijklmnopqr"; //18 characters, valid
+    const testCityAfter = "abcdefghijklmnopqrs"; //19 characters, invalid
+    const testCountry = "United States";  
+    //set city and country in the data   
+    wrapper.vm.city = testCityBefore;   
+    wrapper.vm.country = testCountry;
+    //await next tick to ensure validation parameters update properly, eg 22 -> 18
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    //check to make sure data store updated properly
+    expect(wrapper.vm.city).toEqual(testCityBefore);
+    expect(wrapper.vm.country).toEqual(testCountry);
+    expect(wrapper.vm.v$.city.$invalid).toBe(false);
+    //change city value
+    wrapper.vm.city = testCityAfter;
+    expect(wrapper.vm.city).toEqual(testCityAfter);
+    //check to make sure validation changes accordingly
+    expect(wrapper.vm.v$.city.$invalid).toBe(true);
+  });
+
+  it("triggers a validation error when these fields are exceeded (Other)", async () => {
+    const testCityBefore = "abcdefghijklmnopqrstuvwxy"; //25 characters, valid
+    const testCityAfter = "abcdefghijklmnopqrstuvwxyz"; //26 characters, invalid
+    const testCountry = "Afghanistan"; 
+    //set city and country in the data  
+    wrapper.vm.city = testCityBefore;   
+    wrapper.vm.country = testCountry;
+    //await next tick to ensure validation parameters update properly, eg 22 -> 25
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    //check to make sure data store updated properly
+    expect(wrapper.vm.city).toEqual(testCityBefore);
+    expect(wrapper.vm.country).toEqual(testCountry);
+    expect(wrapper.vm.v$.city.$invalid).toBe(false);
+    //change city value
+    wrapper.vm.city = testCityAfter;
+    expect(wrapper.vm.city).toEqual(testCityAfter);
+    //check to make sure validation changes accordingly
+    expect(wrapper.vm.v$.city.$invalid).toBe(true);
+  });
+});
