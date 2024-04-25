@@ -430,7 +430,7 @@
                     className="mt-3"
                     class="city"
                     v-model="zipCode"
-                    maxlength="22"
+                    :maxlength="country === 'United States' ? '6' : '22'"
                     cypressId="zipCode"
                   />
                   <div

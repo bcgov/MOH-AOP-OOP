@@ -298,6 +298,11 @@ describe("Happy path", () => {
     cy.contains(
       "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
     );
+    cy.get("[data-cy=zipCode]").clear();
+    cy.get("[data-cy=zipCode]")
+      .type("1234567") // 7 characters, invalid
+      .should('have.value', 123456) // 6 characters, valid (max length mask worked correctly)
+      .should('not.have.value', 1234567) // 7 characters, invalid
 
     //USA ready to continue
     cy.get("[data-cy=usaOtherStreetAddress]").clear();
@@ -344,6 +349,11 @@ describe("Happy path", () => {
     cy.contains(
       "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
     );
+    cy.get("[data-cy=zipCode]").clear();
+    cy.get("[data-cy=zipCode]")
+      .type("abcdefghijklmnopqrstuvw") // 23 characters, invalid
+      .should('have.value', 'abcdefghijklmnopqrstuv') // 22 characters, valid (max length mask worked correctly)
+      .should('not.have.value', 'abcdefghijklmnopqrstuvw') // 23 characters, invalid
 
     //Other ready to continue
     cy.get("[data-cy=usaOtherStreetAddress]").clear();
