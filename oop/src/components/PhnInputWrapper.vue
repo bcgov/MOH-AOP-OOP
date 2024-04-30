@@ -72,6 +72,14 @@ export default {
       return this.v$.phnData.$touch();
     },
   },
+  watch: {
+    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
+    //eslint-disable-next-line
+    childPhn: function (valueNew, valueOld) {
+      //updates Vue data when the prop changes
+      this.phnData = valueNew.value;
+    },
+  },
 };
 </script>
 
