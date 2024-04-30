@@ -75,6 +75,13 @@ export default {
       return this.v$.addressLine.$touch();
     },
   },
+  watch: {
+    //the valOld argument isn't used, but it's still here in the codebase for future debugging purposes
+    //eslint-disable-next-line
+    childAddressLine: function (valueNew, valueOld) {
+      this.addressLine = valueNew.value;
+    },
+  },
 };
 </script>
 
