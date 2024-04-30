@@ -58,7 +58,7 @@ class ApiService {
     }
     // If country is USA, add a special case: append otherStreetAddress as addressLines[0], then append city and state into one field - addressLines[1]
     else if (formState.country === 'United States'){
-      addressLines.push( formState.otherStreetAddress);
+      addressLines.push( formState.otherStreetAddress || "");
       //State must be in 2-digit abbreviation form for the JSON Payload
       addressLines.push( formState.city + ' ' +  getStateCodeFromName(formState.state) + ' USA');
       if (formState.zipCode) {
