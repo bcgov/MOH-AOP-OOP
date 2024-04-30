@@ -1105,6 +1105,10 @@ export default {
   margin-right: 1em;
 }
 
+.text-danger {
+  max-width: 350px
+}
+
 /* resize address line to fit + - buttons to the side at medium size*/
 @media (min-width: 768px) and (max-width: 991.98px) {
   .address-line-width {
