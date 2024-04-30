@@ -341,7 +341,7 @@ describe("Happy path", () => {
     cy.get("[data-cy=city]").type("%%%");
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
-      "City and province cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+      "City and province cannot include special characters except comma, hyphen, period, apostrophe, number sign and blank space."
     );
 
     cy.get("[data-cy=zipCode]").type("%%%");

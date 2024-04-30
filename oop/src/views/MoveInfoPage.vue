@@ -316,7 +316,7 @@
                     aria-live="assertive"
                   >
                     {{ cityAndProvincePlural }} cannot include special
-                    characters except hyphen, period, apostrophe, number sign
+                    characters except {{ isOtherJurisdiction() ? 'comma, ' : '' }} hyphen, period, apostrophe, number sign
                     and blank space.
                   </div>
                   <div
