@@ -296,7 +296,7 @@ describe("Happy path", () => {
     cy.get("[data-cy=zipCode]").type("%%%");
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
-      "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+      "Zip code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
     );
     cy.get("[data-cy=zipCode]").clear();
     cy.get("[data-cy=zipCode]")
@@ -347,7 +347,7 @@ describe("Happy path", () => {
     cy.get("[data-cy=zipCode]").type("%%%");
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
-      "Zip/postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
+      "Zip/Postal code cannot include special characters except hyphen, period, apostrophe, number sign and blank space."
     );
     cy.get("[data-cy=zipCode]").clear();
     cy.get("[data-cy=zipCode]")

@@ -291,7 +291,7 @@
                 <!-- City -->
                 <div class="mt-3">
                   <Input
-                    :label="isCityAndProvince() ? 'City, Province' : 'City'"
+                    :label="isOtherJurisdiction() ? 'City, Province' : 'City'"
                     className="mt-3"
                     class="city"
                     v-model="city"
@@ -441,7 +441,7 @@
                     "
                     aria-live="assertive"
                   >
-                    Zip/postal code cannot include special characters except
+                    {{ isOtherJurisdiction() ? 'Zip/Postal' : 'Zip' }}  code cannot include special characters except
                     hyphen, period, apostrophe, number sign and blank space.
                   </div>
                 </div>
@@ -991,7 +991,7 @@ export default {
         };
       }
     },
-    isCityAndProvince() {
+    isOtherJurisdiction() {
       if (this.country !== "Canada" && this.country !== "United States") {
         return true;
       } else {
@@ -1016,10 +1016,10 @@ export default {
       );
     },
     cityAndProvincePlural() {
-      return this.isCityAndProvince() ? "City and province" : "City";
+      return this.isOtherJurisdiction() ? "City and province" : "City";
     },
     cityAndProvinceVerb() {
-      return this.isCityAndProvince() ? "are" : "is";
+      return this.isOtherJurisdiction() ? "are" : "is";
     },
   },
   watch: {
