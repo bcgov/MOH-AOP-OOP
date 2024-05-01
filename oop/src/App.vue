@@ -8,6 +8,8 @@
           :routes="stepRoutes"
           :cypressId="'pageStepper'"
           @onClickLink="handleClickStepperLink($event)"
+          @toggleShowMobileDetails='handleToggleShowMobileStepperDetails($event)'
+          :isMobileStepperOpen='isMobileStepperOpen'
         />
       </div>
       <router-view />
@@ -41,6 +43,7 @@ export default {
       pageTitle: "MSP Permanent Move Outside of B.C.",
       version: project.version,
       stepRoutes: stepRoutes,
+      isMobileStepperOpen: false
     };
   },
   created() {
@@ -58,6 +61,9 @@ export default {
         scrollTo(0);
       }
     },
+    handleToggleShowMobileStepperDetails() {
+      this.isMobileStepperOpen = !this.isMobileStepperOpen;
+    }
   },
 };
 </script>
