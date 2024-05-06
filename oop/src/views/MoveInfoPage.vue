@@ -341,6 +341,7 @@
                     class="province"
                     cypressId="regionSelect"
                     v-model="province"
+                    defaultOptionLabel="Select a province"
                   />
                   <div
                     class="text-danger"
@@ -479,6 +480,7 @@
                   class="province"
                   cypressId="regionSelect"
                   v-model="province"
+                  defaultOptionLabel="Select a province"
                 />
                 <div
                   class="text-danger"
