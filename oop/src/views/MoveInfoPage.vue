@@ -328,7 +328,7 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} field exceeds the maximum number
+                    {{ cityAndProvincePlural }} {{ exceedsPlural}} the maximum number
                     of allowable characters.
                   </div>
                 </div>
@@ -1023,6 +1023,9 @@ export default {
     cityAndProvinceVerb() {
       return this.isOtherJurisdiction() ? "are" : "is";
     },
+    exceedsPlural() {
+      return this.isOtherJurisdiction() ? "exceed" : "exceeds"
+    }
   },
   watch: {
     country(newValue) {
