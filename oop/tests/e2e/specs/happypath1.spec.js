@@ -12,8 +12,8 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 const testYear = new Date().getFullYear() + 1;
 
 //dev credentials
-const credentialName = "PABAXA";
-const credentialPHN = "9311 826 254";
+const credentialName = "S WRENCHXE";
+const credentialPHN = "9332 287 999";
 
 //test credentials
 // const credentialName = "POIUYR";

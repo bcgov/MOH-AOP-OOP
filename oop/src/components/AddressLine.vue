@@ -75,6 +75,14 @@ export default {
       return this.v$.addressLine.$touch();
     },
   },
+  watch: {
+    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
+    //eslint-disable-next-line
+    childAddressLine: function (valueNew, valueOld) {
+      //updates Vue data when the prop changes
+      this.addressLine = valueNew.value;
+    },
+  },
 };
 </script>
 

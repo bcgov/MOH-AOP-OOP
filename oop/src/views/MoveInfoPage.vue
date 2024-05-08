@@ -291,11 +291,11 @@
                 <!-- City -->
                 <div class="mt-3">
                   <Input
-                    :label="isCityAndProvince() ? 'City, Province' : 'City'"
+                    :label="isOtherJurisdiction() ? 'City, Province' : 'City'"
                     className="mt-3"
                     class="city"
                     v-model="city"
-                    maxlength="22"
+                    :maxlength="cityMaxLength(country).toString()"
                     data-cy="city"
                   />
                   <div
@@ -316,8 +316,9 @@
                     aria-live="assertive"
                   >
                     {{ cityAndProvincePlural }} cannot include special
-                    characters except hyphen, period, apostrophe, number sign
-                    and blank space.
+                    characters except
+                    {{ isOtherJurisdiction() ? "comma, " : "" }} hyphen, period,
+                    apostrophe, number sign and blank space.
                   </div>
                   <div
                     class="text-danger"
@@ -328,8 +329,8 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} field exceeds the maximum number
-                    of allowable characters.
+                    {{ cityAndProvincePlural }} {{ exceedsPlural }} the maximum
+                    number of allowable characters.
                   </div>
                 </div>
                 <!-- Province/State -->
@@ -341,6 +342,7 @@
                     class="province"
                     cypressId="regionSelect"
                     v-model="province"
+                    defaultOptionLabel="Select a province"
                   />
                   <div
                     class="text-danger"
@@ -430,7 +432,7 @@
                     className="mt-3"
                     class="city"
                     v-model="zipCode"
-                    maxlength="22"
+                    :maxlength="country === 'United States' ? '6' : '22'"
                     cypressId="zipCode"
                   />
                   <div
@@ -441,8 +443,9 @@
                     "
                     aria-live="assertive"
                   >
-                    Zip/postal code cannot include special characters except
-                    hyphen, period, apostrophe, number sign and blank space.
+                    {{ isOtherJurisdiction() ? "Zip/Postal" : "Zip" }} code
+                    cannot include special characters except hyphen, period,
+                    apostrophe, number sign and blank space.
                   </div>
                 </div>
               </div>
@@ -479,6 +482,7 @@
                   class="province"
                   cypressId="regionSelect"
                   v-model="province"
+                  defaultOptionLabel="Select a province"
                 />
                 <div
                   class="text-danger"
@@ -586,7 +590,7 @@ import {
   SET_MOVE_FROM_BC_DATE,
   SET_OTHER_STREET_ADDRESS,
   SET_ZIP_CODE,
-  SET_USA_STATE
+  SET_USA_STATE,
 } from "../store/modules/form";
 import logService from "../services/log-service";
 import spaEnvService from "@/services/spa-env-service";
@@ -761,7 +765,7 @@ export default {
           (validations.city = {
             specialCharacterWithCommaValidator,
             required,
-            maxLength: maxLength(22),
+            maxLength: maxLength(this.cityMaxLength("Canada")),
           }),
           (validations.province = {
             required,
@@ -780,7 +784,7 @@ export default {
           (validations.city = {
             specialCharacterWithCommaValidator,
             required,
-            maxLength: maxLength(22),
+            maxLength: maxLength(this.cityMaxLength("United States")),
           }),
           (validations.province = {}),
           (validations.postalCode = {}),
@@ -800,7 +804,7 @@ export default {
           (validations.city = {
             specialCharacterWithCommaValidator,
             required,
-            maxLength: maxLength(22),
+            maxLength: maxLength(this.cityMaxLength("Other")),
           }),
           (validations.province = {}),
           (validations.postalCode = {}),
@@ -898,14 +902,8 @@ export default {
           formModule + "/" + SET_OTHER_STREET_ADDRESS,
           this.otherStreetAddress
         );
-        this.$store.dispatch(
-          formModule + "/" + SET_ZIP_CODE,
-          this.zipCode
-        );
-        this.$store.dispatch(
-          formModule + "/" + SET_USA_STATE,
-          this.state
-        );
+        this.$store.dispatch(formModule + "/" + SET_ZIP_CODE, this.zipCode);
+        this.$store.dispatch(formModule + "/" + SET_USA_STATE, this.state);
 
         const toPath = routes.REVIEW_PAGE.path;
         pageStateService.setPageComplete(toPath);
@@ -997,11 +995,21 @@ export default {
         };
       }
     },
-    isCityAndProvince() {
+    isOtherJurisdiction() {
       if (this.country !== "Canada" && this.country !== "United States") {
         return true;
       } else {
         return false;
+      }
+    },
+    cityMaxLength(countryParameter) {
+      switch (countryParameter) {
+        case "Canada":
+          return 22;
+        case "United States":
+          return 18;
+        default:
+          return 25;
       }
     },
   },
@@ -1012,10 +1020,13 @@ export default {
       );
     },
     cityAndProvincePlural() {
-      return this.isCityAndProvince() ? "City and province" : "City";
+      return this.isOtherJurisdiction() ? "City and province" : "City";
     },
     cityAndProvinceVerb() {
-      return this.isCityAndProvince() ? "are" : "is";
+      return this.isOtherJurisdiction() ? "are" : "is";
+    },
+    exceedsPlural() {
+      return this.isOtherJurisdiction() ? "exceed" : "exceeds";
     },
   },
   watch: {
@@ -1099,6 +1110,10 @@ export default {
 
 .address-row-margin {
   margin-right: 1em;
+}
+
+.text-danger {
+  max-width: 350px;
 }
 
 /* resize address line to fit + - buttons to the side at medium size*/
