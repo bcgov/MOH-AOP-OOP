@@ -1188,19 +1188,21 @@ describe("MoveInfoPage.vue cityMaxLength()", () => {
     expect(wrapper.vm.cityMaxLength("Canada")).toEqual(22);
     expect(wrapper.vm.cityMaxLength("United States")).toEqual(18);
     expect(wrapper.vm.cityMaxLength("Other")).toEqual(25);
-    expect(wrapper.vm.cityMaxLength()).toEqual(25);    
+    expect(wrapper.vm.cityMaxLength()).toEqual(25);
   });
 
   it("triggers a validation error when these fields are exceeded (Canada)", async () => {
     const testCityBefore = "abcdefghijklmnopqrstuv"; //22 characters, valid
     const testCityAfter = "abcdefghijklmnopqrstuvw"; //23 characters, invalid
-    const testCountry = "Canada";   
-    //set city and country in the data 
-    wrapper.vm.city = testCityBefore;   
+    const testCountry = "Canada";
+    //set city and country in the data
+    wrapper.vm.city = testCityBefore;
     wrapper.vm.country = testCountry;
     //await next tick to ensure validation parameters update properly, eg 22 -> 18
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(
+      wrapper.vm.cityMaxLength(wrapper.vm.country)
+    );
     //check to make sure data store updated properly
     expect(wrapper.vm.city).toEqual(testCityBefore);
     expect(wrapper.vm.country).toEqual(testCountry);
@@ -1215,13 +1217,15 @@ describe("MoveInfoPage.vue cityMaxLength()", () => {
   it("triggers a validation error when these fields are exceeded (United States)", async () => {
     const testCityBefore = "abcdefghijklmnopqr"; //18 characters, valid
     const testCityAfter = "abcdefghijklmnopqrs"; //19 characters, invalid
-    const testCountry = "United States";  
-    //set city and country in the data   
-    wrapper.vm.city = testCityBefore;   
+    const testCountry = "United States";
+    //set city and country in the data
+    wrapper.vm.city = testCityBefore;
     wrapper.vm.country = testCountry;
     //await next tick to ensure validation parameters update properly, eg 22 -> 18
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(
+      wrapper.vm.cityMaxLength(wrapper.vm.country)
+    );
     //check to make sure data store updated properly
     expect(wrapper.vm.city).toEqual(testCityBefore);
     expect(wrapper.vm.country).toEqual(testCountry);
@@ -1236,13 +1240,15 @@ describe("MoveInfoPage.vue cityMaxLength()", () => {
   it("triggers a validation error when these fields are exceeded (Other)", async () => {
     const testCityBefore = "abcdefghijklmnopqrstuvwxy"; //25 characters, valid
     const testCityAfter = "abcdefghijklmnopqrstuvwxyz"; //26 characters, invalid
-    const testCountry = "Afghanistan"; 
-    //set city and country in the data  
-    wrapper.vm.city = testCityBefore;   
+    const testCountry = "Afghanistan";
+    //set city and country in the data
+    wrapper.vm.city = testCityBefore;
     wrapper.vm.country = testCountry;
     //await next tick to ensure validation parameters update properly, eg 22 -> 25
     await wrapper.vm.$nextTick();
-    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(wrapper.vm.cityMaxLength(wrapper.vm.country));
+    expect(wrapper.vm.v$.city.maxLength.$params.max).toEqual(
+      wrapper.vm.cityMaxLength(wrapper.vm.country)
+    );
     //check to make sure data store updated properly
     expect(wrapper.vm.city).toEqual(testCityBefore);
     expect(wrapper.vm.country).toEqual(testCountry);

@@ -316,8 +316,9 @@
                     aria-live="assertive"
                   >
                     {{ cityAndProvincePlural }} cannot include special
-                    characters except {{ isOtherJurisdiction() ? 'comma, ' : '' }} hyphen, period, apostrophe, number sign
-                    and blank space.
+                    characters except
+                    {{ isOtherJurisdiction() ? "comma, " : "" }} hyphen, period,
+                    apostrophe, number sign and blank space.
                   </div>
                   <div
                     class="text-danger"
@@ -328,8 +329,8 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} {{ exceedsPlural}} the maximum number
-                    of allowable characters.
+                    {{ cityAndProvincePlural }} {{ exceedsPlural }} the maximum
+                    number of allowable characters.
                   </div>
                 </div>
                 <!-- Province/State -->
@@ -442,8 +443,9 @@
                     "
                     aria-live="assertive"
                   >
-                    {{ isOtherJurisdiction() ? 'Zip/Postal' : 'Zip' }}  code cannot include special characters except
-                    hyphen, period, apostrophe, number sign and blank space.
+                    {{ isOtherJurisdiction() ? "Zip/Postal" : "Zip" }} code
+                    cannot include special characters except hyphen, period,
+                    apostrophe, number sign and blank space.
                   </div>
                 </div>
               </div>
@@ -1024,8 +1026,8 @@ export default {
       return this.isOtherJurisdiction() ? "are" : "is";
     },
     exceedsPlural() {
-      return this.isOtherJurisdiction() ? "exceed" : "exceeds"
-    }
+      return this.isOtherJurisdiction() ? "exceed" : "exceeds";
+    },
   },
   watch: {
     country(newValue) {
@@ -1111,7 +1113,7 @@ export default {
 }
 
 .text-danger {
-  max-width: 350px
+  max-width: 350px;
 }
 
 /* resize address line to fit + - buttons to the side at medium size*/

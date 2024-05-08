@@ -11,7 +11,11 @@
     />
     <div
       class="text-danger"
-      v-if="(v$.phnData.phnValidator.$invalid || v$.phnData.phnNineValidator.$invalid) && v$.phnData.$dirty"
+      v-if="
+        (v$.phnData.phnValidator.$invalid ||
+          v$.phnData.phnNineValidator.$invalid) &&
+        v$.phnData.$dirty
+      "
       aria-live="assertive"
     >
       This is not a valid Personal Health Number.
@@ -22,7 +26,7 @@
 <script>
 import { PhnInput } from "common-lib-vue";
 import useVuelidate from "@vuelidate/core";
-import { phnNineValidator } from '../helpers/validators';
+import { phnNineValidator } from "../helpers/validators";
 import { optionalValidator, phnValidator } from "common-lib-vue";
 
 export default {
@@ -55,7 +59,7 @@ export default {
     const validations = {
       phnData: {
         phnValidator: optionalValidator(phnValidator),
-        phnNineValidator: optionalValidator(phnNineValidator)
+        phnNineValidator: optionalValidator(phnNineValidator),
       },
     };
     return validations;
