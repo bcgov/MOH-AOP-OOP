@@ -183,7 +183,7 @@ export default {
             value: getStateNameFromCode(this.$store.state.form.state),
           });
         }
-        if (this.$store.state.form.zipCode !== null){
+        if (this.$store.state.form.zipCode !== null && this.$store.state.form.zipCode !== ""){
           const zipLabel = this.$store.state.form.country === 'United States' ? 'Zip code (optional):' : 'Zip/postal code (optional):';
           items.push({
             label: zipLabel,
