@@ -5,6 +5,9 @@ describe('Full AOP application flow', () => {
   it('Clicks through log in page', () => {
     cy.visit('/');
     cy.get('.bcgov-button').click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/aop/submission-info");
+    });
     cy.get('h1').contains('Select a form')
   });
 
@@ -15,12 +18,20 @@ describe('Full AOP application flow', () => {
 
   it('Continues to the review page', () => {
     cy.get('.bcgov-button').contains('Continue').click();
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/aop/review");
+    });
     cy.get('h1').contains('Review your submission');
   })
 
   it('Successfully submits', () => {
     cy.get('.bcgov-button').contains('Submit').click();
-    cy.wait(1000)
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/aop/sending");
+    });
+    cy.location().should((loc) => {
+      expect(loc.pathname).to.eq("/aop/confirmation");
+    });
     cy.get('h1').contains('Confirmation message');
   })
 });
