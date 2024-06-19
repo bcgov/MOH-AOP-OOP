@@ -4,6 +4,23 @@ Cypress.on("uncaught:exception", (err, runnable) => {
   return false;
 });
 
+import * as fixtureDataTest from "../fixtures/test-data.json";
+import * as fixtureDataDev from "../fixtures/dev-data.json";
+import * as fixtureDataLocal from "../fixtures/local-data.json";
+
+let enableIntercepts = false;
+let credentialName;
+let credentialPHN; 
+
+if (Cypress.env("environment") === "test") {
+  ({credentialName, credentialPHN } = fixtureDataTest);
+} else if (Cypress.env("environment") === "dev") {
+  ({credentialName, credentialPHN } = fixtureDataDev);
+} else { //local environment
+  ({credentialName, credentialPHN } = fixtureDataLocal);
+  enableIntercepts = true;
+}
+
 //At last check, there is code in the program that checks for dates in the distant future/past
 //To prevent code written in 2021 from failing in 2025 because the date is too far back,
 //this code pull the current year and adds one.
@@ -11,22 +28,12 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 
 const testYear = new Date().getFullYear() + 1;
 
-//dev credentials
-const credentialName = "S WRENCHXE";
-const credentialPHN = "9332 287 999";
-
-//test credentials
-// const credentialName = "POIUYR";
-// const credentialPHN = "9873 541 262";
-
-const testUrl = "http://localhost:8080/oop/";
-
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit(testUrl);
+    cy.visit('/');
     cy.location().should((loc) => {
-      expect(loc.href).to.eq(testUrl);
+      expect(loc.href).to.eq(Cypress.config('baseUrl'));
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -43,6 +50,16 @@ describe("Happy path", () => {
 
     cy.get("[data-cy=yourInfoLastName]").type(credentialName);
     cy.get("[data-cy=yourInfoPhn]").type(credentialPHN);
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/validatePhnName", {
+        statusCode: 200,
+        body: {
+          returnCode: "0",
+          applicantRole: "AH",
+          testfield: "This is a stubbed test response from Cypress"
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
 
     //Account Type
@@ -96,7 +113,15 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains("No");
     cy.get("[data-cy=ReviewTableElement]").contains("Canada");
     cy.get("[data-cy=ReviewTableElement]").contains("Alberta");
-
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/submission", {
+        statusCode: 200,
+        body: {
+          returnCode: "0",
+          testfield: "This is a stubbed test response from Cypress"
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
 
     //Submission Page
