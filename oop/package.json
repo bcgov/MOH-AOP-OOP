@@ -6,8 +6,10 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
-    "test:e2e-headless": "vue-cli-service test:e2e --headless",
+    "test:e2e": "vue-cli-service test:e2e --config baseUrl=http://localhost:8080/oop/ --env environment=local",
+    "test:e2e-dev": "vue-cli-service test:e2e --config baseUrl=https://dev.my.gov.bc.ca/oop/ --env environment=dev",
+    "test:e2e-test": "vue-cli-service test:e2e --config baseUrl=https://test.my.gov.bc.ca/oop/ --env environment=test",
+    "test:e2e-headless": "vue-cli-service test:e2e --headless --config baseUrl=http://localhost:8080/oop/ --env environment=local",
     "lint": "vue-cli-service lint",
     "cypress:open": "cypress open",
     "test": "vue-cli-service test:unit"
