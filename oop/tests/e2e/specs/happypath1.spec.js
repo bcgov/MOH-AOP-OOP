@@ -10,14 +10,15 @@ import * as fixtureDataLocal from "../fixtures/local-data.json";
 
 let enableIntercepts = false;
 let credentialName;
-let credentialPHN; 
+let credentialPHN;
 
 if (Cypress.env("environment") === "test") {
-  ({credentialName, credentialPHN } = fixtureDataTest);
+  ({ credentialName, credentialPHN } = fixtureDataTest);
 } else if (Cypress.env("environment") === "dev") {
-  ({credentialName, credentialPHN } = fixtureDataDev);
-} else { //local environment
-  ({credentialName, credentialPHN } = fixtureDataLocal);
+  ({ credentialName, credentialPHN } = fixtureDataDev);
+} else {
+  //local environment
+  ({ credentialName, credentialPHN } = fixtureDataLocal);
   enableIntercepts = true;
 }
 
@@ -31,9 +32,9 @@ const testYear = new Date().getFullYear() + 1;
 describe("Happy path", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit('/');
+    cy.visit("/");
     cy.location().should((loc) => {
-      expect(loc.href).to.eq(Cypress.config('baseUrl'));
+      expect(loc.href).to.eq(Cypress.config("baseUrl"));
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -56,7 +57,7 @@ describe("Happy path", () => {
         body: {
           returnCode: "0",
           applicantRole: "AH",
-          testfield: "This is a stubbed test response from Cypress"
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
@@ -118,7 +119,7 @@ describe("Happy path", () => {
         statusCode: 200,
         body: {
           returnCode: "0",
-          testfield: "This is a stubbed test response from Cypress"
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }

@@ -16,26 +16,15 @@ let credentialDependent;
 
 //Cypress environment is passed down as an env variable in the package.json script
 if (Cypress.env("environment") === "test") {
-  ({
-    credentialName,
-    credentialPHN,
-    credentialPhone,
-    credentialDependent,
-  } = fixtureDataTest);
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataTest);
 } else if (Cypress.env("environment") === "dev") {
-  ({
-    credentialName,
-    credentialPHN,
-    credentialPhone,
-    credentialDependent,
-  } = fixtureDataDev);
-} else { //local environment
-  ({
-    credentialName,
-    credentialPHN,
-    credentialPhone,
-    credentialDependent,
-  } = fixtureDataLocal);
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataDev);
+} else {
+  //local environment
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataLocal);
   enableIntercepts = true;
 }
 
@@ -84,9 +73,9 @@ const testDateArriveString = `${testDateArrive.toLocaleString("default", {
 describe("Happy path (long)", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit('/');
+    cy.visit("/");
     cy.location().should((loc) => {
-      expect(loc.href).to.eq(Cypress.config('baseUrl'));
+      expect(loc.href).to.eq(Cypress.config("baseUrl"));
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -133,7 +122,7 @@ describe("Happy path (long)", () => {
         body: {
           returnCode: "1",
           applicantRole: "AH",
-          testfield: "This is a stubbed test response from Cypress"
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
@@ -153,7 +142,7 @@ describe("Happy path (long)", () => {
         body: {
           returnCode: "0",
           applicantRole: "AH",
-          testfield: "This is a stubbed test response from Cypress"
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
@@ -187,8 +176,8 @@ describe("Happy path (long)", () => {
         statusCode: 200,
         body: {
           returnCode: "1",
-          message : "Dependent information does not match our records",
-          testfield: "This is a stubbed test response from Cypress"
+          message: "Dependent information does not match our records",
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
@@ -202,8 +191,8 @@ describe("Happy path (long)", () => {
         statusCode: 200,
         body: {
           returnCode: "0",
-          message : "Dependents match our records",
-          testfield: "This is a stubbed test response from Cypress"
+          message: "Dependents match our records",
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
@@ -494,7 +483,7 @@ describe("Happy path (long)", () => {
         statusCode: 200,
         body: {
           returnCode: "0",
-          testfield: "This is a stubbed test response from Cypress"
+          testfield: "This is a stubbed test response from Cypress",
         },
       });
     }
