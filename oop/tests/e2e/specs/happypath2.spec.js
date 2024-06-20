@@ -4,6 +4,46 @@ Cypress.on("uncaught:exception", (err, runnable) => {
   return false;
 });
 
+import * as fixtureDataTest from "../fixtures/test-data.json";
+import * as fixtureDataDev from "../fixtures/dev-data.json";
+import * as fixtureDataLocal from "../fixtures/local-data.json";
+
+let enableIntercepts = false;
+let credentialName;
+let credentialPHN;
+let credentialPhone;
+let credentialDependent;
+
+//Cypress environment is passed down as an env variable in the package.json script
+if (Cypress.env("environment") === "test") {
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataTest);
+} else if (Cypress.env("environment") === "dev") {
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataDev);
+} else {
+  //local environment
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
+    fixtureDataLocal);
+  enableIntercepts = true;
+}
+
+const credentialPhoneFormatted =
+  "(" +
+  credentialPhone.substring(0, 3) +
+  ") " +
+  credentialPhone.substring(3, 6) +
+  "-" +
+  credentialPhone.substring(6);
+
+const credentialDependentRegex = new RegExp(
+  credentialDependent.substring(0, 4) +
+    "\\s?" +
+    credentialDependent.substring(5, 8) +
+    "\\s?" +
+    credentialDependent.substring(9, 12)
+);
+
 //At last check, there is code in the program that checks for dates in the distant future/past
 //To prevent code written in 2021 from failing in 2025 because the date is too far back,
 //this code pulls the current year and adjusts it.
@@ -30,42 +70,12 @@ const testDateArriveString = `${testDateArrive.toLocaleString("default", {
   month: "long",
 })} ${testDateArrive.getDate()}, ${testDateArrive.getFullYear()}`;
 
-//dev credentials
-const credentialName = "S WRENCHXE";
-const credentialPHN = "9332 287 999";
-const credentialPhone = "6049648192";
-const credentialDependent = "9302 111 173";
-
-//test credentials
-// const credentialName = "POIUYR";
-// const credentialPHN = "9873 541 262";
-// const credentialPhone = "2345678910";
-// const credentialDependent = "9873 541 248";
-
-const credentialPhoneFormatted =
-  "(" +
-  credentialPhone.substring(0, 3) +
-  ") " +
-  credentialPhone.substring(3, 6) +
-  "-" +
-  credentialPhone.substring(6);
-
-const credentialDependentRegex = new RegExp(
-  credentialDependent.substring(0, 4) +
-    "\\s?" +
-    credentialDependent.substring(5, 8) +
-    "\\s?" +
-    credentialDependent.substring(9, 12)
-);
-
-const testUrl = "http://localhost:8080/oop/";
-
-describe("Happy path", () => {
+describe("Happy path (long)", () => {
   it("completes the app lifecycle without errors", () => {
     //Home page
-    cy.visit(testUrl);
+    cy.visit("/");
     cy.location().should((loc) => {
-      expect(loc.href).to.eq(testUrl);
+      expect(loc.href).to.eq(Cypress.config("baseUrl"));
       expect(loc.pathname).to.eq("/oop/");
     });
 
@@ -77,7 +87,6 @@ describe("Happy path", () => {
 
     //Your Info
     cy.location().should((loc) => {
-      expect(loc.href).to.eq("http://localhost:8080/oop/your-info");
       expect(loc.pathname).to.eq("/oop/your-info");
     });
     cy.get("[data-cy=continueBar]").click();
@@ -107,6 +116,16 @@ describe("Happy path", () => {
 
     cy.get("[data-cy=yourInfoLastName]").type("AAA");
     cy.get("[data-cy=yourInfoPhn]").type("9999 999 998");
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/validatePhnName", {
+        statusCode: 200,
+        body: {
+          returnCode: "1",
+          applicantRole: "AH",
+          testfield: "This is a stubbed test response from Cypress",
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
       "The last name and/or PHN you entered does not match our records."
@@ -117,6 +136,16 @@ describe("Happy path", () => {
     cy.get("[data-cy=yourInfoLastName]").type(credentialName);
     cy.get("[data-cy=yourInfoPhn]").type(credentialPHN);
     cy.get("[data-cy=yourInfoPhone]").type(credentialPhone);
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/validatePhnName", {
+        statusCode: 200,
+        body: {
+          returnCode: "0",
+          applicantRole: "AH",
+          testfield: "This is a stubbed test response from Cypress",
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
 
     //Account Type
@@ -142,12 +171,31 @@ describe("Happy path", () => {
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Personal Health Numbers must be unique.");
     cy.get("[data-cy=phn1]").clear();
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/validateDep", {
+        statusCode: 200,
+        body: {
+          returnCode: "1",
+          message: "Dependent information does not match our records",
+          testfield: "This is a stubbed test response from Cypress",
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
     cy.contains(
       "At least one of the Personal Health Numbers does not match our records."
     );
     cy.get("[data-cy=phn0]").clear().type(credentialDependent);
-
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/validateDep", {
+        statusCode: 200,
+        body: {
+          returnCode: "0",
+          message: "Dependents match our records",
+          testfield: "This is a stubbed test response from Cypress",
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
 
     //check that PHN data is stored properly + shows on page when you return
@@ -430,7 +478,15 @@ describe("Happy path", () => {
     cy.get("[data-cy=ReviewTableElement]").contains("716 YATES DR");
     cy.get("[data-cy=ReviewTableElement]").contains("MILTON");
     cy.get("[data-cy=ReviewTableElement]").contains("L9T 7R5");
-
+    if (enableIntercepts) {
+      cy.intercept("POST", "/oop/api/oopIntegration/submission", {
+        statusCode: 200,
+        body: {
+          returnCode: "0",
+          testfield: "This is a stubbed test response from Cypress",
+        },
+      });
+    }
     cy.get("[data-cy=continueBar]").click();
 
     //Submission Page

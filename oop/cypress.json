@@ -1,4 +1,5 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
-  "defaultCommandTimeout": 8000
+  "defaultCommandTimeout": 8000,
+  "video": false
 }
