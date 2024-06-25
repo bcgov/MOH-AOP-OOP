@@ -33,6 +33,7 @@
 
 <script>
 import Button from '../Button.vue';
+import 'core-js/features/array/at';
 import * as PDFJS from 'pdfjs-dist/legacy/build/pdf';
 import pdfJsWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
 import sha1 from 'sha1';
