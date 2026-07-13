@@ -150,6 +150,9 @@ describe("MoveInfoPage.vue", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplateCopy;
@@ -180,6 +183,9 @@ describe("MoveInfoPage.vue addAddressField()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -197,6 +203,9 @@ describe("MoveInfoPage.vue addAddressField()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -253,6 +262,9 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -285,6 +297,9 @@ describe("MoveInfoPage.vue removeAddressField()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -338,6 +353,9 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -370,6 +388,9 @@ describe("MoveInfoPage.vue getAddressLength()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -419,6 +440,9 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -456,6 +480,9 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -493,6 +520,9 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -560,6 +590,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -584,6 +617,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -604,6 +640,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -620,6 +659,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -635,6 +677,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -650,6 +695,9 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -702,6 +750,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -718,6 +769,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -742,6 +796,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -762,6 +819,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -789,6 +849,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -841,6 +904,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -904,6 +970,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -938,6 +1007,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -971,6 +1043,9 @@ describe("MoveInfoPage.vue validateFields()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => dataTemplateCopy,
     });
@@ -1016,6 +1091,9 @@ describe("MoveInfoPage.vue created()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplateCopy;
@@ -1126,6 +1204,9 @@ describe("MoveInfoPage.vue updateAddressLine()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplateCopy;
@@ -1178,6 +1259,9 @@ describe("MoveInfoPage.vue cityMaxLength()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });

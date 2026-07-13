@@ -242,6 +242,9 @@ describe("YourInfoPage.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();
@@ -265,6 +268,9 @@ describe("YourInfoPage.vue nameValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -290,6 +296,9 @@ describe("YourInfoPage.vue nameValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -317,6 +326,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -342,6 +354,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -367,6 +382,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -392,6 +410,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -417,6 +438,9 @@ describe("YourInfoPage.vue phoneValidator()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -458,6 +482,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -487,6 +514,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -516,6 +546,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -545,6 +578,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -576,6 +612,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -619,6 +658,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {
@@ -663,6 +705,9 @@ describe("YourInfoPage.vue nextPage()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {
@@ -741,6 +786,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -754,6 +802,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -772,6 +823,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -789,6 +843,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -805,6 +862,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -824,6 +884,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -843,6 +906,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -864,6 +930,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -883,6 +952,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -897,6 +969,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -910,6 +985,9 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -976,6 +1054,9 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -992,6 +1073,9 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -1014,6 +1098,9 @@ describe("YourInfoPage.vue handleLastNameInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -1089,6 +1176,9 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -1105,6 +1195,9 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -1127,6 +1220,9 @@ describe("YourInfoPage.vue handlePhnInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return dataTemplate;
@@ -1172,6 +1268,9 @@ describe("YourInfoPage.vue created()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });

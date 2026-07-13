@@ -74,6 +74,9 @@ describe("SubmissionPage.vue", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -101,6 +104,9 @@ describe("SubmissionPage.vue printPage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -130,6 +136,9 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -186,6 +195,9 @@ describe("SubmissionPage.vue created()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });

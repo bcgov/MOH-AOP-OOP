@@ -33,6 +33,9 @@ describe("ConsentModal.vue", () => {
   const wrapper = shallowMount(Component, {
     global: {
       plugins: [store],
+      stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
     },
 
     data: () => {
@@ -57,6 +60,9 @@ describe("ConsentModal.vue getFocusableEls()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {
@@ -78,6 +84,9 @@ describe("ConsentModal.vue getFocusableEls()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {
@@ -100,6 +109,9 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {
@@ -147,6 +159,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -186,6 +201,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -225,6 +243,9 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -249,6 +270,9 @@ describe("ConsentModal.vue closeModal()", () => {
   const wrapper = shallowMount(Component, {
     global: {
       plugins: [store],
+      stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
     },
     data: () => {
       return {
@@ -294,6 +318,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -316,6 +343,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -341,6 +371,9 @@ describe("ConsentModal.vue handleKeyDown()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -382,6 +415,9 @@ describe("ConsentModal.vue handleTab()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -411,6 +447,9 @@ describe("ConsentModal.vue handleTab()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -447,6 +486,9 @@ describe("ConsentModal.vue handleTab()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -475,6 +517,9 @@ describe("ConsentModal.vue handleTab()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -513,6 +558,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -541,6 +589,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -575,6 +626,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
 
       data: () => {
@@ -608,6 +662,9 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {

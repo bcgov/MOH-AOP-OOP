@@ -7,6 +7,9 @@ describe("TipBox.vue", () => {
     const wrapper = shallowMount(Page, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();

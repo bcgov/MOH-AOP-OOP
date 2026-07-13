@@ -6,6 +6,9 @@ describe("ProvinceInput.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();
@@ -15,6 +18,9 @@ describe("ProvinceInput.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     const fakeEvent = "potato";

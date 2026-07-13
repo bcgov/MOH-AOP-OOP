@@ -325,6 +325,9 @@ describe("Captcha.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -354,6 +357,9 @@ describe("Captcha.vue fetchNewCaptcha()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -387,6 +393,9 @@ describe("Captcha.vue fetchNewCaptcha()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -422,6 +431,9 @@ describe("Captcha.vue handleInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -455,6 +467,9 @@ describe("Captcha.vue handleInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -488,6 +503,9 @@ describe("Captcha.vue handleInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -522,6 +540,9 @@ describe("Captcha.vue handleInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -557,6 +578,9 @@ describe("Captcha.vue handleInputChange()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -591,6 +615,9 @@ describe("Captcha.vue handleTryAnotherImageClick()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -621,6 +648,9 @@ describe("Captcha.vue handleTryAnotherImageClick()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -652,6 +682,9 @@ describe("Captcha.vue playAudio()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -683,6 +716,9 @@ describe("Captcha.vue playAudio()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -717,6 +753,9 @@ describe("Captcha.vue playAudio()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",
@@ -756,6 +795,9 @@ describe("Captcha.vue playAudio()", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         apiBasePath: "/oop/api/captcha",

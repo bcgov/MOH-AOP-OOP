@@ -409,6 +409,9 @@ describe("ReviewPage.vue", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -442,6 +445,9 @@ describe("ReviewPage.vue submitForm()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -505,6 +511,9 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       props: {
         isSystemUnavailable: false,
@@ -614,6 +623,9 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -665,6 +677,9 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -712,6 +727,9 @@ describe("ReviewPage.vue created()", () => {
     shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -745,6 +763,9 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });

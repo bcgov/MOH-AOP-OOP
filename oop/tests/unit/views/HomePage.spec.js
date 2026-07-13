@@ -165,6 +165,9 @@ describe("HomePage.vue", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -197,6 +200,9 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -232,6 +238,9 @@ describe("HomePage.vue nextPage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -287,6 +296,9 @@ describe("HomePage.vue created()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });

@@ -122,6 +122,9 @@ describe("AccountTypePage.vue", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -152,6 +155,9 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -200,6 +206,9 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -276,6 +285,9 @@ describe("AccountTypePage.vue nextPage()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -335,6 +347,9 @@ describe("AccountTypePage.vue addDependentField()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -387,6 +402,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -415,6 +433,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -437,6 +458,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -465,6 +489,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -500,6 +527,9 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -523,6 +553,9 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6");
@@ -551,6 +584,9 @@ describe("AccountTypePage.vue validateFields() $v errors", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -886,6 +922,9 @@ describe("AccountTypePage.vue validateFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -1061,6 +1100,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -1082,6 +1124,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[1]["value"]).toEqual("default2");
@@ -1103,6 +1148,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -1124,6 +1172,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
