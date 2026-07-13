@@ -233,7 +233,7 @@ export default {
             this.audio = audio;
 
             setTimeout(() => {
-              //The following code makes audio testable in Jest.
+              //The following code makes audio testable in unit tests.
               //While it's possible to call the play() function directly from the $refs.audio,
               //JSDOM won't render this and it won't be testable. 
               //This implementation avoids this problem.
