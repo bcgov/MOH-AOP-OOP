@@ -115,7 +115,9 @@ export default {
     handleTab() {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[0];
-        this.focusedEl.focus();
+        if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+        }
         return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
@@ -124,13 +126,17 @@ export default {
       } else {
         this.focusedEl = this.focusableEls[position + 1];
       }
-      this.focusedEl.focus();
+      if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+      }
     },
     // Move to next focusable element, if at last element, move to first
     handleTabBackwards() {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[this.focusableEls.length - 1];
-        this.focusedEl.focus();
+        if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+        }
         return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
@@ -139,7 +145,9 @@ export default {
       } else {
         this.focusedEl = this.focusableEls[position - 1];
       }
-      this.focusedEl.focus();
+      if (this.focusedEl.focus) {
+        this.focusedEl.focus();
+      }
     },
   }
 };
