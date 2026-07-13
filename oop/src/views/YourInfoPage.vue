@@ -7,7 +7,7 @@
         <hr/>
         <div class="row">
           <div class="col-sm-7">
-            <Input label='Last name'
+            <InputComponent label='Last name'
                   v-model='lastName'
                   maxlength='30'
                   class='last-name'
@@ -97,7 +97,7 @@ import PageContent from '../components/PageContent.vue';
 import TipBox from '../components/TipBox.vue';
 import {
   ContinueBar,
-  Input,
+  InputComponent,
   PhnInput,
   PhoneNumberInput,
   phnValidator,
@@ -141,7 +141,7 @@ export default {
   name: 'YourInfoPage',
   components: {
     ContinueBar,
-    Input,
+    InputComponent,
     PageContent,
     PhnInput,
     PhoneNumberInput,

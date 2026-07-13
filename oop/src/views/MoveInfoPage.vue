@@ -130,7 +130,7 @@
         </p>
         <hr />
         <p>Do you know your new address?</p>
-        <Radio
+        <RadioComponent
           v-model="isNewAddressKnown"
           :items="isNewAddressKnownRadioItems"
           cypressId="isNewAddressKnown"
@@ -232,7 +232,7 @@
                       "
                       class="col-md-1 address-row-margin d-flex align-items-end"
                     >
-                      <Button
+                      <ButtonComponent
                         label="+"
                         @click="addAddressField()"
                         cypressId="addAddressField"
@@ -246,7 +246,7 @@
                       "
                       class="col-md-1 address-row-margin d-flex align-items-end"
                     >
-                      <Button
+                      <ButtonComponent
                         label="-"
                         @click="removeAddressField()"
                         class="add-remove-button mt-2 mt-sm-5 form-control"
@@ -257,7 +257,7 @@
                 <div v-else class="row">
                   <!-- USA or Other -->
                   <div class="col mt-3">
-                    <Input
+                    <InputComponent
                       label="Street address"
                       v-model="otherStreetAddress"
                       class="address-line"
@@ -290,7 +290,7 @@
                 </div>
                 <!-- City -->
                 <div class="mt-3">
-                  <Input
+                  <InputComponent
                     :label="isOtherJurisdiction() ? 'City, Province' : 'City'"
                     className="mt-3"
                     class="city"
@@ -423,7 +423,7 @@
                 </div>
                 <div v-else>
                   <!-- Any other jurisdiction-->
-                  <Input
+                  <InputComponent
                     :label="
                       country === 'United States'
                         ? 'Zip Code (optional)'
@@ -562,9 +562,9 @@ import {
   PostalCodeInput,
   ContinueBar,
   DateInput,
-  Button,
-  Radio,
-  Input,
+  ButtonComponent,
+  RadioComponent,
+  InputComponent,
   distantFutureValidator,
   distantPastValidator,
   beforeDateValidator,
@@ -634,15 +634,15 @@ export default {
     AddressLine,
     ContinueBar,
     DateInput,
-    Input,
+    InputComponent,
     PageContent,
     PostalCodeInput,
     CountrySelect,
     RegionSelect,
     StateInput,
     TipBox,
-    Button,
-    Radio,
+    ButtonComponent,
+    RadioComponent,
   },
   setup() {
     return { v$: useVuelidate() };

@@ -22,7 +22,7 @@
     </svg>
 
     <div v-if="isLoadingNewCaptcha">
-      <Loader :color="'#AAA'"
+      <LoaderComponent :color="'#AAA'"
               :size="'20px'" />
     </div>
     <div v-if="!isLoadingNewCaptcha"
@@ -107,7 +107,7 @@
             aria-required="true" />
       <div v-if="isLoadingCaptchaVerification"
           class="validation-spinner-container">
-        <Loader :color="'#AAA'"
+        <LoaderComponent :color="'#AAA'"
                 :size="'20px'" />
       </div>
     </div>
@@ -118,7 +118,7 @@
 
 <script>
 import axios from 'axios';
-import { Loader } from 'common-lib-vue';
+import { LoaderComponent } from 'common-lib-vue';
 
 const CAPTCHA_IMAGE_URL = '/captcha';
 const CAPTCHA_VERIFY_URL = '/verify/captcha';
@@ -130,7 +130,7 @@ const INCORRECT_ANSWER_MESSAGE = 'Incorrect answer, please try again.';
 export default {
   name: 'Captcha',
   components: {
-    Loader,
+    LoaderComponent,
   },
   props: {
     apiBasePath: {

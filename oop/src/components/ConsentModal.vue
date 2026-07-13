@@ -33,7 +33,7 @@
             
           </div>
           <div class="modal-footer justify-content-center">
-            <Button label="Continue"
+            <ButtonComponent label="Continue"
                     cypressId="consentContinue"
                     @click="closeModal()"
                     :disabled="!isCaptchaValid || !isTermsAccepted"/>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { Button } from "common-lib-vue";
+import { ButtonComponent } from "common-lib-vue";
 import Captcha from '../components/Captcha';
 import {
   MODULE_NAME as formModule,
@@ -55,7 +55,7 @@ import {
 export default {
   name: "ConsentModal",
   components: {
-    Button,
+    ButtonComponent,
     Captcha,
   },
   data: () => {

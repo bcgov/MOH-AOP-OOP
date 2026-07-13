@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header :title="pageTitle" imagePath="/oop/images/" />
+    <HeaderComponent :title="pageTitle" imagePath="/oop/images/" />
     <main>
       <div class="container stepper">
         <PageStepper
@@ -14,17 +14,17 @@
       </div>
       <router-view />
     </main>
-    <Footer :version="version" />
+    <FooterComponent :version="version" />
   </div>
 </template>
 
 <script>
-import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
 import "common-lib-vue/dist/common-lib-vue.css";
 import "./styles/styles.css";
 
 import project from "../package.json";
-import { Header, Footer, PageStepper } from "common-lib-vue";
+import { HeaderComponent, FooterComponent, PageStepper } from "common-lib-vue";
 import stepRoutes from "@/router/step-routes";
 import pageStateService from "@/services/page-state-service";
 import { isPastPath } from "@/router/routes";
@@ -34,8 +34,8 @@ import { scrollTo } from "@/helpers/scroll";
 export default {
   name: "App",
   components: {
-    Header: Header,
-    Footer: Footer,
+    HeaderComponent,
+    FooterComponent,
     PageStepper: PageStepper,
   },
   data: () => {

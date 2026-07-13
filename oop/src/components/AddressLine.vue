@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Input
+    <InputComponent
       :label="'Address line ' + (childIndex + 1)"
       :id="'addressLine' + childIndex"
       v-model="addressLine"
@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import { Input } from "common-lib-vue";
+import { InputComponent } from "common-lib-vue";
 import useVuelidate from "@vuelidate/core";
 import { specialCharacterValidator } from "../helpers/validators";
 
 export default {
   name: "AddressLine",
   components: {
-    Input,
+    InputComponent,
   },
   setup() {
     return { v$: useVuelidate({}) };
