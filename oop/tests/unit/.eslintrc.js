@@ -9,9 +9,6 @@ module.exports = {
     'plugin:jest/style',
     'plugin:jest-formatting/recommended'
   ],
-  parserOptions: {
-    parser: '@babel/eslint-parser'
-  },
   plugins: [
     "jest", 
     "jest-formatting",
