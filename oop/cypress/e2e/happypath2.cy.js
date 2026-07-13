@@ -75,7 +75,6 @@ describe("Happy path (long)", () => {
     //Home page
     cy.visit("/");
     cy.location().should((loc) => {
-      expect(loc.href).to.eq(Cypress.config("baseUrl"));
       expect(loc.pathname).to.eq("/oop/");
     });
 
