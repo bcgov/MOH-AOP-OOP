@@ -52,7 +52,7 @@ const spyOnVisitPage = vi
   .mockImplementation(() => Promise.resolve("visited"));
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 

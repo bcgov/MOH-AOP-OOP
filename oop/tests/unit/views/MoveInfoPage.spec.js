@@ -121,7 +121,7 @@ const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = vi.spyOn(scrollHelper, "scrollToError");
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 

@@ -120,7 +120,7 @@ const mockAxiosResponseMaintenance = {
 };
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 

@@ -57,7 +57,7 @@ const dummyData = {
 };
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 

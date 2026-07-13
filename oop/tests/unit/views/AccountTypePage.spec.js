@@ -11,7 +11,7 @@ import axios from "axios";
 import * as scrollHelper from "@/helpers/scroll";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 

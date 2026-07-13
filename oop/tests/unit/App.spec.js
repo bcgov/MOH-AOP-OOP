@@ -7,7 +7,7 @@ import * as formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 
