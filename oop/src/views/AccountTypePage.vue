@@ -77,13 +77,12 @@
                 <b>Who is an account holder?</b>
                 <p>An account holder is the primary individual associated with an MSP account. An account may also include a spouse and/or one or more children.</p>
                 <b>Who is a dependent?</b>
-                <p>A dependent may be a:
+                <p>A dependent may be a:</p>
                   <ul>
                     <li>A spouse</li>
                     <li>An account holder’s child</li>
                     <li>A dependent post-secondary student</li>
                   </ul>
-                </p>
                 <p>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</p>
               </TipBox>
           </div>
