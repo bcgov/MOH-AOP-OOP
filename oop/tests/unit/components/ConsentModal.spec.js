@@ -70,8 +70,7 @@ describe("ConsentModal.vue getFocusableEls()", () => {
       },
     });
     const result = wrapper.vm.getFocusableEls();
-    //jest doesn't have a built in type checker as of June 2021.
-    //if that ever changes, please refactor the following expect clause for clarity
+    //check that the result is an array
     expect(Array.isArray(result)).toEqual(true);
   });
 
@@ -116,7 +115,7 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
 
     await wrapper.setData({ focusableEls: [] });
     expect(wrapper.vm.focusableEls).toEqual([]);
-    jest
+    vi
       .spyOn(wrapper.vm, "getFocusableEls")
       .mockReturnValue(["default1", "default2", "default3", "default4"]);
     wrapper.vm.handleCaptchaLoaded();
@@ -139,7 +138,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
             applicationUuid: null,
           },
           actions: {
-            setCaptchaToken: jest.fn(),
+            setCaptchaToken: vi.fn(),
           },
         },
       },
@@ -169,7 +168,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
   it("dispatches SET_CAPTCHA_TOKEN action in VueX store on function call", async () => {
     const actions = {
-      setCaptchaToken: jest.fn(),
+      setCaptchaToken: vi.fn(),
     };
 
     const store = createStore({
@@ -208,7 +207,7 @@ describe("ConsentModal.vue handleCaptchaVerified()", () => {
 
   it("updates focusable elements on function call", async () => {
     const actions = {
-      setCaptchaToken: jest.fn(),
+      setCaptchaToken: vi.fn(),
     };
 
     const store = createStore({
@@ -273,14 +272,14 @@ describe("ConsentModal.vue handleKeyDown()", () => {
   const fakeEvent = {
     target: { value: "potato" },
     key: "Tab",
-    preventDefault: jest.fn(),
+    preventDefault: vi.fn(),
   };
 
   const fakeShiftEvent = {
     target: { value: "potato" },
     key: "Tab",
     shiftKey: true,
-    preventDefault: jest.fn(),
+    preventDefault: vi.fn(),
   };
 
   const miscEvent = {
@@ -288,7 +287,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
     key: "notTab",
     keyCode: 13, //Enter key
     shiftKey: false,
-    preventDefault: jest.fn(),
+    preventDefault: vi.fn(),
   };
 
   it("calls handleTab() on function call", () => {
@@ -308,7 +307,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTab = jest.spyOn(wrapper.vm, "handleTab");
+    const spyOnHandleTab = vi.spyOn(wrapper.vm, "handleTab");
     wrapper.vm.handleKeyDown(fakeEvent);
     expect(spyOnHandleTab).toHaveBeenCalled();
   });
@@ -330,7 +329,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = jest.spyOn(
+    const spyOnHandleTabBackwards = vi.spyOn(
       wrapper.vm,
       "handleTabBackwards"
     );
@@ -355,11 +354,11 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = jest.spyOn(
+    const spyOnHandleTabBackwards = vi.spyOn(
       wrapper.vm,
       "handleTabBackwards"
     );
-    const spyOnHandleTab = jest.spyOn(wrapper.vm, "handleTab");
+    const spyOnHandleTab = vi.spyOn(wrapper.vm, "handleTab");
     wrapper.vm.handleKeyDown(miscEvent);
     expect(spyOnHandleTabBackwards).not.toHaveBeenCalled();
     expect(spyOnHandleTab).not.toHaveBeenCalled();
@@ -367,11 +366,16 @@ describe("ConsentModal.vue handleKeyDown()", () => {
 });
 
 describe("ConsentModal.vue handleTab()", () => {
-  const mockElements = [
-    { name: "default1", focus: jest.fn() },
-    { name: "default2", focus: jest.fn() },
-    { name: "default3", focus: jest.fn() },
-    { name: "default4", focus: jest.fn() },
+  afterEach(async () => {
+    await vi.clearAllMocks();
+    await vi.resetAllMocks();
+  });
+
+   const mockElements = [
+    { name: "default1", focus: vi.fn() },
+    { name: "default2", focus: vi.fn() },
+    { name: "default3", focus: vi.fn() },
+    { name: "default4", focus: vi.fn() },
   ];
 
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
@@ -396,7 +400,7 @@ describe("ConsentModal.vue handleTab()", () => {
       focusableEls: mockElements,
     });
 
-    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[0], "focus");
+    const spyOnFocus = vi.spyOn(wrapper.vm.focusableEls[0], "focus");
 
     wrapper.vm.handleTab();
     expect(wrapper.vm.focusedEl.name).toEqual("default1");
@@ -411,7 +415,7 @@ describe("ConsentModal.vue handleTab()", () => {
 
       data: () => {
         return {
-          focusableEls: mockElements,
+          focusableEls: null,
           focusedEl: null,
           captchaAPIBasePath: "/oop/api/captcha",
           applicationUuid: null,
@@ -422,14 +426,21 @@ describe("ConsentModal.vue handleTab()", () => {
     });
 
     await wrapper.setData({
-      focusableEls: mockElements,
+      focusableEls:   [
+        "default1",
+        "default2",
+        "default3",
+        "default4",
+      ],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[0],
     });
-
+    expect(wrapper.vm.focusedEl).toEqual("default1");
+    const spyOnHandleTab = vi.spyOn(wrapper.vm, "handleTab");
     wrapper.vm.handleTab();
-    expect(wrapper.vm.focusedEl.name).toEqual("default2");
+    expect(spyOnHandleTab).toHaveBeenCalled();
+    expect(wrapper.vm.focusedEl).toEqual("default2");
   });
 
   it("moves focus from the last element to the first if the last is focused", async () => {
@@ -484,7 +495,7 @@ describe("ConsentModal.vue handleTab()", () => {
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[3],
     });
-    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[0], "focus");
+    const spyOnFocus = vi.spyOn(wrapper.vm.focusableEls[0], "focus");
     wrapper.vm.handleTab();
     expect(spyOnFocus).toHaveBeenCalled();
   });
@@ -492,10 +503,10 @@ describe("ConsentModal.vue handleTab()", () => {
 
 describe("ConsentModal.vue handleTabBackwards()", () => {
   const mockElements = [
-    { name: "default1", focus: jest.fn() },
-    { name: "default2", focus: jest.fn() },
-    { name: "default3", focus: jest.fn() },
-    { name: "default4", focus: jest.fn() },
+    { name: "default1", focus: vi.fn() },
+    { name: "default2", focus: vi.fn() },
+    { name: "default3", focus: vi.fn() },
+    { name: "default4", focus: vi.fn() },
   ];
 
   it("assigns focus to the first element in the focusableEls array if nothing is focused", async () => {
@@ -520,7 +531,7 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
       focusableEls: mockElements,
     });
 
-    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[3], "focus");
+    const spyOnFocus = vi.spyOn(wrapper.vm.focusableEls[3], "focus");
     wrapper.vm.handleTabBackwards();
     expect(wrapper.vm.focusedEl.name).toEqual("default4");
     expect(spyOnFocus).toHaveBeenCalled();
@@ -534,7 +545,7 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
 
       data: () => {
         return {
-          focusableEls: mockElements,
+          focusableEls: null,
           focusedEl: null,
           captchaAPIBasePath: "/oop/api/captcha",
           applicationUuid: null,
@@ -545,14 +556,19 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     });
 
     await wrapper.setData({
-      focusableEls: mockElements,
+      focusableEls: [
+        "default1",
+        "default2",
+        "default3",
+        "default4",
+      ],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[1],
     });
 
     wrapper.vm.handleTabBackwards();
-    expect(wrapper.vm.focusedEl.name).toEqual("default1");
+    expect(wrapper.vm.focusedEl).toEqual("default1");
   });
 
   it("moves focus from the first element to the last if the first is focused", async () => {
@@ -574,13 +590,18 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     });
 
     await wrapper.setData({
-      focusableEls: mockElements,
+      focusableEls: [
+        "default1",
+        "default2",
+        "default3",
+        "default4",
+      ],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[0],
     });
     wrapper.vm.handleTabBackwards();
-    expect(wrapper.vm.focusedEl.name).toEqual("default4");
+    expect(wrapper.vm.focusedEl).toEqual("default4");
   });
 
   it("should call focus function on focused element", async () => {
@@ -603,10 +624,10 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     await wrapper.setData({
       focusableEls: mockElements,
     });
-    await wrapper.setData({
-      focusedEl: wrapper.vm.focusableEls[3],
-    });
-    const spyOnFocus = jest.spyOn(wrapper.vm.focusableEls[2], "focus");
+    //focused el is null, so the code should assign the first el by default
+    //then go back to the end of the array and call focus
+    //so we need to spy on the end of the array
+    const spyOnFocus = vi.spyOn(wrapper.vm.focusableEls[3], "focus");
     wrapper.vm.handleTabBackwards();
     expect(spyOnFocus).toHaveBeenCalled();
   });

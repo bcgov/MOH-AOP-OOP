@@ -9,7 +9,7 @@ export default mergeConfig(
       pool: "threads",
       globals: true,
       environment: "jsdom",
-      exclude: [...configDefaults.exclude, "e2e/**"],
+      exclude: [...configDefaults.exclude, "**/e2e/**"],
       coverage: {
         exclude: [
           "**/dist/**",

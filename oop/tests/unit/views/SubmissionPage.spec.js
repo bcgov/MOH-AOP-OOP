@@ -7,29 +7,28 @@ import * as formTemplate from "@/store/modules/form";
 import Component from "@/views/SubmissionPage.vue";
 import pageStateService from "@/services/page-state-service";
 import logService from "@/services/log-service";
+import * as scrollHelper from "@/helpers/scroll";
 
-const spyOnPrint = jest.spyOn(window, "print").mockImplementation(() => {});
+const spyOnPrint = vi.spyOn(window, "print").mockImplementation(() => {});
 
-const spyOnLogNavigation = jest
+const spyOnLogNavigation = vi
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
 
-const spyOnSetPageComplete = jest
+const spyOnSetPageComplete = vi
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
 
-const spyOnSetPageIncomplete = jest
+const spyOnSetPageIncomplete = vi
   .spyOn(pageStateService, "setPageIncomplete")
   .mockImplementation(() => Promise.resolve("set"));
 
-const scrollHelper = require("@/helpers/scroll");
-
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
 
 const formattedDate = new Date("2021-08-21T03:24:00");
 
@@ -80,8 +79,8 @@ describe("SubmissionPage.vue", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("renders", () => {
@@ -107,8 +106,8 @@ describe("SubmissionPage.vue printPage()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls window print function", () => {
@@ -134,18 +133,18 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
       },
     });
 
-    spyOnRouter = jest
+    spyOnRouter = vi
       .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls store dispatch", () => {
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
     wrapper.vm.navigateToHomePage();
     expect(spyOnDispatch).toHaveBeenCalled();
   });
@@ -192,8 +191,8 @@ describe("SubmissionPage.vue created()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls logNavigation() on page load", () => {

@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import axios from "axios";
 import Component from "@/components/Captcha.vue";
+import { it, describe, expect, beforeEach, vi } from "vitest";
 
 //if you need to test future versions of audio playback
 //you can replace the API audio response with the following 0 second base 64 audio clip:
@@ -306,11 +307,13 @@ const mockAPIError = {
   request: {},
 };
 
-jest.mock("axios", () => ({
-  get: jest.fn(),
-  post: jest.fn(() => {
-    return Promise.resolve();
-  }),
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(() => {
+      return Promise.resolve();
+    }),
+  },
 }));
 
 window.HTMLMediaElement.prototype.play = () => {
@@ -380,7 +383,7 @@ describe("Captcha.vue fetchNewCaptcha()", () => {
   });
 
   it("emits captchaLoaded signal on function call", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const wrapper = mount(Component, {
       global: {
         plugins: [],
@@ -408,7 +411,7 @@ describe("Captcha.vue fetchNewCaptcha()", () => {
 
     await wrapper.vm.fetchNewCaptcha();
 
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
 
     expect(wrapper.emitted().captchaLoaded).toBeTruthy();
   });
@@ -504,7 +507,7 @@ describe("Captcha.vue handleInputChange()", () => {
         };
       },
     });
-    const spyOnFetch = jest.spyOn(wrapper.vm, "fetchNewCaptcha");
+    const spyOnFetch = vi.spyOn(wrapper.vm, "fetchNewCaptcha");
     const fakeEvent = { target: { value: "potato" } };
     axios.post.mockImplementationOnce(() =>
       Promise.resolve(mockInputResponseInvalid)
@@ -637,7 +640,7 @@ describe("Captcha.vue handleTryAnotherImageClick()", () => {
         };
       },
     });
-    const spyOnFetchNewCaptcha = jest.spyOn(wrapper.vm, "fetchNewCaptcha");
+    const spyOnFetchNewCaptcha = vi.spyOn(wrapper.vm, "fetchNewCaptcha");
     await wrapper.vm.handleTryAnotherImageClick();
     expect(spyOnFetchNewCaptcha).toHaveBeenCalled();
     spyOnFetchNewCaptcha.mockReset();
@@ -744,9 +747,9 @@ describe("Captcha.vue playAudio()", () => {
   });
 
   it("calls play() when it receives a valid response", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
-    const spyOnPlay = jest
+    const spyOnPlay = vi
       .spyOn(window.HTMLMediaElement.prototype, "play")
       .mockImplementation(() => {});
 
@@ -781,7 +784,7 @@ describe("Captcha.vue playAudio()", () => {
     await wrapper.vm.playAudio();
     await wrapper.vm.$nextTick();
 
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
     await wrapper.vm.$nextTick();
 
     expect(spyOnPlay).toHaveBeenCalled();

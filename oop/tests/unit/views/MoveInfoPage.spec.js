@@ -11,6 +11,9 @@ import logService from "@/services/log-service";
 import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 import { specialCharacterValidator } from "@/helpers/validators";
+import * as scrollHelper from "@/helpers/scroll";
+import * as addressHelper from "@/helpers/address";
+import * as stringHelper from "@/helpers/string";
 
 const mutations = formTemplate.mutations;
 const actions = formTemplate.actions;
@@ -98,35 +101,31 @@ const dataTemplateFilled = {
   ],
 };
 
-const scrollHelper = require("@/helpers/scroll");
-const addressHelper = require("@/helpers/address");
-const stringHelper = require("@/helpers/string");
-
-jest
+vi
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
-jest
+vi
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
-const spyOnLogNavigation = jest
+const spyOnLogNavigation = vi
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
 
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
-const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
+const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollToError = vi.spyOn(scrollHelper, "scrollToError");
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routeCollection,
 });
 
-const spyOnRouter = jest
+const spyOnRouter = vi
   .spyOn(router, "push")
   .mockImplementation(() => Promise.resolve("pushed"));
 
@@ -415,7 +414,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
   });
 
   it("sets address line to one object with a null value when country is Canada", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       global: {
@@ -444,7 +443,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
     wrapper.vm.setFieldsToNull();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
 
     expect(wrapper.vm.addressLines).toEqual([
       { id: "address-line-1", isValid: true, value: null },
@@ -452,7 +451,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
   });
 
   it("sets values of existing address lines to null when country is not Canada", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       global: {
@@ -480,7 +479,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
     wrapper.vm.setFieldsToNull();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
 
     expect(wrapper.vm.addressLines).toEqual([
       { id: "address-line-1", isValid: true, value: null },
@@ -490,7 +489,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
   it("sets city to null", async () => {
     const dataTemplateCopy = cloneDeep(dataTemplate);
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
@@ -517,7 +516,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
 
     wrapper.vm.setFieldsToNull();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
 
     expect(wrapper.vm.city).toBeNull();
   });
@@ -565,7 +564,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       data: () => dataTemplateCopy,
     });
 
-    const spyOnAddressHelper = jest.spyOn(
+    const spyOnAddressHelper = vi.spyOn(
       addressHelper,
       "truncateAddressLines"
     );
@@ -577,7 +576,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("calls replaceSpecialCharacters() 4 times when provided 1 address line", async () => {
-    spyOnReplaceSpecialCharacters = jest.spyOn(
+    spyOnReplaceSpecialCharacters = vi.spyOn(
       stringHelper,
       "replaceSpecialCharacters"
     );
@@ -597,7 +596,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("calls replaceSpecialCharacters() 5 times when provided 2 address lines", async () => {
-    spyOnReplaceSpecialCharacters = jest.spyOn(
+    spyOnReplaceSpecialCharacters = vi.spyOn(
       stringHelper,
       "replaceSpecialCharacters"
     );
@@ -737,7 +736,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("doesn't return invalid when given proper data", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -757,7 +756,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("calls setFieldsToNull when country isn't known", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -767,7 +766,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
       data: () => dataTemplateCopy,
     });
 
-    const spyOnSetFieldsToNull = jest.spyOn(wrapper.vm, "setFieldsToNull");
+    const spyOnSetFieldsToNull = vi.spyOn(wrapper.vm, "setFieldsToNull");
 
     const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
 
@@ -776,7 +775,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(spyOnRouter).toHaveBeenCalled();
@@ -784,7 +783,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("eliminates null/empty address lines when country is Canada", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -822,7 +821,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.addressLines).toHaveLength(1);
@@ -836,7 +835,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   //so I am skipping this test for now
 
   it("dispatches data to Vuex store", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -846,7 +845,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
       data: () => dataTemplateCopy,
     });
 
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
 
     const dataTemplateCopy2 = cloneDeep(dataTemplateFilled);
 
@@ -864,7 +863,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(spyOnDispatch).toHaveBeenCalledWith(
@@ -899,7 +898,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("calls pageStateService", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -925,7 +924,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(pageStateService.setPageComplete).toHaveBeenCalled();
@@ -933,7 +932,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
   });
 
   it("calls scrollTo with the parameter 0", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -959,14 +958,14 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(spyOnScrollTo).toHaveBeenCalledWith(0);
   });
 
   it("calls routerPush to change page", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const dataTemplateCopy = cloneDeep(dataTemplateFilled);
     const wrapper = shallowMount(Component, {
@@ -992,7 +991,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
 
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick();
-    jest.advanceTimersByTime(2005);
+    vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
     expect(spyOnRouter).toHaveBeenCalled();

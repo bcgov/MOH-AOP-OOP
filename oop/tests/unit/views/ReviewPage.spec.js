@@ -9,44 +9,45 @@ import logService from "@/services/log-service";
 import pageStateService from "@/services/page-state-service";
 import { routes, routeStepOrder } from "@/router/routes";
 import { routeCollection } from "@/router/index";
+import * as scrollHelper from "@/helpers/scroll";
 
-const scrollHelper = require("@/helpers/scroll");
-
-jest.mock("axios", () => ({
-  get: jest.fn(),
-  post: jest.fn(() => {
-    return Promise.resolve();
-  }),
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(() => {
+      return Promise.resolve();
+    }),
+  },
 }));
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
-  getTopScrollPosition: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
+  getTopScrollPosition: vi.fn(),
 }));
 
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
-const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
+const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollToError = vi.spyOn(scrollHelper, "scrollToError");
 
-const spyOnGetTopScrollPosition = jest
+const spyOnGetTopScrollPosition = vi
   .spyOn(scrollHelper, "getTopScrollPosition")
   .mockImplementation(() => Promise.resolve("top scroll position returned"));
-const spyOnLogSubmission = jest
+const spyOnLogSubmission = vi
   .spyOn(logService, "logSubmission")
   .mockImplementation(() => Promise.resolve("logged"));
-const spyOnLogNavigation = jest
+const spyOnLogNavigation = vi
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
-const spyOnLogError = jest
+const spyOnLogError = vi
   .spyOn(logService, "logError")
   .mockImplementation(() => Promise.resolve("logged"));
-const spyOnSetPageComplete = jest
+const spyOnSetPageComplete = vi
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
-const spyOnSetPageIncomplete = jest
+const spyOnSetPageIncomplete = vi
   .spyOn(pageStateService, "setPageIncomplete")
   .mockImplementation(() => Promise.resolve("set"));
-const spyOnVisitPage = jest
+const spyOnVisitPage = vi
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
@@ -413,8 +414,8 @@ describe("ReviewPage.vue", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("renders", () => {
@@ -444,7 +445,7 @@ describe("ReviewPage.vue submitForm()", () => {
       },
     });
 
-    spyOnRouter = jest
+    spyOnRouter = vi
       .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
 
@@ -452,18 +453,18 @@ describe("ReviewPage.vue submitForm()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("dispatches", () => {
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
     wrapper.vm.submitForm();
     expect(spyOnDispatch).toHaveBeenCalled();
   });
 
   it("navigates to submission page on successful submission", async () => {
-    const spyOnNavigate = jest.spyOn(wrapper.vm, "navigateToSubmissionPage");
+    const spyOnNavigate = vi.spyOn(wrapper.vm, "navigateToSubmissionPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
     expect(spyOnNavigate).toHaveBeenCalled();
@@ -476,7 +477,7 @@ describe("ReviewPage.vue submitForm()", () => {
   });
 
   it("calls dispatch on successful submission with correct parameters", async () => {
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
     expect(spyOnDispatch).toHaveBeenCalledTimes(2);
@@ -512,14 +513,14 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("does not call logSubmission, dispatch, or navigateToSubmission on return code 1", async () => {
     axios.post.mockImplementation(() => Promise.resolve(mockSubmitError1));
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
-    const spyOnNavigate = jest.spyOn(wrapper.vm, "navigateToSubmissionPage");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnNavigate = vi.spyOn(wrapper.vm, "navigateToSubmissionPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
     expect(spyOnDispatch).not.toHaveBeenCalledWith(
@@ -532,8 +533,8 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
 
   it("does not call logSubmission, dispatch, or navigateToSubmission on return code 2", async () => {
     axios.post.mockImplementation(() => Promise.resolve(mockSubmitError2));
-    const spyOnDispatch = jest.spyOn(wrapper.vm.$store, "dispatch");
-    const spyOnNavigate = jest.spyOn(wrapper.vm, "navigateToSubmissionPage");
+    const spyOnDispatch = vi.spyOn(wrapper.vm.$store, "dispatch");
+    const spyOnNavigate = vi.spyOn(wrapper.vm, "navigateToSubmissionPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
     expect(spyOnDispatch).not.toHaveBeenCalledWith(
@@ -553,7 +554,7 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
 
   it("calls navigateSubmissionError on return code 2", async () => {
     axios.post.mockImplementation(() => Promise.resolve(mockSubmitError2));
-    const spyOnNavigateError = jest.spyOn(
+    const spyOnNavigateError = vi.spyOn(
       wrapper.vm,
       "navigateToSubmissionErrorPage"
     );
@@ -616,14 +617,14 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
       },
     });
 
-    spyOnRouter = jest
+    spyOnRouter = vi
       .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls pageStateService.setPageComplete", async () => {
@@ -669,8 +670,8 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls pageStateService.setPageComplete", async () => {
@@ -686,7 +687,7 @@ describe("ReviewPage.vue navigateToSubmissionErrorPage()", () => {
   });
 
   it("calls router.push", async () => {
-    const spyOnRouter = jest.spyOn(router, "push");
+    const spyOnRouter = vi.spyOn(router, "push");
     await wrapper.vm.navigateToSubmissionErrorPage();
     await wrapper.vm.$nextTick();
     expect(spyOnRouter).toHaveBeenCalled();
@@ -716,8 +717,8 @@ describe("ReviewPage.vue created()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls logNavigation", () => {
@@ -730,7 +731,7 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   let wrapper;
   let store;
 
-  const next = jest.fn();
+  const next = vi.fn();
 
   let tempForm = cloneDeep(formTemplate.default);
   tempForm.state = dummyFormData;
@@ -749,8 +750,8 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls pageStateService.setPageIncomplete", () => {
@@ -774,14 +775,14 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   });
 
   it("calls scrollTo() if destination is same or later", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     Component.beforeRouteLeave.call(
       wrapper.vm,
       routes.REVIEW_PAGE,
       routes.REVIEW_PAGE,
       next
     );
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
     await wrapper.vm.$nextTick;
     expect(spyOnGetTopScrollPosition).toHaveBeenCalled();
     expect(spyOnScrollTo).toHaveBeenCalled();
@@ -793,7 +794,7 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
   //I leave it here for posterity in case someone finds a way to make it work down the road
 
   it.skip("dispatches formReset if destination is home page", async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const beforeRouteLeave = wrapper.vm.$options.beforeRouteLeave;
     console.log("potato", wrapper.vm.$options);
     if (beforeRouteLeave instanceof Function) {
@@ -801,12 +802,12 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
     } else {
       console.log("no function");
     }
-    const spyOnDispatch = jest.spyOn(store, "dispatch");
+    const spyOnDispatch = vi.spyOn(store, "dispatch");
 
     // Component.beforeRouteLeave(routeStepOrder[0], routes.REVIEW_PAGE, next);
     // wrapper.vm.$options.beforeRouteLeave(routeStepOrder[0], routes.REVIEW_PAGE, next);
     beforeRouteLeave(wrapper.vm, routeStepOrder[0], routes.REVIEW_PAGE, next);
-    jest.advanceTimersByTime(5);
+    vi.advanceTimersByTime(5);
     await wrapper.vm.$nextTick;
     // store.dispatch("form/resetForm")
     expect(spyOnDispatch).toHaveBeenCalled();
