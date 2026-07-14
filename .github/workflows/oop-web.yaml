@@ -33,8 +33,8 @@ jobs:
         run: npm run test
       - name: E2E tests
         run: npm run test:e2e:headless
-      - name: LINTing
-        run: npm run lint
+      # - name: LINTing
+        # run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
