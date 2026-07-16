@@ -44,8 +44,7 @@ const mockResponse = {
     phn: "9353166544",
     pragma: "no-cache",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+    "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -57,8 +56,7 @@ const mockResponse = {
     "www-authenticate": "Basic",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -124,8 +122,7 @@ const mockResponsePhnDoesNotMatch = {
     phn: "9353166544",
     pragma: "no-cache",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
+    "sec-ch-ua": '" Not;A Brand";v="99", "Google Chrome";v="91", "Chromium";v="91"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -137,8 +134,7 @@ const mockResponsePhnDoesNotMatch = {
     "www-authenticate": "Basic",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-dev.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -183,25 +179,15 @@ vi.mock("axios", () => ({
 const spyOnLogNavigation = vi
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
-vi
-  .spyOn(logService, "logError")
-  .mockImplementation(() => Promise.resolve("logged"));
-vi
-  .spyOn(logService, "logInfo")
-  .mockImplementation(() => Promise.resolve("logged"));
-vi
-  .spyOn(pageStateService, "setPageComplete")
-  .mockImplementation(() => Promise.resolve("set"));
-vi
-  .spyOn(pageStateService, "visitPage")
-  .mockImplementation(() => Promise.resolve("visited"));
+vi.spyOn(logService, "logError").mockImplementation(() => Promise.resolve("logged"));
+vi.spyOn(logService, "logInfo").mockImplementation(() => Promise.resolve("logged"));
+vi.spyOn(pageStateService, "setPageComplete").mockImplementation(() => Promise.resolve("set"));
+vi.spyOn(pageStateService, "visitPage").mockImplementation(() => Promise.resolve("visited"));
 
 vi.mock("@/helpers/scroll", () => ({
   scrollToError: vi.fn(),
   scrollTo: vi.fn(),
 }));
-
-
 
 const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
 const spyOnScrollToError = vi.spyOn(scrollHelper, "scrollToError");
@@ -211,9 +197,7 @@ const router = createRouter({
   routes: routeCollection,
 });
 
-const spyOnRouter = vi
-  .spyOn(router, "push")
-  .mockImplementation(() => Promise.resolve("pushed"));
+const spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
 
 describe("YourInfoPage.vue", () => {
   let state;
@@ -618,9 +602,9 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
 
-    vi
-      .spyOn(wrapper.vm, "handleValidationSuccess")
-      .mockImplementation(() => Promise.resolve("handled"));
+    vi.spyOn(wrapper.vm, "handleValidationSuccess").mockImplementation(() =>
+      Promise.resolve("handled")
+    );
 
     expect(wrapper.element).toBeDefined();
 
@@ -716,9 +700,7 @@ describe("YourInfoPage.vue nextPage()", () => {
       },
     });
 
-    mockApiService.mockImplementation(() =>
-      Promise.resolve(mockResponsePhnDoesNotMatch)
-    );
+    mockApiService.mockImplementation(() => Promise.resolve(mockResponsePhnDoesNotMatch));
 
     const mockHandleValidationSuccess = vi
       .spyOn(wrapper.vm, "handleValidationSuccess")
@@ -875,9 +857,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
     wrapper.vm.handleValidationSuccess();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.accountType).toEqual(
-      "updatedaccountType"
-    );
+    expect(wrapper.vm.$store.state.form.accountType).toEqual("updatedaccountType");
   });
 
   it("if account type is DEP, it updates the setPersonMoving in the store to null", async () => {
@@ -912,9 +892,7 @@ describe("YourInfoPage.vue handleValidationSuccess()", () => {
       },
     });
 
-    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
-      "default"
-    );
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual("default");
 
     await wrapper.vm.$nextTick();
     await wrapper.setData({ accountType: "DEP" });

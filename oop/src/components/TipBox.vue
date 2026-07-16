@@ -11,18 +11,18 @@
 
 <script>
 export default {
-  name: 'TipBox',
+  name: "TipBox",
   props: {
     title: {
       type: String,
-      default: 'Tip',
+      default: "Tip",
     },
     className: {
       type: String,
-      default: '',
-    }
-  }
-}
+      default: "",
+    },
+  },
+};
 </script>
 
 <style scoped>

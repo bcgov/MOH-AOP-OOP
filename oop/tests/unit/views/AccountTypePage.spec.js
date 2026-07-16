@@ -24,23 +24,15 @@ vi.mock("axios", () => ({
   },
 }));
 
-vi
-  .spyOn(logService, "logNavigation")
-  .mockImplementation(() => Promise.resolve("logged"));
-const spyOnLogError = vi
-  .spyOn(logService, "logError")
-  .mockImplementation(() => {
-    Promise.resolve("logged");
-  });
+vi.spyOn(logService, "logNavigation").mockImplementation(() => Promise.resolve("logged"));
+const spyOnLogError = vi.spyOn(logService, "logError").mockImplementation(() => {
+  Promise.resolve("logged");
+});
 const spyOnLogInfo = vi
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
-vi
-  .spyOn(pageStateService, "setPageComplete")
-  .mockImplementation(() => Promise.resolve("set"));
-vi
-  .spyOn(pageStateService, "visitPage")
-  .mockImplementation(() => Promise.resolve("visited"));
+vi.spyOn(pageStateService, "setPageComplete").mockImplementation(() => Promise.resolve("set"));
+vi.spyOn(pageStateService, "visitPage").mockImplementation(() => Promise.resolve("visited"));
 
 vi.mock("@/helpers/scroll", () => ({
   scrollToError: vi.fn(),
@@ -82,11 +74,7 @@ const storeTemplate3 = {
   accountType: "default",
   personMoving: "default",
   isAllDependentsMoving: "default",
-  dependentPhns: [
-    { value: "default1" },
-    { value: "default2" },
-    { value: "default3" },
-  ],
+  dependentPhns: [{ value: "default1" }, { value: "default2" }, { value: "default3" }],
 };
 
 const storeTemplate6 = {
@@ -237,9 +225,7 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.personMoving).toEqual(
-      "updatedpersonmoving"
-    );
+    expect(wrapper.vm.$store.state.form.personMoving).toEqual("updatedpersonmoving");
   });
 
   it("changes isAllDependentsMoving in store", async () => {
@@ -250,9 +236,7 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual(
-      "updateddependentsmoving"
-    );
+    expect(wrapper.vm.$store.state.form.isAllDependentsMoving).toEqual("updateddependentsmoving");
   });
 
   it("changes dependentPhns in store", async () => {
@@ -263,9 +247,7 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper.vm.saveValues();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([
-      { 1: "updateddependentphns" },
-    ]);
+    expect(wrapper.vm.$store.state.form.dependentPhns).toEqual([{ 1: "updateddependentphns" }]);
   });
 });
 
@@ -412,9 +394,7 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.vm.dependentPhns).toHaveLength(result.length);
-    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(
-      result.length
-    );
+    expect(wrapper.vm.$store.state.form.dependentPhns).toHaveLength(result.length);
   });
 
   it("returns an array of equal length to the number of elements put in if store contains 1-5 elements", async () => {
@@ -637,8 +617,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       origin: "http://localhost:8080",
       pragma: "no-cache",
       "response-type": "application/json",
-      "sec-ch-ua":
-        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
       "sec-ch-ua-mobile": "?0",
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
@@ -650,8 +629,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       "www-authenticate": "Basic",
       "x-content-type-options": "nosniff",
       "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-      "x-forwarded-host":
-        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
       "x-forwarded-port": "8080, 443",
       "x-forwarded-proto": "http, https",
       "x-frame-options": "DENY",
@@ -713,8 +691,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       origin: "http://localhost:8080",
       pragma: "no-cache",
       "response-type": "application/json",
-      "sec-ch-ua":
-        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
       "sec-ch-ua-mobile": "?0",
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
@@ -726,8 +703,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       "www-authenticate": "Basic",
       "x-content-type-options": "nosniff",
       "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-      "x-forwarded-host":
-        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
       "x-forwarded-port": "8080, 443",
       "x-forwarded-proto": "http, https",
       "x-frame-options": "DENY",
@@ -789,8 +765,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       origin: "http://localhost:8080",
       pragma: "no-cache",
       "response-type": "application/json",
-      "sec-ch-ua":
-        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
       "sec-ch-ua-mobile": "?0",
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
@@ -802,8 +777,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       "www-authenticate": "Basic",
       "x-content-type-options": "nosniff",
       "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-      "x-forwarded-host":
-        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
       "x-forwarded-port": "8080, 443",
       "x-forwarded-proto": "http, https",
       "x-frame-options": "DENY",
@@ -865,8 +839,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       origin: "http://localhost:8080",
       pragma: "no-cache",
       "response-type": "application/json",
-      "sec-ch-ua":
-        '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+      "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
       "sec-ch-ua-mobile": "?0",
       "sec-fetch-dest": "empty",
       "sec-fetch-mode": "cors",
@@ -878,8 +851,7 @@ describe("AccountTypePage.vue validateFields()", () => {
       "www-authenticate": "Basic",
       "x-content-type-options": "nosniff",
       "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-      "x-forwarded-host":
-        "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+      "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
       "x-forwarded-port": "8080, 443",
       "x-forwarded-proto": "http, https",
       "x-frame-options": "DENY",
@@ -942,10 +914,7 @@ describe("AccountTypePage.vue validateFields()", () => {
   });
 
   it("[CODE 0]calls handleValidationSuccess() when given valid data that returns code 0", async () => {
-    const spyOnHandleValidationSuccess = vi.spyOn(
-      wrapper.vm,
-      "handleValidationSuccess"
-    );
+    const spyOnHandleValidationSuccess = vi.spyOn(wrapper.vm, "handleValidationSuccess");
     axios.post.mockImplementationOnce(() => Promise.resolve(apiResponse0));
     wrapper.vm.validateFields();
     await wrapper.vm.$nextTick;

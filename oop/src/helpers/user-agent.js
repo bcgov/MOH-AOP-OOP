@@ -6,4 +6,4 @@ export const isIE = () => {
     return true;
   }
   return false;
-}
+};

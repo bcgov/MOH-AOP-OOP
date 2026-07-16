@@ -1,42 +1,42 @@
-import dummyData from '../states/form-dummy-data';
-import settings from '../../settings';
+import dummyData from "../states/form-dummy-data";
+import settings from "../../settings";
 
-export const MODULE_NAME = 'form';
+export const MODULE_NAME = "form";
 
-export const RESET_FORM = 'resetForm';
-export const SET_APPLICATION_UUID = 'setApplicationUuid';
-export const SET_CAPTCHA_TOKEN = 'setCaptchaToken';
-export const SET_SUBMISSION_DATE = 'setSubmissionDate';
-export const SET_REFERENCE_NUMBER = 'setReferenceNumber';
-export const SET_MAINTENANCE_MESSAGE = 'setMaintenanceMessage';
+export const RESET_FORM = "resetForm";
+export const SET_APPLICATION_UUID = "setApplicationUuid";
+export const SET_CAPTCHA_TOKEN = "setCaptchaToken";
+export const SET_SUBMISSION_DATE = "setSubmissionDate";
+export const SET_REFERENCE_NUMBER = "setReferenceNumber";
+export const SET_MAINTENANCE_MESSAGE = "setMaintenanceMessage";
 
 // Your info page:
-export const SET_LAST_NAME = 'setLastName';
-export const SET_PHN = 'setPhn';
-export const SET_PHONE = 'setPhone';
+export const SET_LAST_NAME = "setLastName";
+export const SET_PHN = "setPhn";
+export const SET_PHONE = "setPhone";
 
 // Move Info page
-export const SET_MOVE_FROM_BC_DATE = 'setMoveFromBCDate';
-export const SET_ARRIVE_DESTINATION_DATE = 'setArriveDestinationDate';
-export const SET_IS_NEW_ADDRESS_KNOWN = 'setIsNewAddressKnown';
-export const SET_COUNTRY = 'setCountry';
-export const SET_ADDRESS_LINES = 'setAddressLines';
-export const SET_PROVINCE = 'setProvince';
-export const SET_CITY = 'setCity';
-export const SET_POSTAL_CODE = 'setPostalCode';
-export const SET_OTHER_STREET_ADDRESS = 'setOtherStreetAddress';
-export const SET_ZIP_CODE = 'setZipCode';
-export const SET_USA_STATE = 'setUsaState';
+export const SET_MOVE_FROM_BC_DATE = "setMoveFromBCDate";
+export const SET_ARRIVE_DESTINATION_DATE = "setArriveDestinationDate";
+export const SET_IS_NEW_ADDRESS_KNOWN = "setIsNewAddressKnown";
+export const SET_COUNTRY = "setCountry";
+export const SET_ADDRESS_LINES = "setAddressLines";
+export const SET_PROVINCE = "setProvince";
+export const SET_CITY = "setCity";
+export const SET_POSTAL_CODE = "setPostalCode";
+export const SET_OTHER_STREET_ADDRESS = "setOtherStreetAddress";
+export const SET_ZIP_CODE = "setZipCode";
+export const SET_USA_STATE = "setUsaState";
 
 // Account type page:
-export const SET_ACCOUNT_TYPE = 'setAccountType';
-export const SET_PERSON_MOVING = 'setPersonMoving';
-export const SET_IS_ALL_DEPENDENTS_MOVING = 'setIsAllDependentsMoving';
-export const SET_DEPENDENT_PHNS = 'setDependentPhns';
+export const SET_ACCOUNT_TYPE = "setAccountType";
+export const SET_PERSON_MOVING = "setPersonMoving";
+export const SET_IS_ALL_DEPENDENTS_MOVING = "setIsAllDependentsMoving";
+export const SET_DEPENDENT_PHNS = "setDependentPhns";
 
 // Sending page:
-export const SET_SUBMISSION_RESPONSE = 'setSubmissionResponse';
-export const SET_SUBMISSION_ERROR = 'setSubmissionError';
+export const SET_SUBMISSION_RESPONSE = "setSubmissionResponse";
+export const SET_SUBMISSION_ERROR = "setSubmissionError";
 
 export default {
   namespaced: true,

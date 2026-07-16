@@ -1,6 +1,6 @@
-export const MODULE_NAME = 'app';
+export const MODULE_NAME = "app";
 
-export const SET_SHOW_MOBILE_STEPPER_DETAILS = 'setShowMobileStepperDetails';
+export const SET_SHOW_MOBILE_STEPPER_DETAILS = "setShowMobileStepperDetails";
 
 export default {
   namespaced: true,
@@ -20,5 +20,5 @@ export default {
       commit(SET_SHOW_MOBILE_STEPPER_DETAILS, payload);
     },
   },
-  getters: {}
+  getters: {},
 };

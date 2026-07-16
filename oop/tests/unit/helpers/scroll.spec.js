@@ -1,8 +1,6 @@
 import * as scroll from "@/helpers/scroll.js";
 
-const spyOnWindowScrollTo = vi
-  .spyOn(window, "scrollTo")
-  .mockImplementation(vi.fn);
+const spyOnWindowScrollTo = vi.spyOn(window, "scrollTo").mockImplementation(vi.fn);
 
 describe("Helper scroll.js scrollTo()", () => {
   afterEach(() => {

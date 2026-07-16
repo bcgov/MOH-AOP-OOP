@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <HeaderComponent :title="pageTitle" imagePath="/oop/images/" />
+    <HeaderComponent
+      :title="pageTitle"
+      image-path="/oop/images/"
+    />
     <main>
       <div class="container stepper">
         <PageStepper
-          :currentPath="$router.currentRoute.value.path"
+          :current-path="$router.currentRoute.value.path"
           :routes="stepRoutes"
-          :cypressId="'pageStepper'"
-          @onClickLink="handleClickStepperLink($event)"
-          @toggleShowMobileDetails='handleToggleShowMobileStepperDetails($event)'
-          :isMobileStepperOpen='isMobileStepperOpen'
+          :cypress-id="'pageStepper'"
+          :is-mobile-stepper-open="isMobileStepperOpen"
+          @on-click-link="handleClickStepperLink($event)"
+          @toggle-show-mobile-details="handleToggleShowMobileStepperDetails($event)"
         />
       </div>
       <router-view />
@@ -43,7 +46,7 @@ export default {
       pageTitle: "MSP Permanent Move Outside of B.C.",
       version: project.version,
       stepRoutes: stepRoutes,
-      isMobileStepperOpen: false
+      isMobileStepperOpen: false,
     };
   },
   created() {
@@ -63,7 +66,7 @@ export default {
     },
     handleToggleShowMobileStepperDetails() {
       this.isMobileStepperOpen = !this.isMobileStepperOpen;
-    }
+    },
   },
 };
 </script>

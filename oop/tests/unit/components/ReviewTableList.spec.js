@@ -509,8 +509,7 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          label:
-            "Are all of the dependents on your MSP account moving out of B.C.?",
+          label: "Are all of the dependents on your MSP account moving out of B.C.?",
         }),
       ])
     );

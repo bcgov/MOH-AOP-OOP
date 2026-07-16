@@ -88,8 +88,7 @@ const mockSubmit = {
     pragma: "no-cache",
     referer: "http://localhost:8080/oop/review",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+    "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -102,8 +101,7 @@ const mockSubmit = {
     uuid: "6e42086b-5692-4faf-8389-6c8cd7f3a5df",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -167,8 +165,7 @@ const mockSubmitError1 = {
     pragma: "no-cache",
     referer: "http://localhost:8080/oop/review",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+    "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -181,8 +178,7 @@ const mockSubmitError1 = {
     uuid: "6e42086b-5692-4faf-8389-6c8cd7f3a5df",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -246,8 +242,7 @@ const mockSubmitError2 = {
     pragma: "no-cache",
     referer: "http://localhost:8080/oop/review",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+    "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -260,8 +255,7 @@ const mockSubmitError2 = {
     uuid: "6e42086b-5692-4faf-8389-6c8cd7f3a5df",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -325,8 +319,7 @@ const mockSubmitError3 = {
     pragma: "no-cache",
     referer: "http://localhost:8080/oop/review",
     "response-type": "application/json",
-    "sec-ch-ua":
-      '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
+    "sec-ch-ua": '"Chromium";v="92", " Not A;Brand";v="99", "Google Chrome";v="92"',
     "sec-ch-ua-mobile": "?0",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
@@ -339,8 +332,7 @@ const mockSubmitError3 = {
     uuid: "6e42086b-5692-4faf-8389-6c8cd7f3a5df",
     "x-content-type-options": "nosniff",
     "x-forwarded-for": "127.0.0.1, 216.232.32.188",
-    "x-forwarded-host":
-      "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
+    "x-forwarded-host": "localhost:8080, oop-web-a3c641-test.apps.silver.devops.gov.bc.ca",
     "x-forwarded-port": "8080, 443",
     "x-forwarded-proto": "http, https",
     "x-frame-options": "DENY",
@@ -451,9 +443,7 @@ describe("ReviewPage.vue submitForm()", () => {
       },
     });
 
-    spyOnRouter = vi
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
+    spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
 
     axios.post.mockImplementation(() => Promise.resolve(mockSubmit));
   });
@@ -488,10 +478,7 @@ describe("ReviewPage.vue submitForm()", () => {
     await wrapper.vm.$nextTick();
     expect(spyOnDispatch).toHaveBeenCalledTimes(2);
     //426809 is the reference number in the mockSubmit response
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setReferenceNumber",
-      "426809"
-    );
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setReferenceNumber", "426809");
   });
 });
 
@@ -532,10 +519,7 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
     const spyOnNavigate = vi.spyOn(wrapper.vm, "navigateToSubmissionPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
-    expect(spyOnDispatch).not.toHaveBeenCalledWith(
-      "form/setReferenceNumber",
-      "426809"
-    );
+    expect(spyOnDispatch).not.toHaveBeenCalledWith("form/setReferenceNumber", "426809");
     expect(spyOnNavigate).not.toHaveBeenCalled();
     expect(spyOnLogSubmission).not.toHaveBeenCalled();
   });
@@ -546,10 +530,7 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
     const spyOnNavigate = vi.spyOn(wrapper.vm, "navigateToSubmissionPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
-    expect(spyOnDispatch).not.toHaveBeenCalledWith(
-      "form/setReferenceNumber",
-      "426809"
-    );
+    expect(spyOnDispatch).not.toHaveBeenCalledWith("form/setReferenceNumber", "426809");
     expect(spyOnNavigate).not.toHaveBeenCalled();
     expect(spyOnLogSubmission).not.toHaveBeenCalled();
   });
@@ -563,10 +544,7 @@ describe("ReviewPage.vue submitForm() errors/exceptions", () => {
 
   it("calls navigateSubmissionError on return code 2", async () => {
     axios.post.mockImplementation(() => Promise.resolve(mockSubmitError2));
-    const spyOnNavigateError = vi.spyOn(
-      wrapper.vm,
-      "navigateToSubmissionErrorPage"
-    );
+    const spyOnNavigateError = vi.spyOn(wrapper.vm, "navigateToSubmissionErrorPage");
     await wrapper.vm.submitForm();
     await wrapper.vm.$nextTick();
     expect(spyOnNavigateError).toHaveBeenCalled();
@@ -629,9 +607,7 @@ describe("ReviewPage.vue navigateToSubmissionPage()", () => {
       },
     });
 
-    spyOnRouter = vi
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
+    spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {
@@ -797,12 +773,7 @@ describe("ReviewPage.vue beforeRouteLeave()", () => {
 
   it("calls scrollTo() if destination is same or later", async () => {
     vi.useFakeTimers();
-    Component.beforeRouteLeave.call(
-      wrapper.vm,
-      routes.REVIEW_PAGE,
-      routes.REVIEW_PAGE,
-      next
-    );
+    Component.beforeRouteLeave.call(wrapper.vm, routes.REVIEW_PAGE, routes.REVIEW_PAGE, next);
     vi.advanceTimersByTime(5);
     await wrapper.vm.$nextTick;
     expect(spyOnGetTopScrollPosition).toHaveBeenCalled();

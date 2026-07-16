@@ -1,7 +1,4 @@
-import {
-  getProvinceNameFromCode,
-  getProvinceCodeFromName,
-} from "@/helpers/provinces.js";
+import { getProvinceNameFromCode, getProvinceCodeFromName } from "@/helpers/provinces.js";
 
 describe("Helper provinces.js getProvinceNameFromCode()", () => {
   it("returns an undefined value when passed an undefined value", () => {
