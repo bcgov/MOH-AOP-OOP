@@ -8,44 +8,47 @@ import pageStateService from "@/services/page-state-service";
 import * as formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 import axios from "axios";
+import * as scrollHelper from "@/helpers/scroll";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 
-jest.mock("axios", () => ({
-  get: jest.fn(),
-  post: jest.fn(),
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(() => {
+      return Promise.resolve();
+    }),
+  },
 }));
 
-jest
+vi
   .spyOn(logService, "logNavigation")
   .mockImplementation(() => Promise.resolve("logged"));
-const spyOnLogError = jest
+const spyOnLogError = vi
   .spyOn(logService, "logError")
   .mockImplementation(() => {
     Promise.resolve("logged");
   });
-const spyOnLogInfo = jest
+const spyOnLogInfo = vi
   .spyOn(logService, "logInfo")
   .mockImplementation(() => Promise.resolve("logged"));
-jest
+vi
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
-jest
+vi
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollToError: jest.fn(),
-  scrollTo: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollToError: vi.fn(),
+  scrollTo: vi.fn(),
 }));
 
-const scrollHelper = require("@/helpers/scroll");
-
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
-const spyOnScrollToError = jest.spyOn(scrollHelper, "scrollToError");
+const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollToError = vi.spyOn(scrollHelper, "scrollToError");
 
 const stateTemplate = {
   lastName: "defaultlastname",
@@ -119,13 +122,16 @@ describe("AccountTypePage.vue", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("renders", () => {
@@ -149,17 +155,20 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls saveValues() function", async () => {
-    const spyOnSaveValues = jest
+    const spyOnSaveValues = vi
       .spyOn(wrapper.vm, "saveValues")
       .mockImplementation(() => Promise.resolve("saved"));
 
@@ -170,7 +179,7 @@ describe("AccountTypePage.vue handleValidationSuccess()", () => {
   });
 
   it("calls nextPage() function", async () => {
-    const spyOnNextPage = jest
+    const spyOnNextPage = vi
       .spyOn(wrapper.vm, "nextPage")
       .mockImplementation(() => Promise.resolve("next"));
 
@@ -197,13 +206,16 @@ describe("AccountTypePage.vue saveValues()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("changes account type in store", async () => {
@@ -273,17 +285,20 @@ describe("AccountTypePage.vue nextPage()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("pushes to router", async () => {
-    const spyOnRouter = jest
+    const spyOnRouter = vi
       .spyOn(router, "push")
       .mockImplementation(() => Promise.resolve("pushed"));
 
@@ -332,13 +347,16 @@ describe("AccountTypePage.vue addDependentField()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("increases the length of the array by one if the store contains 5 or more elements", async () => {
@@ -368,8 +386,8 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
   let store = null;
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("returns an array that's the same length as the array in the store if the store contains 6-9 elements", async () => {
@@ -384,6 +402,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -412,6 +433,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -434,6 +458,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -462,6 +489,9 @@ describe("AccountTypePage.vue getDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -481,8 +511,8 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
   let store = null;
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("changes the dependentPhns to an array of 5 null values when 5 or less dependent fields are present", async () => {
@@ -497,6 +527,9 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -520,6 +553,9 @@ describe("AccountTypePage.vue resetDependentFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[5]["value"]).toEqual("default6");
@@ -548,13 +584,16 @@ describe("AccountTypePage.vue validateFields() $v errors", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("returns error when given invalid data", () => {
@@ -883,13 +922,16 @@ describe("AccountTypePage.vue validateFields()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("[CODE 0]does not scroll to error when given valid data", async () => {
@@ -900,7 +942,7 @@ describe("AccountTypePage.vue validateFields()", () => {
   });
 
   it("[CODE 0]calls handleValidationSuccess() when given valid data that returns code 0", async () => {
-    const spyOnHandleValidationSuccess = jest.spyOn(
+    const spyOnHandleValidationSuccess = vi.spyOn(
       wrapper.vm,
       "handleValidationSuccess"
     );
@@ -1042,8 +1084,8 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
   let store = null;
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("changes the value of the given index of the dependentPhns array to the value given", async () => {
@@ -1058,6 +1100,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -1079,6 +1124,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[1]["value"]).toEqual("default2");
@@ -1100,6 +1148,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");
@@ -1121,6 +1172,9 @@ describe("AccountTypePage.vue updateDependentPhns()", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.vm.dependentPhns[0]["value"]).toEqual("default1");

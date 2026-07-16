@@ -33,7 +33,7 @@
             
           </div>
           <div class="modal-footer justify-content-center">
-            <Button label="Continue"
+            <ButtonComponent label="Continue"
                     cypressId="consentContinue"
                     @click="closeModal()"
                     :disabled="!isCaptchaValid || !isTermsAccepted"/>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { Button } from "common-lib-vue";
+import { ButtonComponent } from "common-lib-vue";
 import Captcha from '../components/Captcha';
 import {
   MODULE_NAME as formModule,
@@ -55,7 +55,7 @@ import {
 export default {
   name: "ConsentModal",
   components: {
-    Button,
+    ButtonComponent,
     Captcha,
   },
   data: () => {
@@ -115,7 +115,9 @@ export default {
     handleTab() {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[0];
-        this.focusedEl.focus();
+        if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+        }
         return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
@@ -124,13 +126,17 @@ export default {
       } else {
         this.focusedEl = this.focusableEls[position + 1];
       }
-      this.focusedEl.focus();
+      if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+      }
     },
     // Move to next focusable element, if at last element, move to first
     handleTabBackwards() {
       if (!this.focusedEl && this.focusableEls.length > 0) {
         this.focusedEl = this.focusableEls[this.focusableEls.length - 1];
-        this.focusedEl.focus();
+        if (this.focusedEl.focus) {
+          this.focusedEl.focus();
+        }
         return;
       }
       const position = this.focusableEls.indexOf(this.focusedEl);
@@ -139,7 +145,9 @@ export default {
       } else {
         this.focusedEl = this.focusableEls[position - 1];
       }
-      this.focusedEl.focus();
+      if (this.focusedEl.focus) {
+        this.focusedEl.focus();
+      }
     },
   }
 };

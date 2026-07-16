@@ -7,6 +7,7 @@ import formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 import axios from "axios";
 import { routeCollection } from "@/router/index";
+import * as scrollHelper from "@/helpers/scroll";
 
 const mockAxiosResponse = {
   data: {
@@ -119,35 +120,37 @@ const mockAxiosResponseMaintenance = {
 };
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 
-const scrollHelper = require("@/helpers/scroll");
-
-const spyOnRouter = jest
+const spyOnRouter = vi
   .spyOn(router, "push")
   .mockImplementation(() => Promise.resolve("pushed"));
 
-jest
+vi
   .spyOn(pageStateService, "setPageComplete")
   .mockImplementation(() => Promise.resolve("set"));
-jest
+vi
   .spyOn(pageStateService, "visitPage")
   .mockImplementation(() => Promise.resolve("visited"));
 
-jest.mock("axios", () => ({
-  get: jest.fn(),
-  post: jest.fn(),
+vi.mock("axios", () => ({
+  default: {
+    get: vi.fn(),
+    post: vi.fn(() => {
+      return Promise.resolve();
+    }),
+  },
 }));
 
 axios.post.mockImplementation(() => Promise.resolve(mockAxiosResponse));
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
 }));
 
-const spyOnScrollTo = jest.spyOn(scrollHelper, "scrollTo");
+const spyOnScrollTo = vi.spyOn(scrollHelper, "scrollTo");
 
 describe("HomePage.vue", () => {
   let wrapper;
@@ -162,13 +165,16 @@ describe("HomePage.vue", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("renders", () => {
@@ -194,13 +200,16 @@ describe("HomePage.vue handleCloseConsentModal()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("changes showConsentModal to false", async () => {
@@ -229,13 +238,16 @@ describe("HomePage.vue nextPage()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("pushes to router", async () => {
@@ -284,13 +296,16 @@ describe("HomePage.vue created()", () => {
     wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
 
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("renders", () => {

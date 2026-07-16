@@ -1,13 +1,13 @@
 import * as scroll from "@/helpers/scroll.js";
 
-const spyOnWindowScrollTo = jest
+const spyOnWindowScrollTo = vi
   .spyOn(window, "scrollTo")
-  .mockImplementation(jest.fn);
+  .mockImplementation(vi.fn);
 
 describe("Helper scroll.js scrollTo()", () => {
   afterEach(() => {
-    jest.resetModules();
-    jest.clearAllMocks();
+    vi.resetModules();
+    vi.clearAllMocks();
   });
 
   it("calls window.scrollTo() when scrollTo() is called", () => {

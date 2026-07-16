@@ -5,26 +5,23 @@ module.exports = {
   'extends': [
     'plugin:vue/essential',
     'eslint:recommended', 
-    'plugin:jest/recommended',
-    'plugin:jest/style',
-    'plugin:jest-formatting/recommended'
+    // 'plugin:jest/recommended',
+    // 'plugin:jest/style',
+    // 'plugin:jest-formatting/recommended'
   ],
-  parserOptions: {
-    parser: '@babel/eslint-parser'
-  },
   plugins: [
-    "jest", 
-    "jest-formatting",
+    // "jest", 
+    // "jest-formatting",
     "cypress"
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "warn",
-    "jest/no-identical-title": "warn",
-    "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error",
+    // "jest/no-disabled-tests": "warn",
+    // "jest/no-focused-tests": "warn",
+    // "jest/no-identical-title": "warn",
+    // "jest/prefer-to-have-length": "warn",
+    // "jest/valid-expect": "error",
     "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]  
   },
   overrides: [
@@ -33,9 +30,9 @@ module.exports = {
         '**/__tests__/*.{j,t}s?(x)',
         '**/tests/unit/**/*.spec.{j,t}s?(x)'
       ],
-      env: {
-        jest: true
-      }
+      // env: {
+      //   jest: true
+      // }
     },
   ]
 }

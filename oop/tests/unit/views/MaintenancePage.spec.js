@@ -6,6 +6,9 @@ describe("MaintenancePage.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();

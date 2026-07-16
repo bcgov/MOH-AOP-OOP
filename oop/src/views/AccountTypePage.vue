@@ -11,7 +11,7 @@
           <div v-if='accountType === "AH"'
               class="account-type col-sm-7">
             <h2 class="mt-4">Who is moving out of B.C.?</h2>
-            <Radio v-model="personMoving"
+            <RadioComponent v-model="personMoving"
                   :items="personMovingRadioItems"
                   cypressId="whoIsMoving"
                   name='personMoving' />
@@ -22,7 +22,7 @@
             <div v-if='personMoving === "AH_DEP"'
                 class="person-moving">
               <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
-              <Radio v-model="isAllDependentsMoving"
+              <RadioComponent v-model="isAllDependentsMoving"
                     :items="isAllDependentsMovingRadioItems"
                     cypressId="isAllDependents"
                     name='isAllDependentsMoving' />
@@ -50,7 +50,7 @@
                       aria-live="assertive">Dependent Personal Health Number is required.</div>
                     </div>
                   <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
-                    <Button label='+ Add dependent'
+                    <ButtonComponent label='+ Add dependent'
                             @click='addDependentField()'
                             className='mb-3'/>
                   </div>
@@ -77,13 +77,12 @@
                 <b>Who is an account holder?</b>
                 <p>An account holder is the primary individual associated with an MSP account. An account may also include a spouse and/or one or more children.</p>
                 <b>Who is a dependent?</b>
-                <p>A dependent may be a:
+                <p>A dependent may be a:</p>
                   <ul>
                     <li>A spouse</li>
                     <li>An account holder’s child</li>
                     <li>A dependent post-secondary student</li>
                   </ul>
-                </p>
                 <p>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</p>
               </TipBox>
           </div>
@@ -108,9 +107,9 @@ import {
 } from '../helpers/scroll';
 import PageContent from '../components/PageContent.vue';
 import {
-  Button,
+  ButtonComponent,
   ContinueBar,
-  Radio,
+  RadioComponent,
 } from 'common-lib-vue';
 import {
   MODULE_NAME as formModule,
@@ -164,10 +163,10 @@ const MAX_PHN_DEPENDENT_FIELDS = 9;
 export default {
   name: 'AccountTypePage',
   components: {
-    Button,
+    ButtonComponent,
     ContinueBar,
     PageContent,
-    Radio,
+    RadioComponent,
     TipBox,
     PhnInputWrapper
   },

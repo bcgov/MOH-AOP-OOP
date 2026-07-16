@@ -7,7 +7,7 @@ import * as formTemplate from "@/store/modules/form";
 import { cloneDeep } from "lodash";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("oop"),
   routes: routeCollection,
 });
 
@@ -23,6 +23,9 @@ describe("App.vue", () => {
     const wrapper = shallowMount(Component, {
       global: {
         plugins: [store, router],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
       data: () => {
         return {

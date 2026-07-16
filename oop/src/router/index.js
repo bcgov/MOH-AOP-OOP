@@ -58,7 +58,7 @@ export const routeCollection = [
 const router = createRouter({
   mode: 'history',
   // base: process.env.BASE_URL,
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory("oop"),
   routes: routeCollection
 });
 

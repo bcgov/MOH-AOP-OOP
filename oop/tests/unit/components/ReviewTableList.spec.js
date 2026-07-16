@@ -240,6 +240,9 @@ describe("ReviewTableList.vue", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -262,6 +265,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     const result = wrapper.vm.yourInfoTableData;
@@ -274,6 +280,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -294,6 +303,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -312,6 +324,9 @@ describe("ReviewTableList.vue yourInfoTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -342,6 +357,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     const result = wrapper.vm.yourInfoTableData;
@@ -354,6 +372,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -375,6 +396,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -394,6 +418,9 @@ describe("ReviewTableList.vue yourInfoTableData() null", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -421,6 +448,9 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     const result = wrapper.vm.accountTypeTableData;
@@ -438,6 +468,9 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -465,6 +498,9 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -501,6 +537,9 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -537,6 +576,9 @@ describe("ReviewTableList.vue accountTypeTableData() filled", () => {
     const wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
 
@@ -575,6 +617,9 @@ describe("ReviewTableList.vue moveInfoTableData() filled", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
@@ -706,6 +751,9 @@ describe("ReviewTableList.vue moveInfoTableData() filled USA", () => {
     wrapper = mount(Component, {
       global: {
         plugins: [store],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
   });
