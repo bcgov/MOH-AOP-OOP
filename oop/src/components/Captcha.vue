@@ -340,15 +340,14 @@ export default {
   props: {
     apiBasePath: {
       type: String,
-      default: null,
       required: true,
     },
     nonce: {
       type: String,
-      default: null,
       required: true,
     },
   },
+  emits: ["captchaLoaded", "captchaVerified"],
   data: () => {
     return {
       isLoadingNewCaptcha: true,

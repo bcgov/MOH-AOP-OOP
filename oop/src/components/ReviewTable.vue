@@ -24,7 +24,10 @@ export default {
   name: "ReviewTable",
   components: {},
   props: {
-    elements: Array,
+    elements: {
+      type: Array,
+      default: null,
+    },
     backgroundColor: {
       type: String,
       default: "white",

@@ -101,6 +101,7 @@ export default {
     ButtonComponent,
     Captcha,
   },
+  emits: ["close"],
   data: () => {
     return {
       focusableEls: [],

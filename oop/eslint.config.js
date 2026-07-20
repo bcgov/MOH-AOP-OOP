@@ -35,9 +35,10 @@ export default [
     },
   },
   {
-    files: ["**/components/CaptchaComponent.vue"], //disable v-html check in files with sanitized inputs
+    files: ["**/components/Captcha.vue"], //disable v-html check in files with sanitized inputs
     rules: {
       "vue/no-v-html": "off",
+      "vue/multi-word-component-names": "off",
     },
   },
   {

@@ -51,6 +51,7 @@ export default {
       default: "",
     },
     value: {
+      default: null,
       type: String,
     },
     label: {
@@ -62,6 +63,7 @@ export default {
       default: "",
     },
   },
+  emits: ["input"],
   data() {
     return {
       country: "Canada",

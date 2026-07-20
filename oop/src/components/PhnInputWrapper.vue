@@ -35,12 +35,15 @@ export default {
   },
   props: {
     childIndex: {
+      default: null,
       type: Number,
     },
     childPhn: {
+      default: null,
       type: Object,
     },
   },
+  emits: ["updatePhn"],
   setup() {
     return { v$: useVuelidate({}) };
   },

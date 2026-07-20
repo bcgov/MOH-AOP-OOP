@@ -92,6 +92,7 @@ export default {
     },
     tableBackgroundColor: {
       type: String,
+      default: null,
     },
   },
   computed: {

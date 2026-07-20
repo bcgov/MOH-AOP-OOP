@@ -33,12 +33,15 @@ export default {
   },
   props: {
     childIndex: {
+      default: null,
       type: Number,
     },
     childAddressLine: {
+      default: null,
       type: Object,
     },
   },
+  emits: ["updateAddressLine"],
   setup() {
     return { v$: useVuelidate({}) };
   },

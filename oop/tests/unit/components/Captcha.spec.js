@@ -1,7 +1,6 @@
 import { mount } from "@vue/test-utils";
 import axios from "axios";
 import Component from "@/components/Captcha.vue";
-import { it, describe, expect, beforeEach, vi } from "vitest";
 
 //if you need to test future versions of audio playback
 //you can replace the API audio response with the following 0 second base 64 audio clip:

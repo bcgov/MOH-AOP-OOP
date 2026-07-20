@@ -45,7 +45,7 @@ class ApiService {
     const dependentPhns = [];
     const addressLines = [];
     let phoneNumber = null;
-    let payloadCity = null;
+    let payloadCity;
 
     formState.dependentPhns.forEach((phn) => {
       if (phn.value) {
