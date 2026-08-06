@@ -1,9 +1,9 @@
-import { createApp } from 'vue'
-import useVuelidate from '@vuelidate/core'
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { createApp } from "vue";
+import useVuelidate from "@vuelidate/core";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faArrowLeft,
   faArrowRight,
@@ -17,10 +17,10 @@ import {
   faPrint,
   faTimesCircle,
   faInfoCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import 'core-js/es/number'; // IE polyfill for `Number.isNaN()`.
-import { isIE } from './helpers/user-agent';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import "core-js/es/number"; // IE polyfill for `Number.isNaN()`.
+import { isIE } from "./helpers/user-agent";
 
 library.add(faArrowLeft);
 library.add(faArrowRight);
@@ -37,13 +37,9 @@ library.add(faInfoCircle);
 
 // Add 'ie' class name when is IE browser.
 if (isIE()) {
-  document.body.classList.add('ie');
+  document.body.classList.add("ie");
 }
 
-const app = createApp(App)
-  .use(store)
-  .use(router)
-  .use(useVuelidate)
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.mount('#app')
-
+const app = createApp(App).use(store).use(router).use(useVuelidate);
+app.component("FontAwesomeIcon", FontAwesomeIcon);
+app.mount("#app");

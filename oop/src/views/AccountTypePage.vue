@@ -3,114 +3,179 @@
     <PageContent>
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Who is moving</h1>
-        <p>To report a family move, this form must be submitted by the account holder. If submitted by a dependent, coverage will be cancelled for that dependent only.</p>
-        <hr/>
+        <p>
+          To report a family move, this form must be submitted by the account holder. If submitted
+          by a dependent, coverage will be cancelled for that dependent only.
+        </p>
+        <hr />
 
         <!-- Account holder option chosen based from PHN -->
         <div class="row">
-          <div v-if='accountType === "AH"'
-              class="account-type col-sm-7">
+          <div
+            v-if="accountType === 'AH'"
+            class="account-type col-sm-7"
+          >
             <h2 class="mt-4">Who is moving out of B.C.?</h2>
-            <RadioComponent v-model="personMoving"
-                  :items="personMovingRadioItems"
-                  cypressId="whoIsMoving"
-                  name='personMoving' />
-            <div class="text-danger"
-                v-if="v$.personMoving.$dirty && v$.personMoving.required.$invalid"
-                aria-live="assertive">Who is moving out of B.C. is required.</div>
-
-            <div v-if='personMoving === "AH_DEP"'
-                class="person-moving">
-              <h2 class="mt-4">Are all of the dependents on your MSP account moving out of B.C.?</h2>
-              <RadioComponent v-model="isAllDependentsMoving"
-                    :items="isAllDependentsMovingRadioItems"
-                    cypressId="isAllDependents"
-                    name='isAllDependentsMoving' />
-              <div class="text-danger"
-                  v-if="v$.isAllDependentsMoving.$dirty && v$.isAllDependentsMoving.required.$invalid"
-                  aria-live="assertive">Please select one of the options above.</div>
+            <RadioComponent
+              v-model="personMoving"
+              :items="personMovingRadioItems"
+              cypress-id="whoIsMoving"
+              name="personMoving"
+            />
+            <div
+              v-if="v$.personMoving.$dirty && v$.personMoving.required.$invalid"
+              class="text-danger"
+              aria-live="assertive"
+            >
+              Who is moving out of B.C. is required.
             </div>
 
-            <div v-if='personMoving === "DEP_ONLY" || isAllDependentsMoving === "N"'
-                class="is-all-dependents-moving">
-                <h2 class="mt-4">Please enter the PHN below for each dependent on your MSP account who is moving out of B.C.</h2>
-                <p>You can submit up to nine (9) dependents to move as well as the account holder. If you have more dependents, please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a>.</p>
-                <div>
-                  <div class='mb-3'>
-                    <div v-for="(phn, index) in dependentPhns"
-                      :key='index'
-                      class='mt-3'>
-                        <PhnInputWrapper
-                        :childIndex='index'
-                        :childPhn='phn'
-                        @updatePhn="updateDependentPhns"
-                        />
+            <div
+              v-if="personMoving === 'AH_DEP'"
+              class="person-moving"
+            >
+              <h2 class="mt-4">
+                Are all of the dependents on your MSP account moving out of B.C.?
+              </h2>
+              <RadioComponent
+                v-model="isAllDependentsMoving"
+                :items="isAllDependentsMovingRadioItems"
+                cypress-id="isAllDependents"
+                name="isAllDependentsMoving"
+              />
+              <div
+                v-if="v$.isAllDependentsMoving.$dirty && v$.isAllDependentsMoving.required.$invalid"
+                class="text-danger"
+                aria-live="assertive"
+              >
+                Please select one of the options above.
+              </div>
+            </div>
+
+            <div
+              v-if="personMoving === 'DEP_ONLY' || isAllDependentsMoving === 'N'"
+              class="is-all-dependents-moving"
+            >
+              <h2 class="mt-4">
+                Please enter the PHN below for each dependent on your MSP account who is moving out
+                of B.C.
+              </h2>
+              <p>
+                You can submit up to nine (9) dependents to move as well as the account holder. If
+                you have more dependents, please contact
+                <a
+                  href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc"
+                  target="_blank"
+                  >Health Insurance BC
+                </a>
+                .
+              </p>
+              <div>
+                <div class="mb-3">
+                  <div
+                    v-for="(phn, index) in dependentPhns"
+                    :key="index"
+                    class="mt-3"
+                  >
+                    <PhnInputWrapper
+                      :child-index="index"
+                      :child-phn="phn"
+                      @update-phn="updateDependentPhns"
+                    />
                   </div>
-                  <div class="text-danger" v-if="v$.dependentPhns.$dirty && v$.dependentPhns.atLeastOnePhnValidator.$invalid"
-                      aria-live="assertive">Dependent Personal Health Number is required.</div>
-                    </div>
-                  <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
-                    <ButtonComponent label='+ Add dependent'
-                            @click='addDependentField()'
-                            className='mb-3'/>
-                  </div>
-                  <div class="text-danger"
-                      v-if="v$.dependentPhns.$dirty && v$.dependentPhns.phnIsUniqueValidator.$invalid"
-                      aria-live="assertive">Personal Health Numbers must be unique.
-                  </div>
-                  <div class="text-danger"
-                      v-if="isServerValidationErrorShown"
-                      aria-live="assertive">At least one of the Personal Health Numbers does not match our records.
-                  </div>
-                  <div class="text-danger"
-                      v-if="isSystemUnavailable"
-                      aria-live="assertive">Unable to continue, system unavailable. Please try again later.
+                  <div
+                    v-if="
+                      v$.dependentPhns.$dirty && v$.dependentPhns.atLeastOnePhnValidator.$invalid
+                    "
+                    class="text-danger"
+                    aria-live="assertive"
+                  >
+                    Dependent Personal Health Number is required.
                   </div>
                 </div>
+                <div v-if="dependentPhns.length < getMaxPHNDependentFields()">
+                  <ButtonComponent
+                    label="+ Add dependent"
+                    class-name="mb-3"
+                    @click="addDependentField()"
+                  />
+                </div>
+                <div
+                  v-if="v$.dependentPhns.$dirty && v$.dependentPhns.phnIsUniqueValidator.$invalid"
+                  class="text-danger"
+                  aria-live="assertive"
+                >
+                  Personal Health Numbers must be unique.
+                </div>
+                <div
+                  v-if="isServerValidationErrorShown"
+                  class="text-danger"
+                  aria-live="assertive"
+                >
+                  At least one of the Personal Health Numbers does not match our records.
+                </div>
+                <div
+                  v-if="isSystemUnavailable"
+                  class="text-danger"
+                  aria-live="assertive"
+                >
+                  Unable to continue, system unavailable. Please try again later.
+                </div>
+              </div>
             </div>
           </div>
-          <div v-if='accountType === "DEP"' class="col-sm-7 mt-3">
-            <p>You can only complete this form for yourself. Please press continue to proceed with the Out of Province Move form. </p>
+          <div
+            v-if="accountType === 'DEP'"
+            class="col-sm-7 mt-3"
+          >
+            <p>
+              You can only complete this form for yourself. Please press continue to proceed with
+              the Out of Province Move form.
+            </p>
           </div>
           <div class="col-sm-5 mt-3">
-              <TipBox title="Tip: Account type">
-                <b>Who is an account holder?</b>
-                <p>An account holder is the primary individual associated with an MSP account. An account may also include a spouse and/or one or more children.</p>
-                <b>Who is a dependent?</b>
-                <p>A dependent may be a:</p>
-                  <ul>
-                    <li>A spouse</li>
-                    <li>An account holder’s child</li>
-                    <li>A dependent post-secondary student</li>
-                  </ul>
-                <p>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</p>
-              </TipBox>
+            <TipBox title="Tip: Account type">
+              <b>Who is an account holder?</b>
+              <p>
+                An account holder is the primary individual associated with an MSP account. An
+                account may also include a spouse and/or one or more children.
+              </p>
+              <b>Who is a dependent?</b>
+              <p>A dependent may be a:</p>
+              <ul>
+                <li>A spouse</li>
+                <li>An account holder’s child</li>
+                <li>A dependent post-secondary student</li>
+              </ul>
+              <p>
+                Please contact
+                <a
+                  href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc"
+                  target="_blank"
+                >
+                  Health Insurance BC
+                </a>
+                if you have any questions.
+              </p>
+            </TipBox>
           </div>
         </div>
       </div>
     </PageContent>
-    <ContinueBar :hasLoader='isLoading' @continue="validateFields()" cypressId="continueBar" />
+    <ContinueBar
+      :has-loader="isLoading"
+      cypress-id="continueBar"
+      @continue="validateFields()"
+    />
   </div>
 </template>
 
 <script>
-import pageStateService from '../services/page-state-service';
-import {
-  routes,
-  isPastPath,
-} from '../router/routes';
-import {
-  scrollTo,
-  scrollToError,
-  scrollToElement,
-  getTopScrollPosition
-} from '../helpers/scroll';
-import PageContent from '../components/PageContent.vue';
-import {
-  ButtonComponent,
-  ContinueBar,
-  RadioComponent,
-} from 'common-lib-vue';
+import pageStateService from "../services/page-state-service";
+import { routes, isPastPath } from "../router/routes";
+import { scrollTo, scrollToError, scrollToElement, getTopScrollPosition } from "../helpers/scroll";
+import PageContent from "../components/PageContent.vue";
+import { ButtonComponent, ContinueBar, RadioComponent } from "common-lib-vue";
 import {
   MODULE_NAME as formModule,
   RESET_FORM,
@@ -118,23 +183,23 @@ import {
   SET_PERSON_MOVING,
   SET_IS_ALL_DEPENDENTS_MOVING,
   SET_DEPENDENT_PHNS,
-} from '../store/modules/form';
-import { required } from '@vuelidate/validators';
-import apiService from '../services/api-service';
-import logService from '../services/log-service';
-import TipBox from '../components/TipBox.vue';
+} from "../store/modules/form";
+import { required } from "@vuelidate/validators";
+import apiService from "../services/api-service";
+import logService from "../services/log-service";
+import TipBox from "../components/TipBox.vue";
 import useVuelidate from "@vuelidate/core";
-import PhnInputWrapper from '../components/PhnInputWrapper.vue';
+import PhnInputWrapper from "../components/PhnInputWrapper.vue";
 
 const atLeastOnePhnValidator = (phns) => {
   if (phns) {
-    for (let i=0; i<phns.length; i++) {
-      if (phns[i].value && phns[i].value !== '') {
+    for (let i = 0; i < phns.length; i++) {
+      if (phns[i].value && phns[i].value !== "") {
         return true;
       }
     }
   }
-  return false; 
+  return false;
 };
 
 const phnIsUniqueValidator = (phns) => {
@@ -143,10 +208,10 @@ const phnIsUniqueValidator = (phns) => {
   }
   let phnMap = {};
 
-  for (let i=0; i<phns.length; i++) {
+  for (let i = 0; i < phns.length; i++) {
     const phn = phns[i].value;
 
-    if (!phn || phn === '') {
+    if (!phn || phn === "") {
       continue;
     } else if (phnMap[phn] === phn) {
       return false;
@@ -161,14 +226,37 @@ const MIN_PHN_DEPENDENT_FIELDS = 5;
 const MAX_PHN_DEPENDENT_FIELDS = 9;
 
 export default {
-  name: 'AccountTypePage',
+  name: "AccountTypePage",
   components: {
     ButtonComponent,
     ContinueBar,
     PageContent,
     RadioComponent,
     TipBox,
-    PhnInputWrapper
+    PhnInputWrapper,
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + "/" + RESET_FORM);
+      next();
+    } else if (pageStateService.isPageComplete(to.path) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      // Navigate to self.
+      const topScrollPosition = getTopScrollPosition();
+      next({
+        path: routes.ACCOUNT_TYPE_PAGE.path,
+        replace: true,
+      });
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data: () => {
     return {
@@ -182,36 +270,67 @@ export default {
       isSystemUnavailable: false,
       personMovingRadioItems: [
         {
-          id: 'person-moving-ah',
-          label: 'Account holder only',
-          value: 'AH_ONLY'
+          id: "person-moving-ah",
+          label: "Account holder only",
+          value: "AH_ONLY",
         },
         {
-          id: 'person-moving-ahad',
-          label: 'Account holder and dependent(s)',
-          value: 'AH_DEP'
+          id: "person-moving-ahad",
+          label: "Account holder and dependent(s)",
+          value: "AH_DEP",
         },
         {
-          id: 'person-moving-d',
-          label: 'My dependent(s) only',
-          value: 'DEP_ONLY'
-        }
+          id: "person-moving-d",
+          label: "My dependent(s) only",
+          value: "DEP_ONLY",
+        },
       ],
       isAllDependentsMovingRadioItems: [
         {
-          id: 'is-all-dependents-moving-y',
-          label: 'Yes',
-          value: 'Y'
+          id: "is-all-dependents-moving-y",
+          label: "Yes",
+          value: "Y",
         },
         {
-          id: 'is-all-dependents-moving-n',
-          label: 'No',
-          value: 'N'
-        }
-      ]
-    }
+          id: "is-all-dependents-moving-n",
+          label: "No",
+          value: "N",
+        },
+      ],
+    };
   },
-  setup () { return { v$: useVuelidate() } },
+  watch: {
+    accountType(newValue) {
+      if (this.isPageLoaded) {
+        this.personMoving = null;
+        this.isAllDependentsMoving = null;
+
+        if (newValue === "AH") {
+          setTimeout(() => {
+            const el = document.querySelector(".account-type");
+            scrollToElement(el, true);
+          }, 0);
+        }
+      }
+    },
+    personMoving(newValue) {
+      if (this.isPageLoaded && newValue) {
+        this.isAllDependentsMoving = null;
+        this.resetDependentFields();
+      }
+    },
+    isAllDependentsMoving(newValue) {
+      if (this.isPageLoaded) {
+        this.resetDependentFields();
+        if (newValue === "N") {
+          setTimeout(() => {
+            const el = document.querySelector(".is-all-dependents-moving");
+            scrollToElement(el, true);
+          }, 0);
+        }
+      }
+    },
+  },
   created() {
     this.accountType = this.$store.state.form.accountType;
     this.personMoving = this.$store.state.form.personMoving;
@@ -224,11 +343,11 @@ export default {
 
     const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
 
-    for (let i=0; i<numberOfPhns; i++) {
+    for (let i = 0; i < numberOfPhns; i++) {
       this.dependentPhns[i] = {
         value: this.dependentPhns && this.dependentPhns[i] ? this.dependentPhns[i].value : null,
         isValid: true,
-      }
+      };
     }
 
     logService.logNavigation(
@@ -243,20 +362,20 @@ export default {
         required,
       },
     };
-    if (this.accountType === 'AH') {
+    if (this.accountType === "AH") {
       validations.personMoving = {
         required,
       };
-      if (this.personMoving === 'AH_DEP') {
+      if (this.personMoving === "AH_DEP") {
         validations.isAllDependentsMoving = {
           required,
         };
       }
-      if (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N') {
-          validations.dependentPhns = {
-            atLeastOnePhnValidator,
-            phnIsUniqueValidator,
-          };
+      if (this.personMoving === "DEP_ONLY" || this.isAllDependentsMoving === "N") {
+        validations.dependentPhns = {
+          atLeastOnePhnValidator,
+          phnIsUniqueValidator,
+        };
       }
     }
     return validations;
@@ -266,7 +385,7 @@ export default {
       this.isServerValidationErrorShown = false;
       this.isSystemUnavailable = false;
 
-      this.v$.$touch()
+      this.v$.$touch();
       if (this.v$.$invalid) {
         scrollToError();
         return;
@@ -276,11 +395,15 @@ export default {
 
       const token = this.$store.state.form.captchaToken;
       const applicationUuid = this.$store.state.form.applicationUuid;
-      const phn = this.$store.state.form.phn.replace(/ /g,'');
+      const phn = this.$store.state.form.phn.replace(/ /g, "");
       const dependentPhns = this.getDependentPhns();
-      
-      if (this.accountType === 'AH' && (this.personMoving === 'DEP_ONLY' || this.isAllDependentsMoving === 'N')) {
-        apiService.validateDep(token, applicationUuid, phn, dependentPhns)
+
+      if (
+        this.accountType === "AH" &&
+        (this.personMoving === "DEP_ONLY" || this.isAllDependentsMoving === "N")
+      ) {
+        apiService
+          .validateDep(token, applicationUuid, phn, dependentPhns)
           .then((response) => {
             // Handle HTTP success.
             const returnCode = response.data.returnCode;
@@ -288,26 +411,26 @@ export default {
             this.isLoading = false;
 
             switch (returnCode) {
-              case '0': // Validation success.
+              case "0": // Validation success.
                 logService.logInfo(applicationUuid, {
-                  event: 'validation success (validateDep)',
+                  event: "validation success (validateDep)",
                   response: response.data,
                 });
                 this.handleValidationSuccess();
                 break;
-              case '1': // Dependent does not match the reccords
-              case '2': // PHN not found
+              case "1": // Dependent does not match the reccords
+              case "2": // PHN not found
                 this.isServerValidationErrorShown = true;
                 logService.logInfo(applicationUuid, {
-                  event: 'validation failure (validateDep)',
+                  event: "validation failure (validateDep)",
                   response: response.data,
                 });
                 scrollToError();
                 break;
-              case '3': // System unavailable.
+              case "3": // System unavailable.
                 this.isSystemUnavailable = true;
                 logService.logError(applicationUuid, {
-                  event: 'validation failure (validateDep endpoint unavailable)',
+                  event: "validation failure (validateDep endpoint unavailable)",
                   response: response.data,
                 });
                 scrollToError();
@@ -319,7 +442,7 @@ export default {
             this.isLoading = false;
             this.isSystemUnavailable = true;
             logService.logError(applicationUuid, {
-              event: 'HTTP error (validateDep endpoint unavailable)',
+              event: "HTTP error (validateDep endpoint unavailable)",
               status: error.response.status,
             });
             scrollToError();
@@ -335,10 +458,13 @@ export default {
       this.nextPage();
     },
     saveValues() {
-      this.$store.dispatch(formModule + '/' + SET_ACCOUNT_TYPE, this.accountType);
-      this.$store.dispatch(formModule + '/' + SET_PERSON_MOVING, this.personMoving);
-      this.$store.dispatch(formModule + '/' + SET_IS_ALL_DEPENDENTS_MOVING, this.isAllDependentsMoving);
-      this.$store.dispatch(formModule + '/' + SET_DEPENDENT_PHNS, this.dependentPhns);
+      this.$store.dispatch(formModule + "/" + SET_ACCOUNT_TYPE, this.accountType);
+      this.$store.dispatch(formModule + "/" + SET_PERSON_MOVING, this.personMoving);
+      this.$store.dispatch(
+        formModule + "/" + SET_IS_ALL_DEPENDENTS_MOVING,
+        this.isAllDependentsMoving
+      );
+      this.$store.dispatch(formModule + "/" + SET_DEPENDENT_PHNS, this.dependentPhns);
     },
     nextPage() {
       const toPath = routes.MOVE_INFO_PAGE.path;
@@ -355,9 +481,9 @@ export default {
     },
     getDependentPhns() {
       const phns = [];
-      for (let i=0; i<this.dependentPhns.length; i++) {
+      for (let i = 0; i < this.dependentPhns.length; i++) {
         if (this.dependentPhns[i] && this.dependentPhns[i].value) {
-          phns.push(this.dependentPhns[i].value.replace(/ /g,''));
+          phns.push(this.dependentPhns[i].value.replace(/ /g, ""));
         }
       }
       return phns;
@@ -365,74 +491,22 @@ export default {
     getMaxPHNDependentFields() {
       return MAX_PHN_DEPENDENT_FIELDS;
     },
-    resetDependentFields(){
+    resetDependentFields() {
       const numberOfPhns = Math.max(MIN_PHN_DEPENDENT_FIELDS, this.dependentPhns.length);
-      for (let i=0; i<numberOfPhns; i++) {
+      for (let i = 0; i < numberOfPhns; i++) {
         this.dependentPhns[i] = {
           value: null,
           isValid: true,
-        }
+        };
       }
     },
     updateDependentPhns(newPhn, newIndex) {
-      if ( this.dependentPhns[newIndex]) {
-        return this.dependentPhns[newIndex] = {isValid: true, value: newPhn};
-      }
-    }
-  },   
-  watch: {
-    accountType(newValue) {
-      if (this.isPageLoaded) {
-        this.personMoving = null;
-        this.isAllDependentsMoving = null;
-
-        if (newValue === 'AH') {
-          setTimeout(() => {
-            const el = document.querySelector('.account-type');
-            scrollToElement(el, true);
-          }, 0);
-        }
-      }
-    },
-    personMoving(newValue) {
-      if (this.isPageLoaded && newValue) {
-        this.isAllDependentsMoving = null;
-        this.resetDependentFields();
-      }
-    },
-    isAllDependentsMoving(newValue) {
-      if (this.isPageLoaded) {
-        this.resetDependentFields();
-        if (newValue === 'N') {
-          setTimeout(() => {
-            const el = document.querySelector('.is-all-dependents-moving');
-            scrollToElement(el, true);
-          }, 0);
-        }
+      if (this.dependentPhns[newIndex]) {
+        return (this.dependentPhns[newIndex] = { isValid: true, value: newPhn });
       }
     },
   },
-  // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    pageStateService.setPageIncomplete(from.path);
-    if (to.path === routes.HOME_PAGE.path) {
-      this.$store.dispatch(formModule + '/' + RESET_FORM);
-      next();
-    } else if ((pageStateService.isPageComplete(to.path)) || isPastPath(to.path, from.path)) {
-      next();
-    } else {
-      // Navigate to self.
-      const topScrollPosition = getTopScrollPosition();
-      next({
-        path: routes.ACCOUNT_TYPE_PAGE.path,
-        replace: true
-      });
-      setTimeout(() => {
-        scrollTo(topScrollPosition);
-      }, 0);
-    }
-  }
-}
+};
 </script>
 
 <style scoped>

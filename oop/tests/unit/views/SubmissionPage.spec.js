@@ -142,9 +142,7 @@ describe("SubmissionPage.vue navigateToHomePage()", () => {
       },
     });
 
-    spyOnRouter = vi
-      .spyOn(router, "push")
-      .mockImplementation(() => Promise.resolve("pushed"));
+    spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
   });
 
   afterEach(() => {

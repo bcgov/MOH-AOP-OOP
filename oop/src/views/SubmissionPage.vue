@@ -7,89 +7,132 @@
             <h1 class="mb-0">Confirmation of Submission</h1>
           </div>
           <div class="col-3 text-right">
-            <a href="javascript:void(0)"
+            <a
+              href="javascript:void(0)"
               class="print-btn"
-              @click="printPage()">Print or Save as PDF
+              @click="printPage()"
+              >Print or Save as PDF
               <font-awesome-icon icon="print" />
             </a>
             <div class="tip-container">
-              <font-awesome-icon class="ml-2" icon="info-circle" />
+              <font-awesome-icon
+                class="ml-2"
+                icon="info-circle"
+              />
               <div class="tip">To save as a PDF, in the print window, select “Save as PDF”</div>
             </div>
           </div>
         </div>
-        <hr/>
+        <hr />
 
         <div class="success-box container">
           <div class="row align-items-center">
             <div class="col-md-1 pr-0 icon-container text-center">
-              <font-awesome-icon icon="check-circle" size="3x" />
+              <font-awesome-icon
+                icon="check-circle"
+                size="3x"
+              />
             </div>
             <div class="col-md-10 pt-2 pb-2">
               <p>Your application has been submitted.</p>
               <div class="row">
                 <div class="col-md-4 col-lg-3">Date of Submission:</div>
-                <div class="col-md-8 col-lg-9"><b>{{ submissionDate }}</b></div>
+                <div class="col-md-8 col-lg-9">
+                  <b>{{ submissionDate }}</b>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-4 col-lg-3">Reference Number:</div>
-                <div class="col-md-8 col-lg-9"><b>{{referenceNumber}}</b></div>
+                <div class="col-md-8 col-lg-9">
+                  <b>{{ referenceNumber }}</b>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <h3 class="mt-4">Next Steps</h3>
-        <hr/>
+        <hr />
         <ul>
-          <li>Please <a href="javascript:void(0)" @click="printPage()" class="print-link">print</a> this page for your records.</li>
-          <li>Health Insurance BC will send you a letter following cancellation of MSP coverage.</li>
-          <li>Please contact <a href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc" target="_blank">Health Insurance BC</a> if you have any questions.</li>
+          <li>
+            Please
+            <a
+              href="javascript:void(0)"
+              class="print-link"
+              @click="printPage()"
+            >
+              print
+            </a>
+            this page for your records.
+          </li>
+          <li>
+            Health Insurance BC will send you a letter following cancellation of MSP coverage.
+          </li>
+          <li>
+            Please contact
+            <a
+              href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc"
+              target="_blank"
+            >
+              Health Insurance BC
+            </a>
+            if you have any questions.
+          </li>
         </ul>
 
-        <ReviewTableList className='mt-5 mb-5' />
+        <ReviewTableList class-name="mt-5 mb-5" />
       </div>
     </PageContent>
-    <ContinueBar @continue='navigateToHomePage()'
-                buttonLabel='Submit a new form'
-                :isSticky='false'
-                class="continue-bar"
-                cypressId="continueBar"/>
+    <ContinueBar
+      button-label="Submit a new form"
+      :is-sticky="false"
+      class="continue-bar"
+      cypress-id="continueBar"
+      @continue="navigateToHomePage()"
+    />
   </div>
 </template>
 
 <script>
-import PageContent from '../components/PageContent.vue';
-import ReviewTableList from '../components/ReviewTableList.vue';
-import { formatDate } from '../helpers/date';
-import pageStateService from '../services/page-state-service';
-import { routes } from '../router/routes';
-import {
-  MODULE_NAME as formModule,
-  RESET_FORM
-} from '../store/modules/form';
-import { scrollTo } from '../helpers/scroll';
-import logService from '../services/log-service';
-import {
-  ContinueBar
-} from 'common-lib-vue';
+import PageContent from "../components/PageContent.vue";
+import ReviewTableList from "../components/ReviewTableList.vue";
+import { formatDate } from "../helpers/date";
+import pageStateService from "../services/page-state-service";
+import { routes } from "../router/routes";
+import { MODULE_NAME as formModule, RESET_FORM } from "../store/modules/form";
+import { scrollTo } from "../helpers/scroll";
+import logService from "../services/log-service";
+import { ContinueBar } from "common-lib-vue";
 
 export default {
-  name: 'SubmissionPage',
+  name: "SubmissionPage",
   components: {
     ContinueBar,
     PageContent,
     ReviewTableList,
   },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    this.$store.dispatch(formModule + "/" + RESET_FORM);
+    if (to.path === routes.HOME_PAGE.path) {
+      next();
+    } else {
+      next({ name: routes.HOME_PAGE.name });
+    }
+    setTimeout(() => {
+      scrollTo(0);
+    }, 0);
+  },
   data: () => {
     return {
-      submissionDate: '',
-      referenceNumber: '',
+      submissionDate: "",
+      referenceNumber: "",
     };
   },
   created() {
     this.submissionDate = formatDate(this.$store.state.form.submissionDate);
-    this.referenceNumber = this.$store.state.form.referenceNumber || 'Unknown';
+    this.referenceNumber = this.$store.state.form.referenceNumber || "Unknown";
 
     logService.logNavigation(
       this.$store.state.form.applicationUuid,
@@ -102,7 +145,7 @@ export default {
       window.print();
     },
     navigateToHomePage() {
-      this.$store.dispatch(formModule + '/' + RESET_FORM);
+      this.$store.dispatch(formModule + "/" + RESET_FORM);
       pageStateService.setPageIncomplete(routes.SUBMISSION_PAGE.path);
 
       const toPath = routes.HOME_PAGE.path;
@@ -111,20 +154,7 @@ export default {
       scrollTo(0);
     },
   },
-  // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    pageStateService.setPageIncomplete(from.path);
-    this.$store.dispatch(formModule + '/' + RESET_FORM);
-    if (to.path === routes.HOME_PAGE.path) {
-      next();
-    } else {
-      next({ name: routes.HOME_PAGE.name });
-    }
-    setTimeout(() => {
-      scrollTo(0);
-    }, 0);
-  }
-}
+};
 </script>
 
 <style scoped>
@@ -150,7 +180,7 @@ export default {
   font-weight: normal;
   font-size: 13.33px;
   right: 25px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;

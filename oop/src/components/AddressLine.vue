@@ -1,25 +1,22 @@
 <template>
   <div>
     <InputComponent
-      :label="'Address line ' + (childIndex + 1)"
       :id="'addressLine' + childIndex"
       v-model="addressLine"
+      :label="'Address line ' + (childIndex + 1)"
       class="address-line"
       maxlength="25"
+      :data-cy="'addressLine' + childIndex"
       @input="handleFocus"
       @blur="handleBlur"
-      :data-cy="'addressLine' + childIndex"
     />
     <div
+      v-if="v$.addressLine.$dirty && v$.addressLine.specialCharacterValidator.$invalid"
       class="text-danger"
-      v-if="
-        v$.addressLine.$dirty &&
-        v$.addressLine.specialCharacterValidator.$invalid
-      "
       aria-live="assertive"
     >
-      Address cannot include special characters except hyphen, period,
-      apostrophe, number sign and blank space.
+      Address cannot include special characters except hyphen, period, apostrophe, number sign and
+      blank space.
     </div>
   </div>
 </template>
@@ -34,6 +31,17 @@ export default {
   components: {
     InputComponent,
   },
+  props: {
+    childIndex: {
+      default: null,
+      type: Number,
+    },
+    childAddressLine: {
+      default: null,
+      type: Object,
+    },
+  },
+  emits: ["updateAddressLine"],
   setup() {
     return { v$: useVuelidate({}) };
   },
@@ -42,18 +50,18 @@ export default {
       addressLine: null,
     };
   },
+  watch: {
+    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
+    //eslint-disable-next-line
+    childAddressLine: function (valueNew, valueOld) {
+      //updates Vue data when the prop changes
+      this.addressLine = valueNew.value;
+    },
+  },
   mounted() {
     if (this.childAddressLine && this.childAddressLine.value) {
       this.addressLine = this.childAddressLine.value;
     }
-  },
-  props: {
-    childIndex: {
-      type: Number,
-    },
-    childAddressLine: {
-      type: Object,
-    },
   },
   validations() {
     const validations = {
@@ -73,14 +81,6 @@ export default {
     handleBlur() {
       this.$emit("updateAddressLine", this.addressLine, this.childIndex);
       return this.v$.addressLine.$touch();
-    },
-  },
-  watch: {
-    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
-    //eslint-disable-next-line
-    childAddressLine: function (valueNew, valueOld) {
-      //updates Vue data when the prop changes
-      this.addressLine = valueNew.value;
     },
   },
 };

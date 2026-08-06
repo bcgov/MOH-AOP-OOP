@@ -4,15 +4,14 @@
       <div class="container pt-3 pt-sm-5 mb-3">
         <h1>Move information</h1>
         <p>
-          <b>If you are moving within Canada,</b> coverage is provided for the
-          remainder of the month in which you leave the province plus the next
-          two months. If required, your coverage may be extended for up to three
-          extra months to cover you while in transit. Upon arrival, you should
-          immediately apply to the health plan of the new province or territory.
+          <b>If you are moving within Canada,</b> coverage is provided for the remainder of the
+          month in which you leave the province plus the next two months. If required, your coverage
+          may be extended for up to three extra months to cover you while in transit. Upon arrival,
+          you should immediately apply to the health plan of the new province or territory.
         </p>
         <p>
-          <b>If you are moving outside Canada,</b> coverage is provided for the
-          remainder of the month in which you leave the province.
+          <b>If you are moving outside Canada,</b> coverage is provided for the remainder of the
+          month in which you leave the province.
         </p>
         <hr />
 
@@ -21,100 +20,95 @@
         <div class="row">
           <div class="col-md-6">
             <DateInput
-              label="Permanent move from B.C."
-              className="mt-3"
-              cypressId="moveFromBCDate"
-              name="moveFromBCDate"
               v-model="moveFromBCDate"
+              label="Permanent move from B.C."
+              class-name="mt-3"
+              cypress-id="moveFromBCDate"
+              name="moveFromBCDate"
             />
             <div
+              v-if="v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required.$invalid"
               class="text-danger"
-              v-if="
-                v$.moveFromBCDate.$dirty && v$.moveFromBCDate.required.$invalid
-              "
               aria-live="assertive"
             >
               A valid date of departure is required.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.moveFromBCDate.$dirty &&
                 !v$.moveFromBCDate.required.$invalid &&
                 v$.moveFromBCDate.distantFutureValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date is too far in the future.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.moveFromBCDate.$dirty &&
                 !v$.moveFromBCDate.required.$invalid &&
                 v$.moveFromBCDate.distantPastValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date is too far in the past.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.moveFromBCDate.$dirty &&
                 !v$.moveFromBCDate.required.$invalid &&
                 v$.moveFromBCDate.beforeDateValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date of departure must be before the date of arrival.
             </div>
             <DateInput
-              label="Arrival in new destination"
-              className="mt-3"
-              cypressId="arriveDestinationDate"
-              name="arriveDestinationDate"
               v-model="arriveDestinationDate"
+              label="Arrival in new destination"
+              class-name="mt-3"
+              cypress-id="arriveDestinationDate"
+              name="arriveDestinationDate"
             />
             <div
+              v-if="v$.arriveDestinationDate.$dirty && v$.arriveDestinationDate.required.$invalid"
               class="text-danger"
-              v-if="
-                v$.arriveDestinationDate.$dirty &&
-                v$.arriveDestinationDate.required.$invalid
-              "
               aria-live="assertive"
             >
               A valid date of arrival is required.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.arriveDestinationDate.$dirty &&
                 !v$.arriveDestinationDate.required.$invalid &&
                 v$.arriveDestinationDate.distantFutureValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date is too far in the future.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.arriveDestinationDate.$dirty &&
                 !v$.arriveDestinationDate.required.$invalid &&
                 v$.arriveDestinationDate.distantPastValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date is too far in the past.
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.arriveDestinationDate.$dirty &&
                 !v$.arriveDestinationDate.required.$invalid &&
                 v$.arriveDestinationDate.afterDateValidator.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Date of arrival must be after the date of departure.
@@ -124,24 +118,20 @@
 
         <h2 class="mt-5 mb-3">New address</h2>
         <p>
-          If you know your new address please enter it below. A confirmation
-          letter will be sent to your new address following cancellation of
-          coverage.
+          If you know your new address please enter it below. A confirmation letter will be sent to
+          your new address following cancellation of coverage.
         </p>
         <hr />
         <p>Do you know your new address?</p>
         <RadioComponent
           v-model="isNewAddressKnown"
           :items="isNewAddressKnownRadioItems"
-          cypressId="isNewAddressKnown"
+          cypress-id="isNewAddressKnown"
           name="isNewAddressKnown"
         />
         <div
+          v-if="v$.isNewAddressKnown.$dirty && v$.isNewAddressKnown.required.$invalid"
           class="text-danger"
-          v-if="
-            v$.isNewAddressKnown.$dirty &&
-            v$.isNewAddressKnown.required.$invalid
-          "
           aria-live="assertive"
         >
           Please select one of the options above.
@@ -154,16 +144,16 @@
               class="is-new-address-known-y"
             >
               <CountrySelect
-                label="Jurisdiction"
                 ref="country"
-                className="mt-3"
-                class="country"
-                cypressId="jurisdictionSelect"
                 v-model="country"
+                label="Jurisdiction"
+                class-name="mt-3"
+                class="country"
+                cypress-id="jurisdictionSelect"
               />
               <div
-                class="text-danger"
                 v-if="v$.country.$dirty && v$.country.required.$invalid"
+                class="text-danger"
                 aria-live="assertive"
               >
                 Jurisdiction is required.
@@ -181,48 +171,50 @@
                       class="address-line-width"
                     >
                       <AddressDoctorInput
-                        label="Address line 1"
-                        v-model="addressLines[index].value"
                         id="address-line-1"
-                        className="mt-3"
+                        v-model="addressLines[index].value"
+                        label="Address line 1"
+                        class-name="mt-3"
                         class="address-line"
                         placeholder="Example: 111-215 Sample Road"
-                        serviceUrl="/oop/api/address"
-                        cypressId="addressDoctorInput"
-                        @addressSelected="addressSelectedHandler($event)"
+                        service-url="/oop/api/address"
+                        cypress-id="addressDoctorInput"
+                        @address-selected="addressSelectedHandler($event)"
                       />
                       <div
-                        class="text-danger"
                         v-if="
                           index === 0 &&
                           v$.addressLines.$dirty &&
                           v$.addressLines.addressLineOneValidator.$invalid
                         "
+                        class="text-danger"
                         aria-live="assertive"
                       >
                         Address line 1 is required.
                       </div>
                       <div
-                        class="text-danger"
                         v-if="
                           index === 0 &&
                           v$.addressLines.$dirty &&
                           !v$.addressLines.addressLineOneValidator.$invalid &&
-                          v$.addressLines
-                            .addressLineOneSpecialCharacterValidator.$invalid
+                          v$.addressLines.addressLineOneSpecialCharacterValidator.$invalid
                         "
+                        class="text-danger"
                         aria-live="assertive"
                       >
-                        Address cannot include special characters except hyphen,
-                        period, apostrophe, number sign and blank space.
+                        Address cannot include special characters except hyphen, period, apostrophe,
+                        number sign and blank space.
                       </div>
                     </div>
-                    <div v-else class="address-line-width">
+                    <div
+                      v-else
+                      class="address-line-width"
+                    >
                       <AddressLine
-                        :childIndex="index"
-                        :childAddressLine="addressLine"
-                        @updateAddressLine="updateAddressLine"
+                        :child-index="index"
+                        :child-address-line="addressLine"
                         class="mt-3 custom-style address-line address-line-width"
+                        @update-address-line="updateAddressLine"
                       />
                     </div>
                     <div
@@ -234,9 +226,9 @@
                     >
                       <ButtonComponent
                         label="+"
-                        @click="addAddressField()"
-                        cypressId="addAddressField"
+                        cypress-id="addAddressField"
                         class="add-remove-button mt-2 mt-sm-5 form-control"
+                        @click="addAddressField()"
                       />
                     </div>
                     <div
@@ -248,116 +240,113 @@
                     >
                       <ButtonComponent
                         label="-"
-                        @click="removeAddressField()"
                         class="add-remove-button mt-2 mt-sm-5 form-control"
+                        @click="removeAddressField()"
                       />
                     </div>
                   </div>
                 </div>
-                <div v-else class="row">
+                <div
+                  v-else
+                  class="row"
+                >
                   <!-- USA or Other -->
                   <div class="col mt-3">
                     <InputComponent
-                      label="Street address"
-                      v-model="otherStreetAddress"
-                      class="address-line"
                       id="address-line-1"
+                      v-model="otherStreetAddress"
+                      label="Street address"
+                      class="address-line"
                       maxlength="25"
                       data-cy="usaOtherStreetAddress"
                     />
                     <div
+                      v-if="v$.otherStreetAddress.$dirty && v$.otherStreetAddress.required.$invalid"
                       class="text-danger"
-                      v-if="
-                        v$.otherStreetAddress.$dirty &&
-                        v$.otherStreetAddress.required.$invalid
-                      "
                       aria-live="assertive"
                     >
                       Street address is required.
                     </div>
                     <div
-                      class="text-danger"
                       v-if="
                         v$.otherStreetAddress.$dirty &&
                         v$.otherStreetAddress.specialCharacterValidator.$invalid
                       "
+                      class="text-danger"
                       aria-live="assertive"
                     >
-                      Street address cannot include special characters except
-                      hyphen, period, apostrophe, number sign and blank space.
+                      Street address cannot include special characters except hyphen, period,
+                      apostrophe, number sign and blank space.
                     </div>
                   </div>
                 </div>
                 <!-- City -->
                 <div class="mt-3">
                   <InputComponent
-                    :label="isOtherJurisdiction() ? 'City, Province' : 'City'"
-                    className="mt-3"
-                    class="city"
                     v-model="city"
+                    :label="isOtherJurisdiction() ? 'City, Province' : 'City'"
+                    class-name="mt-3"
+                    class="city"
                     :maxlength="cityMaxLength(country).toString()"
                     data-cy="city"
                   />
                   <div
-                    class="text-danger"
                     v-if="v$.city.$dirty && v$.city.required.$invalid"
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     {{ cityAndProvincePlural }}
                     {{ cityAndProvinceVerb }} required.
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.city.$dirty &&
                       !v$.city.required.$invalid &&
                       v$.city.specialCharacterWithCommaValidator.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} cannot include special
-                    characters except
-                    {{ isOtherJurisdiction() ? "comma, " : "" }} hyphen, period,
-                    apostrophe, number sign and blank space.
+                    {{ cityAndProvincePlural }} cannot include special characters except
+                    {{ isOtherJurisdiction() ? "comma, " : "" }} hyphen, period, apostrophe, number
+                    sign and blank space.
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
-                      v$.city.$dirty &&
-                      !v$.city.required.$invalid &&
-                      v$.city.maxLength.$invalid
+                      v$.city.$dirty && !v$.city.required.$invalid && v$.city.maxLength.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
-                    {{ cityAndProvincePlural }} {{ exceedsPlural }} the maximum
-                    number of allowable characters.
+                    {{ cityAndProvincePlural }} {{ exceedsPlural }} the maximum number of allowable
+                    characters.
                   </div>
                 </div>
                 <!-- Province/State -->
                 <div v-if="country === 'Canada'">
                   <RegionSelect
-                    label="Province"
                     ref="province"
-                    className="mt-3"
-                    class="province"
-                    cypressId="regionSelect"
                     v-model="province"
-                    defaultOptionLabel="Select a province"
+                    label="Province"
+                    class-name="mt-3"
+                    class="province"
+                    cypress-id="regionSelect"
+                    default-option-label="Select a province"
                   />
                   <div
-                    class="text-danger"
                     v-if="v$.province.$dirty && v$.province.required.$invalid"
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     Province is required.
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.province.$dirty &&
                       !v$.province.required.$invalid &&
                       v$.province.nonBCValidator.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     Address entered must be outside of BC.
@@ -365,15 +354,15 @@
                 </div>
                 <div v-else-if="country === 'United States'">
                   <StateInput
-                    label="State"
                     ref="province"
-                    className="mt-3"
-                    class="province"
                     v-model="state"
+                    label="State"
+                    class-name="mt-3"
+                    class="province"
                   />
                   <div
-                    class="text-danger"
                     v-if="v$.state.$dirty && v$.state.required.$invalid"
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     State is required.
@@ -383,39 +372,37 @@
                 <div v-if="country === 'Canada'">
                   <PostalCodeInput
                     id="postalCode"
-                    label="Postal code"
-                    className="mt-3"
-                    class="postal-code"
                     v-model="postalCode"
-                    cypressId="postalCode"
+                    label="Postal code"
+                    class-name="mt-3"
+                    class="postal-code"
+                    cypress-id="postalCode"
                   />
                   <div
+                    v-if="v$.postalCode.$dirty && v$.postalCode.required.$invalid"
                     class="text-danger"
-                    v-if="
-                      v$.postalCode.$dirty && v$.postalCode.required.$invalid
-                    "
                     aria-live="assertive"
                   >
                     Postal code is required.
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.postalCode.$dirty &&
                       !v$.postalCode.required.$invalid &&
                       v$.postalCode.canadaPostalCodeLengthValidator.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     The postal code you entered is not valid.
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.postalCode.$dirty &&
                       !v$.postalCode.required.$invalid &&
                       v$.postalCode.nonBCPostalCodeValidator.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     Postal code entered must be outside of BC.
@@ -424,28 +411,24 @@
                 <div v-else>
                   <!-- Any other jurisdiction-->
                   <InputComponent
+                    v-model="zipCode"
                     :label="
                       country === 'United States'
                         ? 'Zip Code (optional)'
                         : 'Zip/Postal Code (optional)'
                     "
-                    className="mt-3"
+                    class-name="mt-3"
                     class="city"
-                    v-model="zipCode"
                     :maxlength="country === 'United States' ? '6' : '22'"
-                    cypressId="zipCode"
+                    cypress-id="zipCode"
                   />
                   <div
+                    v-if="v$.zipCode.$dirty && v$.zipCode.specialCharacterValidator.$invalid"
                     class="text-danger"
-                    v-if="
-                      v$.zipCode.$dirty &&
-                      v$.zipCode.specialCharacterValidator.$invalid
-                    "
                     aria-live="assertive"
                   >
-                    {{ isOtherJurisdiction() ? "Zip/Postal" : "Zip" }} code
-                    cannot include special characters except hyphen, period,
-                    apostrophe, number sign and blank space.
+                    {{ isOtherJurisdiction() ? "Zip/Postal" : "Zip" }} code cannot include special
+                    characters except hyphen, period, apostrophe, number sign and blank space.
                   </div>
                 </div>
               </div>
@@ -456,50 +439,48 @@
             >
               <br />
               <p>
-                Please verify which jurisdiction you’re moving to. If you’re
-                moving within Canada, please also verify which province you’re
-                moving to.
+                Please verify which jurisdiction you’re moving to. If you’re moving within Canada,
+                please also verify which province you’re moving to.
               </p>
               <CountrySelect
-                label="Jurisdiction"
                 ref="country"
-                className="mt-3"
-                class="country"
                 v-model="country"
+                label="Jurisdiction"
+                class-name="mt-3"
+                class="country"
               />
               <div
-                class="text-danger"
                 v-if="v$.country.$dirty && v$.country.required.$invalid"
+                class="text-danger"
                 aria-live="assertive"
               >
                 Jurisdiction is required.
               </div>
               <div v-if="country === 'Canada'">
                 <RegionSelect
-                  label="Province"
                   ref="province"
-                  className="mt-3"
-                  class="province"
-                  cypressId="regionSelect"
                   v-model="province"
-                  defaultOptionLabel="Select a province"
+                  label="Province"
+                  class-name="mt-3"
+                  class="province"
+                  cypress-id="regionSelect"
+                  default-option-label="Select a province"
                 />
                 <div
-                  class="text-danger"
                   v-if="v$.province.$dirty && v$.province.required.$invalid"
+                  class="text-danger"
                   aria-live="assertive"
                 >
-                  Province is required. If you don't know which province you're
-                  moving to, please contact HIBC for more information about your
-                  MSP cancellation process.
+                  Province is required. If you don't know which province you're moving to, please
+                  contact HIBC for more information about your MSP cancellation process.
                 </div>
                 <div
-                  class="text-danger"
                   v-if="
                     v$.province.$dirty &&
                     v$.province.required &&
                     v$.province.nonBCValidator.$invalid
                   "
+                  class="text-danger"
                   aria-live="assertive"
                 >
                   Address entered must be outside of BC.
@@ -514,14 +495,13 @@
           >
             <TipBox title="Tip: find your address">
               <p>
-                As you type the street address, this form will suggest valid
-                postal addresses. Click an address to automatically enter it.
+                As you type the street address, this form will suggest valid postal addresses. Click
+                an address to automatically enter it.
               </p>
               <p>
-                Type apartment number or suite using digits, no spaces, and a
-                dash (-) before the street address (111-215 Sample Road). If the
-                address does not appear in the list of suggestions, type it
-                manually.
+                Type apartment number or suite using digits, no spaces, and a dash (-) before the
+                street address (111-215 Sample Road). If the address does not appear in the list of
+                suggestions, type it manually.
               </p>
             </TipBox>
           </div>
@@ -529,26 +509,18 @@
       </div>
     </PageContent>
     <ContinueBar
+      :has-loader="isLoading"
+      button-label="Review"
+      cypress-id="continueBar"
       @continue="validateFields()"
-      :hasLoader="isLoading"
-      buttonLabel="Review"
-      cypressId="continueBar"
     />
   </div>
 </template>
 <script>
 import pageStateService from "../services/page-state-service";
 import { routes, isPastPath } from "../router/routes";
-import {
-  getProvinceNameFromCode,
-  getProvinceCodeFromName,
-} from "../helpers/provinces";
-import {
-  scrollTo,
-  scrollToError,
-  getTopScrollPosition,
-  scrollToElement,
-} from "../helpers/scroll";
+import { getProvinceNameFromCode, getProvinceCodeFromName } from "../helpers/provinces";
+import { scrollTo, scrollToError, getTopScrollPosition, scrollToElement } from "../helpers/scroll";
 import { replaceSpecialCharacters } from "../helpers/string";
 import { truncateAddressLines } from "../helpers/address";
 import {
@@ -611,12 +583,7 @@ export const addressLineOneValidator = (addressLines) => {
 };
 
 export const addressLineOneSpecialCharacterValidator = (addressLines) => {
-  if (
-    addressLines &&
-    addressLines[0] &&
-    addressLines[0].value &&
-    addressLines[0].value !== ""
-  ) {
+  if (addressLines && addressLines[0] && addressLines[0].value && addressLines[0].value !== "") {
     return specialCharacterValidator(addressLines[0].value);
   }
   return false;
@@ -643,6 +610,26 @@ export default {
     TipBox,
     ButtonComponent,
     RadioComponent,
+  },
+  // Required in order to block back navigation.
+  beforeRouteLeave(to, from, next) {
+    pageStateService.setPageIncomplete(from.path);
+    if (to.path === routes.HOME_PAGE.path) {
+      this.$store.dispatch(formModule + "/" + RESET_FORM);
+      next();
+    } else if (pageStateService.isPageComplete(to.path) || isPastPath(to.path, from.path)) {
+      next();
+    } else {
+      // Navigate to self.
+      const topScrollPosition = getTopScrollPosition();
+      next({
+        path: routes.MOVE_INFO_PAGE.path,
+        replace: true,
+      });
+      setTimeout(() => {
+        scrollTo(topScrollPosition);
+      }, 0);
+    }
   },
   setup() {
     return { v$: useVuelidate() };
@@ -679,6 +666,50 @@ export default {
       ],
     };
   },
+  computed: {
+    isAddressValidatorEnabled() {
+      return spaEnvService.values.SPA_ENV_OOP_ENABLE_ADDRESS_VALIDATOR === "true";
+    },
+    cityAndProvincePlural() {
+      return this.isOtherJurisdiction() ? "City and province" : "City";
+    },
+    cityAndProvinceVerb() {
+      return this.isOtherJurisdiction() ? "are" : "is";
+    },
+    exceedsPlural() {
+      return this.isOtherJurisdiction() ? "exceed" : "exceeds";
+    },
+  },
+  watch: {
+    country(newValue) {
+      if (this.isPageLoaded) {
+        this.setFieldsToNull();
+        this.province = null;
+        // Add address line 3 field if the country is United States
+        if (newValue === "United States") {
+          this.addAddressField();
+        }
+      }
+    },
+    isNewAddressKnown(newValue) {
+      if (this.isPageLoaded) {
+        if (newValue === "Y") {
+          setTimeout(() => {
+            const el = document.querySelector(".is-new-address-known-y");
+            scrollToElement(el, true);
+          }, 0);
+        } else if (newValue === "N") {
+          setTimeout(() => {
+            const el = document.querySelector(".is-new-address-known-n");
+            scrollToElement(el, true);
+          }, 0);
+        }
+        this.setFieldsToNull();
+        this.province = null;
+        this.country = "Canada";
+      }
+    },
+  },
   created() {
     this.moveFromBCDate = this.$store.state.form.moveFromBCDate;
     this.arriveDestinationDate = this.$store.state.form.arriveDestinationDate;
@@ -701,10 +732,7 @@ export default {
     }, 0);
 
     if (this.country === "Canada") {
-      this.currNumOfAddressLines = Math.max(
-        CAN_MIN_ADDRESS_LINES,
-        this.addressLines.length
-      );
+      this.currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
     } else if (this.country === "United States") {
       this.currNumOfAddressLines = US_ADDRESS_LINES;
     } else {
@@ -715,9 +743,7 @@ export default {
       this.addressLines[i] = {
         id: "address-line-" + (i + 1),
         value:
-          this.addressLines[i] && this.addressLines[i].value
-            ? this.addressLines[i].value
-            : null,
+          this.addressLines[i] && this.addressLines[i].value ? this.addressLines[i].value : null,
         isValid: true,
       };
     }
@@ -776,9 +802,7 @@ export default {
             canadaPostalCodeLengthValidator,
             nonBCPostalCodeValidator,
           });
-        (validations.otherStreetAddress = {}),
-          (validations.state = {}),
-          (validations.zipCode = {});
+        (validations.otherStreetAddress = {}), (validations.state = {}), (validations.zipCode = {});
       } else if (this.country === "United States") {
         (validations.addressLines = {}),
           (validations.city = {
@@ -850,14 +874,10 @@ export default {
 
         // Only eliminate empty address lines if country is Canada
         if (this.country === "Canada") {
-          const currNumOfAddressLines = Math.max(
-            CAN_MIN_ADDRESS_LINES,
-            this.addressLines.length
-          );
+          const currNumOfAddressLines = Math.max(CAN_MIN_ADDRESS_LINES, this.addressLines.length);
           for (let i = currNumOfAddressLines - 1; i >= 0; i--) {
             if (
-              (this.addressLines[i].value === null ||
-                this.addressLines[i].value === "") &&
+              (this.addressLines[i].value === null || this.addressLines[i].value === "") &&
               currNumOfAddressLines > 1
             ) {
               this.addressLines.splice(i, 1);
@@ -874,34 +894,19 @@ export default {
           }
         }
 
-        this.$store.dispatch(
-          formModule + "/" + SET_MOVE_FROM_BC_DATE,
-          this.moveFromBCDate
-        );
+        this.$store.dispatch(formModule + "/" + SET_MOVE_FROM_BC_DATE, this.moveFromBCDate);
         this.$store.dispatch(
           formModule + "/" + SET_ARRIVE_DESTINATION_DATE,
           this.arriveDestinationDate
         );
-        this.$store.dispatch(
-          formModule + "/" + SET_IS_NEW_ADDRESS_KNOWN,
-          this.isNewAddressKnown
-        );
+        this.$store.dispatch(formModule + "/" + SET_IS_NEW_ADDRESS_KNOWN, this.isNewAddressKnown);
         this.$store.dispatch(formModule + "/" + SET_COUNTRY, this.country);
-        this.$store.dispatch(
-          formModule + "/" + SET_ADDRESS_LINES,
-          this.addressLines
-        );
+        this.$store.dispatch(formModule + "/" + SET_ADDRESS_LINES, this.addressLines);
         this.$store.dispatch(formModule + "/" + SET_PROVINCE, this.province);
         this.$store.dispatch(formModule + "/" + SET_CITY, this.city);
-        this.$store.dispatch(
-          formModule + "/" + SET_POSTAL_CODE,
-          this.postalCode
-        );
+        this.$store.dispatch(formModule + "/" + SET_POSTAL_CODE, this.postalCode);
 
-        this.$store.dispatch(
-          formModule + "/" + SET_OTHER_STREET_ADDRESS,
-          this.otherStreetAddress
-        );
+        this.$store.dispatch(formModule + "/" + SET_OTHER_STREET_ADDRESS, this.otherStreetAddress);
         this.$store.dispatch(formModule + "/" + SET_ZIP_CODE, this.zipCode);
         this.$store.dispatch(formModule + "/" + SET_USA_STATE, this.state);
 
@@ -946,9 +951,7 @@ export default {
         this.addressLines[i].value = replaceSpecialCharacters(addressLines[i]);
       }
       this.city = replaceSpecialCharacters(address.city);
-      this.province = getProvinceNameFromCode(
-        replaceSpecialCharacters(address.province)
-      );
+      this.province = getProvinceNameFromCode(replaceSpecialCharacters(address.province));
       this.postalCode = replaceSpecialCharacters(address.postalCode);
     },
     setFieldsToNull() {
@@ -1012,75 +1015,6 @@ export default {
           return 25;
       }
     },
-  },
-  computed: {
-    isAddressValidatorEnabled() {
-      return (
-        spaEnvService.values.SPA_ENV_OOP_ENABLE_ADDRESS_VALIDATOR === "true"
-      );
-    },
-    cityAndProvincePlural() {
-      return this.isOtherJurisdiction() ? "City and province" : "City";
-    },
-    cityAndProvinceVerb() {
-      return this.isOtherJurisdiction() ? "are" : "is";
-    },
-    exceedsPlural() {
-      return this.isOtherJurisdiction() ? "exceed" : "exceeds";
-    },
-  },
-  watch: {
-    country(newValue) {
-      if (this.isPageLoaded) {
-        this.setFieldsToNull();
-        this.province = null;
-        // Add address line 3 field if the country is United States
-        if (newValue === "United States") {
-          this.addAddressField();
-        }
-      }
-    },
-    isNewAddressKnown(newValue) {
-      if (this.isPageLoaded) {
-        if (newValue === "Y") {
-          setTimeout(() => {
-            const el = document.querySelector(".is-new-address-known-y");
-            scrollToElement(el, true);
-          }, 0);
-        } else if (newValue === "N") {
-          setTimeout(() => {
-            const el = document.querySelector(".is-new-address-known-n");
-            scrollToElement(el, true);
-          }, 0);
-        }
-        this.setFieldsToNull();
-        this.province = null;
-        this.country = "Canada";
-      }
-    },
-  },
-  // Required in order to block back navigation.
-  beforeRouteLeave(to, from, next) {
-    pageStateService.setPageIncomplete(from.path);
-    if (to.path === routes.HOME_PAGE.path) {
-      this.$store.dispatch(formModule + "/" + RESET_FORM);
-      next();
-    } else if (
-      pageStateService.isPageComplete(to.path) ||
-      isPastPath(to.path, from.path)
-    ) {
-      next();
-    } else {
-      // Navigate to self.
-      const topScrollPosition = getTopScrollPosition();
-      next({
-        path: routes.MOVE_INFO_PAGE.path,
-        replace: true,
-      });
-      setTimeout(() => {
-        scrollTo(topScrollPosition);
-      }, 0);
-    }
   },
 };
 </script>

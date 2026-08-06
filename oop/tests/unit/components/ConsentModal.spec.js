@@ -34,8 +34,8 @@ describe("ConsentModal.vue", () => {
     global: {
       plugins: [store],
       stubs: {
-          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
-        },
+        FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+      },
     },
 
     data: () => {
@@ -127,16 +127,14 @@ describe("ConsentModal.vue handleCaptchaLoaded()", () => {
 
     await wrapper.setData({ focusableEls: [] });
     expect(wrapper.vm.focusableEls).toEqual([]);
-    vi
-      .spyOn(wrapper.vm, "getFocusableEls")
-      .mockReturnValue(["default1", "default2", "default3", "default4"]);
-    wrapper.vm.handleCaptchaLoaded();
-    expect(wrapper.vm.focusableEls).toEqual([
+    vi.spyOn(wrapper.vm, "getFocusableEls").mockReturnValue([
       "default1",
       "default2",
       "default3",
       "default4",
     ]);
+    wrapper.vm.handleCaptchaLoaded();
+    expect(wrapper.vm.focusableEls).toEqual(["default1", "default2", "default3", "default4"]);
   });
 });
 
@@ -271,8 +269,8 @@ describe("ConsentModal.vue closeModal()", () => {
     global: {
       plugins: [store],
       stubs: {
-          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
-        },
+        FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+      },
     },
     data: () => {
       return {
@@ -359,10 +357,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = vi.spyOn(
-      wrapper.vm,
-      "handleTabBackwards"
-    );
+    const spyOnHandleTabBackwards = vi.spyOn(wrapper.vm, "handleTabBackwards");
     wrapper.vm.handleKeyDown(fakeShiftEvent);
     expect(spyOnHandleTabBackwards).toHaveBeenCalled();
   });
@@ -387,10 +382,7 @@ describe("ConsentModal.vue handleKeyDown()", () => {
         };
       },
     });
-    const spyOnHandleTabBackwards = vi.spyOn(
-      wrapper.vm,
-      "handleTabBackwards"
-    );
+    const spyOnHandleTabBackwards = vi.spyOn(wrapper.vm, "handleTabBackwards");
     const spyOnHandleTab = vi.spyOn(wrapper.vm, "handleTab");
     wrapper.vm.handleKeyDown(miscEvent);
     expect(spyOnHandleTabBackwards).not.toHaveBeenCalled();
@@ -404,7 +396,7 @@ describe("ConsentModal.vue handleTab()", () => {
     await vi.resetAllMocks();
   });
 
-   const mockElements = [
+  const mockElements = [
     { name: "default1", focus: vi.fn() },
     { name: "default2", focus: vi.fn() },
     { name: "default3", focus: vi.fn() },
@@ -465,12 +457,7 @@ describe("ConsentModal.vue handleTab()", () => {
     });
 
     await wrapper.setData({
-      focusableEls:   [
-        "default1",
-        "default2",
-        "default3",
-        "default4",
-      ],
+      focusableEls: ["default1", "default2", "default3", "default4"],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[0],
@@ -607,12 +594,7 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     });
 
     await wrapper.setData({
-      focusableEls: [
-        "default1",
-        "default2",
-        "default3",
-        "default4",
-      ],
+      focusableEls: ["default1", "default2", "default3", "default4"],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[1],
@@ -644,12 +626,7 @@ describe("ConsentModal.vue handleTabBackwards()", () => {
     });
 
     await wrapper.setData({
-      focusableEls: [
-        "default1",
-        "default2",
-        "default3",
-        "default4",
-      ],
+      focusableEls: ["default1", "default2", "default3", "default4"],
     });
     await wrapper.setData({
       focusedEl: wrapper.vm.focusableEls[0],

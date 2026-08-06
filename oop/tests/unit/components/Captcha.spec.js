@@ -1,7 +1,6 @@
 import { mount } from "@vue/test-utils";
 import axios from "axios";
 import Component from "@/components/Captcha.vue";
-import { it, describe, expect, beforeEach, vi } from "vitest";
 
 //if you need to test future versions of audio playback
 //you can replace the API audio response with the following 0 second base 64 audio clip:
@@ -10,7 +9,7 @@ import { it, describe, expect, beforeEach, vi } from "vitest";
 const mockAudioResponseValid = {
   data: {
     audio:
-       "data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==",
+      "data:audio/wav;base64,UklGRjIAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAAABmYWN0BAAAAAAAAABkYXRhAAAAAA==",
   },
   status: 200,
   statusText: "OK",
@@ -33,8 +32,7 @@ const mockInputResponseInvalid = {
 const mockInputResponseValid = {
   data: {
     valid: true,
-    jwt:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiYmNhNjc3M2MtYzIwOS00ZGFiLWEyN2EtNGQ4YjNjMTQ1MWRmIn0sImlhdCI6MTYyNDI5NzcxNSwiZXhwIjoxNjI0MzA4NTE1fQ.MirThnJS2X4Xn7TKtU7C-sT1GGxIcSFjfgSL0-lAgHc",
+    jwt: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5vbmNlIjoiYmNhNjc3M2MtYzIwOS00ZGFiLWEyN2EtNGQ4YjNjMTQ1MWRmIn0sImlhdCI6MTYyNDI5NzcxNSwiZXhwIjoxNjI0MzA4NTE1fQ.MirThnJS2X4Xn7TKtU7C-sT1GGxIcSFjfgSL0-lAgHc",
   },
   status: 200,
   statusText: "OK",
@@ -48,7 +46,7 @@ const mockFetchResponse = {
 
 const mockAPIError = {
   status: 500,
-  statusText: "Error"
+  statusText: "Error",
 };
 
 vi.mock("axios", () => ({
@@ -198,9 +196,7 @@ describe("Captcha.vue handleInputChange()", () => {
       },
     });
     const fakeEvent = { target: { value: "potato" } };
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockInputResponseInvalid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockInputResponseInvalid));
 
     expect(wrapper.vm.isLoadingCaptchaVerification).toEqual("default");
     await wrapper.vm.handleInputChange(fakeEvent);
@@ -234,9 +230,7 @@ describe("Captcha.vue handleInputChange()", () => {
       },
     });
     const fakeEvent = { target: { value: "potato" } };
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockInputResponseInvalid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockInputResponseInvalid));
 
     await wrapper.vm.handleInputChange(fakeEvent);
     expect(wrapper.vm.inputAnswer).toBeFalsy();
@@ -271,9 +265,7 @@ describe("Captcha.vue handleInputChange()", () => {
     });
     const spyOnFetch = vi.spyOn(wrapper.vm, "fetchNewCaptcha");
     const fakeEvent = { target: { value: "potato" } };
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockInputResponseInvalid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockInputResponseInvalid));
 
     await wrapper.vm.handleInputChange(fakeEvent);
     expect(spyOnFetch).toHaveBeenCalled();
@@ -307,9 +299,7 @@ describe("Captcha.vue handleInputChange()", () => {
       },
     });
     const fakeEvent = { target: { value: "potato" } };
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockInputResponseValid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockInputResponseValid));
 
     await wrapper.vm.handleInputChange(fakeEvent);
     expect(wrapper.emitted().captchaVerified).toBeTruthy();
@@ -482,9 +472,7 @@ describe("Captcha.vue playAudio()", () => {
         };
       },
     });
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockAudioResponseInvalid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockAudioResponseInvalid));
 
     await wrapper.vm.playAudio();
     await wrapper.vm.$nextTick();
@@ -519,9 +507,7 @@ describe("Captcha.vue playAudio()", () => {
         };
       },
     });
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockAudioResponseValid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockAudioResponseValid));
 
     await wrapper.vm.playAudio();
     await wrapper.vm.$nextTick();
@@ -562,9 +548,7 @@ describe("Captcha.vue playAudio()", () => {
       },
     });
 
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve(mockAudioResponseValid)
-    );
+    axios.post.mockImplementationOnce(() => Promise.resolve(mockAudioResponseValid));
 
     await wrapper.vm.$nextTick();
     await wrapper.vm.playAudio();

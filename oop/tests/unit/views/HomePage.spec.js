@@ -124,16 +124,10 @@ const router = createRouter({
   routes: routeCollection,
 });
 
-const spyOnRouter = vi
-  .spyOn(router, "push")
-  .mockImplementation(() => Promise.resolve("pushed"));
+const spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
 
-vi
-  .spyOn(pageStateService, "setPageComplete")
-  .mockImplementation(() => Promise.resolve("set"));
-vi
-  .spyOn(pageStateService, "visitPage")
-  .mockImplementation(() => Promise.resolve("visited"));
+vi.spyOn(pageStateService, "setPageComplete").mockImplementation(() => Promise.resolve("set"));
+vi.spyOn(pageStateService, "visitPage").mockImplementation(() => Promise.resolve("visited"));
 
 vi.mock("axios", () => ({
   default: {
@@ -289,9 +283,7 @@ describe("HomePage.vue created()", () => {
       },
     });
 
-    axios.post.mockImplementation(() =>
-      Promise.resolve(mockAxiosResponseMaintenance)
-    );
+    axios.post.mockImplementation(() => Promise.resolve(mockAxiosResponseMaintenance));
 
     wrapper = shallowMount(Component, {
       global: {

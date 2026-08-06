@@ -16,15 +16,12 @@ let credentialDependent;
 
 //Cypress environment is passed down as an env variable in the package.json script
 if (Cypress.env("environment") === "test") {
-  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
-    fixtureDataTest);
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } = fixtureDataTest);
 } else if (Cypress.env("environment") === "dev") {
-  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
-    fixtureDataDev);
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } = fixtureDataDev);
 } else {
   //local environment
-  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } =
-    fixtureDataLocal);
+  ({ credentialName, credentialPHN, credentialPhone, credentialDependent } = fixtureDataLocal);
   enableIntercepts = true;
 }
 
@@ -126,9 +123,7 @@ describe("Happy path (long)", () => {
       });
     }
     cy.get("[data-cy=continueBar]").click();
-    cy.contains(
-      "The last name and/or PHN you entered does not match our records."
-    );
+    cy.contains("The last name and/or PHN you entered does not match our records.");
     cy.get("[data-cy=yourInfoLastName]").clear();
     cy.get("[data-cy=yourInfoPhn]").clear();
 
@@ -181,9 +176,7 @@ describe("Happy path (long)", () => {
       });
     }
     cy.get("[data-cy=continueBar]").click();
-    cy.contains(
-      "At least one of the Personal Health Numbers does not match our records."
-    );
+    cy.contains("At least one of the Personal Health Numbers does not match our records.");
     cy.get("[data-cy=phn0]").clear().type(credentialDependent);
     if (enableIntercepts) {
       cy.intercept("POST", "/oop/api/oopIntegration/validateDep", {
@@ -320,9 +313,7 @@ describe("Happy path (long)", () => {
 
     //Move Info-- Address checks (USA)
 
-    cy.get("[aria-label=Jurisdiction]")
-      .select("United States")
-      .type("{enter}", { force: true });
+    cy.get("[aria-label=Jurisdiction]").select("United States").type("{enter}", { force: true });
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Street address is required.");
     cy.contains("City is required.");
@@ -357,9 +348,7 @@ describe("Happy path (long)", () => {
     cy.get("[data-cy=zipCode]").clear();
     cy.get("[data-cy=usaOtherStreetAddress]").type("111");
     cy.get("[data-cy=city]").type("Fakesville");
-    cy.get("[data-cy=state]")
-      .select("Alabama")
-      .type("{enter}", { force: true });
+    cy.get("[data-cy=state]").select("Alabama").type("{enter}", { force: true });
 
     cy.get("[data-cy=continueBar]").click();
     cy.location().should((loc) => {
@@ -372,9 +361,7 @@ describe("Happy path (long)", () => {
 
     //Move Info-- Address checks (Other)
 
-    cy.get("[aria-label=Jurisdiction]")
-      .select("Afghanistan")
-      .type("{enter}", { force: true });
+    cy.get("[aria-label=Jurisdiction]").select("Afghanistan").type("{enter}", { force: true });
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Street address is required.");
     cy.contains("City and province are required.");
@@ -420,9 +407,7 @@ describe("Happy path (long)", () => {
 
     //Move Info-- Address checks (Canada)
 
-    cy.get("[aria-label=Jurisdiction]")
-      .select("Canada")
-      .type("{enter}", { force: true });
+    cy.get("[aria-label=Jurisdiction]").select("Canada").type("{enter}", { force: true });
     cy.get("[data-cy=continueBar]").click();
     cy.contains("Address line 1 is required.");
     cy.contains("City is required.");
@@ -466,9 +451,7 @@ describe("Happy path (long)", () => {
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPhoneFormatted);
-    cy.get("[data-cy=ReviewTableElement]").contains(
-      "Account holder and dependent(s)"
-    );
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder and dependent(s)");
     cy.get("[data-cy=ReviewTableElement]").contains(testDateMoveString);
     cy.get("[data-cy=ReviewTableElement]").contains(testDateArriveString);
     cy.get("[data-cy=ReviewTableElement]").contains("Yes");
@@ -495,9 +478,7 @@ describe("Happy path (long)", () => {
     cy.get("[data-cy=ReviewTableElement]").contains(credentialName);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPHN);
     cy.get("[data-cy=ReviewTableElement]").contains(credentialPhoneFormatted);
-    cy.get("[data-cy=ReviewTableElement]").contains(
-      "Account holder and dependent(s)"
-    );
+    cy.get("[data-cy=ReviewTableElement]").contains("Account holder and dependent(s)");
     cy.get("[data-cy=ReviewTableElement]").contains(testDateMoveString);
     cy.get("[data-cy=ReviewTableElement]").contains(testDateArriveString);
     cy.get("[data-cy=ReviewTableElement]").contains("Yes");

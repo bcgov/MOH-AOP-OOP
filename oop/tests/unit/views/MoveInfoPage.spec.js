@@ -101,12 +101,8 @@ const dataTemplateFilled = {
   ],
 };
 
-vi
-  .spyOn(pageStateService, "setPageComplete")
-  .mockImplementation(() => Promise.resolve("set"));
-vi
-  .spyOn(pageStateService, "visitPage")
-  .mockImplementation(() => Promise.resolve("visited"));
+vi.spyOn(pageStateService, "setPageComplete").mockImplementation(() => Promise.resolve("set"));
+vi.spyOn(pageStateService, "visitPage").mockImplementation(() => Promise.resolve("visited"));
 
 vi.mock("@/helpers/scroll", () => ({
   scrollTo: vi.fn(),
@@ -125,9 +121,7 @@ const router = createRouter({
   routes: routeCollection,
 });
 
-const spyOnRouter = vi
-  .spyOn(router, "push")
-  .mockImplementation(() => Promise.resolve("pushed"));
+const spyOnRouter = vi.spyOn(router, "push").mockImplementation(() => Promise.resolve("pushed"));
 
 describe("MoveInfoPage.vue", () => {
   const dataTemplateCopy = cloneDeep(dataTemplate);
@@ -469,9 +463,7 @@ describe("MoveInfoPage.vue setFieldsToNull()", () => {
     await wrapper.vm.$nextTick();
     vi.advanceTimersByTime(5);
 
-    expect(wrapper.vm.addressLines).toEqual([
-      { id: "address-line-1", isValid: true, value: null },
-    ]);
+    expect(wrapper.vm.addressLines).toEqual([{ id: "address-line-1", isValid: true, value: null }]);
   });
 
   it("sets values of existing address lines to null when country is not Canada", async () => {
@@ -597,10 +589,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
       data: () => dataTemplateCopy,
     });
 
-    const spyOnAddressHelper = vi.spyOn(
-      addressHelper,
-      "truncateAddressLines"
-    );
+    const spyOnAddressHelper = vi.spyOn(addressHelper, "truncateAddressLines");
 
     wrapper.vm.addressSelectedHandler(addressPayload);
     await wrapper.vm.$nextTick();
@@ -609,10 +598,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("calls replaceSpecialCharacters() 4 times when provided 1 address line", async () => {
-    spyOnReplaceSpecialCharacters = vi.spyOn(
-      stringHelper,
-      "replaceSpecialCharacters"
-    );
+    spyOnReplaceSpecialCharacters = vi.spyOn(stringHelper, "replaceSpecialCharacters");
     const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       global: {
@@ -632,10 +618,7 @@ describe("MoveInfoPage.vue addressSelectedHandler()", () => {
   });
 
   it("calls replaceSpecialCharacters() 5 times when provided 2 address lines", async () => {
-    spyOnReplaceSpecialCharacters = vi.spyOn(
-      stringHelper,
-      "replaceSpecialCharacters"
-    );
+    spyOnReplaceSpecialCharacters = vi.spyOn(stringHelper, "replaceSpecialCharacters");
     const dataTemplateCopy = cloneDeep(dataTemplate);
     const wrapper = shallowMount(Component, {
       global: {
@@ -932,10 +915,7 @@ describe("MoveInfoPage.vue validateFields()", () => {
     vi.advanceTimersByTime(2005);
     await wrapper.vm.$nextTick();
 
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setMoveFromBCDate",
-      wrapper.vm.moveFromBCDate
-    );
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setMoveFromBCDate", wrapper.vm.moveFromBCDate);
     expect(spyOnDispatch).toHaveBeenCalledWith(
       "form/setArriveDestinationDate",
       wrapper.vm.arriveDestinationDate
@@ -944,23 +924,11 @@ describe("MoveInfoPage.vue validateFields()", () => {
       "form/setIsNewAddressKnown",
       wrapper.vm.isNewAddressKnown
     );
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setCountry",
-      wrapper.vm.country
-    );
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setAddressLines",
-      wrapper.vm.addressLines
-    );
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setProvince",
-      wrapper.vm.province
-    );
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setCountry", wrapper.vm.country);
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setAddressLines", wrapper.vm.addressLines);
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setProvince", wrapper.vm.province);
     expect(spyOnDispatch).toHaveBeenCalledWith("form/setCity", wrapper.vm.city);
-    expect(spyOnDispatch).toHaveBeenCalledWith(
-      "form/setPostalCode",
-      wrapper.vm.postalCode
-    );
+    expect(spyOnDispatch).toHaveBeenCalledWith("form/setPostalCode", wrapper.vm.postalCode);
   });
 
   it("calls pageStateService", async () => {
@@ -1149,21 +1117,17 @@ describe("MoveInfoPage.vue addressLineOneSpecialCharacterValidator()", () => {
   });
 
   it("returns false when passed an array with null value", () => {
-    expect(addressLineOneSpecialCharacterValidator([{ value: "" }])).toEqual(
-      false
-    );
+    expect(addressLineOneSpecialCharacterValidator([{ value: "" }])).toEqual(false);
   });
 
   it("returns the value of specialCharacterValidator() when passed an array with present value (true)", () => {
-    expect(
-      addressLineOneSpecialCharacterValidator([{ value: "potato" }])
-    ).toEqual(specialCharacterValidator("potato"));
+    expect(addressLineOneSpecialCharacterValidator([{ value: "potato" }])).toEqual(
+      specialCharacterValidator("potato")
+    );
   });
 
   it("returns the value of specialCharacterValidator() when passed an array with present value (false)", () => {
-    expect(addressLineOneSpecialCharacterValidator([{ value: "///" }])).toEqual(
-      false
-    );
+    expect(addressLineOneSpecialCharacterValidator([{ value: "///" }])).toEqual(false);
   });
 });
 

@@ -37,34 +37,15 @@ describe("Helper address.js", () => {
   });
 
   it("returns an array with elements split up by spaces when the array elements longer than the parameter passed along", () => {
-    const result = truncateAddressLines(
-      ["AAAAA BBBBB CCCCC", "DDDDD EEEEE", "FFFFF GGGGG"],
-      2
-    );
+    const result = truncateAddressLines(["AAAAA BBBBB CCCCC", "DDDDD EEEEE", "FFFFF GGGGG"], 2);
 
-    expect(result).toEqual([
-      "AAAAA",
-      "BBBBB",
-      "CCCCC",
-      "DDDDD",
-      "EEEEE",
-      "FFFFF",
-      "GGGGG",
-    ]);
+    expect(result).toEqual(["AAAAA", "BBBBB", "CCCCC", "DDDDD", "EEEEE", "FFFFF", "GGGGG"]);
   });
 
   it("does not split up array elements that are shorter than the parameter passed along", () => {
-    const result = truncateAddressLines(
-      ["AAAAA BBBBB CCCCC", "DDDDD EEEEE", "FFFFF GGGGG"],
-      12
-    );
+    const result = truncateAddressLines(["AAAAA BBBBB CCCCC", "DDDDD EEEEE", "FFFFF GGGGG"], 12);
 
-    expect(result).toEqual([
-      "AAAAA BBBBB",
-      "CCCCC",
-      "DDDDD EEEEE",
-      "FFFFF GGGGG",
-    ]);
+    expect(result).toEqual(["AAAAA BBBBB", "CCCCC", "DDDDD EEEEE", "FFFFF GGGGG"]);
   });
 
   it("works on data formatted like addresses", () => {
@@ -73,12 +54,7 @@ describe("Helper address.js", () => {
       12
     );
 
-    expect(result).toEqual([
-      "123",
-      "Pekwachnamaykoskwaskwaypinwanik",
-      "Lake",
-      "Unit 123",
-    ]);
+    expect(result).toEqual(["123", "Pekwachnamaykoskwaskwaypinwanik", "Lake", "Unit 123"]);
   });
 
   it("works on data formatted like addresses (case 2)", () => {

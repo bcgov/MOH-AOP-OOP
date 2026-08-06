@@ -1,21 +1,20 @@
 <template>
   <div>
     <PhnInput
-      :label="'PHN: Dependent ' + (childIndex + 1)"
       :id="'phn' + childIndex"
-      class="phn-input"
       v-model="phnData"
+      :label="'PHN: Dependent ' + (childIndex + 1)"
+      class="phn-input"
+      :cypress-id="'phn' + childIndex"
       @input="handleFocus"
       @blur="handleBlur"
-      :cypressId="'phn' + childIndex"
     />
     <div
-      class="text-danger"
       v-if="
-        (v$.phnData.phnValidator.$invalid ||
-          v$.phnData.phnNineValidator.$invalid) &&
+        (v$.phnData.phnValidator.$invalid || v$.phnData.phnNineValidator.$invalid) &&
         v$.phnData.$dirty
       "
+      class="text-danger"
       aria-live="assertive"
     >
       This is not a valid Personal Health Number.
@@ -34,11 +33,17 @@ export default {
   components: {
     PhnInput,
   },
-  mounted() {
-    if (this.childPhn && this.childPhn.value) {
-      this.phnData = this.childPhn.value;
-    }
+  props: {
+    childIndex: {
+      default: null,
+      type: Number,
+    },
+    childPhn: {
+      default: null,
+      type: Object,
+    },
   },
+  emits: ["updatePhn"],
   setup() {
     return { v$: useVuelidate({}) };
   },
@@ -47,13 +52,18 @@ export default {
       phnData: null,
     };
   },
-  props: {
-    childIndex: {
-      type: Number,
+  watch: {
+    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
+    //eslint-disable-next-line
+    childPhn: function (valueNew, valueOld) {
+      //updates Vue data when the prop changes
+      this.phnData = valueNew.value;
     },
-    childPhn: {
-      type: Object,
-    },
+  },
+  mounted() {
+    if (this.childPhn && this.childPhn.value) {
+      this.phnData = this.childPhn.value;
+    }
   },
   validations() {
     const validations = {
@@ -74,14 +84,6 @@ export default {
     handleBlur() {
       this.$emit("updatePhn", this.phnData, this.childIndex);
       return this.v$.phnData.$touch();
-    },
-  },
-  watch: {
-    //the valueOld argument isn't used, but it's still here in the codebase for future debugging purposes
-    //eslint-disable-next-line
-    childPhn: function (valueNew, valueOld) {
-      //updates Vue data when the prop changes
-      this.phnData = valueNew.value;
     },
   },
 };
