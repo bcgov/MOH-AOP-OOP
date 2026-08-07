@@ -439,6 +439,33 @@ describe("Happy path (long)", () => {
     cy.contains("Postal code entered must be outside of BC.");
     cy.get("[data-cy=postalCode]").clear();
 
+    if (enableIntercepts) {
+      cy.intercept("GET", "/oop/api/address?address=716+Yates+Dr+Milton", {
+        statusCode: 200,
+        body: {
+          testfield: "This is a stubbed test response from Cypress",
+          Address: [
+            {
+              Organization: "",
+              Contact: "",
+              Building: "",
+              SubBuilding: "",
+              Street: "YATES DR",
+              HouseNumber: "716",
+              DeliveryService: "",
+              Locality: "MILTON",
+              PostalCode: "L9T 7R5",
+              Province: "ON",
+              Country: "CANADA",
+              Residue: "",
+              DeliveryAddressLines: "716 YATES DR",
+              AddressLines: ["716 YATES DR"],
+              AddressComplete: "716 YATES DR MILTON ON L9T 7R5",
+            },
+          ],
+        },
+      });
+    }
     cy.get("[data-cy=addressDoctorInput]").type("716 Yates Dr Milton");
     cy.get("[data-cy=addressDoctorInput0]").click();
 
