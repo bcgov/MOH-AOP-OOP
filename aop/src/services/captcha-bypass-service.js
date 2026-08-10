@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
+import * as jwt from 'jsonwebtoken';
 
 const bypassCaptcha = (uuid, salt) => {
   return jwt.sign({ data: { nonce: uuid } }, salt, { expiresIn: "180m" });

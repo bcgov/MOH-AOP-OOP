@@ -741,7 +741,7 @@ import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import ContinueBar from "../components/ContinueBar";
-import { Input } from "common-lib-vue";
+import { InputComponent } from "common-lib-vue";
 import { maska }from "maska";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
@@ -787,7 +787,7 @@ export default {
     ProgressBar,
     ContinueBar,
     FileUploader,
-    Input,
+    Input: InputComponent,
     Loader,
     Footer,
   },

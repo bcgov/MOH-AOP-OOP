@@ -33,8 +33,11 @@
 
 <script>
 import Button from '../Button.vue';
-import * as PDFJS from 'pdfjs-dist/legacy/build/pdf';
-import pdfJsWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
+// import * as PDFJS from 'pdfjs-dist/legacy/build/pdf';
+// import pdfJsWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
+import * as PDFJS from "pdfjs-dist";
+//the legacy worker build includes a polyfill for Promise.withResolvers
+// import pdfjsWorker from "pdfjs-dist/legacy/build/pdf.worker?url";
 import sha1 from 'sha1';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -45,9 +48,9 @@ import 'mdn-polyfills/MouseEvent';
 import 'mdn-polyfills/HTMLCanvasElement.prototype.toBlob';
 import '../../polyfills/DOMMatrix';
 
-PDFJS.workerSrc = pdfJsWorker;
-PDFJS.disableWorker = true;
-PDFJS.disableStream = true;
+// PDFJS.workerSrc = pdfjsWorker;
+// PDFJS.disableWorker = true;
+// PDFJS.disableStream = true;
 
 const MIN_IMAGE_SIZE_BYTES = 20000;
 const MAX_IMAGE_SIZE_BYTES = 1048576;

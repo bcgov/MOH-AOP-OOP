@@ -5,16 +5,16 @@
 </template>
 
 <script>
-import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
 import 'common-lib-vue/dist/common-lib-vue.css';
 import { v4 as uuidv4 } from "uuid";
 import { SET_UUID } from './store';
+import project from "/package.json";
 
 export default {
   name: "App",
   created() {
-    const { version: projectVersion } = require('../package.json');
-    console.log('Canonical Version:', projectVersion);
+    console.log('Canonical Version:', project.version);
     this.$store.commit(SET_UUID, uuidv4());
   }
 };

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import "@bcgov/bootstrap-theme/dist/css/bootstrap-theme.min.css";
+  import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
   import LinkElement from "./LinkElement.vue";
   export default {
     name: "Footer",
