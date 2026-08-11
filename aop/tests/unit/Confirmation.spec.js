@@ -19,6 +19,9 @@ describe("Confirmation.vue", () => {
     const wrapper = shallowMount(Confirmation, {
       global: {
         plugins: [router, testStore],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();

@@ -19,6 +19,9 @@ describe("Review.vue", () => {
     const wrapper = shallowMount(Review, {
       global: {
         plugins: [router, testStore],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();
