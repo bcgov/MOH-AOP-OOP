@@ -1,4 +1,3 @@
-// const jwt = require("jsonwebtoken");
 import * as jwt from 'jsonwebtoken';
 
 const bypassCaptcha = (uuid, salt) => {
