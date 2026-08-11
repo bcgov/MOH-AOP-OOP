@@ -8,14 +8,14 @@ const testStore = createStore({
   ...store,
   mutations: {
     setUUID() {
-      jest.fn()
+      vi.fn()
     },
   }
 });
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
 describe("Sending.vue", () => {

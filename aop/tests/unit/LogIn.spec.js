@@ -2,10 +2,15 @@ import { shallowMount } from "@vue/test-utils";
 import LogIn from "../../src/views/LogIn.vue";
 import { createStore } from "vuex";
 import store from "../../src/store/index";
+import axios from 'axios';
 
 const testStore = createStore({
   ...store,
 });
+
+vi.mock('axios');
+axios.get = vi.fn().mockResolvedValue('');
+axios.post = vi.fn().mockResolvedValue('');
 
 const mockRoute = {
   params: {
@@ -13,7 +18,7 @@ const mockRoute = {
   }
 }
 const mockRouter = {
-  push: jest.fn()
+  push: vi.fn()
 }
 
 describe("LogIn.vue", () => {

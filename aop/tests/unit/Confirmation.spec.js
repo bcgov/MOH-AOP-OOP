@@ -8,9 +8,9 @@ const testStore = createStore({
   ...store,
 });
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
 describe("Confirmation.vue", () => {
