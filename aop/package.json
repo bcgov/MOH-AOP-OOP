@@ -32,7 +32,7 @@
     "sha1": "^1.1.1",
     "underscore": "^1.13.1",
     "uuid": "^8.3.2",
-    "vue": "^3.1.0",
+    "vue": "^3.5.41",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2",
     "web-streams-polyfill": "^3.2.0"
