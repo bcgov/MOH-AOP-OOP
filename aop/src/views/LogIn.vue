@@ -104,7 +104,7 @@ export default {
       })
       .then(() => {
         // Handle BCSC
-        if (!this.$route.query.code) {
+        if (!this.$route.query || !this.$route.query.code) {
           // STAGE 1: get the bcsc url and show the user the log in page
           // api/auth is the proxy pass url, api/url is the BCSC service route
           axios
@@ -113,7 +113,7 @@ export default {
               this.bcscRedirect = res.data.url;
             })
             .catch(e => {
-              log(
+              console.log(
                 { message: "Error fetching BCSC URL", error: e },
                 this.$store.state.uuid
               );
@@ -132,7 +132,7 @@ export default {
               scrollTo(0);
             })
             .catch(e => {
-              log(
+              console.log(
                 {
                   message: `Error fetching BCSC PI with code ${code}`,
                   error: e,
@@ -146,7 +146,7 @@ export default {
                   this.bcscRedirect = res.data.url;
                 })
                 .catch(err => {
-                  log(
+                  console.log(
                     { message: "Error fetching BCSC URL", error: err },
                     this.$store.state.uuid
                   );
