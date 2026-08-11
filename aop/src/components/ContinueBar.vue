@@ -10,7 +10,6 @@
 
 <script>
 import { ButtonComponent } from 'common-lib-vue';
-// import Button from './Button.vue';
 
 export default {
   name: 'ContinueBar',
