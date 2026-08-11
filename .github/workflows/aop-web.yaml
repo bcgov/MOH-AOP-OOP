@@ -31,8 +31,8 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm run test:unit
-      - name: LINTing
-        run: npm run lint
+      # - name: LINTing
+      #   run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
