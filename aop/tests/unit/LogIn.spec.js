@@ -9,7 +9,7 @@ const testStore = createStore({
 });
 
 vi.mock('axios');
-axios.get = vi.fn().mockResolvedValue('');
+axios.get = vi.fn().mockResolvedValue({data: {url: "abcdefg"}});
 axios.post = vi.fn().mockResolvedValue('');
 
 const mockRoute = {
