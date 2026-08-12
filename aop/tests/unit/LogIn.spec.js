@@ -6,6 +6,11 @@ import axios from 'axios';
 
 const testStore = createStore({
   ...store,
+  mutations: {
+    setLoading(state, payload) {
+      vi.fn()
+    },
+  }
 });
 
 vi.mock('axios');
