@@ -10,7 +10,9 @@ describe('Full AOP application flow', () => {
 
   it('Uploads a PDF', () => {
     cy.get('input#files').selectFile(samplePDF, { force: true })
-    cy.wait(2000);
+    //after it loads, the page will add a "remove" button to remove the file
+    //when this element is added, we know the file has finished uploading
+    cy.get('[class*="remove ml-2"]', { timeout: 20000 }).first().should("exist");
   });
 
   it('Continues to the review page', () => {
