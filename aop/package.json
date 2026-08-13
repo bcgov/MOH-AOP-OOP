@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:bypassLogin": "vite --host --mode bypassLogin",
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest",
-    "test:e2e": "start-server-and-test 'vite --host --port 5173' 5173 'cypress open --e2e --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
-    "test:e2e:headless": "start-server-and-test 'vite --host --port 5173' 5173 'cypress run --browser chrome --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
+    "test:e2e": "start-server-and-test 'vite --host --port 5173 --mode bypassLogin' 5173 'cypress open --e2e --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
+    "test:e2e:headless": "start-server-and-test 'vite --host --port 5173 --mode bypassLogin' 5173 'cypress run --browser chrome --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
     "test:unit": "vitest --coverage",
     "lint": "eslint ."
   },
