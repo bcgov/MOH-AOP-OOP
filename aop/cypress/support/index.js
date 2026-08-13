@@ -17,19 +17,5 @@
 import "./commands";
 
 beforeEach(() => {
-  cy.intercept('POST', '/aop/api/aopIntegration/**', { 
-    statusCode: 200,
-    body: {
-      returnCode: 'success',
-      uuid: '11111-11111-11111-11111',
-      refNumber: '1'
-    } 
-  });
-  
-  cy.intercept('POST', '/aop/api/submit-attachment/**', {
-    statusCode: 200,
-    body: {
-      returnCode: 'success'
-    }
-  })
+
 })

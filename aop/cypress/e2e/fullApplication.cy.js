@@ -1,6 +1,11 @@
 const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
 // MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
+// vite will handle this if you run the tests in bypassLogin mode
+// eg. host the application using `npm run dev:bypassLogin`
+
+const enableIntercepts = true; //switch to false if you need to test the APIs
+
 describe('Full AOP application flow', () => {
   it('Clicks through log in page', () => {
     cy.visit('/');
@@ -21,6 +26,26 @@ describe('Full AOP application flow', () => {
   })
 
   it('Successfully submits', () => {
+    if (enableIntercepts) {
+      console.log("aopIntegration api calls intercepted");
+      cy.intercept("POST", "/aop/api/aopIntegration/**", {
+        statusCode: 200,
+        body: {
+          testfield: "This is a stubbed test response from Cypress",
+          returnCode: "success",
+          uuid: "11111-11111-11111-11111",
+          refNumber: "1",
+        },
+      });
+      console.log("submit-attachment api calls intercepted");
+      cy.intercept("POST", "/aop/api/submit-attachment/**", {
+        statusCode: 200,
+        body: {
+          testfield: "This is a stubbed test response from Cypress",
+          returnCode: "success",
+        },
+      });
+    }
     cy.get('.bcgov-button').contains('Submit').click();
     cy.wait(1000)
     cy.get('h1').contains('Confirmation message');
