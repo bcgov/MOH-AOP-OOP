@@ -60,5 +60,12 @@
     "vite": "^8.2.1",
     "vite-plugin-node-polyfills": "^0.28.0",
     "vitest": "^4.1.10"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not Opera > 0",
+    "not op_mini all"
+  ]
 }
