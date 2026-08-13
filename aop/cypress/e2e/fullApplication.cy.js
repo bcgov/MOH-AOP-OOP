@@ -1,4 +1,4 @@
-const samplePDF = 'tests/e2e/fixtures/2999fil.pdf';
+const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
 // MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
 describe('Full AOP application flow', () => {
