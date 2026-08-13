@@ -13,7 +13,7 @@ app.get("/health", (_, res) => {
   res.status(200).end();
 });
 
-app.get("/*", (_, res) => {
+app.get("/*splat", (_, res) => {
   res.redirect("/");
 });
 
