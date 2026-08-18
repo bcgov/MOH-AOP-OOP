@@ -1,12 +1,11 @@
+import envData from "../fixtures/env-data.js";
 const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
 // MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
 // vite will handle this if you run the tests in bypassLogin mode
 // eg. host the application using `npm run dev:bypassLogin`
 
-const enableIntercepts = true; //switch to false if you need to test the APIs
-
-describe('Full AOP application flow (HLTH2999)', () => {
+describe('Full AOP application flow (HLTH2999, OOPA)', () => {
   it('Clicks through log in page', () => {
     cy.visit('/');
     cy.get('.bcgov-button').click();
@@ -26,7 +25,7 @@ describe('Full AOP application flow (HLTH2999)', () => {
   })
 
   it('Successfully submits', () => {
-    if (enableIntercepts) {
+    if (envData.enableIntercepts) {
       console.log("aopIntegration api calls intercepted");
       cy.intercept("POST", "/aop/api/aopIntegration/**", {
         statusCode: 200,
@@ -47,7 +46,7 @@ describe('Full AOP application flow (HLTH2999)', () => {
       });
     }
     cy.get('.bcgov-button').contains('Submit').click();
-    cy.wait(1000)
+    cy.wait(2000)
     cy.get('h1').contains('Confirmation message');
   })
 });

@@ -289,6 +289,7 @@
           >
             <Input
               :label="'Organization'"
+              id="organization"
               :className="'mt-3'"
               v-model="organization"
               @blur="handleBlurField(v$.organization)"
