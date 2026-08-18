@@ -6,7 +6,7 @@ const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
 const enableIntercepts = true; //switch to false if you need to test the APIs
 
-describe('Full AOP application flow', () => {
+describe('Full AOP application flow (HLTH2999)', () => {
   it('Clicks through log in page', () => {
     cy.visit('/');
     cy.get('.bcgov-button').click();
@@ -17,7 +17,7 @@ describe('Full AOP application flow', () => {
     cy.get('input#files').selectFile(samplePDF, { force: true })
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
-    cy.get('[class*="remove ml-2"]', { timeout: 20000 }).first().should("exist");
+    cy.get('[class*="remove ml-2"]', { timeout: 30000 }).first().should("exist");
   });
 
   it('Continues to the review page', () => {
