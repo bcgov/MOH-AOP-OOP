@@ -3,8 +3,8 @@ import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
-import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
+// import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+// import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 
 export default defineConfig({
   base: "/aop/",
@@ -19,11 +19,11 @@ export default defineConfig({
         },
       },
     }),
-    NodeGlobalsPolyfillPlugin({
-      process: true,
-      buffer: true,
-    }),
-    NodeModulesPolyfillPlugin(),
+    // NodeGlobalsPolyfillPlugin({
+    //   process: true,
+    //   buffer: true,
+    // }),
+    // NodeModulesPolyfillPlugin(),
   ],
   resolve: {
     alias: {
