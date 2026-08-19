@@ -14,6 +14,9 @@ describe("SubmissionError.vue", () => {
     const wrapper = shallowMount(SubmissionError, {
       global: {
         plugins: [router, testStore],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();

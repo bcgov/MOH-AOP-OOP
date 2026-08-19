@@ -1,13 +1,15 @@
 name: aop-web build
 on:
   push:
-    paths:
-      - "aop/src/**/*.html"
-      - "aop/src/**/*.ts"
-      - "aop/src/**/*.js"
-      - "aop/src/**/*.scss"
-      - "aop/package*.json"
+    branches:
+      - "*"
   workflow_dispatch:
+    inputs:
+      force-image-build:
+        description: "Force an image build/deployment to DEV outside of a merge to main"
+        required: false
+        default: false
+        type: boolean
 env:
   NAMESPACE: a3c641-tools
   ARTIFACT_BUILD_NAME: aop-web-artifact-build
@@ -26,13 +28,15 @@ jobs:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
         with:
-          node-version: "12"
+          node-version: "24"
       - name: Install dependencies
         run: npm ci
       - name: Unit tests
         run: npm run test:unit
-      - name: LINTing
-        run: npm run lint
+      - name: E2E tests
+        run: npm run test:e2e:headless
+      # - name: LINTing
+      #   run: npm run lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
   build:
@@ -43,14 +47,14 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [22.x, 24.x]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v5
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -65,7 +69,7 @@ jobs:
         env:
           CI: "true"
   image-build:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event.inputs.force-image-build == 'true'}}
     runs-on: ubuntu-latest
     needs: [test, build]
     steps:

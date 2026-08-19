@@ -3,19 +3,23 @@ import Sending from "../../src/views/Sending.vue";
 import { createStore } from "vuex";
 import router from "../../src/router/index";
 import store from "../../src/store/index";
+import axios from 'axios';
 
 const testStore = createStore({
   ...store,
   mutations: {
     setUUID() {
-      jest.fn()
+      vi.fn()
     },
   }
 });
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock('axios');
+axios.post = vi.fn().mockResolvedValue('');
+
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
 describe("Sending.vue", () => {

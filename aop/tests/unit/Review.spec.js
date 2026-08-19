@@ -8,9 +8,9 @@ const testStore = createStore({
   ...store,
 });
 
-jest.mock("@/helpers/scroll", () => ({
-  scrollTo: jest.fn(),
-  scrollToError: jest.fn(),
+vi.mock("@/helpers/scroll", () => ({
+  scrollTo: vi.fn(),
+  scrollToError: vi.fn(),
 }));
 
 describe("Review.vue", () => {
@@ -19,6 +19,9 @@ describe("Review.vue", () => {
     const wrapper = shallowMount(Review, {
       global: {
         plugins: [router, testStore],
+        stubs: {
+          FontAwesomeIcon: { template: "<div>Stubbed Global Component</div>" },
+        },
       },
     });
     expect(wrapper.element).toBeDefined();

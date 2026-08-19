@@ -1,5 +1,5 @@
 // ***********************************************************
-// This example support/index.js is processed and
+// This example support/e2e.js is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -14,22 +14,4 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
-
-beforeEach(() => {
-  cy.intercept('POST', '/aop/api/aopIntegration/**', { 
-    statusCode: 200,
-    body: {
-      returnCode: 'success',
-      uuid: '11111-11111-11111-11111',
-      refNumber: '1'
-    } 
-  });
-  
-  cy.intercept('POST', '/aop/api/submit-attachment/**', {
-    statusCode: 200,
-    body: {
-      returnCode: 'success'
-    }
-  })
-})
+import './commands'
