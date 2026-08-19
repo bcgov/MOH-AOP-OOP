@@ -11,4 +11,4 @@
 //switch to false if you need to test the live APIs
 //otherwise leave true for test stability 
 //(so API calls are intercepted in the CI pipeline)
-const enableIntercepts = true; 
+export const enableIntercepts = true; 

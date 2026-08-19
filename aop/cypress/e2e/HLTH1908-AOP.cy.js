@@ -1,4 +1,4 @@
-import envData from "../fixtures/env-data.js";
+import { enableIntercepts } from "../fixtures/env-data.js";
 const samplePDF = "cypress/fixtures/2999fil.pdf";
 const sampleCredentials = "cypress/fixtures/1908-credentials.pdf";
 
@@ -32,9 +32,7 @@ describe("Full AOP application flow (HLTH1908, AOP)", () => {
     cy.get("input#credentials").selectFile(sampleCredentials, { force: true });
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
-    cy.get('[class*="remove ml-2"]')
-      .eq(1, { timeout: 30000 })
-      .should("exist");
+    cy.get('[class*="remove ml-2"]').eq(1, { timeout: 30000 }).should("exist");
   });
 
   it("Continues to the review page", () => {
@@ -42,7 +40,7 @@ describe("Full AOP application flow (HLTH1908, AOP)", () => {
     cy.get("h1").contains("Review your submission");
   });
   it("Successfully submits", () => {
-    if (envData.enableIntercepts) {
+    if (enableIntercepts) {
       console.log("aopIntegration api calls intercepted");
       cy.intercept("POST", "/aop/api/aopIntegration/**", {
         statusCode: 200,

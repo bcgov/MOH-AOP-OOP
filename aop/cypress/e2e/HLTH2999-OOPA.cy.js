@@ -1,4 +1,4 @@
-import envData from "../fixtures/env-data.js";
+import { enableIntercepts } from "../fixtures/env-data.js";
 const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
 // MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
@@ -25,7 +25,7 @@ describe('Full AOP application flow (HLTH2999, OOPA)', () => {
   })
 
   it('Successfully submits', () => {
-    if (envData.enableIntercepts) {
+    if (enableIntercepts) {
       console.log("aopIntegration api calls intercepted");
       cy.intercept("POST", "/aop/api/aopIntegration/**", {
         statusCode: 200,
