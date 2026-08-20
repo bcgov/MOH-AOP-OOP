@@ -2,18 +2,18 @@ import { enableIntercepts } from "../fixtures/env-data.js";
 const samplePDF = "cypress/fixtures/2999fil.pdf";
 const sampleCredentials = "cypress/fixtures/1908-credentials.pdf";
 
-// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
+// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING LOCALLY
 // vite will handle this if you run the tests in bypassLogin mode
 // eg. host the application using `npm run dev:bypassLogin`
 
 describe("Full AOP application flow (HLTH1908, AOP)", () => {
   it("Clicks through log in page", () => {
     cy.visit("/");
-    cy.get(".bcgov-button").click();
+    cy.navigateLogin();
     cy.get("h1").contains("Select a form");
   });
 
-  it("Switches to HLTH 1908 (AOP), enters data", () => {
+  it("Clicks HLTH 1908 (AOP), enters data", () => {
     cy.get("[id='AOP']").click();
     cy.get("[id='yes']").click();
     cy.get("[id='organization']").type("abcde");
@@ -33,6 +33,18 @@ describe("Full AOP application flow (HLTH1908, AOP)", () => {
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
     cy.get('[class*="remove ml-2"]').eq(1, { timeout: 30000 }).should("exist");
+  });
+
+  it("Clears/Enters data)", () => {
+    cy.get("[id='email']").clear()
+    cy.get("[id='email']").type("a@a.com");
+    cy.get("[id='phone']").clear();
+    cy.get("[id='phone']").type("2505551234");
+    cy.get("[id='practitioner-number']").clear();
+    cy.get("[id='practitioner-number']").type("A1234");
+    cy.get("[id='practitioner-last-name']").clear();
+    cy.get("[id='practitioner-last-name']").type("A");
+    cy.get("[id='revised']").click();
   });
 
   it("Continues to the review page", () => {

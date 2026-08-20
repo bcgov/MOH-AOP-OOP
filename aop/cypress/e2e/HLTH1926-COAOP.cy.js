@@ -1,18 +1,18 @@
 import { enableIntercepts } from "../fixtures/env-data.js";
 const samplePDF = "cypress/fixtures/2999fil.pdf";
 
-// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
+// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING LOCALLY
 // vite will handle this if you run the tests in bypassLogin mode
 // eg. host the application using `npm run dev:bypassLogin`
 
 describe("Full AOP application flow (HLTH1926, COAOP)", () => {
   it("Clicks through log in page", () => {
     cy.visit("/");
-    cy.get(".bcgov-button").click();
+    cy.navigateLogin();
     cy.get("h1").contains("Select a form");
   });
 
-  it("Switches to HLTH 1926, enters data", () => {
+  it("Clicks HLTH 1926, enters data", () => {
     cy.get("[id='COAOP']").click();
     cy.get("[id='organization']").type("abcde");
   });
@@ -24,6 +24,17 @@ describe("Full AOP application flow (HLTH1926, COAOP)", () => {
     cy.get('[class*="remove ml-2"]', { timeout: 30000 })
       .first()
       .should("exist");
+  });
+
+  it("Clears/Enters data)", () => {
+    cy.get("[id='email']").clear()
+    cy.get("[id='email']").type("a@a.com");
+    cy.get("[id='phone']").clear()
+    cy.get("[id='phone']").type("2505551234");
+    cy.get("[id='practitioner-number']").clear()
+    cy.get("[id='practitioner-number']").type("A1234");
+    cy.get("[id='practitioner-last-name']").clear();
+    cy.get("[id='practitioner-last-name']").type("A");
   });
 
   it("Continues to the review page", () => {

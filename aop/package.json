@@ -11,8 +11,11 @@
     "test": "vitest",
     "test:e2e": "start-server-and-test 'vite --host --port 5173 --mode bypassLogin' 5173 'cypress open --e2e --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
     "test:e2e:headless": "start-server-and-test 'vite --host --port 5173 --mode bypassLogin' 5173 'cypress run --browser chrome --config baseUrl=http://localhost:5173/aop/ --env environment=local'",
+    "test:e2e:dev": "cypress open --e2e --config baseUrl=https://aop-web-a3c641-dev.apps.silver.devops.gov.bc.ca/aop/ --env environment=dev",
+    "test:e2e:test": "cypress open --e2e --config baseUrl=http://test.my.gov.bc.ca/aop/ --env environment=test",
     "test:unit": "vitest --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "./cypress/support/create-secrets.sh"
   },
   "dependencies": {
     "@bcgov/bootstrap-v5-theme": "^1.0.1",

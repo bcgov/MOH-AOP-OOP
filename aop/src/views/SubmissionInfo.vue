@@ -220,6 +220,7 @@
           />
           <Input
             :label="'Email address'"
+            id="email"
             :className="'mt-3'"
             v-model="emailAddress"
             @blur="handleBlurField(v$.emailAddress)"
@@ -319,6 +320,7 @@
 
           <div class="mb-3" v-if="uploadType === 'OOPA'">
             <Input
+              id="facility"
               :label="'Facility name'"
               :className="'mt-3'"
               v-model="facility"
@@ -392,6 +394,7 @@
           <div v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
             <Input
               :label="'Practitioner number'"
+              id="practitioner-number"
               :className="'mt-3'"
               v-model="primaryNumber"
               @blur="handleBlurField(v$.primaryNumber)"
@@ -427,6 +430,7 @@
 
             <Input
               :label="'Practitioner last name'"
+              id="practitioner-last-name"
               :className="'mt-3'"
               v-model="primaryLastName"
               @blur="handleBlurField(v$.primaryLastName)"
@@ -457,6 +461,7 @@
           <div v-if="uploadType === 'OOPA'">
             <Input
               :label="'Primary practitioner number'"
+              id="primary-practitioner-number"
               :className="'mt-3'"
               v-model="primaryNumber"
               @blur="handleBlurField(v$.primaryNumber)"
@@ -493,6 +498,7 @@
             <Input
               :label="'Primary practitioner last name'"
               :className="'mt-3'"
+              id="primary-last-name"
               v-model="primaryLastName"
               @blur="handleBlurField(v$.primaryLastName)"
               maxlength="29"

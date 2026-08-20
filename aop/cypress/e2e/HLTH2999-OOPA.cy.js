@@ -1,15 +1,19 @@
 import { enableIntercepts } from "../fixtures/env-data.js";
 const samplePDF = 'cypress/fixtures/2999fil.pdf';
 
-// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING
+// MUST SET BOTH SETTINGS IN settings.js TO TRUE BEFORE RUNNING LOCALLY
 // vite will handle this if you run the tests in bypassLogin mode
 // eg. host the application using `npm run dev:bypassLogin`
 
 describe('Full AOP application flow (HLTH2999, OOPA)', () => {
   it('Clicks through log in page', () => {
     cy.visit('/');
-    cy.get('.bcgov-button').click();
+    cy.navigateLogin();
     cy.get('h1').contains('Select a form')
+  });
+
+  it("Clicks HLTH 2999", () => {
+    cy.get("[id='OOPA']").click();
   });
 
   it('Uploads a PDF', () => {
@@ -17,6 +21,20 @@ describe('Full AOP application flow (HLTH2999, OOPA)', () => {
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
     cy.get('[class*="remove ml-2"]', { timeout: 30000 }).first().should("exist");
+  });
+
+  it("Clears/Enters data)", () => {
+    cy.get("[id='email']").clear();
+    cy.get("[id='email']").type("a@a.com");
+    cy.get("[id='phone']").clear();
+    cy.get("[id='phone']").type("2505551234");
+    cy.get("[id='facility']").clear();
+    cy.get("[id='facility']").type("a");
+    cy.get("[id='primary-practitioner-number']").clear();
+    cy.get("[id='primary-practitioner-number']").type("A1234");
+    cy.get("[id='primary-last-name']").clear();
+    cy.get("[id='primary-last-name']").type("A");
+    cy.get("[id='revised']").click();
   });
 
   it('Continues to the review page', () => {

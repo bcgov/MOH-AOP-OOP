@@ -23,3 +23,25 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import { secrets } from "./secrets.js";
+
+Cypress.Commands.add("navigateLogin", () => {
+  cy.get(".bcgov-button").click();
+  if (
+    Cypress.env("environment") === "test" ||
+    Cypress.env("environment") === "dev"
+  ) {
+    console.log("dev/test environment, extra login steps required");
+
+    //the rest of this code block is BCSC code, which can change at a moment's notice
+    cy.origin("https://idtest.gov.bc.ca", { args: secrets }, (secrets) => {
+      cy.get("[id=tile_test_with_username_password_device_div_id]").click();
+      cy.get("[id=username]").type(secrets.username);
+      cy.get("[id=password]").type(secrets.password);
+      cy.get("[id=submit-btn]").click();
+    });
+  } else {
+    console.log("local environment, no extra login steps required");
+  }
+});
