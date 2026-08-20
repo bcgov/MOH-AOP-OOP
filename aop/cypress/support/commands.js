@@ -24,6 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+//if this line causes a webpack compilation error, run `npm i` to generate the secrets file
 import { secrets } from "./secrets.js";
 
 Cypress.Commands.add("navigateLogin", () => {
@@ -33,6 +34,13 @@ Cypress.Commands.add("navigateLogin", () => {
     Cypress.env("environment") === "dev"
   ) {
     console.log("dev/test environment, extra login steps required");
+    expect(secrets).to.not.be.undefined;
+
+    expect(secrets.username.length).to.be.greaterThan(
+      3,
+      "BCSC login secrets not found-- add them to cypress/support/secrets.js to proceed",
+    );
+    expect(secrets.password.length).to.be.greaterThan(3);
 
     //the rest of this code block is BCSC code, which can change at a moment's notice
     cy.origin("https://idtest.gov.bc.ca", { args: secrets }, (secrets) => {
