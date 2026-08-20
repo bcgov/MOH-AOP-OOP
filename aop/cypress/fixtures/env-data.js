@@ -2,9 +2,9 @@ let envData = {
   enableIntercepts: true,
 };
 
-if (Cypress.env("environment") === "test") {
+if (Cypress.expose("environment") === "test") {
   envData.enableIntercepts = false;
-} else if (Cypress.env("environment") === "dev") {
+} else if (Cypress.expose("environment") === "dev") {
   envData.enableIntercepts = false;
 } else {
   //local environment

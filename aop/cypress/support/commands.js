@@ -30,8 +30,8 @@ import { secrets } from "./secrets.js";
 Cypress.Commands.add("navigateLogin", () => {
   cy.get(".bcgov-button").click();
   if (
-    Cypress.env("environment") === "test" ||
-    Cypress.env("environment") === "dev"
+    Cypress.expose("environment") === "test" ||
+    Cypress.expose("environment") === "dev"
   ) {
     console.log("dev/test environment, extra login steps required");
     expect(secrets).to.not.be.undefined;
