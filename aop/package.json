@@ -15,7 +15,7 @@
     "test:e2e:test": "cypress open --e2e --config baseUrl=http://test.my.gov.bc.ca/aop/ --expose environment=test",
     "test:unit": "vitest --coverage",
     "lint": "eslint .",
-    "prepare": "./cypress/support/create-secrets.sh"
+    "prepare": "node ./cypress/support/create-secrets.js"
   },
   "dependencies": {
     "@bcgov/bootstrap-v5-theme": "^1.0.1",
