@@ -1,7 +1,7 @@
 import LogIn from "../views/LogIn.vue";
 import SubmissionInfo from "../views/SubmissionInfo.vue";
 import Review from "../views/Review.vue";
-import Sending from "../views/Sending.vue";
+import SendingPage from "../views/SendingPage.vue";
 import Confirmation from "../views/Confirmation.vue";
 import SubmissionError from "../views/SubmissionError.vue";
 import SessionEnd from "../views/SessionEnd.vue";
@@ -30,7 +30,7 @@ export const routes = {
     path: "/sending",
     title: "Sending application",
     name: "Sending",
-    component: Sending,
+    component: SendingPage,
   },
   CONFIRMATION: {
     path: "/confirmation",

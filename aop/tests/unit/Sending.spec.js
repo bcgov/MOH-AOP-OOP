@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import Sending from "../../src/views/Sending.vue";
+import SendingPage from "../../src/views/SendingPage.vue";
 import { createStore } from "vuex";
 import router from "../../src/router/index";
 import store from "../../src/store/index";
@@ -22,10 +22,10 @@ vi.mock("@/helpers/scroll", () => ({
   scrollToError: vi.fn(),
 }));
 
-describe("Sending.vue", () => {
+describe("SendingPage.vue", () => {
   // This is a Shallow Mount as opposed to a regular mount because this test only checks for rendering
   it("renders", () => {
-    const wrapper = mount(Sending, {
+    const wrapper = mount(SendingPage, {
       global: {
         plugins: [router, testStore],
       },
