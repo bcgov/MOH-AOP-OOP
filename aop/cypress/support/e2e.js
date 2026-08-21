@@ -15,3 +15,9 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import { enableIntercepts } from "../fixtures/env-data.js";
+
+before(() => {
+  console.log("testing environment: ", Cypress.expose("environment"));
+  console.log("intercepts enabled: ", enableIntercepts);
+});

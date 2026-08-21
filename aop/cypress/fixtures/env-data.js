@@ -1,14 +1,20 @@
-// future code in case we add DEV/TESt environment tests
-// if (Cypress.env("environment") === "test") {
-//   envData.enableIntercepts = false;
-// } else if (Cypress.env("environment") === "dev") {
-//   envData.enableIntercepts = false;
-// } else {
-//   //local environment
-//   envData.enableIntercepts = true;
-// }
+let envData = {
+  enableIntercepts: true,
+};
 
+if (Cypress.expose("environment") === "test") {
+  envData.enableIntercepts = false;
+} else if (Cypress.expose("environment") === "dev") {
+  envData.enableIntercepts = false;
+} else {
+  //local environment
+  envData.enableIntercepts = true;
+}
+
+//uncomment to override
 //switch to false if you need to test the live APIs
-//otherwise leave true for test stability 
+//otherwise leave true for test stability
 //(so API calls are intercepted in the CI pipeline)
-export const enableIntercepts = true; 
+// envData.enableIntercepts = true;
+
+export const enableIntercepts = envData.enableIntercepts;
