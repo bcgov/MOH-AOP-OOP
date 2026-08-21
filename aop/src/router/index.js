@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 import AssignmentOfPayment from "../views/AssignmentOfPayment.vue";
 import { routes } from "./routes";
 
@@ -9,7 +9,7 @@ window.onpopstate = function (event) {
 };
 
 const router = createRouter({
-  history: createWebHistory('/aop/'),
+  history: createWebHistory("/aop/"),
   routes: [
     {
       path: routes.SIGN_IN.path,
@@ -21,15 +21,15 @@ const router = createRouter({
           {
             name: "description",
             content:
-              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
           },
           {
             property: "og:description",
             content:
-              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          }
-        ]
-      }
+              "Login page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+          },
+        ],
+      },
     },
     {
       path: "/",
@@ -46,15 +46,15 @@ const router = createRouter({
               {
                 name: "description",
                 content:
-                  "Form selection page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+                  "Form selection page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
               },
               {
                 property: "og:description",
                 content:
-                  "Form selection page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-              }
-            ]
-          }
+                  "Form selection page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+              },
+            ],
+          },
         },
         {
           path: routes.REVIEW.path,
@@ -66,15 +66,15 @@ const router = createRouter({
               {
                 name: "description",
                 content:
-                  "Submission info review page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+                  "Submission info review page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
               },
               {
                 property: "og:description",
                 content:
-                  "Submission info review page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-              }
-            ]
-          }
+                  "Submission info review page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+              },
+            ],
+          },
         },
         {
           path: routes.CONFIRMATION.path,
@@ -86,15 +86,15 @@ const router = createRouter({
               {
                 name: "description",
                 content:
-                  "Confirmation page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+                  "Confirmation page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
               },
               {
                 property: "og:description",
                 content:
-                  "Confirmation page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-              }
-            ]
-          }
+                  "Confirmation page, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+              },
+            ],
+          },
         },
         {
           path: routes.SUBMISSION_ERROR.path,
@@ -106,16 +106,16 @@ const router = createRouter({
               {
                 name: "description",
                 content:
-                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
               },
               {
                 property: "og:description",
                 content:
-                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-              }
-            ]
-          }
-        }
+                  "An error occured, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+              },
+            ],
+          },
+        },
       ],
     },
     {
@@ -128,15 +128,15 @@ const router = createRouter({
           {
             name: "description",
             content:
-              "Submitting application, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Submitting application, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
           },
           {
             property: "og:description",
             content:
-              "Submitting application, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          }
-        ]
-      }
+              "Submitting application, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+          },
+        ],
+      },
     },
     {
       path: routes.SESSION_END.path,
@@ -148,15 +148,15 @@ const router = createRouter({
           {
             name: "description",
             content:
-              "Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
           },
           {
             property: "og:description",
             content:
-              "Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          }
-        ]
-      }
+              "Session ended, Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+          },
+        ],
+      },
     },
     {
       path: routes.MAINTENANCE.path,
@@ -168,17 +168,17 @@ const router = createRouter({
           {
             name: "description",
             content:
-              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
+              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
           },
           {
             property: "og:description",
             content:
-              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration"
-          }
-        ]
-      }
+              "Down for maintenance - Upload Tool for Assignment of Payment and Outpatient Operator Payment Administration",
+          },
+        ],
+      },
     },
-  ]
+  ],
 });
 
 router.beforeEach((to, from, next) => {
@@ -188,31 +188,31 @@ router.beforeEach((to, from, next) => {
   const nearestWithTitle = to.matched
     .slice()
     .reverse()
-    .find(r => r.meta && r.meta.title);
+    .find((r) => r.meta && r.meta.title);
 
   // Find the nearest route element with meta tags
   const nearestWithMeta = to.matched
     .slice()
     .reverse()
-    .find(r => r.meta && r.meta.metaTags);
+    .find((r) => r.meta && r.meta.metaTags);
 
   // If a route with a title was found, set the document (page) title to that value
   if (nearestWithTitle) document.title = nearestWithTitle.meta.title;
 
   // Remove any stale meta tags from the document using the key attribute we set below
-  Array.from(
-    document.querySelectorAll("[data-vue-router-controlled]")
-  ).map(el => el.parentNode.removeChild(el));
+  Array.from(document.querySelectorAll("[data-vue-router-controlled]")).map((el) =>
+    el.parentNode.removeChild(el)
+  );
 
   // Skip rendering meta tags if there are none
   if (!nearestWithMeta) return next();
 
   // Turn the meta tag definitions into actual elements in the head
   nearestWithMeta.meta.metaTags
-    .map(tagDef => {
+    .map((tagDef) => {
       const tag = document.createElement("meta");
 
-      Object.keys(tagDef).forEach(key => {
+      Object.keys(tagDef).forEach((key) => {
         tag.setAttribute(key, tagDef[key]);
       });
 
@@ -222,7 +222,7 @@ router.beforeEach((to, from, next) => {
       return tag;
     })
     // Add the meta tags to the document head
-    .forEach(tag => document.head.appendChild(tag));
+    .forEach((tag) => document.head.appendChild(tag));
 
   // Disable back and forward buttons
   if (navPushed) {

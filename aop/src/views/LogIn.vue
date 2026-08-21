@@ -1,52 +1,44 @@
 <template>
   <div>
     <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <ProgressBar
+      :routes="stepRoutes"
+      :current-path="$route.path"
+    />
     <main class="container py-5 px-2">
       <h1>Ministry of Health - Diagnostic Services secure upload tool</h1>
       <p>This site is specifically for submitting the following forms:</p>
       <ul class="mt-3">
         <li>
-          Diagnostic Facility Services Assignment of Payment &#38; Medical
-          Director Authorization (HLTH 1908)
+          Diagnostic Facility Services Assignment of Payment &#38; Medical Director Authorization
+          (HLTH 1908)
         </li>
-        <li>
-          Diagnostic Facility Services Cancellation of Assignment of Payment
-          (HLTH 1926)
-        </li>
-        <li>
-          Laboratory Services Outpatient Operator Payment Administration (HLTH
-          2999)
-        </li>
+        <li>Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)</li>
+        <li>Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)</li>
       </ul>
-      <strong
-        >Please log in as a first step to uploading one or more of these
-        forms.</strong
-      >
+      <strong>Please log in as a first step to uploading one or more of these forms.</strong>
       <hr />
       <div class="card">
-        <h3>
-          Diagnostic Services secure upload tool - log in
-        </h3>
+        <h3>Diagnostic Services secure upload tool - log in</h3>
         <Loader v-if="$store.state.loading" />
         <Button
           v-else
           label="Log in with your mobile BC Services Card"
           styling="bcgov-normal-blue btn"
-          v-on:button-click="nextPage"
+          @button-click="nextPage"
         />
         <p class="mb-3">
           A
-          <a
-            href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card"
-            >BC Services Card</a
-          >
-          provides secure access to provincial government services and access to
-          Diagnostic Facilities Services.
+          <a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card">
+            BC Services Card
+          </a>
+          provides secure access to provincial government services and access to Diagnostic
+          Facilities Services.
           <a
             href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/log-in-with-card"
-            >Learn how to use your mobile BC Services Card to log in.</a
           >
+            Learn how to use your mobile BC Services Card to log in.
+          </a>
         </p>
       </div>
     </main>
@@ -64,9 +56,15 @@ import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
 import spaEnvService from "../services/spa-env-service";
-import { SET_FIRST_NAME, SET_LAST_NAME, SET_LOADING, SET_SALT, SET_MAINTENANCE_MESSAGE } from "../store";
+import {
+  SET_FIRST_NAME,
+  SET_LAST_NAME,
+  SET_LOADING,
+  SET_SALT,
+  SET_MAINTENANCE_MESSAGE,
+} from "../store";
 import { scrollTo } from "../helpers/scroll";
-import settings from '../settings';
+import settings from "../settings";
 
 export default {
   name: "LogIn",
@@ -91,10 +89,13 @@ export default {
         // load env variables from spa-env-server
         if (spaEnvService.values) {
           this.$store.commit(SET_SALT, spaEnvService.values.SPA_ENV_AOP_SALT);
-          this.$store.commit(SET_MAINTENANCE_MESSAGE, spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_MESSAGE);
+          this.$store.commit(
+            SET_MAINTENANCE_MESSAGE,
+            spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_MESSAGE
+          );
           if (spaEnvService.values.SPA_ENV_AOP_MAINTENANCE_FLAG === "true") {
             const path = routes.MAINTENANCE.path;
-            
+
             this.$router.push(path);
           }
         } else {
@@ -109,14 +110,11 @@ export default {
           // api/auth is the proxy pass url, api/url is the BCSC service route
           axios
             .get("/aop/api/auth/api/url")
-            .then(res => {
+            .then((res) => {
               this.bcscRedirect = res.data.url;
             })
-            .catch(e => {
-              console.log(
-                { message: "Error fetching BCSC URL", error: e },
-                this.$store.state.uuid
-              );
+            .catch((e) => {
+              console.log({ message: "Error fetching BCSC URL", error: e }, this.$store.state.uuid);
             });
         } else {
           // STAGE 2: user is authenticated get their info and load submissionInfo
@@ -124,14 +122,14 @@ export default {
           // api/auth is the proxy pass url, api/auth/${code} is the BCSC service route
           axios
             .get(`/aop/api/auth/api/auth/${code}`)
-            .then(res => {
+            .then((res) => {
               this.$store.commit(SET_FIRST_NAME, res.data.given_name);
               this.$store.commit(SET_LAST_NAME, res.data.family_name);
               const path = routes.SUBMISSION_INFO.path;
               this.$router.push(path);
               scrollTo(0);
             })
-            .catch(e => {
+            .catch((e) => {
               console.log(
                 {
                   message: `Error fetching BCSC PI with code ${code}`,
@@ -142,10 +140,10 @@ export default {
               // api/auth is the proxy pass url, api/url is the BCSC service route
               axios
                 .get("/aop/api/auth/api/url")
-                .then(res => {
+                .then((res) => {
                   this.bcscRedirect = res.data.url;
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(
                     { message: "Error fetching BCSC URL", error: err },
                     this.$store.state.uuid

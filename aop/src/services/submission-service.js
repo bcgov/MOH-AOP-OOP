@@ -6,8 +6,7 @@ import bypassCaptcha from "./captcha-bypass-service";
  ATTACHMENT FUNCTIONS
 ********************************************************/
 const setAttachmentUrl = (attachment, uuid) => {
-  let url =
-    "/aop/api/submit-attachment/" + uuid + "/attachments/" + attachment.uuid;
+  let url = "/aop/api/submit-attachment/" + uuid + "/attachments/" + attachment.uuid;
 
   url += "?programArea=CLAIMS";
 
@@ -29,12 +28,12 @@ const setAttachmentHeaders = (contentType, token) => {
     ? {
         "Content-Type": contentType,
         "Response-Type": "application/json",
-        "X-Authorization": "Bearer " + token
+        "X-Authorization": "Bearer " + token,
       }
     : {
         "Content-Type": contentType,
         "Access-Control-Allow-Origin": "*",
-        "X-Authorization": "Bearer " + token
+        "X-Authorization": "Bearer " + token,
       };
 };
 
@@ -53,7 +52,7 @@ const sendAttachment = (token, applicationUUID, attachment) => {
   }
 
   const blob = new Blob([new Uint8Array(array)], {
-    type: attachment.contentType
+    type: attachment.contentType,
   });
 
   return axios.post(url, blob, config);
@@ -64,22 +63,20 @@ const sendAttachments = (token, applicationUUID, attachments) => {
     // Make a list of promises for each attachment
     const attachmentPromises = [];
     for (const attachment of attachments) {
-      attachmentPromises.push(
-        sendAttachment(token, applicationUUID, attachment)
-      );
+      attachmentPromises.push(sendAttachment(token, applicationUUID, attachment));
     }
 
     // Execute all promises are waiting for results
     return Promise.all(attachmentPromises)
       .then(
-        responses => {
+        (responses) => {
           return resolve(responses);
         },
-        error => {
+        (error) => {
           return reject(error);
         }
       )
-      .catch(error => {
+      .catch((error) => {
         return error;
       });
   });
@@ -88,12 +85,12 @@ const sendAttachments = (token, applicationUUID, attachments) => {
 /********************************************************
  APPLICATION FUNCTIONS
 ********************************************************/
-const setApplicationUrl = uuid => "/aop/api/aopIntegration/" + uuid;
+const setApplicationUrl = (uuid) => "/aop/api/aopIntegration/" + uuid;
 
-const setApplicationHeaders = token => ({
+const setApplicationHeaders = (token) => ({
   "Content-Type": "application/json",
   "Response-Type": "application/json",
-  "X-Authorization": "Bearer " + token
+  "X-Authorization": "Bearer " + token,
 });
 
 const sendAOPApplication = (token, app) => {
@@ -107,42 +104,39 @@ const sendAOPApplication = (token, app) => {
 };
 
 // assignmentOfPayment ready for submission
-const prepareAOPApplication = state => {
+const prepareAOPApplication = (state) => {
   const preparedApp = {
     assignmentOfPayment: convertAOPApp(state),
-    attachments: convertAttachments([
-      ...state.uploadedForms,
-      ...state.uploadedCredentials
-    ]),
-    uuid: state.uuid
+    attachments: convertAttachments([...state.uploadedForms, ...state.uploadedCredentials]),
+    uuid: state.uuid,
   };
 
   return preparedApp;
 };
 
 // trim phone number
-const trimPhone = ph => {
+const trimPhone = (ph) => {
   const trimmedPhone = Array.from(ph).filter(
-    char => char !== " " && char !== "-" && char !== "(" && char !== ")"
+    (char) => char !== " " && char !== "-" && char !== "(" && char !== ")"
   );
-  return trimmedPhone.join('');
-}
+  return trimmedPhone.join("");
+};
 
 // JSON escape
-const escapeSpecialChar = str => {
+const escapeSpecialChar = (str) => {
   return str
-    .replace(/[\\]/g, '')
-    .replace(/[\"]/g, '')
-    .replace(/[\/]/g, '')
-    .replace(/[\b]/g, '')
-    .replace(/[\f]/g, '')
-    .replace(/[\n]/g, '')
-    .replace(/[\r]/g, '')
-    .replace(/[\t]/g, '');
-}
+    .replace(/[\\]/g, "")
+    .replace(/[\"]/g, "")
+    .replace(/[\/]/g, "")
+    .replace(/[\b]/g, "")
+    .replace(/[\f]/g, "")
+    .replace(/[\n]/g, "")
+    .replace(/[\r]/g, "")
+    .replace(/[\t]/g, "");
+};
 
 // get AOP data ready for submission
-const convertAOPApp = state => {
+const convertAOPApp = (state) => {
   const app = {};
   app.uploadType = state.uploadType;
   app.credentialsRequired = state.credentialsRequired === "true" ? true : false;
@@ -164,13 +158,13 @@ const convertAOPApp = state => {
 };
 
 // get attachments ready for submission in assignmentOfPayment submission
-const convertAttachments = images => {
+const convertAttachments = (images) => {
   const output = [];
   images.map((image, i) => {
     const partial = {
       attachmentDocumentType: image.documentType,
       attachmentOrder: (i + 1).toString(),
-      attachmentUuid: image.uuid
+      attachmentUuid: image.uuid,
     };
     output.push(partial);
   });
@@ -189,8 +183,7 @@ export const submitApplication = async (state) => {
     if (!token) reject("Invalid token");
 
     // validating application data before sending
-    validate(AOPApplication).then(async validator => {
-      
+    validate(AOPApplication).then(async (validator) => {
       const valid = await validator(AOPApplication);
       if (!valid) {
         // if there are multiple errors only show one
@@ -201,20 +194,20 @@ export const submitApplication = async (state) => {
       // send attachments first, then the application if the attachments are sent successfully
       return sendAttachments(token, AOPApplication.uuid, [
         ...state.uploadedForms,
-        ...state.uploadedCredentials
+        ...state.uploadedCredentials,
       ])
         .then(() => {
           return sendAOPApplication(token, AOPApplication)
-            .then(applicationResponse => {
+            .then((applicationResponse) => {
               // contains reference number
               return resolve(applicationResponse);
             })
-            .catch(error => {
-              return reject('error in sendAOPApplication:', error);
+            .catch((error) => {
+              return reject("error in sendAOPApplication:", error);
             });
         })
-        .catch(error => {
-          return reject('error in sendAttachments:', error);
+        .catch((error) => {
+          return reject("error in sendAttachments:", error);
         });
     });
   });

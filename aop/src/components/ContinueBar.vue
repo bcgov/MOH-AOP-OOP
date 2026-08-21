@@ -1,37 +1,39 @@
 <template>
-  <div class='continue-bar'>
+  <div class="continue-bar">
     <div class="d-flex flex-row-reverse p-3 container">
-      <ButtonComponent :label='buttonLabel'
-              :hasLoader='hasLoader'
-              @click='onContinue()'/>
+      <ButtonComponent
+        :label="buttonLabel"
+        :has-loader="hasLoader"
+        @click="onContinue()"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { ButtonComponent } from 'common-lib-vue';
+import { ButtonComponent } from "common-lib-vue";
 
 export default {
-  name: 'ContinueBar',
+  name: "ContinueBar",
   components: {
-    ButtonComponent
+    ButtonComponent,
   },
   props: {
     hasLoader: {
       type: Boolean,
-      default: false
+      default: false,
     },
     buttonLabel: {
       type: String,
-      default: 'Continue'
+      default: "Continue",
     },
   },
   methods: {
     onContinue() {
-      this.$emit('continue')
-    }
-  }
-}
+      this.$emit("continue");
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

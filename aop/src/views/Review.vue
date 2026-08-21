@@ -1,7 +1,10 @@
 <template>
   <div>
     <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <ProgressBar
+      :routes="stepRoutes"
+      :current-path="$route.path"
+    />
     <main>
       <div class="container py-5 px-2">
         <h1>Review your submission</h1>
@@ -14,12 +17,12 @@
             class="edit-link"
             href="javascript:void(0)"
             @click="navigateToSubmissionInfoPage()"
-            >Edit <font-awesome-icon icon="pencil-alt"
-          /></a>
+          >
+            Edit
+            <font-awesome-icon icon="pencil-alt" />
+          </a>
         </div>
-        <div class="selected-form mb-4">
-          {{ selectedForm }} {{ withCredentials }}
-        </div>
+        <div class="selected-form mb-4">{{ selectedForm }} {{ withCredentials }}</div>
 
         <h2 class="mt-4">Submitter information</h2>
         <hr />
@@ -27,29 +30,32 @@
 
         <h2 class="mt-4">Information about this submission</h2>
         <hr />
-        <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
+        <div
+          v-if="$store.state.uploadType !== 'COAOP'"
+          class="submission-type"
+        >
           <div class="name">
             <div>Submission Type:</div>
           </div>
           <div class="radios">
             <div class="radio-group">
               <input
-                type="radio"
                 id="new"
+                v-model="$store.state.submissionType"
+                type="radio"
                 value="New Submission"
                 name="submissionType"
-                v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
               <label for="new"><strong>New submission</strong></label>
             </div>
             <div class="radio-group">
               <input
-                type="radio"
                 id="revised"
+                v-model="$store.state.submissionType"
+                type="radio"
                 value="Revised Submission"
                 name="submissionType"
-                v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
               <label for="revised"><strong>Revised submission</strong></label>
@@ -62,7 +68,10 @@
         <hr />
         <Table :elements="supportingDocuments" />
       </div>
-      <ContinueBar @continue="nextPage()" :buttonLabel="'Submit'" />
+      <ContinueBar
+        :button-label="'Submit'"
+        @continue="nextPage()"
+      />
     </main>
     <Footer />
   </div>
@@ -98,9 +107,7 @@ export default {
   },
   created() {
     this.withCredentials =
-      this.$store.state.credentialsRequired === "true"
-        ? "with credentials"
-        : "";
+      this.$store.state.credentialsRequired === "true" ? "with credentials" : "";
   },
   methods: {
     nextPage: function () {

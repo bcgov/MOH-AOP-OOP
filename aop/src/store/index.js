@@ -1,8 +1,8 @@
-import { createStore } from 'vuex';
-import dummyData from './dummy-data';
-import settings from '../settings';
+import { createStore } from "vuex";
+import dummyData from "./dummy-data";
+import settings from "../settings";
 
-export const SET_UUID = 'setUUID';
+export const SET_UUID = "setUUID";
 export const SET_LOADING = "setLoading";
 export const SET_SHOW_SIGN_OUT_MODAL = "setShowSignOutModal";
 export const HIDE_SIGN_OUT_MODAL = "hideSignOutModal";
@@ -36,30 +36,30 @@ export const SET_MAINTENANCE_MESSAGE = "setMaintenanceMessage";
 export default createStore({
   state: () => {
     const state = {
-      uuid: '',
+      uuid: "",
       loading: true,
       showSignOutModal: false,
       showMobileProgress: false,
-      uploadType: '',
-      credentialsRequired: '',
-      firstName: '',
-      lastName: '',
-      emailAddress: '',
-      phoneNumber: '',
-      phoneExtension: '',
-      organization: '',
-      facility: '',
-      submissionType: '',
-      primaryNumber: '',
-      primaryLastName: '',
-      secondaryNumber: '',
-      secondaryLastName: '',
-      comments: '',
+      uploadType: "",
+      credentialsRequired: "",
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      phoneNumber: "",
+      phoneExtension: "",
+      organization: "",
+      facility: "",
+      submissionType: "",
+      primaryNumber: "",
+      primaryLastName: "",
+      secondaryNumber: "",
+      secondaryLastName: "",
+      comments: "",
       uploadedForms: [],
       uploadedCredentials: [],
-      apiResponse: '',
-      salt: '',
-      maintenanceMessage: '',
+      apiResponse: "",
+      salt: "",
+      maintenanceMessage: "",
     };
 
     if (settings.useDummyData) {
@@ -156,37 +156,37 @@ export default createStore({
       commit(SET_SHOW_MOBILE_PROGRESS, false);
     },
     resetForm({ commit }) {
-      commit(SET_UPLOAD_TYPE, '');
-      commit(SET_CREDENTIALS_REQUIRED, '');
-      commit(SET_FIRST_NAME, '');
-      commit(SET_LAST_NAME, '');
-      commit(SET_EMAIL_ADDRESS, '');
-      commit(SET_PHONE_NUMBER, '');
-      commit(SET_PHONE_EXTENSION, '');
-      commit(SET_ORGANIZATION, '');
-      commit(SET_FACILITY, '');
-      commit(SET_SUBMISSION_TYPE, '');
-      commit(SET_PRIMARY_NUMBER, '');
-      commit(SET_PRIMARY_LAST_NAME, '');
-      commit(SET_SECONDARY_NUMBER, '');
-      commit(SET_SECONDARY_LAST_NAME, '');
-      commit(SET_COMMENTS, '');
+      commit(SET_UPLOAD_TYPE, "");
+      commit(SET_CREDENTIALS_REQUIRED, "");
+      commit(SET_FIRST_NAME, "");
+      commit(SET_LAST_NAME, "");
+      commit(SET_EMAIL_ADDRESS, "");
+      commit(SET_PHONE_NUMBER, "");
+      commit(SET_PHONE_EXTENSION, "");
+      commit(SET_ORGANIZATION, "");
+      commit(SET_FACILITY, "");
+      commit(SET_SUBMISSION_TYPE, "");
+      commit(SET_PRIMARY_NUMBER, "");
+      commit(SET_PRIMARY_LAST_NAME, "");
+      commit(SET_SECONDARY_NUMBER, "");
+      commit(SET_SECONDARY_LAST_NAME, "");
+      commit(SET_COMMENTS, "");
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
-      commit(SET_API_RESPONSE, '');
+      commit(SET_API_RESPONSE, "");
     },
     newForm({ commit }) {
-      commit(SET_UPLOAD_TYPE, '');
-      commit(SET_CREDENTIALS_REQUIRED, '');
-      commit(SET_SUBMISSION_TYPE, '');
-      commit(SET_PRIMARY_NUMBER, '');
-      commit(SET_PRIMARY_LAST_NAME, '');
-      commit(SET_SECONDARY_NUMBER, '');
-      commit(SET_SECONDARY_LAST_NAME, '');
-      commit(SET_COMMENTS, '');
+      commit(SET_UPLOAD_TYPE, "");
+      commit(SET_CREDENTIALS_REQUIRED, "");
+      commit(SET_SUBMISSION_TYPE, "");
+      commit(SET_PRIMARY_NUMBER, "");
+      commit(SET_PRIMARY_LAST_NAME, "");
+      commit(SET_SECONDARY_NUMBER, "");
+      commit(SET_SECONDARY_LAST_NAME, "");
+      commit(SET_COMMENTS, "");
       commit(SET_UPLOADED_FORMS, []);
       commit(SET_UPLOADED_CREDENTIALS, []);
     },
   },
-  getters: {}
+  getters: {},
 });

@@ -1,9 +1,7 @@
 <template>
   <div>
     <div :class="loaderCss" />
-    <div v-if="page">
-      Loading... Please Wait
-    </div>
+    <div v-if="page">Loading... Please Wait</div>
   </div>
 </template>
 
@@ -16,14 +14,14 @@ export default {
     page: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      loaderCss: this.page ? "bcgov-page-loader" : "bcgov-btn-loader"
+      loaderCss: this.page ? "bcgov-page-loader" : "bcgov-btn-loader",
     };
-  }
+  },
 };
 </script>
 

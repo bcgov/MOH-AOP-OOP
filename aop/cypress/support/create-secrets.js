@@ -20,7 +20,5 @@ if (fs.existsSync(file)) {
 
   fs.writeFileSync(file, contents);
 
-  console.log(
-    "cypress secrets generated; see /cypress/support/secrets.js to add values"
-  );
-} 
+  console.log("cypress secrets generated; see /cypress/support/secrets.js to add values");
+}

@@ -1,43 +1,85 @@
 <template>
   <nav class="container component-container">
     <div class="progress-bar-container">
-      <div class="progress-bar" :style="progressBarStyles"></div>
+      <div
+        class="progress-bar"
+        :style="progressBarStyles"
+      ></div>
     </div>
     <div class="step-container">
       <a
-        href="javascript:void(0);"
         v-for="(route, index) in routes"
         :key="route.path"
+        href="javascript:void(0);"
         @click="onClickLink(route.path)"
       >
-        <div class="step" v-bind:class="{'step-selected': index + 1 === currentStepNumber, 'step-passed': index + 1 < currentStepNumber}">
-          <div class="step-text" v-bind:class="{'v-step-text-selected': index + 1 === currentStepNumber}">{{ route.title }}</div>
+        <div
+          class="step"
+          :class="{
+            'step-selected': index + 1 === currentStepNumber,
+            'step-passed': index + 1 < currentStepNumber,
+          }"
+        >
+          <div
+            class="step-text"
+            :class="{ 'v-step-text-selected': index + 1 === currentStepNumber }"
+          >
+            {{ route.title }}
+          </div>
         </div>
       </a>
     </div>
-    <div v-bind:class="{ hide: hideMobileStep }" class="mobile-step-container p-3 border-bottom">
-      <div class="pb-3">Step {{ currentStepNumber }}/{{ routes.length }} - {{ currentStepTitle }}</div>
-      <div class="chevron-container" @click="openDropdown">
+    <div
+      :class="{ hide: hideMobileStep }"
+      class="mobile-step-container p-3 border-bottom"
+    >
+      <div class="pb-3">
+        Step {{ currentStepNumber }}/{{ routes.length }} - {{ currentStepTitle }}
+      </div>
+      <div
+        class="chevron-container"
+        @click="openDropdown"
+      >
         <font-awesome-icon icon="chevron-down" />
       </div>
     </div>
-    <div v-bind:class="{ hide: hideMobileProgress }" class="mobile-progress-bar-container p-3 pt-5 border-bottom">
+    <div
+      :class="{ hide: hideMobileProgress }"
+      class="mobile-progress-bar-container p-3 pt-5 border-bottom"
+    >
       <div class="v-progress-bar-container">
-        <div class="v-progress-bar" :style="verticalProgressBarStyles"></div>
+        <div
+          class="v-progress-bar"
+          :style="verticalProgressBarStyles"
+        ></div>
       </div>
       <div class="v-step-container">
         <a
-        href="javascript:void(0);"
-        v-for="(route, index) in routes"
-        :key="route.path"
-        @click="onClickLink(route.path)"
-      >
-        <div class="v-step" v-bind:class="{'v-step-selected': index + 1 === currentStepNumber, 'v-step-passed': index + 1 < currentStepNumber}">
-          <div class="v-step-text" v-bind:class="{'v-step-text-selected': index + 1 === currentStepNumber}" >{{ route.title }}</div>
-        </div>
-      </a>
+          v-for="(route, index) in routes"
+          :key="route.path"
+          href="javascript:void(0);"
+          @click="onClickLink(route.path)"
+        >
+          <div
+            class="v-step"
+            :class="{
+              'v-step-selected': index + 1 === currentStepNumber,
+              'v-step-passed': index + 1 < currentStepNumber,
+            }"
+          >
+            <div
+              class="v-step-text"
+              :class="{ 'v-step-text-selected': index + 1 === currentStepNumber }"
+            >
+              {{ route.title }}
+            </div>
+          </div>
+        </a>
       </div>
-      <div class="chevron-container" @click="closeDropdown">
+      <div
+        class="chevron-container"
+        @click="closeDropdown"
+      >
         <font-awesome-icon icon="chevron-up" />
       </div>
     </div>
@@ -45,13 +87,13 @@
 </template>
 
 <script>
-import { HIDE_MOBILE_PROGRESS, SHOW_MOBILE_PROGRESS, SHOW_SIGN_OUT_MODAL } from '../store';
+import { HIDE_MOBILE_PROGRESS, SHOW_MOBILE_PROGRESS, SHOW_SIGN_OUT_MODAL } from "../store";
 export default {
   name: "ProgressBar",
   components: {},
   props: {
     currentPath: String,
-    routes: Array
+    routes: Array,
   },
   computed: {
     hideMobileStep() {
@@ -61,40 +103,37 @@ export default {
       return !this.$store.state.showMobileProgress;
     },
     progressBarStyles() {
-      const index = this.routes.findIndex(element => {
+      const index = this.routes.findIndex((element) => {
         return element.path === this.currentPath;
       });
       return {
-        width:
-          (100 / this.routes.length) * index +
-          100 / this.routes.length / 2 +
-          "%"
+        width: (100 / this.routes.length) * index + 100 / this.routes.length / 2 + "%",
       };
     },
     verticalProgressBarStyles() {
-      const index = this.routes.findIndex(element => {
+      const index = this.routes.findIndex((element) => {
         return element.path === this.currentPath;
       });
-      return {     
-        height: index / (this.routes.length - 1) * 100 + "%"
+      return {
+        height: (index / (this.routes.length - 1)) * 100 + "%",
       };
     },
     currentStepNumber() {
-      const index = this.routes.findIndex(element => {
+      const index = this.routes.findIndex((element) => {
         return element.path.includes(this.currentPath);
       });
       return index + 1;
     },
     currentStepTitle() {
-      const index = this.routes.findIndex(element => {
+      const index = this.routes.findIndex((element) => {
         return element.path.includes(this.currentPath);
       });
       return this.routes[index].title;
-    }
+    },
   },
   methods: {
     onClickLink(path) {
-      const index = this.routes.findIndex(el => el.path.includes(path));
+      const index = this.routes.findIndex((el) => el.path.includes(path));
       const isPrevRoute = index + 1 < this.currentStepNumber;
       if (isPrevRoute) {
         // If they click on log out
@@ -113,8 +152,8 @@ export default {
     },
     closeDropdown() {
       this.$store.dispatch(HIDE_MOBILE_PROGRESS);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,19 +1,31 @@
 <template>
   <div ref="modal">
     <div
-      class="modal fade show"
       id="exampleModal"
+      class="modal fade show"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div
+        class="modal-dialog modal-dialog-centered"
+        role="document"
+      >
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title" id="exampleModalLabel">Session timeout warning</h2>
+            <h2
+              id="exampleModalLabel"
+              class="modal-title"
+            >
+              Session timeout warning
+            </h2>
           </div>
           <div class="modal-body">
-            <p>Your session will expire automatically in <span class="text-danger">{{timeRemaining}}</span>. Select “Continue" to extend your session</p>
+            <p>
+              Your session will expire automatically in
+              <span class="text-danger">{{ timeRemaining }} </span>. Select “Continue" to extend
+              your session
+            </p>
           </div>
           <div class="modal-footer">
             <Button
@@ -37,22 +49,22 @@
 import Button from "./Button";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
-import { RESET_FORM } from '../store';
+import { RESET_FORM } from "../store";
 
 export default {
   name: "TimeoutModal",
   components: {
-    Button
+    Button,
   },
   props: {
-    heading: String
+    heading: String,
   },
   data: () => {
     return {
       secondsRemaining: 120,
       interval: null,
       focusableEls: [],
-      focusedEl: null
+      focusedEl: null,
     };
   },
   computed: {
@@ -61,17 +73,21 @@ export default {
       const min = Math.floor(seconds / 60);
       const sec = seconds - min * 60;
       return `${min} min ${sec} sec`;
-    }
+    },
   },
   created() {
-    window.addEventListener('keyup', this.handleKeyDown);
+    window.addEventListener("keyup", this.handleKeyDown);
   },
   unmounted() {
-    window.removeEventListener('keyup', this.handleKeyDown);
+    window.removeEventListener("keyup", this.handleKeyDown);
   },
   mounted() {
     // Create an array of focusable elements from the contents of the modal
-    this.focusableEls = Array.from(this.$refs.modal.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+    this.focusableEls = Array.from(
+      this.$refs.modal.querySelectorAll(
+        'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
+      )
+    );
     // Initialize to the first focusable element
     this.focusedEl = this.focusableEls[0];
     this.focusedEl.focus();
@@ -88,7 +104,7 @@ export default {
     continueSession() {
       // Close modal
       clearInterval(this.interval);
-      this.$emit('close', true);
+      this.$emit("close", true);
     },
     endSession() {
       // Delete session cookie
@@ -103,7 +119,7 @@ export default {
       // Check that the modal is open
       if (!this.closed) {
         // Handle tabbing
-        if (event.key === 'Tab') {
+        if (event.key === "Tab") {
           // Prevent usual tabbing, manually set focus
           event.preventDefault();
           if (event.shiftKey) {
@@ -111,8 +127,8 @@ export default {
           } else {
             this.handleTab();
           }
-        // Stop users from being able to escape the modal
-        } else if (event.key === 'Escape') {
+          // Stop users from being able to escape the modal
+        } else if (event.key === "Escape") {
           event.preventDefault();
         }
       }
@@ -137,7 +153,7 @@ export default {
       }
       this.focusedEl.focus();
     },
-  }
+  },
 };
 </script>
 

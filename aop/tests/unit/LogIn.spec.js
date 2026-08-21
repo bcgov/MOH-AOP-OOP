@@ -2,29 +2,29 @@ import { shallowMount } from "@vue/test-utils";
 import LogIn from "../../src/views/LogIn.vue";
 import { createStore } from "vuex";
 import store from "../../src/store/index";
-import axios from 'axios';
+import axios from "axios";
 
 const testStore = createStore({
   ...store,
   mutations: {
     setLoading(state, payload) {
-      vi.fn()
+      vi.fn();
     },
-  }
+  },
 });
 
-vi.mock('axios');
-axios.get = vi.fn().mockResolvedValue({data: {url: "abcdefg"}});
-axios.post = vi.fn().mockResolvedValue('');
+vi.mock("axios");
+axios.get = vi.fn().mockResolvedValue({ data: { url: "abcdefg" } });
+axios.post = vi.fn().mockResolvedValue("");
 
 const mockRoute = {
   params: {
-    id: 1
-  }
-}
+    id: 1,
+  },
+};
 const mockRouter = {
-  push: vi.fn()
-}
+  push: vi.fn(),
+};
 
 describe("LogIn.vue", () => {
   // This is a Shallow Mount as opposed to a regular mount because this test only checks for rendering
@@ -33,7 +33,7 @@ describe("LogIn.vue", () => {
       global: {
         mocks: {
           $route: mockRoute,
-          $router: mockRouter
+          $router: mockRouter,
         },
         plugins: [testStore],
       },

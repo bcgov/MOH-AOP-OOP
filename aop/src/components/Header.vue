@@ -5,7 +5,10 @@
       aria-label="Header"
     >
       <div class="logo-and-title">
-        <a href="http://www2.gov.bc.ca/" tabindex="0">
+        <a
+          href="http://www2.gov.bc.ca/"
+          tabindex="0"
+        >
           <img
             alt="BC Logo"
             class="pointer horizontal"
@@ -19,7 +22,10 @@
             src="@/assets/images/BCID_V_rgb_rev_trimmed.png"
           />
         </a>
-        <div id="title" class="navbar-brand">
+        <div
+          id="title"
+          class="navbar-brand"
+        >
           {{ heading }}
         </div>
       </div>
@@ -33,8 +39,8 @@ export default {
   props: {
     heading: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 };
 </script>
@@ -96,5 +102,4 @@ header {
     display: block;
   }
 }
-
 </style>

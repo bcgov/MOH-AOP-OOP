@@ -23,9 +23,7 @@ describe("Full AOP application flow (HLTH1908, AOP)", () => {
     cy.get("input#files").selectFile(samplePDF, { force: true });
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
-    cy.get('[class*="remove ml-2"]', { timeout: 30000 })
-      .first()
-      .should("exist");
+    cy.get('[class*="remove ml-2"]', { timeout: 30000 }).first().should("exist");
   });
 
   it("Uploads a PDF (Practitioner credentials)", () => {
@@ -36,7 +34,7 @@ describe("Full AOP application flow (HLTH1908, AOP)", () => {
   });
 
   it("Clears/Enters data)", () => {
-    cy.get("[id='email']").clear()
+    cy.get("[id='email']").clear();
     cy.get("[id='email']").type("a@a.com");
     cy.get("[id='phone']").clear();
     cy.get("[id='phone']").type("2505551234");

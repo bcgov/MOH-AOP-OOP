@@ -1,6 +1,10 @@
 <template>
   <div class="form-group bcgov-table-body">
-    <div v-for="element in elements" :key="element.name" class="bcgov-row">
+    <div
+      v-for="element in elements"
+      :key="element.name"
+      class="bcgov-row"
+    >
       <div class="bcgov-table-cell">{{ element.name }}</div>
       <div class="bcgov-table-cell">
         <strong>{{ element.value }}</strong>
@@ -14,8 +18,8 @@ export default {
   name: "Table",
   components: {},
   props: {
-    elements: Array
-  }
+    elements: Array,
+  },
 };
 </script>
 

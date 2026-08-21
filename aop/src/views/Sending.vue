@@ -41,14 +41,10 @@ export default {
   },
   created() {
     submitApplication(this.$store.state)
-      .then(res => {
+      .then((res) => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.commit(SET_API_RESPONSE, res.data.refNumber);
-          log(
-            { message: "Success", error: null },
-            res.data.uuid,
-            res.data.refNumber
-          );
+          log({ message: "Success", error: null }, res.data.uuid, res.data.refNumber);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure") {
           if (res.data.dberrorMessage) {
@@ -74,7 +70,7 @@ export default {
           this.navigateToErrorPage();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         log({ message: "Error sending application", error: err });
         this.navigateToErrorPage();
       })

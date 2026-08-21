@@ -4,14 +4,15 @@
     <main>
       <div class="container py-5 px-2">
         <div class="buttons">
-          <button class="print-button" v-on:click="print()">
+          <button
+            class="print-button"
+            @click="print()"
+          >
             <span>Print or save as PDF</span>
           </button>
           <div class="tip-container">
             <font-awesome-icon icon="info-circle" />
-            <div class="tip">
-              To save as PDF, in the print window, click "Save as PDF"
-            </div>
+            <div class="tip">To save as PDF, in the print window, click "Save as PDF"</div>
           </div>
         </div>
         <h1>Confirmation message</h1>
@@ -19,13 +20,15 @@
         <div class="success-box container">
           <div class="row">
             <div class="col-md-2 icon-container">
-              <font-awesome-icon icon="check-circle" size="4x" />
+              <font-awesome-icon
+                icon="check-circle"
+                size="4x"
+              />
             </div>
 
             <div class="pt-3 col-md-10">
               <p>
-                Your {{ selectedForm }} form {{ withCredentials }} has been
-                successfully submitted
+                Your {{ selectedForm }} form {{ withCredentials }} has been successfully submitted
               </p>
               <p>
                 {{ date }} - Reference Number:
@@ -39,31 +42,20 @@
         <h2>Important</h2>
         <hr />
         <!-- AOP -->
-        <ul
-          v-if="
-            $store.state.uploadType === 'AOP' ||
-            $store.state.uploadType === 'COAOP'
-          "
-        >
+        <ul v-if="$store.state.uploadType === 'AOP' || $store.state.uploadType === 'COAOP'">
+          <li>Full processing of an Assignment of Payment can take up to 30 days.</li>
           <li>
-            Full processing of an Assignment of Payment can take up to 30 days.
+            All Assignments of Payment must be processed within 90 days of the first date of service
+            indicated on the AOP form in order to receive payment from the Medical Services Plan.
           </li>
           <li>
-            All Assignments of Payment must be processed within 90 days of the
-            first date of service indicated on the AOP form in order to receive
-            payment from the Medical Services Plan.
+            It is recommended that AOP forms are submitted within 60 days of first date of service.
           </li>
           <li>
-            It is recommended that AOP forms are submitted within 60 days of
-            first date of service.
+            Health Insurance BC (HIBC) will provide email confirmation to the submitter when full
+            processing of an AOP form has been completed.
           </li>
-          <li>
-            Health Insurance BC (HIBC) will provide email confirmation to the
-            submitter when full processing of an AOP form has been completed.
-          </li>
-          <li>
-            For information on your specific AOP submission, contact HIBC:
-          </li>
+          <li>For information on your specific AOP submission, contact HIBC:</li>
           Email:
           <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
           <br />
@@ -76,43 +68,32 @@
               <li>Option 3 again (Assignment of Payment)</li>
               <ul>
                 <li>Option 1 (AOP self-service processing confirmation) Or</li>
-                <li>
-                  Option 2 (anything else) - this will ring through to an agent
-                </li>
+                <li>Option 2 (anything else) - this will ring through to an agent</li>
               </ul>
             </ul>
           </ul>
           <li>
-            For more information concerning the Assignment of Payment process,
-            see:
-            <a href="www.gov.bc.ca/diagnosticfacilities"
-              >www.gov.bc.ca/diagnosticfacilities</a
-            >
+            For more information concerning the Assignment of Payment process, see:
+            <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a>
           </li>
         </ul>
 
         <!-- OPA -->
         <ul v-else>
+          <li>Full processing of an Operator Payment Administration can take up to 30 days.</li>
           <li>
-            Full processing of an Operator Payment Administration can take up to
-            30 days.
+            All Operator Payment Administration must be processed within 90 days of the first date
+            of service indicated on the OPA form in order to receive payment from the Medical
+            Services Plan.
           </li>
           <li>
-            All Operator Payment Administration must be processed within 90 days
-            of the first date of service indicated on the OPA form in order to
-            receive payment from the Medical Services Plan.
+            It is recommended that OPA forms are submitted within 60 days of first date of service.
           </li>
           <li>
-            It is recommended that OPA forms are submitted within 60 days of
-            first date of service.
+            Health Insurance BC (HIBC) will provide email confirmation to the submitter when full
+            processing of an OPA form has been completed.
           </li>
-          <li>
-            Health Insurance BC (HIBC) will provide email confirmation to the
-            submitter when full processing of an OPA form has been completed.
-          </li>
-          <li>
-            For information on your specific OPA submission, contact HIBC:
-          </li>
+          <li>For information on your specific OPA submission, contact HIBC:</li>
           Email:
           <a href="mailto:HIBC.AOP@gov.bc.ca">HIBC.AOP@gov.bc.ca</a>
           <br />
@@ -125,18 +106,13 @@
               <li>Option 3 again (Assignment of Payment)</li>
               <ul>
                 <li>Option 1 (AOP self-service processing confirmation) Or</li>
-                <li>
-                  Option 2 (anything else) - this will ring through to an agent
-                </li>
+                <li>Option 2 (anything else) - this will ring through to an agent</li>
               </ul>
             </ul>
           </ul>
           <li>
-            For more information concerning the Operator Payment Administration
-            process, see:
-            <a href="www.gov.bc.ca/diagnosticfacilities"
-              >www.gov.bc.ca/diagnosticfacilities</a
-            >
+            For more information concerning the Operator Payment Administration process, see:
+            <a href="www.gov.bc.ca/diagnosticfacilities">www.gov.bc.ca/diagnosticfacilities</a>
           </li>
         </ul>
 
@@ -146,29 +122,32 @@
 
         <h2 class="mt-4">Information about this submission</h2>
         <hr />
-        <div v-if="$store.state.uploadType !== 'COAOP'" class="submission-type">
+        <div
+          v-if="$store.state.uploadType !== 'COAOP'"
+          class="submission-type"
+        >
           <div class="name">
             <div>Submission Type:</div>
           </div>
           <div class="radios">
             <div class="radio-group">
               <input
-                type="radio"
                 id="new"
+                v-model="$store.state.submissionType"
+                type="radio"
                 value="New Submission"
                 name="submissionType"
-                v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
               <label for="new"><strong>New submission</strong></label>
             </div>
             <div class="radio-group">
               <input
-                type="radio"
                 id="revised"
+                v-model="$store.state.submissionType"
+                type="radio"
                 value="Revised Submission"
                 name="submissionType"
-                v-model="$store.state.submissionType"
                 disabled
               />&nbsp;
               <label for="revised"><strong>Revised submission</strong></label>
@@ -181,7 +160,10 @@
         <hr />
         <Table :elements="supportingDocuments" />
       </div>
-      <ContinueBar @continue="newForm()" :buttonLabel="'New form'" />
+      <ContinueBar
+        :button-label="'New form'"
+        @continue="newForm()"
+      />
     </main>
     <Footer />
   </div>
@@ -201,13 +183,13 @@ import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 
 export default {
   name: "Confirmation",
-  mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   components: {
     SignOutHeader,
     Table,
     ContinueBar,
     Footer,
   },
+  mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
     return {
       date: "",
@@ -217,9 +199,7 @@ export default {
   },
   created() {
     this.withCredentials =
-      this.$store.state.credentialsRequired === "true"
-        ? "with credentials"
-        : "";
+      this.$store.state.credentialsRequired === "true" ? "with credentials" : "";
     this.referenceNumber = this.$store.state.apiResponse;
 
     const date = new Date();

@@ -6,26 +6,30 @@
       <div class="success-box container">
         <div class="row">
           <div class="col-md-2 icon-container">
-            <font-awesome-icon icon="times-circle" size="4x" />
+            <font-awesome-icon
+              icon="times-circle"
+              size="4x"
+            />
           </div>
 
           <div class="col-md-10">
             <p class="py-3">
-              An error has occured with your submission. Please close this form
-              and wait a few minutes before trying again. If the error persists,
-              please contact
+              An error has occured with your submission. Please close this form and wait a few
+              minutes before trying again. If the error persists, please contact
               <a
                 class="HIBC-link"
                 href="https://www2.gov.bc.ca/gov/content/health/practitioner-professional-resources/msp/contact-us"
-                >Health Insurance BC</a
-              >.
+              >
+                Health Insurance BC
+              </a>
+              .
             </p>
           </div>
         </div>
       </div>
     </main>
     <ContinueBar
-      :buttonLabel="'Back to form select'"
+      :button-label="'Back to form select'"
       @continue="navigateToFormSelect"
     />
     <Footer />

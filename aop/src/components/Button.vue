@@ -1,13 +1,16 @@
 <template>
   <button
     class="bcgov-button"
-    v-bind:class="styling"
-    @click="$emit('button-click')"
+    :class="styling"
     type="button"
-    v-bind:disabled="disabled"
+    :disabled="disabled"
+    @click="$emit('button-click')"
   >
     {{ label }}
-    <div v-if="hasLoader" class="bcgov-loader-show">
+    <div
+      v-if="hasLoader"
+      class="bcgov-loader-show"
+    >
       <Loader />
     </div>
   </button>
@@ -19,28 +22,28 @@ import Loader from "./Loader.vue";
 export default {
   name: "Button",
   components: {
-    Loader
+    Loader,
   },
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     hasLoader: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     styling: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

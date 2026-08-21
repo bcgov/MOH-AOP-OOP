@@ -4,13 +4,12 @@
     <main class="container py-5 px-2">
       <h1>Secure session ended</h1>
       <p>
-        You have successfully closed your secure session with the Diagnostic
-        Facilities upload tool.
+        You have successfully closed your secure session with the Diagnostic Facilities upload tool.
       </p>
       <p>You may close your browser now.</p>
     </main>
     <ContinueBar
-      :buttonLabel="'Back to log in'"
+      :button-label="'Back to log in'"
       @continue="navigateToSignIn"
     />
     <Footer />

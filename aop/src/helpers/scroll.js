@@ -1,9 +1,8 @@
-export const scrollTo = top => {
+export const scrollTo = (top) => {
   if (!top) {
     top = 0;
   }
-  const supportsNativeSmoothScroll =
-    "scrollBehavior" in document.documentElement.style;
+  const supportsNativeSmoothScroll = "scrollBehavior" in document.documentElement.style;
 
   if (supportsNativeSmoothScroll) {
     window.scrollTo({ top: top, behavior: "smooth" });

@@ -1,5 +1,4 @@
-(function() {
-  
+(function () {
   // @info
   //   DOMPoint polyfill
   // @src
@@ -24,18 +23,14 @@
     }
 
     matrixTransform(matrix) {
-      if (
-        (matrix.is2D || matrix instanceof SVGMatrix) &&
-        this.z === 0 &&
-        this.w === 1
-      ) {
+      if ((matrix.is2D || matrix instanceof SVGMatrix) && this.z === 0 && this.w === 1) {
         return new DOMPoint(
           this.x * matrix.a + this.y * matrix.c + matrix.e,
           this.x * matrix.b + this.y * matrix.d + matrix.f,
-          0, 1
+          0,
+          1
         );
-      }
-      else {
+      } else {
         return new DOMPoint(
           this.x * matrix.m11 + this.y * matrix.m21 + this.z * matrix.m31 + this.w * matrix.m41,
           this.x * matrix.m12 + this.y * matrix.m22 + this.z * matrix.m32 + this.w * matrix.m42,
@@ -50,7 +45,7 @@
         x: this.x,
         y: this.y,
         z: this.z,
-        w: this.w
+        w: this.w,
       };
     }
   }
@@ -100,7 +95,7 @@
         top: this.top,
         left: this.left,
         right: this.right,
-        bottom: this.bottom
+        bottom: this.bottom,
       };
     }
   }
@@ -119,14 +114,29 @@
   //   https://github.com/chromium/chromium/blob/master/third_party/blink/renderer/core/geometry/dom_matrix_read_only.cc
   //   https://github.com/tocharomera/generativecanvas/blob/master/node-canvas/lib/DOMMatrix.js
 
-  const M11 =  0,  M12 =  1,  M13 =  2,  M14 =  3;
-  const M21 =  4,  M22 =  5,  M23 =  6,  M24 =  7;
-  const M31 =  8,  M32 =  9,  M33 = 10,  M34 = 11;
-  const M41 = 12,  M42 = 13,  M43 = 14,  M44 = 15;
+  const M11 = 0,
+    M12 = 1,
+    M13 = 2,
+    M14 = 3;
+  const M21 = 4,
+    M22 = 5,
+    M23 = 6,
+    M24 = 7;
+  const M31 = 8,
+    M32 = 9,
+    M33 = 10,
+    M34 = 11;
+  const M41 = 12,
+    M42 = 13,
+    M43 = 14,
+    M44 = 15;
 
-  const A = M11, B = M12;
-  const C = M21, D = M22;
-  const E = M41, F = M42;
+  const A = M11,
+    B = M12;
+  const C = M21,
+    D = M22;
+  const E = M41,
+    F = M42;
 
   const DEGREE_PER_RAD = 180 / Math.PI;
   const RAD_PER_DEGREE = Math.PI / 180;
@@ -145,10 +155,22 @@
     parsed = parsed.map(parseFloat);
 
     return [
-      parsed[0], parsed[1], 0, 0,
-      parsed[2], parsed[3], 0, 0,
-              0,         0, 1, 0,
-      parsed[4], parsed[5], 0, 1
+      parsed[0],
+      parsed[1],
+      0,
+      0,
+      parsed[2],
+      parsed[3],
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      parsed[4],
+      parsed[5],
+      0,
+      1,
     ];
   };
 
@@ -168,12 +190,10 @@
 
     if (type === "matrix") {
       return parseMatrix(tform);
-    }
-    else if (type === "matrix3d") {
+    } else if (type === "matrix3d") {
       return parseMatrix3d(tform);
-    }
-    else {
-      throw new Error(`${type} parsing not implemented`)
+    } else {
+      throw new Error(`${type} parsing not implemented`);
     }
   };
 
@@ -194,8 +214,7 @@
       if (value !== 1) {
         receiver[$is2D] = false;
       }
-    }
-    else if (value !== 0) {
+    } else if (value !== 0) {
       receiver[$is2D] = false;
     }
 
@@ -230,29 +249,139 @@
   };
 
   class DOMMatrix {
-    get m11() { return this[$values][M11]; } set m11(value) { setNumber2D(this, M11, value); }
-    get m12() { return this[$values][M12]; } set m12(value) { setNumber2D(this, M12, value); }
-    get m13() { return this[$values][M13]; } set m13(value) { setNumber3D(this, M13, value); }
-    get m14() { return this[$values][M14]; } set m14(value) { setNumber3D(this, M14, value); }
-    get m21() { return this[$values][M21]; } set m21(value) { setNumber2D(this, M21, value); }
-    get m22() { return this[$values][M22]; } set m22(value) { setNumber2D(this, M22, value); }
-    get m23() { return this[$values][M23]; } set m23(value) { setNumber3D(this, M23, value); }
-    get m24() { return this[$values][M24]; } set m24(value) { setNumber3D(this, M24, value); }
-    get m31() { return this[$values][M31]; } set m31(value) { setNumber3D(this, M31, value); }
-    get m32() { return this[$values][M32]; } set m32(value) { setNumber3D(this, M32, value); }
-    get m33() { return this[$values][M33]; } set m33(value) { setNumber3D(this, M33, value); }
-    get m34() { return this[$values][M34]; } set m34(value) { setNumber3D(this, M34, value); }
-    get m41() { return this[$values][M41]; } set m41(value) { setNumber2D(this, M41, value); }
-    get m42() { return this[$values][M42]; } set m42(value) { setNumber2D(this, M42, value); }
-    get m43() { return this[$values][M43]; } set m43(value) { setNumber3D(this, M43, value); }
-    get m44() { return this[$values][M44]; } set m44(value) { setNumber3D(this, M44, value); }
+    get m11() {
+      return this[$values][M11];
+    }
+    set m11(value) {
+      setNumber2D(this, M11, value);
+    }
+    get m12() {
+      return this[$values][M12];
+    }
+    set m12(value) {
+      setNumber2D(this, M12, value);
+    }
+    get m13() {
+      return this[$values][M13];
+    }
+    set m13(value) {
+      setNumber3D(this, M13, value);
+    }
+    get m14() {
+      return this[$values][M14];
+    }
+    set m14(value) {
+      setNumber3D(this, M14, value);
+    }
+    get m21() {
+      return this[$values][M21];
+    }
+    set m21(value) {
+      setNumber2D(this, M21, value);
+    }
+    get m22() {
+      return this[$values][M22];
+    }
+    set m22(value) {
+      setNumber2D(this, M22, value);
+    }
+    get m23() {
+      return this[$values][M23];
+    }
+    set m23(value) {
+      setNumber3D(this, M23, value);
+    }
+    get m24() {
+      return this[$values][M24];
+    }
+    set m24(value) {
+      setNumber3D(this, M24, value);
+    }
+    get m31() {
+      return this[$values][M31];
+    }
+    set m31(value) {
+      setNumber3D(this, M31, value);
+    }
+    get m32() {
+      return this[$values][M32];
+    }
+    set m32(value) {
+      setNumber3D(this, M32, value);
+    }
+    get m33() {
+      return this[$values][M33];
+    }
+    set m33(value) {
+      setNumber3D(this, M33, value);
+    }
+    get m34() {
+      return this[$values][M34];
+    }
+    set m34(value) {
+      setNumber3D(this, M34, value);
+    }
+    get m41() {
+      return this[$values][M41];
+    }
+    set m41(value) {
+      setNumber2D(this, M41, value);
+    }
+    get m42() {
+      return this[$values][M42];
+    }
+    set m42(value) {
+      setNumber2D(this, M42, value);
+    }
+    get m43() {
+      return this[$values][M43];
+    }
+    set m43(value) {
+      setNumber3D(this, M43, value);
+    }
+    get m44() {
+      return this[$values][M44];
+    }
+    set m44(value) {
+      setNumber3D(this, M44, value);
+    }
 
-    get a() { return this[$values][A]; } set a(value) { setNumber2D(this, A, value); }
-    get b() { return this[$values][B]; } set b(value) { setNumber2D(this, B, value); }
-    get c() { return this[$values][C]; } set c(value) { setNumber2D(this, C, value); }
-    get d() { return this[$values][D]; } set d(value) { setNumber2D(this, D, value); }
-    get e() { return this[$values][E]; } set e(value) { setNumber2D(this, E, value); }
-    get f() { return this[$values][F]; } set f(value) { setNumber2D(this, F, value); }
+    get a() {
+      return this[$values][A];
+    }
+    set a(value) {
+      setNumber2D(this, A, value);
+    }
+    get b() {
+      return this[$values][B];
+    }
+    set b(value) {
+      setNumber2D(this, B, value);
+    }
+    get c() {
+      return this[$values][C];
+    }
+    set c(value) {
+      setNumber2D(this, C, value);
+    }
+    get d() {
+      return this[$values][D];
+    }
+    set d(value) {
+      setNumber2D(this, D, value);
+    }
+    get e() {
+      return this[$values][E];
+    }
+    set e(value) {
+      setNumber2D(this, E, value);
+    }
+    get f() {
+      return this[$values][F];
+    }
+    set f(value) {
+      setNumber2D(this, F, value);
+    }
 
     get is2D() {
       return this[$is2D];
@@ -261,20 +390,32 @@
     get isIdentity() {
       let values = this[$values];
 
-      return values[M11] === 1 && values[M12] === 0 && values[M13] === 0 && values[M14] === 0 &&
-              values[M21] === 0 && values[M22] === 1 && values[M23] === 0 && values[M24] === 0 &&
-              values[M31] === 0 && values[M32] === 0 && values[M33] === 1 && values[M34] === 0 &&
-              values[M41] === 0 && values[M42] === 0 && values[M43] === 0 && values[M44] === 1;
+      return (
+        values[M11] === 1 &&
+        values[M12] === 0 &&
+        values[M13] === 0 &&
+        values[M14] === 0 &&
+        values[M21] === 0 &&
+        values[M22] === 1 &&
+        values[M23] === 0 &&
+        values[M24] === 0 &&
+        values[M31] === 0 &&
+        values[M32] === 0 &&
+        values[M33] === 1 &&
+        values[M34] === 0 &&
+        values[M41] === 0 &&
+        values[M42] === 0 &&
+        values[M43] === 0 &&
+        values[M44] === 1
+      );
     }
 
     static fromMatrix(init) {
       if (init instanceof DOMMatrix) {
         return new DOMMatrix(init[$values]);
-      }
-      else if (init instanceof SVGMatrix) {
+      } else if (init instanceof SVGMatrix) {
         return new DOMMatrix([init.a, init.b, init.c, init.d, init.e, init.f]);
-      }
-      else {
+      } else {
         throw new TypeError("Expected DOMMatrix");
       }
     }
@@ -294,19 +435,13 @@
     constructor(init) {
       this[$is2D] = true;
 
-      this[$values] = new Float64Array([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ]);
+      this[$values] = new Float64Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
 
       // Parse CSS transformList
       if (typeof init === "string") {
         if (init === "") {
           return;
-        }
-        else {
+        } else {
           let tforms = init.split(/\)\s+/, 20).map(parseTransform);
 
           if (tforms.length === 0) {
@@ -330,8 +465,7 @@
         setNumber2D(this, D, init[i++]);
         setNumber2D(this, E, init[i++]);
         setNumber2D(this, F, init[i++]);
-      }
-      else if (init && init.length === 16) {
+      } else if (init && init.length === 16) {
         setNumber2D(this, M11, init[i++]);
         setNumber2D(this, M12, init[i++]);
         setNumber3D(this, M13, init[i++]);
@@ -348,8 +482,7 @@
         setNumber2D(this, M42, init[i++]);
         setNumber3D(this, M43, init[i++]);
         setNumber3D(this, M44, init[i]);
-      }
-      else if (init !== undefined) {
+      } else if (init !== undefined) {
         throw new TypeError("Expected string or array.");
       }
     }
@@ -415,12 +548,7 @@
     }
 
     translateSelf(tx = 0, ty = 0, tz = 0) {
-      this[$values] = multiply([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        tx, ty, tz, 1
-      ], this[$values]);
+      this[$values] = multiply([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, tx, ty, tz, 1], this[$values]);
 
       if (tz !== 0) {
         this[$is2D] = false;
@@ -430,7 +558,14 @@
     }
 
     scale(scaleX, scaleY, scaleZ, originX, originY, originZ) {
-      return newInstance(this[$values]).scaleSelf(scaleX, scaleY, scaleZ, originX, originY, originZ);
+      return newInstance(this[$values]).scaleSelf(
+        scaleX,
+        scaleY,
+        scaleZ,
+        originX,
+        originY,
+        originZ
+      );
     }
 
     scale3d(scale, originX, originY, originZ) {
@@ -453,12 +588,10 @@
       if (typeof scaleY !== "number") scaleY = scaleX;
       if (typeof scaleZ !== "number") scaleZ = 1;
 
-      this[$values] = multiply([
-        scaleX, 0, 0, 0,
-        0, scaleY, 0, 0,
-        0, 0, scaleZ, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply(
+        [scaleX, 0, 0, 0, 0, scaleY, 0, 0, 0, 0, scaleZ, 0, 0, 0, 0, 1],
+        this[$values]
+      );
 
       this.translateSelf(-originX, -originY, -originZ);
 
@@ -474,7 +607,7 @@
     }
 
     rotateFromVectorSelf(x = 0, y = 0) {
-      let theta = (x === 0 && y === 0) ? 0 : Math.atan2(y, x) * DEGREE_PER_RAD;
+      let theta = x === 0 && y === 0 ? 0 : Math.atan2(y, x) * DEGREE_PER_RAD;
       return this.rotateSelf(theta);
     }
 
@@ -502,32 +635,17 @@
       let c = Math.cos(rotZ);
       let s = Math.sin(rotZ);
 
-      this[$values] = multiply([
-        c, s, 0, 0,
-        -s, c, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply([c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], this[$values]);
 
       c = Math.cos(rotY);
       s = Math.sin(rotY);
 
-      this[$values] = multiply([
-        c, 0, -s, 0,
-        0, 1, 0, 0,
-        s, 0, c, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply([c, 0, -s, 0, 0, 1, 0, 0, s, 0, c, 0, 0, 0, 0, 1], this[$values]);
 
       c = Math.cos(rotX);
       s = Math.sin(rotX);
 
-      this[$values] = multiply([
-        1, 0, 0, 0,
-        0, c, s, 0,
-        0, -s, c, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply([1, 0, 0, 0, 0, c, s, 0, 0, -s, c, 0, 0, 0, 0, 1], this[$values]);
 
       return this;
     }
@@ -557,12 +675,27 @@
       let tx = t * x;
       let ty = t * y;
 
-      this[$values] = multiply([
-        tx * x + c,      tx * y + s * z,  tx * z - s * y,  0,
-        tx * y - s * z,  ty * y + c,      ty * z + s * x,  0,
-        tx * z + s * y,  ty * z - s * x,  t * z * z + c,   0,
-        0,               0,               0,               1
-      ], this[$values]);
+      this[$values] = multiply(
+        [
+          tx * x + c,
+          tx * y + s * z,
+          tx * z - s * y,
+          0,
+          tx * y - s * z,
+          ty * y + c,
+          ty * z + s * x,
+          0,
+          tx * z + s * y,
+          ty * z - s * x,
+          t * z * z + c,
+          0,
+          0,
+          0,
+          0,
+          1,
+        ],
+        this[$values]
+      );
 
       if (x !== 0 || y !== 0) {
         this[$is2D] = false;
@@ -582,12 +715,7 @@
 
       let t = Math.tan(sx * RAD_PER_DEGREE);
 
-      this[$values] = multiply([
-        1, 0, 0, 0,
-        t, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply([1, 0, 0, 0, t, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], this[$values]);
 
       return this;
     }
@@ -603,35 +731,24 @@
 
       let t = Math.tan(sy * RAD_PER_DEGREE);
 
-      this[$values] = multiply([
-        1, t, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ], this[$values]);
+      this[$values] = multiply([1, t, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], this[$values]);
 
       return this;
     }
 
     flipX() {
-      return newInstance(multiply([
-        -1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ], this[$values]));
+      return newInstance(
+        multiply([-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], this[$values])
+      );
     }
 
     flipY() {
-      return newInstance(multiply([
-        1, 0, 0, 0,
-        0, -1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ], this[$values]));
+      return newInstance(
+        multiply([1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], this[$values])
+      );
     }
 
-    inverse () {
+    inverse() {
       return newInstance(this[$values]).invertSelf();
     }
 
@@ -643,12 +760,14 @@
         if (det !== 0) {
           let result = new DOMMatrix();
 
-          result.a =  this[$values][D] / det;
+          result.a = this[$values][D] / det;
           result.b = -this[$values][B] / det;
           result.c = -this[$values][C] / det;
-          result.d =  this[$values][A] / det;
-          result.e = (this[$values][C] * this[$values][F] - this[$values][D] * this[$values][E]) / det;
-          result.f = (this[$values][B] * this[$values][E] - this[$values][A] * this[$values][F]) / det;
+          result.d = this[$values][A] / det;
+          result.e =
+            (this[$values][C] * this[$values][F] - this[$values][D] * this[$values][E]) / det;
+          result.f =
+            (this[$values][B] * this[$values][E] - this[$values][A] * this[$values][F]) / det;
 
           return result;
         }
@@ -658,14 +777,25 @@
           this[$is2D] = false;
 
           this[$values] = [
-            NaN, NaN, NaN, NaN,
-            NaN, NaN, NaN, NaN,
-            NaN, NaN, NaN, NaN,
-            NaN, NaN, NaN, NaN
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
+            NaN,
           ];
         }
-      }
-      else {
+      } else {
         throw new Error("3D matrix inversion is not implemented.");
       }
     }
@@ -728,27 +858,44 @@
         m43: this.m43,
         m44: this.m44,
         is2D: this.is2D,
-        isIdentity: this.isIdentity
+        isIdentity: this.isIdentity,
       };
     }
 
     toString() {
       if (this.is2D) {
         return `matrix(${this.a}, ${this.b}, ${this.c}, ${this.d}, ${this.e}, ${this.f})`;
-      }
-      else {
+      } else {
         return `matrix3d(${this[$values].join(", ")})`;
       }
     }
   }
 
   for (let propertyName of [
-    "a", "b", "c", "d", "e", "f",
-    "m11", "m12", "m13", "m14",
-    "m21", "m22", "m23", "m24",
-    "m31", "m32", "m33", "m34",
-    "m41", "m42", "m43", "m44",
-    "is2D", "isIdentity"
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "m11",
+    "m12",
+    "m13",
+    "m14",
+    "m21",
+    "m22",
+    "m23",
+    "m24",
+    "m31",
+    "m32",
+    "m33",
+    "m34",
+    "m41",
+    "m42",
+    "m43",
+    "m44",
+    "is2D",
+    "isIdentity",
   ]) {
     let propertyDescriptor = Object.getOwnPropertyDescriptor(DOMMatrix.prototype, propertyName);
     propertyDescriptor.enumerable = true;
@@ -756,4 +903,4 @@
   }
 
   window.DOMMatrix = window.DOMMatrix || DOMMatrix;
-}());
+})();

@@ -12,55 +12,55 @@ export const routes = {
     path: "/sign-in",
     title: "Log in",
     name: "LogIn",
-    component: LogIn
+    component: LogIn,
   },
   SUBMISSION_INFO: {
     path: "/submission-info",
     title: "Select a form",
     name: "SubmissionInfo",
-    component: SubmissionInfo
+    component: SubmissionInfo,
   },
   REVIEW: {
     path: "/review",
     title: "Review",
     name: "Review",
-    component: Review
+    component: Review,
   },
   SENDING: {
     path: "/sending",
     title: "Sending application",
     name: "Sending",
-    component: Sending
+    component: Sending,
   },
   CONFIRMATION: {
     path: "/confirmation",
     title: "Confirmation",
     name: "Confirmation",
-    component: Confirmation
+    component: Confirmation,
   },
   SUBMISSION_ERROR: {
     path: "/submission-error",
     title: "Submission error",
     name: "SubmissionError",
-    component: SubmissionError
+    component: SubmissionError,
   },
   SESSION_END: {
     path: "/session-end",
     title: "Session end",
     name: "SessionEnd",
-    component: SessionEnd
+    component: SessionEnd,
   },
   MAINTENANCE: {
     path: "/maintenance",
     title: "Maintenance",
     name: "Maintenance",
-    component: Maintenance
-  }
+    component: Maintenance,
+  },
 };
 
 export const stepRoutes = [
   { ...routes.SIGN_IN },
   { ...routes.SUBMISSION_INFO },
   { ...routes.REVIEW },
-  { ...routes.CONFIRMATION }
+  { ...routes.CONFIRMATION },
 ];

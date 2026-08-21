@@ -1,7 +1,10 @@
 <template>
   <div>
     <SignOutHeader :heading="'Diagnostic Services - Secure Upload Tool'" />
-    <ProgressBar :routes="stepRoutes" :currentPath="$route.path" />
+    <ProgressBar
+      :routes="stepRoutes"
+      :current-path="$route.path"
+    />
     <Loader v-if="$store.state.loading" />
     <main v-else>
       <form class="container py-5 px-2">
@@ -11,82 +14,80 @@
         <hr />
         <p>You can upload and send ONLY ONE form at a time.</p>
         <p>
-          After submitting your first form, you can submit additional forms from
-          the "Confirmation" screen. The submitter information will populate
-          automatically for the second and subsequent submissions.
+          After submitting your first form, you can submit additional forms from the "Confirmation"
+          screen. The submitter information will populate automatically for the second and
+          subsequent submissions.
         </p>
         <div class="form-group">
           <div class="radio-group">
             <input
-              type="radio"
               id="AOP"
+              v-model="uploadType"
+              type="radio"
               value="AOP"
               name="uploadType"
-              v-model="uploadType"
-              @change="resetFiles"
-              @blur="handleBlurField(v$.uploadType)"
               required
               aria-required="true"
+              @change="resetFiles"
+              @blur="handleBlurField(v$.uploadType)"
             />&nbsp;
-            <label for="AOP"
-              >Diagnostic Facility Services Assignment of Payment and Medical
-              Director Authorization (HLTH 1908)</label
-            >
+            <label for="AOP">
+              Diagnostic Facility Services Assignment of Payment and Medical Director Authorization
+              (HLTH 1908)
+            </label>
           </div>
           <br />
           <div class="radio-group">
             <input
-              type="radio"
               id="COAOP"
+              v-model="uploadType"
+              type="radio"
               value="COAOP"
               name="uploadType"
-              v-model="uploadType"
               @change="resetFiles"
               @blur="handleBlurField(v$.uploadType)"
             />&nbsp;
-            <label for="COAOP"
-              >Diagnostic Facility Services Cancellation of Assignment of
-              Payment (HLTH 1926)</label
-            >
+            <label for="COAOP">
+              Diagnostic Facility Services Cancellation of Assignment of Payment (HLTH 1926)
+            </label>
           </div>
           <br />
           <div class="radio-group">
             <input
-              type="radio"
               id="OOPA"
+              v-model="uploadType"
+              type="radio"
               value="OOPA"
               name="uploadType"
-              v-model="uploadType"
               @change="resetFiles"
               @blur="handleBlurField(v$.uploadType)"
             />&nbsp;
-            <label for="OOPA"
-              >Laboratory Services Outpatient Operator Payment Administration
-              (HLTH 2999)</label
-            >
+            <label for="OOPA">
+              Laboratory Services Outpatient Operator Payment Administration (HLTH 2999)
+            </label>
           </div>
           <div
-            class="text-danger"
             v-if="v$.uploadType.$dirty && v$.uploadType.required.$invalid"
+            class="text-danger"
           >
             Field is required
           </div>
         </div>
-        <div class="mt-5" v-if="uploadType === 'AOP'">
-          <h3>
-            Do you need to submit confirmation of credentials for this
-            Assignment of Payment?
-          </h3>
+        <div
+          v-if="uploadType === 'AOP'"
+          class="mt-5"
+        >
+          <h3>Do you need to submit confirmation of credentials for this Assignment of Payment?</h3>
           <hr />
           <div class="radio-group">
             <input
-              type="radio"
               id="no"
+              v-model="credentialsRequired"
+              type="radio"
               value="false"
               required
               aria-required="true"
               name="credentialsRequired"
-              v-model="credentialsRequired"
               @change="resetCredentials"
               @blur="handleBlurField(v$.credentialsRequired)"
             />&nbsp;
@@ -95,75 +96,74 @@
           <br />
           <div class="radio-group">
             <input
-              type="radio"
               id="yes"
+              v-model="credentialsRequired"
+              type="radio"
               value="true"
               name="credentialsRequired"
-              v-model="credentialsRequired"
               @change="resetCredentials"
               @blur="handleBlurField(v$.credentialsRequired)"
             />&nbsp;
             <label for="yes">Yes</label>
           </div>
           <div
-            class="text-danger"
             v-if="
               v$.credentialsRequired.$dirty &&
               uploadType === 'AOP' &&
               v$.credentialsRequired.required.$invalid
             "
+            class="text-danger"
           >
             Field is required
           </div>
         </div>
         <div
-          class="mt-5"
           v-if="uploadType === 'AOP' && credentialsRequired !== ''"
+          class="mt-5"
         >
           <h2 v-if="credentialsRequired === 'true'">
-            Submit your Assignment of Payment and Medical Director Authorization
-            form with Confirmation of Practitioner Credentials
+            Submit your Assignment of Payment and Medical Director Authorization form with
+            Confirmation of Practitioner Credentials
           </h2>
           <h2 v-if="credentialsRequired === 'false'">
-            Submit your Assignment of Payment and Medical Director Authorization
-            form
+            Submit your Assignment of Payment and Medical Director Authorization form
           </h2>
           <hr />
           <p>
-            When submitting an Assignment of Payment, please ensure the form is
-            complete and signed by the practitioner, payee representative and
-            departmental or regional Medical Director or their delegate (when
-            required). Only fully completed and authorized Assignment of Payment
-            forms can be processed.
+            When submitting an Assignment of Payment, please ensure the form is complete and signed
+            by the practitioner, payee representative and departmental or regional Medical Director
+            or their delegate (when required). Only fully completed and authorized Assignment of
+            Payment forms can be processed.
           </p>
         </div>
-        <div class="mt-5" v-if="uploadType === 'COAOP'">
+        <div
+          v-if="uploadType === 'COAOP'"
+          class="mt-5"
+        >
           <h2>Submit your Cancellation of Assignment of Payment</h2>
           <hr />
           <p>
-            When submitting a Cancellation of Assignment of Payment, please
-            ensure the form is complete and signed by the practitioner and payee
-            representative. Only fully completed and authorized Cancellation of
-            Assignment of Payment forms can be processed.
+            When submitting a Cancellation of Assignment of Payment, please ensure the form is
+            complete and signed by the practitioner and payee representative. Only fully completed
+            and authorized Cancellation of Assignment of Payment forms can be processed.
           </p>
         </div>
-        <div class="mt-5" v-if="uploadType === 'OOPA'">
-          <h2>
-            Laboratory Services: Submit your Outpatient Operator Payment
-            Administration form
-          </h2>
+        <div
+          v-if="uploadType === 'OOPA'"
+          class="mt-5"
+        >
+          <h2>Laboratory Services: Submit your Outpatient Operator Payment Administration form</h2>
           <hr />
           <p>
-            Please use the below fields to submit your completed Operator
-            Payment Administration form.
+            Please use the below fields to submit your completed Operator Payment Administration
+            form.
           </p>
           <p>
-            Ensure your form is complete and appropriately authorized prior to
-            submitting. Only complete and authorized forms can be processed.
+            Ensure your form is complete and appropriately authorized prior to submitting. Only
+            complete and authorized forms can be processed.
           </p>
           <p>
-            For questions regarding the submission of a form, please contact
-            Laboratory Services at
+            For questions regarding the submission of a form, please contact Laboratory Services at
             <a href="mailto:labfacilities@phsa.ca">labfacilities@phsa.ca</a>
           </p>
         </div>
@@ -177,24 +177,20 @@
           <p>To submit a completed form:</p>
           <ol>
             <li>
-              Scan the form and save a digital copy to your computer in PDF file
-              format only, using the required naming convention (see note below)
+              Scan the form and save a digital copy to your computer in PDF file format only, using
+              the required naming convention (see note below)
             </li>
             <li>Complete all contact information fields below</li>
-            <li>
-              Click "Select a file" or "Add" and locate the scanned PDF form on
-              your computer
-            </li>
+            <li>Click "Select a file" or "Add" and locate the scanned PDF form on your computer</li>
             <li>Once the file has been uploaded, click the "Submit" button</li>
             <li>
-              A "Confirmation" window will display on your computer with the
-              result of the transaction
+              A "Confirmation" window will display on your computer with the result of the
+              transaction
             </li>
           </ol>
         </div>
         <p v-if="uploadType === 'OOPA'">
-          To report any issues with the secure upload tool, please send an email
-          to
+          To report any issues with the secure upload tool, please send an email to
           <a href="mailto:labfacilities@phsa.ca">labfacilities@phsa.ca</a>
         </p>
         <div
@@ -207,41 +203,45 @@
           <h3 class="mt-5"><em>Submitter information</em></h3>
           <hr />
           <p>
-            Provide details below about the person submitting the form (clerk,
-            administrator, etc.)
+            Provide details below about the person submitting the form (clerk, administrator, etc.)
           </p>
-          <Input :label="'First name'" v-model="firstName" :disabled="true" :inputStyle="mediumStyles"/>
           <Input
-            :label="'Last name'"
-            :className="'mt-3'"
-            v-model="lastName"
+            v-model="firstName"
+            :label="'First name'"
             :disabled="true"
-            :inputStyle="mediumStyles"
+            :input-style="mediumStyles"
           />
           <Input
-            :label="'Email address'"
+            v-model="lastName"
+            :label="'Last name'"
+            :class-name="'mt-3'"
+            :disabled="true"
+            :input-style="mediumStyles"
+          />
+          <Input
             id="email"
-            :className="'mt-3'"
             v-model="emailAddress"
-            @blur="handleBlurField(v$.emailAddress)"
+            :label="'Email address'"
+            :class-name="'mt-3'"
             maxlength="100"
             :required="true"
-            :inputStyle="mediumStyles"
+            :input-style="mediumStyles"
+            @blur="handleBlurField(v$.emailAddress)"
           />
           <div
-            class="text-danger"
             v-if="v$.emailAddress.$dirty && v$.emailAddress.required.$invalid"
+            class="text-danger"
             aria-live="assertive"
           >
             Email address is required
           </div>
           <div
-            class="text-danger"
             v-if="
               v$.emailAddress.$dirty &&
               !v$.emailAddress.required.$invalid &&
               v$.emailAddress.isValidEmail.$invalid
             "
+            class="text-danger"
             aria-live="assertive"
           >
             Invalid email address
@@ -251,11 +251,11 @@
             <label for="phone">Phone number:</label><br />
             <input
               id="phone"
+              v-model="phoneNumber"
+              v-maska="{ mask: '(Z##) ###-####', tokens: { Z: { pattern: /[1-9]/ } } }"
               type="text"
               name="phoneNumber"
               class="form-control"
-              v-maska="{ mask: '(Z##) ###-####', tokens: { 'Z': { pattern: /[1-9]/ }}}" 
-              v-model="phoneNumber"
               :required="true"
               :aria-required="true"
               :style="mediumStyles"
@@ -263,8 +263,8 @@
             />
           </div>
           <div
-            class="text-danger"
             v-if="v$.phoneNumber.$dirty && v$.phoneNumber.isValidPhone.$invalid"
+            class="text-danger"
             aria-live="assertive"
           >
             Valid phone number is required
@@ -274,75 +274,78 @@
             <label for="extension">Phone extension (optional):</label><br />
             <input
               id="extension"
+              v-model="phoneExtension"
+              v-maska="{ mask: '##########' }"
               type="text"
               name="phoneExtension"
               class="form-control"
-              v-model="phoneExtension"
               :style="mediumStyles"
               @blur="handleBlurField(v$.phoneExtension)"
-              v-maska="{ mask: '##########'}"
             />
           </div>
 
           <div
-            class="mb-3"
             v-if="uploadType === 'AOP' || uploadType === 'COAOP'"
+            class="mb-3"
           >
             <Input
-              :label="'Organization'"
               id="organization"
-              :className="'mt-3'"
               v-model="organization"
-              @blur="handleBlurField(v$.organization)"
+              :label="'Organization'"
+              :class-name="'mt-3'"
               maxlength="70"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.organization)"
             />
             <div
-              class="text-danger"
               v-if="v$.organization.$dirty && v$.organization.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Organization is required
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.organization.$dirty &&
                 !v$.organization.required.$invalid &&
                 v$.organization.hasNoInvalidJSON.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid organization
             </div>
           </div>
 
-          <div class="mb-3" v-if="uploadType === 'OOPA'">
+          <div
+            v-if="uploadType === 'OOPA'"
+            class="mb-3"
+          >
             <Input
               id="facility"
-              :label="'Facility name'"
-              :className="'mt-3'"
               v-model="facility"
-              @blur="handleBlurField(v$.facility)"
+              :label="'Facility name'"
+              :class-name="'mt-3'"
               maxlength="70"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.facility)"
             />
             <div
-              class="text-danger"
               v-if="v$.facility.$dirty && v$.facility.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Facility name is required
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.facility.$dirty &&
                 !v$.facility.required.$invalid &&
                 v$.facility.hasNoInvalidJSON.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid facility name
@@ -353,38 +356,38 @@
           <hr />
 
           <div
-            class="form-group"
             v-if="uploadType === 'AOP' || uploadType === 'OOPA'"
+            class="form-group"
           >
             <p>Submission Type:</p>
             <div class="radio-group">
               <input
-                type="radio"
                 id="new"
+                v-model="submissionType"
+                type="radio"
                 value="New Submission"
                 name="submissionType"
-                v-model="submissionType"
-                @blur="handleBlurField(v$.submissionType)"
                 required
                 aria-required="true"
+                @blur="handleBlurField(v$.submissionType)"
               />&nbsp;
               <label for="new">New submission</label>
             </div>
             <br />
             <div class="radio-group">
               <input
-                type="radio"
                 id="revised"
+                v-model="submissionType"
+                type="radio"
                 value="Revised Submission"
                 name="submissionType"
-                v-model="submissionType"
                 @blur="handleBlurField(v$.submissionType)"
               />&nbsp;
               <label for="revised">Revised submission</label>
             </div>
             <div
-              class="text-danger"
               v-if="v$.submissionType.$dirty && v$.submissionType.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Please indicate if this is a new or revised submission
@@ -393,65 +396,65 @@
 
           <div v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
             <Input
-              :label="'Practitioner number'"
               id="practitioner-number"
-              :className="'mt-3'"
               v-model="primaryNumber"
-              @blur="handleBlurField(v$.primaryNumber)"
+              :label="'Practitioner number'"
+              :class-name="'mt-3'"
               maxlength="5"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.primaryNumber)"
             />
             <div
-              class="text-danger"
               v-if="v$.primaryNumber.$dirty && v$.primaryNumber.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Practitioner number is required
             </div>
             <div
-              class="text-danger"
               v-if="v$.primaryNumber.$dirty && v$.primaryNumber.alphaNum.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid practitioner number
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.primaryNumber.$dirty &&
                 !v$.primaryNumber.alphaNum.$invalid &&
                 v$.primaryNumber.minLength.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid practitioner number
             </div>
 
             <Input
-              :label="'Practitioner last name'"
               id="practitioner-last-name"
-              :className="'mt-3'"
               v-model="primaryLastName"
-              @blur="handleBlurField(v$.primaryLastName)"
+              :label="'Practitioner last name'"
+              :class-name="'mt-3'"
               maxlength="29"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.primaryLastName)"
             />
             <div
-              class="text-danger"
               v-if="v$.primaryLastName.$dirty && v$.primaryLastName.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Practitioner last name is required
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.primaryLastName.$dirty &&
                 !v$.primaryLastName.required.$invalid &&
                 v$.primaryLastName.isValidLastName.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid practitioner last name
@@ -460,139 +463,139 @@
 
           <div v-if="uploadType === 'OOPA'">
             <Input
-              :label="'Primary practitioner number'"
               id="primary-practitioner-number"
-              :className="'mt-3'"
               v-model="primaryNumber"
-              @blur="handleBlurField(v$.primaryNumber)"
+              :label="'Primary practitioner number'"
+              :class-name="'mt-3'"
               maxlength="5"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.primaryNumber)"
             />
             <div
-              class="text-danger"
               v-if="v$.primaryNumber.$dirty && v$.primaryNumber.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Primary practitioner number is required
             </div>
             <div
-              class="text-danger"
               v-if="v$.primaryNumber.$dirty && v$.primaryNumber.alphaNum.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid primary practitioner number
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.primaryNumber.$dirty &&
                 !v$.primaryNumber.alphaNum.$invalid &&
                 v$.primaryNumber.minLength.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid primary practitioner number
             </div>
 
             <Input
-              :label="'Primary practitioner last name'"
-              :className="'mt-3'"
               id="primary-last-name"
               v-model="primaryLastName"
-              @blur="handleBlurField(v$.primaryLastName)"
+              :label="'Primary practitioner last name'"
+              :class-name="'mt-3'"
               maxlength="29"
               :required="true"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.primaryLastName)"
             />
             <div
-              class="text-danger"
               v-if="v$.primaryLastName.$dirty && v$.primaryLastName.required.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Primary practitioner last name is required
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.primaryLastName.$dirty &&
                 !v$.primaryLastName.required.$invalid &&
                 v$.primaryLastName.isValidLastName.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid primary practitioner last name
             </div>
 
             <Input
-              :label="'Secondary practitioner number (optional)'"
-              :className="'mt-3'"
-              maxlength="5"
               v-model="secondaryNumber"
+              :label="'Secondary practitioner number (optional)'"
+              :class-name="'mt-3'"
+              maxlength="5"
+              :input-style="mediumStyles"
               @blur="handleBlurField(v$.secondaryNumber)"
-              :inputStyle="mediumStyles"
             />
             <div
-              class="text-danger"
               v-if="v$.secondaryNumber.$dirty && v$.secondaryNumber.alphaNum.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid secondary practitioner number
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.secondaryNumber.$dirty &&
                 !v$.secondaryNumber.alphaNum.$invalid &&
                 v$.secondaryNumber.minLength.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid secondary practitioner number
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.secondaryLastName.$dirty &&
                 !v$.secondaryLastName.isValidSecondaryLastName.$invalid &&
                 v$.secondaryLastName.hasSecondaryNumber.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
-              Secondary practitioner number is required if supplying a secondary
-              practitioner last name
+              Secondary practitioner number is required if supplying a secondary practitioner last
+              name
             </div>
 
             <Input
-              :label="'Secondary practitioner last name (optional)'"
-              :className="'mt-3'"
               v-model="secondaryLastName"
-              @blur="handleBlurField(v$.secondaryLastName)"
+              :label="'Secondary practitioner last name (optional)'"
+              :class-name="'mt-3'"
               maxlength="29"
-              :inputStyle="mediumStyles"
+              :input-style="mediumStyles"
+              @blur="handleBlurField(v$.secondaryLastName)"
             />
             <div
-              class="text-danger"
               v-if="
                 v$.secondaryLastName.$dirty &&
                 v$.secondaryLastName.isValidSecondaryLastName.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid secondary practitioner last name
             </div>
             <div
-              class="text-danger"
               v-if="
                 v$.secondaryNumber.$dirty &&
                 !v$.secondaryNumber.alphaNum.$invalid &&
                 !v$.secondaryNumber.minLength.$invalid &&
                 v$.secondaryNumber.hasSecondaryLastName.$invalid
               "
+              class="text-danger"
               aria-live="assertive"
             >
-              Secondary practitioner last name is required if supplying a
-              secondary practitioner number
+              Secondary practitioner last name is required if supplying a secondary practitioner
+              number
             </div>
           </div>
 
@@ -600,16 +603,16 @@
             <label for="comments">Comments (optional):</label><br />
             <textarea
               id="comments"
+              v-model="comments"
               class="form-control"
               maxlength="210"
               alt="comments"
               name="comments"
-              v-model="comments"
               @blur="handleBlurField(v$.comments)"
             />
             <div
-              class="text-danger"
               v-if="v$.comments.$dirty && v$.comments.hasNoInvalidJSON.$invalid"
+              class="text-danger"
               aria-live="assertive"
             >
               Invalid comment
@@ -624,16 +627,18 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader id="files" v-model="files" />
+                  <FileUploader
+                    id="files"
+                    v-model="files"
+                  />
                   <div
-                    class="text-danger"
                     v-if="v$.files.$dirty && v$.files.required.$invalid"
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     Please upload required document
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.files.$dirty &&
                       credentialsRequired &&
@@ -641,10 +646,11 @@
                       v$.credentials &&
                       v$.credentials.hasDistinctFiles.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
-                    Please upload distinct documents for Assignment of Payment
-                    form and for credentials
+                    Please upload distinct documents for Assignment of Payment form and for
+                    credentials
                   </div>
                   <div class="notice">
                     <strong>Note:</strong>
@@ -654,26 +660,20 @@
                         <strong>PDF file format only</strong>
                       </li>
                       <li>
-                        File must be named for the practitioner who is named on
-                        the Assignment of Payment form
+                        File must be named for the practitioner who is named on the Assignment of
+                        Payment form
                       </li>
                       <li>In naming files, please:</li>
                       <ul>
-                        <li>
-                          Use the practitioner's last name then first name
-                        </li>
+                        <li>Use the practitioner's last name then first name</li>
                         <li>Use lower case letters only</li>
+                        <li>Use dashes "-" to separate names (do not use spaces or underscores)</li>
                         <li>
-                          Use dashes "-" to separate names (do not use spaces or
-                          underscores)
+                          Do not use special characters including spaces, commas, underscores or
+                          periods
                         </li>
                         <li>
-                          Do not use special characters including spaces,
-                          commas, underscores or periods
-                        </li>
-                        <li>
-                          Example of proper naming convention: smith-john;
-                          brown-susan; white-bob
+                          Example of proper naming convention: smith-john; brown-susan; white-bob
                         </li>
                       </ul>
                     </ul>
@@ -682,7 +682,10 @@
               </div>
             </div>
           </div>
-          <div v-if="credentialsRequired === 'true'" class="mt-5">
+          <div
+            v-if="credentialsRequired === 'true'"
+            class="mt-5"
+          >
             <h3>
               <em>Attach confirmation of practitioner credentials documents</em>
             </h3>
@@ -690,37 +693,37 @@
             <div class="container">
               <div class="row">
                 <div class="upload-container">
-                  <FileUploader id="credentials" v-model="credentials" />
+                  <FileUploader
+                    id="credentials"
+                    v-model="credentials"
+                  />
                   <div
-                    class="text-danger"
                     v-if="
                       v$.credentials.$dirty &&
                       credentialsRequired &&
                       v$.credentials.required.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
                     Please upload required document
                   </div>
                   <div
-                    class="text-danger"
                     v-if="
                       v$.credentials.$dirty &&
                       credentialsRequired &&
                       !v$.credentials.required.$invalid &&
                       v$.credentials.hasDistinctFiles.$invalid
                     "
+                    class="text-danger"
                     aria-live="assertive"
                   >
-                    Please upload distinct documents for Assignment of Payment
-                    form and for credentials
+                    Please upload distinct documents for Assignment of Payment form and for
+                    credentials
                   </div>
                   <div class="notice">
                     <strong>Note:</strong>
-                    <p>
-                      Scan the document, or take a photo of it. Make sure that
-                      it's:
-                    </p>
+                    <p>Scan the document, or take a photo of it. Make sure that it's:</p>
                     <ul>
                       <li>The entire document, from corner to corner</li>
                       <li>Rotated correctly (not upside down or sideways)</li>
@@ -749,7 +752,7 @@ import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import ContinueBar from "../components/ContinueBar";
 import { InputComponent } from "common-lib-vue";
-import { maska }from "maska";
+import { maska } from "maska";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
 import Footer from "../components/Footer";
 import { required, minLength, alphaNum } from "@vuelidate/validators";
@@ -798,8 +801,11 @@ export default {
     Loader,
     Footer,
   },
-  mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   directives: { maska },
+  mixins: [FocusHeaderMixin, NoNameLogoutMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => {
     return {
       stepRoutes: stepRoutes,
@@ -820,11 +826,8 @@ export default {
       secondaryNumber: "",
       secondaryLastName: "",
       comments: "",
-      mediumStyles: mediumStyles
+      mediumStyles: mediumStyles,
     };
-  },
-  setup () {
-    return { v$: useVuelidate() }
   },
   validations() {
     if (this.uploadType === "AOP" && this.credentialsRequired === "true") {
@@ -1015,6 +1018,20 @@ export default {
       };
     }
   },
+  computed: {
+    uploadTitle() {
+      switch (this.uploadType) {
+        case "AOP":
+          return "Assignment of Payment";
+        case "COAOP":
+          return "Cancellation of Assignment of Payment";
+        case "OOPA":
+          return "Operator Payment Administration";
+        default:
+          return "";
+      }
+    },
+  },
   created() {
     this.firstName = this.$store.state.firstName;
     this.lastName = this.$store.state.lastName;
@@ -1061,9 +1078,9 @@ export default {
       this.$store.commit(SET_SECONDARY_NUMBER, this.secondaryNumber);
       this.$store.commit(SET_SECONDARY_LAST_NAME, this.secondaryLastName);
       this.$store.commit(SET_COMMENTS, this.comments);
-      this.files.forEach(x => (x.documentType = "AOPFORM"));
+      this.files.forEach((x) => (x.documentType = "AOPFORM"));
       this.$store.commit(SET_UPLOADED_FORMS, this.files);
-      this.credentials.forEach(x => (x.documentType = "AOPCREDENTIAL"));
+      this.credentials.forEach((x) => (x.documentType = "AOPCREDENTIAL"));
       this.$store.commit(SET_UPLOADED_CREDENTIALS, this.credentials);
 
       const path = routes.REVIEW.path;
@@ -1082,20 +1099,6 @@ export default {
     },
     resetCredentials() {
       this.credentials = [];
-    },
-  },
-  computed: {
-    uploadTitle() {
-      switch (this.uploadType) {
-        case "AOP":
-          return "Assignment of Payment";
-        case "COAOP":
-          return "Cancellation of Assignment of Payment";
-        case "OOPA":
-          return "Operator Payment Administration";
-        default:
-          return "";
-      }
     },
   },
 };
@@ -1149,5 +1152,4 @@ h6 {
     margin-right: 12px;
   }
 }
-
 </style>

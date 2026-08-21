@@ -8,5 +8,5 @@ export default {
       this.$router.push(path);
       scrollTo(0);
     }
-  }
+  },
 };
