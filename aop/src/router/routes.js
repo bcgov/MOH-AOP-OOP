@@ -5,7 +5,7 @@ import SendingPage from "../views/SendingPage.vue";
 import Confirmation from "../views/Confirmation.vue";
 import SubmissionError from "../views/SubmissionError.vue";
 import SessionEnd from "../views/SessionEnd.vue";
-import Maintenance from "../views/Maintenance.vue";
+import MaintenancePage from "../views/MaintenancePage.vue";
 
 export const routes = {
   SIGN_IN: {
@@ -54,7 +54,7 @@ export const routes = {
     path: "/maintenance",
     title: "Maintenance",
     name: "Maintenance",
-    component: Maintenance,
+    component: MaintenancePage,
   },
 };
 

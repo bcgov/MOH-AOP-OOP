@@ -16,7 +16,7 @@ import HeaderComponent from "../components/HeaderComponent";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 
 export default {
-  name: "Maintenance",
+  name: "MaintenancePage",
   components: {
     FooterComponent,
     HeaderComponent,
