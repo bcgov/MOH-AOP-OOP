@@ -6,19 +6,19 @@
       <hr />
       <p>{{ maintenanceMessage }}</p>
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import Header from "../components/Header";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 
 export default {
   name: "Maintenance",
   components: {
-    Footer,
+    FooterComponent,
     Header,
   },
   mixins: [FocusHeaderMixin],

@@ -7,7 +7,7 @@ import axios from "axios";
 const testStore = createStore({
   ...store,
   mutations: {
-    setLoading(state, payload) {
+    setLoading() {
       vi.fn();
     },
   },

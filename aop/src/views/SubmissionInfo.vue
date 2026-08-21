@@ -742,7 +742,7 @@
       </form>
     </main>
     <ContinueBar @continue="nextPage()" />
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
@@ -754,7 +754,7 @@ import ContinueBar from "../components/ContinueBar";
 import { InputComponent } from "common-lib-vue";
 import { maska } from "maska";
 import FileUploader from "../components/file-uploader/FileUploader.vue";
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import { required, minLength, alphaNum } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { routes, stepRoutes } from "../router/routes";
@@ -799,7 +799,7 @@ export default {
     FileUploader,
     InputComponent,
     Loader,
-    Footer,
+    FooterComponent,
   },
   directives: { maska },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],

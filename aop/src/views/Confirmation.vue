@@ -165,7 +165,7 @@
         @continue="newForm()"
       />
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
@@ -173,7 +173,7 @@
 import SignOutHeader from "../components/SignOutHeader";
 import Table from "../components/Table";
 import ContinueBar from "../components/ContinueBar";
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 import { NEW_FORM } from "../store/index";
@@ -187,7 +187,7 @@ export default {
     SignOutHeader,
     Table,
     ContinueBar,
-    Footer,
+    FooterComponent,
   },
   mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {

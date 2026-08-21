@@ -12,12 +12,12 @@
         </div>
       </div>
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import Header from "../components/Header";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
@@ -30,7 +30,7 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   name: "Sending",
   components: {
-    Footer,
+    FooterComponent,
     Header,
   },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],

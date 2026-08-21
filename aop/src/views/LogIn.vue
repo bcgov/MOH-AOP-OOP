@@ -42,7 +42,7 @@
         </p>
       </div>
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
@@ -51,7 +51,7 @@ import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import axios from "axios";
@@ -73,7 +73,7 @@ export default {
     ProgressBar,
     Loader,
     Button,
-    Footer,
+    FooterComponent,
   },
   mixins: [FocusHeaderMixin],
   data: () => {

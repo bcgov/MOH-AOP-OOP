@@ -12,12 +12,12 @@
       :button-label="'Back to log in'"
       @continue="navigateToSignIn"
     />
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import Header from "../components/Header";
 import ContinueBar from "../components/ContinueBar";
 import { routes } from "../router/routes";
@@ -27,7 +27,7 @@ import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 export default {
   name: "SessionEnd",
   components: {
-    Footer,
+    FooterComponent,
     Header,
     ContinueBar,
   },

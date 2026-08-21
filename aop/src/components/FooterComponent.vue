@@ -34,7 +34,7 @@
 import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
 import LinkElement from "./LinkElement.vue";
 export default {
-  name: "Footer",
+  name: "FooterComponent",
   components: {
     "link-element": LinkElement,
   },

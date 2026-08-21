@@ -73,7 +73,7 @@
         @continue="nextPage()"
       />
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
@@ -81,7 +81,7 @@
 import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
 import ContinueBar from "../components/ContinueBar";
-import Footer from "../components/Footer";
+import FooterComponent from "../components/FooterComponent";
 import Table from "../components/Table";
 import { scrollTo } from "../helpers/scroll";
 import SummaryMixin from "../mixins/SummaryMixin";
@@ -96,7 +96,7 @@ export default {
     ProgressBar,
     ContinueBar,
     Table,
-    Footer,
+    FooterComponent,
   },
   mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
