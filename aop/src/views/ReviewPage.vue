@@ -90,7 +90,7 @@ import { routes, stepRoutes } from "../router/routes";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 
 export default {
-  name: "Review",
+  name: "ReviewPage",
   components: {
     SignOutHeader,
     ProgressBar,

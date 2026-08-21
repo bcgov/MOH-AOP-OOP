@@ -1,6 +1,6 @@
 import LogIn from "../views/LogIn.vue";
 import SubmissionInfo from "../views/SubmissionInfo.vue";
-import Review from "../views/Review.vue";
+import ReviewPage from "../views/ReviewPage.vue";
 import SendingPage from "../views/SendingPage.vue";
 import Confirmation from "../views/Confirmation.vue";
 import SubmissionError from "../views/SubmissionError.vue";
@@ -24,7 +24,7 @@ export const routes = {
     path: "/review",
     title: "Review",
     name: "Review",
-    component: Review,
+    component: ReviewPage,
   },
   SENDING: {
     path: "/sending",

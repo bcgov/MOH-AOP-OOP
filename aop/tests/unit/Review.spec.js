@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils";
-import Review from "../../src/views/Review.vue";
+import ReviewPage from "../../src/views/ReviewPage.vue";
 import { createStore } from "vuex";
 import router from "../../src/router/index";
 import store from "../../src/store/index";
@@ -13,10 +13,10 @@ vi.mock("@/helpers/scroll", () => ({
   scrollToError: vi.fn(),
 }));
 
-describe("Review.vue", () => {
+describe("ReviewPage.vue", () => {
   // This is a Shallow Mount as opposed to a regular mount because this test only checks for rendering
   it("renders", () => {
-    const wrapper = shallowMount(Review, {
+    const wrapper = shallowMount(ReviewPage, {
       global: {
         plugins: [router, testStore],
         stubs: {
