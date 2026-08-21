@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Maintenance mode</h1>
       <hr />
@@ -12,14 +12,14 @@
 
 <script>
 import FooterComponent from "../components/FooterComponent";
-import Header from "../components/Header";
+import HeaderComponent from "../components/HeaderComponent";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 
 export default {
   name: "Maintenance",
   components: {
     FooterComponent,
-    Header,
+    HeaderComponent,
   },
   mixins: [FocusHeaderMixin],
   data: () => {

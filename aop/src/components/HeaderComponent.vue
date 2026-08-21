@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: "Header",
+  name: "HeaderComponent",
   props: {
     heading: {
       type: String,

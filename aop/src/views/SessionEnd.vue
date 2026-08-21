@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Secure session ended</h1>
       <p>
@@ -18,7 +18,7 @@
 
 <script>
 import FooterComponent from "../components/FooterComponent";
-import Header from "../components/Header";
+import HeaderComponent from "../components/HeaderComponent";
 import ContinueBar from "../components/ContinueBar";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
@@ -28,7 +28,7 @@ export default {
   name: "SessionEnd",
   components: {
     FooterComponent,
-    Header,
+    HeaderComponent,
     ContinueBar,
   },
   mixins: [FocusHeaderMixin],

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1 class="text-center">Sending application</h1>
       <div class="text-center">
@@ -18,7 +18,7 @@
 
 <script>
 import FooterComponent from "../components/FooterComponent";
-import Header from "../components/Header";
+import HeaderComponent from "../components/HeaderComponent";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { log } from "../services/logging-service";
@@ -31,7 +31,7 @@ export default {
   name: "Sending",
   components: {
     FooterComponent,
-    Header,
+    HeaderComponent,
   },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <ProgressBar
       :routes="stepRoutes"
       :current-path="$route.path"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import HeaderComponent from "../components/HeaderComponent";
 import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
@@ -69,7 +69,7 @@ import settings from "../settings";
 export default {
   name: "LogIn",
   components: {
-    Header,
+    HeaderComponent,
     ProgressBar,
     Loader,
     Button,
