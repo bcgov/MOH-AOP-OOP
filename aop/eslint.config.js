@@ -3,6 +3,7 @@ import pluginJs from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
 import pluginCypress from "eslint-plugin-cypress";
 import compat from "eslint-plugin-compat";
+import vitest from "@vitest/eslint-plugin";
 
 export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } }, //eslint formatting for Node vs browser properties
@@ -14,6 +15,9 @@ export default [
     files: ["**/*.{js,ts,jsx,tsx,mjs,cjs,vue}"],
     languageOptions: {
       ecmaVersion: "latest",
+      globals: {
+        ...vitest.environments.env.globals,
+      },
     },
     rules: {
       "no-unused-vars": "warn",
