@@ -26,7 +26,7 @@
 
         <h2 class="mt-4">Submitter information</h2>
         <hr />
-        <Table :elements="submitterData" />
+        <TableComponent :elements="submitterData" />
 
         <h2 class="mt-4">Information about this submission</h2>
         <hr />
@@ -62,11 +62,11 @@
             </div>
           </div>
         </div>
-        <Table :elements="submissionData" />
+        <TableComponent :elements="submissionData" />
 
         <h2 class="mt-4">Supporting documents</h2>
         <hr />
-        <Table :elements="supportingDocuments" />
+        <TableComponent :elements="supportingDocuments" />
       </div>
       <ContinueBar
         :button-label="'Submit'"
@@ -82,7 +82,7 @@ import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
 import ContinueBar from "../components/ContinueBar";
 import FooterComponent from "../components/FooterComponent";
-import Table from "../components/Table";
+import TableComponent from "../components/TableComponent";
 import { scrollTo } from "../helpers/scroll";
 import SummaryMixin from "../mixins/SummaryMixin";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
@@ -95,7 +95,7 @@ export default {
     SignOutHeader,
     ProgressBar,
     ContinueBar,
-    Table,
+    TableComponent,
     FooterComponent,
   },
   mixins: [SummaryMixin, FocusHeaderMixin, NoNameLogoutMixin],

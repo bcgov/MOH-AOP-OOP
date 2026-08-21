@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "Table",
+  name: "TableComponent",
   components: {},
   props: {
     elements: Array,

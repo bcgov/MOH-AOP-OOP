@@ -118,7 +118,7 @@
 
         <h2 class="mt-4">Submitter information</h2>
         <hr />
-        <Table :elements="submitterData" />
+        <TableComponent :elements="submitterData" />
 
         <h2 class="mt-4">Information about this submission</h2>
         <hr />
@@ -154,11 +154,11 @@
             </div>
           </div>
         </div>
-        <Table :elements="submissionData" />
+        <TableComponent :elements="submissionData" />
 
         <h2 class="mt-4">Supporting documents</h2>
         <hr />
-        <Table :elements="supportingDocuments" />
+        <TableComponent :elements="supportingDocuments" />
       </div>
       <ContinueBar
         :button-label="'New form'"
@@ -171,7 +171,7 @@
 
 <script>
 import SignOutHeader from "../components/SignOutHeader";
-import Table from "../components/Table";
+import TableComponent from "../components/TableComponent";
 import ContinueBar from "../components/ContinueBar";
 import FooterComponent from "../components/FooterComponent";
 import { routes } from "../router/routes";
@@ -185,7 +185,7 @@ export default {
   name: "Confirmation",
   components: {
     SignOutHeader,
-    Table,
+    TableComponent,
     ContinueBar,
     FooterComponent,
   },
