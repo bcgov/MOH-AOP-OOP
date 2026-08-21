@@ -205,20 +205,20 @@
           <p>
             Provide details below about the person submitting the form (clerk, administrator, etc.)
           </p>
-          <Input
+          <InputComponent
             v-model="firstName"
             :label="'First name'"
             :disabled="true"
             :input-style="mediumStyles"
           />
-          <Input
+          <InputComponent
             v-model="lastName"
             :label="'Last name'"
             :class-name="'mt-3'"
             :disabled="true"
             :input-style="mediumStyles"
           />
-          <Input
+          <InputComponent
             id="email"
             v-model="emailAddress"
             :label="'Email address'"
@@ -288,7 +288,7 @@
             v-if="uploadType === 'AOP' || uploadType === 'COAOP'"
             class="mb-3"
           >
-            <Input
+            <InputComponent
               id="organization"
               v-model="organization"
               :label="'Organization'"
@@ -322,7 +322,7 @@
             v-if="uploadType === 'OOPA'"
             class="mb-3"
           >
-            <Input
+            <InputComponent
               id="facility"
               v-model="facility"
               :label="'Facility name'"
@@ -395,7 +395,7 @@
           </div>
 
           <div v-if="uploadType === 'AOP' || uploadType === 'COAOP'">
-            <Input
+            <InputComponent
               id="practitioner-number"
               v-model="primaryNumber"
               :label="'Practitioner number'"
@@ -431,7 +431,7 @@
               Invalid practitioner number
             </div>
 
-            <Input
+            <InputComponent
               id="practitioner-last-name"
               v-model="primaryLastName"
               :label="'Practitioner last name'"
@@ -462,7 +462,7 @@
           </div>
 
           <div v-if="uploadType === 'OOPA'">
-            <Input
+            <InputComponent
               id="primary-practitioner-number"
               v-model="primaryNumber"
               :label="'Primary practitioner number'"
@@ -498,7 +498,7 @@
               Invalid primary practitioner number
             </div>
 
-            <Input
+            <InputComponent
               id="primary-last-name"
               v-model="primaryLastName"
               :label="'Primary practitioner last name'"
@@ -527,7 +527,7 @@
               Invalid primary practitioner last name
             </div>
 
-            <Input
+            <InputComponent
               v-model="secondaryNumber"
               :label="'Secondary practitioner number (optional)'"
               :class-name="'mt-3'"
@@ -566,7 +566,7 @@
               name
             </div>
 
-            <Input
+            <InputComponent
               v-model="secondaryLastName"
               :label="'Secondary practitioner last name (optional)'"
               :class-name="'mt-3'"
@@ -797,7 +797,7 @@ export default {
     ProgressBar,
     ContinueBar,
     FileUploader,
-    Input: InputComponent,
+    InputComponent,
     Loader,
     Footer,
   },
