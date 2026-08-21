@@ -21,7 +21,7 @@
       <div class="card">
         <h3>Diagnostic Services secure upload tool - log in</h3>
         <Loader v-if="$store.state.loading" />
-        <Button
+        <ButtonComponent
           v-else
           label="Log in with your mobile BC Services Card"
           styling="bcgov-normal-blue btn"
@@ -50,7 +50,7 @@
 import HeaderComponent from "../components/HeaderComponent";
 import ProgressBar from "../components/ProgressBar";
 import Loader from "../components/Loader";
-import Button from "../components/Button";
+import ButtonComponent from "../components/ButtonComponent";
 import FooterComponent from "../components/FooterComponent";
 import { stepRoutes, routes } from "../router/routes";
 import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
@@ -72,7 +72,7 @@ export default {
     HeaderComponent,
     ProgressBar,
     Loader,
-    Button,
+    ButtonComponent,
     FooterComponent,
   },
   mixins: [FocusHeaderMixin],

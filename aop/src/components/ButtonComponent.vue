@@ -20,7 +20,7 @@
 import Loader from "./Loader.vue";
 
 export default {
-  name: "Button",
+  name: "ButtonComponent",
   components: {
     Loader,
   },

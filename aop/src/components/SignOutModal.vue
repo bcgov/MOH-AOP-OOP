@@ -24,12 +24,12 @@
             <p>All progress in this session will be lost.</p>
           </div>
           <div class="modal-footer">
-            <Button
+            <ButtonComponent
               label="Cancel"
               styling="bcgov-normal-blue btn"
               @button-click="continueSession"
             />
-            <Button
+            <ButtonComponent
               label="Log out"
               styling="bcgov-normal-blue btn"
               @button-click="endSession"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Button from "./Button";
+import ButtonComponent from "./ButtonComponent";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 import { HIDE_SIGN_OUT_MODAL, RESET_FORM } from "../store";
@@ -50,7 +50,7 @@ import { HIDE_SIGN_OUT_MODAL, RESET_FORM } from "../store";
 export default {
   name: "SignOutModal",
   components: {
-    Button,
+    ButtonComponent,
   },
   props: {
     heading: String,

@@ -28,12 +28,12 @@
             </p>
           </div>
           <div class="modal-footer">
-            <Button
+            <ButtonComponent
               label="Continue"
               styling="bcgov-normal-blue btn"
               @button-click="continueSession"
             />
-            <Button
+            <ButtonComponent
               label="End session"
               styling="bcgov-normal-blue btn"
               @button-click="endSession"
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Button from "./Button";
+import ButtonComponent from "./ButtonComponent";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
 import { RESET_FORM } from "../store";
@@ -54,7 +54,7 @@ import { RESET_FORM } from "../store";
 export default {
   name: "TimeoutModal",
   components: {
-    Button,
+    ButtonComponent,
   },
   props: {
     heading: String,

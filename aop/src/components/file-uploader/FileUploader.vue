@@ -13,7 +13,7 @@
         autocomplete="off"
         @change="handleChangeFile($event)"
       />
-      <Button
+      <ButtonComponent
         label="Select a file"
         :styling="buttonStyles"
         :disabled="modelValue && modelValue.length > 0"
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import Button from "../Button.vue";
+import ButtonComponent from "../ButtonComponent.vue";
 import * as PDFJS from "pdfjs-dist/legacy/build/pdf.mjs";
 //the legacy worker build includes a polyfill for Promise.withResolvers
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
@@ -76,7 +76,7 @@ const JPEG_COMPRESSION = 0.8;
 export default {
   name: "FileUploader",
   components: {
-    Button,
+    ButtonComponent,
   },
   props: {
     modelValue: {
