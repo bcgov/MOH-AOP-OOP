@@ -20,7 +20,7 @@
       <hr />
       <div class="card">
         <h3>Diagnostic Services secure upload tool - log in</h3>
-        <Loader v-if="$store.state.loading" />
+        <LoaderComponent v-if="$store.state.loading" />
         <ButtonComponent
           v-else
           label="Log in with your mobile BC Services Card"
@@ -49,7 +49,7 @@
 <script>
 import HeaderComponent from "../components/HeaderComponent";
 import ProgressBar from "../components/ProgressBar";
-import Loader from "../components/Loader";
+import LoaderComponent from "../components/LoaderComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import FooterComponent from "../components/FooterComponent";
 import { stepRoutes, routes } from "../router/routes";
@@ -71,7 +71,7 @@ export default {
   components: {
     HeaderComponent,
     ProgressBar,
-    Loader,
+    LoaderComponent,
     ButtonComponent,
     FooterComponent,
   },

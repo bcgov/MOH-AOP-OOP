@@ -9,7 +9,7 @@
 // import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
 
 export default {
-  name: "Loader",
+  name: "LoaderComponent",
   props: {
     page: {
       type: Boolean,

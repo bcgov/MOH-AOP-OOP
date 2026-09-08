@@ -11,18 +11,18 @@
       v-if="hasLoader"
       class="bcgov-loader-show"
     >
-      <Loader />
+      <LoaderComponent />
     </div>
   </button>
 </template>
 
 <script>
-import Loader from "./Loader.vue";
+import LoaderComponent from "./LoaderComponent.vue";
 
 export default {
   name: "ButtonComponent",
   components: {
-    Loader,
+    LoaderComponent,
   },
   props: {
     label: {

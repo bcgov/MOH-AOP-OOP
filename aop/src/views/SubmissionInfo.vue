@@ -5,7 +5,7 @@
       :routes="stepRoutes"
       :current-path="$route.path"
     />
-    <Loader v-if="$store.state.loading" />
+    <LoaderComponent v-if="$store.state.loading" />
     <main v-else>
       <form class="container py-5 px-2">
         <h1>Select a form</h1>
@@ -749,7 +749,7 @@
 <script>
 import SignOutHeader from "../components/SignOutHeader";
 import ProgressBar from "../components/ProgressBar";
-import Loader from "../components/Loader";
+import LoaderComponent from "../components/LoaderComponent";
 import ContinueBar from "../components/ContinueBar";
 import { InputComponent } from "common-lib-vue";
 import { maska } from "maska";
@@ -798,7 +798,7 @@ export default {
     ContinueBar,
     FileUploader,
     InputComponent,
-    Loader,
+    LoaderComponent,
     FooterComponent,
   },
   directives: { maska },
