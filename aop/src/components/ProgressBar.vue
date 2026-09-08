@@ -92,8 +92,14 @@ export default {
   name: "ProgressBar",
   components: {},
   props: {
-    currentPath: String,
-    routes: Array,
+    currentPath: {
+      type: String,
+      default: null
+    },
+    routes: {
+      type: Array,
+      default: null
+    }
   },
   computed: {
     hideMobileStep() {
