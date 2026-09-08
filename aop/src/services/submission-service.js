@@ -124,15 +124,19 @@ const trimPhone = (ph) => {
 
 // JSON escape
 const escapeSpecialChar = (str) => {
-  return str
-    .replace(/[\\]/g, "")
-    .replace(/[\"]/g, "")
-    .replace(/[\/]/g, "")
-    .replace(/[\b]/g, "")
-    .replace(/[\f]/g, "")
-    .replace(/[\n]/g, "")
-    .replace(/[\r]/g, "")
-    .replace(/[\t]/g, "");
+  return (
+    str
+      .replace(/[\\]/g, "")
+      // eslint-disable-next-line no-useless-escape
+      .replace(/[\"]/g, "")
+      // eslint-disable-next-line no-useless-escape
+      .replace(/[\/]/g, "")
+      .replace(/[\b]/g, "")
+      .replace(/[\f]/g, "")
+      .replace(/[\n]/g, "")
+      .replace(/[\r]/g, "")
+      .replace(/[\t]/g, "")
+  );
 };
 
 // get AOP data ready for submission
