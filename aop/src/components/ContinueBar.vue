@@ -28,6 +28,7 @@ export default {
       default: "Continue",
     },
   },
+  emits: ["continue"],
   methods: {
     onContinue() {
       this.$emit("continue");
