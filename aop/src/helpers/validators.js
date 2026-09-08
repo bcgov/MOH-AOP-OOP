@@ -1,4 +1,5 @@
 export const isValidPhone = (ph) => {
+  //eslint-disable-next-line no-useless-escape
   return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(ph);
 };
 
