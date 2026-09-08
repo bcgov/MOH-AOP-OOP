@@ -62,6 +62,7 @@ export default {
       type: String
     },
   },
+  emits: ["close"],
   data: () => {
     return {
       secondsRemaining: 120,
