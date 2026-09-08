@@ -30,6 +30,14 @@ export default {
       showSignOut: false,
     };
   },
+  computed: mapState(["showSignOutModal"]),
+  watch: {
+    showSignOutModal(newVal) {
+      if (newVal === true) {
+        this.showSignOut = true;
+      }
+    },
+  },
   created() {
     const self = this;
     const idle = new IdleJs({
@@ -40,14 +48,6 @@ export default {
     });
 
     idle.start();
-  },
-  computed: mapState(["showSignOutModal"]),
-  watch: {
-    showSignOutModal(newVal) {
-      if (newVal === true) {
-        this.showSignOut = true;
-      }
-    },
   },
   methods: {
     handleModalClose() {
