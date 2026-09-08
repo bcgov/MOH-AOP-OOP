@@ -18,7 +18,10 @@ export default {
   name: "TableComponent",
   components: {},
   props: {
-    elements: Array,
+    elements: {
+      type: Array,
+      default: null,
+    },
   },
 };
 </script>
