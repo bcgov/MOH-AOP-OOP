@@ -182,7 +182,7 @@ import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 
 export default {
-  name: "Confirmation",
+  name: "ConfirmationPage",
   components: {
     SignOutHeader,
     TableComponent,

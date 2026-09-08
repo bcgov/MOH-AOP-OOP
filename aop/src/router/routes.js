@@ -2,7 +2,7 @@ import LogIn from "../views/LogIn.vue";
 import SubmissionInfo from "../views/SubmissionInfo.vue";
 import ReviewPage from "../views/ReviewPage.vue";
 import SendingPage from "../views/SendingPage.vue";
-import Confirmation from "../views/Confirmation.vue";
+import ConfirmationPage from "../views/ConfirmationPage.vue";
 import SubmissionError from "../views/SubmissionError.vue";
 import SessionEnd from "../views/SessionEnd.vue";
 import MaintenancePage from "../views/MaintenancePage.vue";
@@ -36,7 +36,7 @@ export const routes = {
     path: "/confirmation",
     title: "Confirmation",
     name: "Confirmation",
-    component: Confirmation,
+    component: ConfirmationPage,
   },
   SUBMISSION_ERROR: {
     path: "/submission-error",
