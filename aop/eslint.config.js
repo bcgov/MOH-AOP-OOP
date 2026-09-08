@@ -20,7 +20,12 @@ export default [
       },
     },
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": [
+        "warn",
+        {
+          caughtErrors: "none", //prevents eslint errors on catch block error arguments
+        },
+      ],
       "vue/singleline-html-element-content-newline": "off",
       "vue/html-self-closing": "off",
       "vue/html-indent": "off",
