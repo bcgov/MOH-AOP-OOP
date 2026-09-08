@@ -26,6 +26,7 @@ export default [
           caughtErrors: "none", //prevents eslint errors on catch block error arguments
         },
       ],
+      "no-useless-escape": ["error", { allowRegexCharacters: ["+"] }],
       "vue/singleline-html-element-content-newline": "off",
       "vue/html-self-closing": "off",
       "vue/html-indent": "off",
