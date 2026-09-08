@@ -57,7 +57,10 @@ export default {
     ButtonComponent,
   },
   props: {
-    heading: String,
+    heading: {
+      default: null,
+      type: String
+    },
   },
   data: () => {
     return {
