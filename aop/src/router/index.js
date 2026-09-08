@@ -4,7 +4,7 @@ import { routes } from "./routes";
 
 // Determine if back or forward nav buttons have been pressed
 let navPushed = false;
-window.onpopstate = function (event) {
+window.onpopstate = function () {
   navPushed = true;
 };
 
