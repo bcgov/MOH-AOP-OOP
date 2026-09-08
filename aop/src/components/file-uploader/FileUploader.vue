@@ -64,7 +64,7 @@ import "mdn-polyfills/MouseEvent";
 import "mdn-polyfills/HTMLCanvasElement.prototype.toBlob";
 import "../../polyfills/DOMMatrix";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 const MIN_IMAGE_SIZE_BYTES = 20000;
 const MAX_IMAGE_SIZE_BYTES = 1048576;
