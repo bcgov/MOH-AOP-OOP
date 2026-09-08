@@ -58,6 +58,7 @@ export default {
       default: null,
     }
   },
+  emits: ["close"],
   data: () => {
     return {
       secondsRemaining: 120,
