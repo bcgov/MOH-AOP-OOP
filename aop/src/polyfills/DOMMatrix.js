@@ -464,6 +464,7 @@
         setNumber2D(this, C, init[i++]);
         setNumber2D(this, D, init[i++]);
         setNumber2D(this, E, init[i++]);
+        //eslint-disable-next-line no-useless-assignment
         setNumber2D(this, F, init[i++]);
       } else if (init && init.length === 16) {
         setNumber2D(this, M11, init[i++]);
