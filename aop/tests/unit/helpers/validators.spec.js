@@ -49,11 +49,11 @@ describe("isValidEmail", () => {
     expect(response).toEqual(false);
   });
   it("returns false when called with an incorrectly formatted email address (with commas)", () => {
-    const response = isValidEmail("foobar#foobar,com");
+    const response = isValidEmail("foobar@foobar,com");
     expect(response).toEqual(false);
   });
   it("returns false when called with an incorrectly formatted email address (extra period in domain)", () => {
-    const response = isValidEmail("foobar@.foober.com");
+    const response = isValidEmail("foobar@.foobar.com");
     expect(response).toEqual(false);
   });
   it("returns false when called with an incorrectly formatted email address (extra period in address)", () => {
