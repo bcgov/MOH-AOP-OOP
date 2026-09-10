@@ -4,5 +4,5 @@ export default {
     if (headers[0]) {
       headers[0].focus();
     }
-  }
+  },
 };

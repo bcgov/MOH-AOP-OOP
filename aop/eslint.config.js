@@ -1,0 +1,38 @@
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginVue from "eslint-plugin-vue";
+import pluginCypress from "eslint-plugin-cypress";
+import compat from "eslint-plugin-compat";
+import vitest from "@vitest/eslint-plugin";
+
+export default [
+  { languageOptions: { globals: { ...globals.browser, ...globals.node } } }, //eslint formatting for Node vs browser properties
+  pluginJs.configs.recommended, //eslint formatting for basic Javascript syntax
+  ...pluginVue.configs["flat/recommended"], //eslint formatting for Vue components
+  pluginCypress.configs.globals, //eslint formatting for Cypress syntax
+  compat.configs["flat/recommended"], //compatibility with browsers listed in package.json
+  {
+    files: ["**/*.{js,ts,jsx,tsx,mjs,cjs,vue}"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      globals: {
+        ...vitest.environments.env.globals,
+      },
+    },
+    rules: {
+      "no-unused-vars": [
+        "warn",
+        {
+          caughtErrors: "none", //prevents eslint errors on catch block error arguments
+        },
+      ],
+      "no-useless-escape": ["error", { allowRegexCharacters: ["+"] }],
+      "vue/singleline-html-element-content-newline": "off",
+      "vue/html-self-closing": "off",
+      "vue/html-indent": "off",
+    },
+  },
+  {
+    ignores: ["**/coverage/*", "**/dist/*", "**/.husky/"],
+  },
+];

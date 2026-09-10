@@ -12,12 +12,18 @@
 </template>
 
 <script>
-  import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
-  export default {
-    name: 'LinkElement',
-    props: {
-      url: String,
-      label: String,
+import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
+export default {
+  name: "LinkElement",
+  props: {
+    url: {
+      type: String,
+      default: null
+    },
+    label: {
+      type: String,
+      default: null
     }
-  }
+  },
+};
 </script>

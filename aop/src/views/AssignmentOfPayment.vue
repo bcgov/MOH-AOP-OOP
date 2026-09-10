@@ -1,8 +1,14 @@
 <template>
   <div>
     <router-view></router-view>
-    <TimeoutModal v-if="showTimeout" v-on:close="handleModalClose"/>
-    <SignOutModal v-if="showSignOut" v-on:close="handleModalClose"/>
+    <TimeoutModal
+      v-if="showTimeout"
+      @close="handleModalClose"
+    />
+    <SignOutModal
+      v-if="showSignOut"
+      @close="handleModalClose"
+    />
   </div>
 </template>
 
@@ -24,6 +30,14 @@ export default {
       showSignOut: false,
     };
   },
+  computed: mapState(["showSignOutModal"]),
+  watch: {
+    showSignOutModal(newVal) {
+      if (newVal === true) {
+        this.showSignOut = true;
+      }
+    },
+  },
   created() {
     const self = this;
     const idle = new IdleJs({
@@ -31,23 +45,15 @@ export default {
       onIdle() {
         self.showTimeout = true;
       },
-    })
+    });
 
     idle.start();
-  },
-  computed: mapState(['showSignOutModal']),
-  watch: {
-    showSignOutModal(newVal) {
-      if (newVal === true) {
-        this.showSignOut = true;
-      }
-    }
   },
   methods: {
     handleModalClose() {
       this.showTimeout = false;
       this.showSignOut = false;
-    }
-  }
+    },
+  },
 };
 </script>

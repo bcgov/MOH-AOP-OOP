@@ -21,17 +21,15 @@ describe("Full AOP application flow (HLTH1926, COAOP)", () => {
     cy.get("input#files").selectFile(samplePDF, { force: true });
     //after it loads, the page will add a "remove" button to remove the file
     //when this element is added, we know the file has finished uploading
-    cy.get('[class*="remove ml-2"]', { timeout: 30000 })
-      .first()
-      .should("exist");
+    cy.get('[class*="remove ml-2"]', { timeout: 30000 }).first().should("exist");
   });
 
   it("Clears/Enters data)", () => {
-    cy.get("[id='email']").clear()
+    cy.get("[id='email']").clear();
     cy.get("[id='email']").type("a@a.com");
-    cy.get("[id='phone']").clear()
+    cy.get("[id='phone']").clear();
     cy.get("[id='phone']").type("2505551234");
-    cy.get("[id='practitioner-number']").clear()
+    cy.get("[id='practitioner-number']").clear();
     cy.get("[id='practitioner-number']").type("A1234");
     cy.get("[id='practitioner-last-name']").clear();
     cy.get("[id='practitioner-last-name']").type("A");

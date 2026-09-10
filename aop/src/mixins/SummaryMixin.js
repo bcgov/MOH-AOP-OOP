@@ -4,7 +4,7 @@ export default {
       selectedForm: "",
       submitterData: [],
       submissionData: [],
-      supportingDocuments: []
+      supportingDocuments: [],
     };
   },
   created() {
@@ -30,7 +30,7 @@ export default {
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
         { name: "Phone Extension:", value: this.$store.state.phoneExtension },
-        { name: "Organization:", value: this.$store.state.organization }
+        { name: "Organization:", value: this.$store.state.organization },
       ];
     } else {
       this.submitterData = [
@@ -39,7 +39,7 @@ export default {
         { name: "Email Address:", value: this.$store.state.emailAddress },
         { name: "Phone Number:", value: this.$store.state.phoneNumber },
         { name: "Phone Extension:", value: this.$store.state.phoneExtension },
-        { name: "Facility Name:", value: this.$store.state.facility }
+        { name: "Facility Name:", value: this.$store.state.facility },
       ];
     }
 
@@ -47,7 +47,7 @@ export default {
       this.submissionData = [
         { name: "Practitioner Number:", value: this.$store.state.primaryNumber },
         { name: "Practitioner Last Name:", value: this.$store.state.primaryLastName },
-        { name: "Comments:", value: this.$store.state.comments }
+        { name: "Comments:", value: this.$store.state.comments },
       ];
     } else {
       this.submissionData = [
@@ -55,25 +55,25 @@ export default {
         { name: "Primary Practitioner Last Name:", value: this.$store.state.primaryLastName },
         { name: "Secondary Practitioner Number:", value: this.$store.state.secondaryNumber },
         { name: "Secondary Practitioner Last Name:", value: this.$store.state.secondaryLastName },
-        { name: "Comments:", value: this.$store.state.comments }
-      ]
+        { name: "Comments:", value: this.$store.state.comments },
+      ];
     }
 
     if (this.$store.state.uploadType === "AOP") {
-      const label = this.$store.state.uploadedForms[0].name.slice(0, -7); 
-      this.supportingDocuments = [ { name: 'HLTH 1908 Form:', value: label} ];
+      const label = this.$store.state.uploadedForms[0].name.slice(0, -7);
+      this.supportingDocuments = [{ name: "HLTH 1908 Form:", value: label }];
     } else if (this.$store.state.uploadType === "COAOP") {
       const label = this.$store.state.uploadedForms[0].name.slice(0, -7);
-      this.supportingDocuments = [ { name: 'HLTH 1926 Form:', value: label } ];
+      this.supportingDocuments = [{ name: "HLTH 1926 Form:", value: label }];
     } else if (this.$store.state.uploadType === "OOPA") {
       const label = this.$store.state.uploadedForms[0].name.slice(0, -7);
-      this.supportingDocuments = [ { name: 'HLTH 2999 Form:', value: label } ];
+      this.supportingDocuments = [{ name: "HLTH 2999 Form:", value: label }];
     }
 
     if (this.$store.state.uploadedCredentials && this.$store.state.uploadedCredentials.length > 0) {
       const label = this.$store.state.uploadedCredentials[0].name.slice(0, -7);
-      const credentials = [ { name: "Credentials Document:", value: label } ];
+      const credentials = [{ name: "Credentials Document:", value: label }];
       this.supportingDocuments = [...this.supportingDocuments, ...credentials];
     }
-  }
+  },
 };

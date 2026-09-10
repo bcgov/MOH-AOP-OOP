@@ -17,13 +17,14 @@ export const log = (logItem, uuid, refNumber) => {
   const options = { headers: headers, responseType: "text" };
 
   const body = {
-    body: logItem
+    body: logItem,
   };
 
-  axios.post(baseUrl, body, options)
+  axios
+    .post(baseUrl, body, options)
     // Use below then for troubleshooting if needed
     .then(() => {})
-    .catch(err => {
-      console.log('Logging error:', err);
+    .catch((err) => {
+      console.log("Logging error:", err);
     });
 };
