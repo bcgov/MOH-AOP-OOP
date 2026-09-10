@@ -29,16 +29,13 @@ import { secrets } from "./secrets.js";
 
 Cypress.Commands.add("navigateLogin", () => {
   cy.get(".bcgov-button").click();
-  if (
-    Cypress.expose("environment") === "test" ||
-    Cypress.expose("environment") === "dev"
-  ) {
+  if (Cypress.expose("environment") === "test" || Cypress.expose("environment") === "dev") {
     console.log("dev/test environment, extra login steps required");
     expect(secrets).to.not.be.undefined;
 
     expect(secrets.username.length).to.be.greaterThan(
       3,
-      "BCSC login secrets not found-- add them to cypress/support/secrets.js to proceed",
+      "BCSC login secrets not found-- add them to cypress/support/secrets.js to proceed"
     );
     expect(secrets.password.length).to.be.greaterThan(3);
 

@@ -1,8 +1,8 @@
 import App from "./App.vue";
-import { createApp } from 'vue';
+import { createApp } from "vue";
 import router from "./router";
 import store from "./store";
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faArrowLeft,
   faArrowRight,
@@ -15,10 +15,9 @@ import {
   faInfoCircle,
   faSignOutAlt,
   faChevronDown,
-  faChevronUp
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
+  faChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 // Font awesome config
 library.add(faArrowLeft);
@@ -37,10 +36,6 @@ library.add(faChevronUp);
 const app = createApp({
   router,
   ...App,
-})
+});
 
-app
-  .use(store)
-  .use(router)
-  .component("font-awesome-icon", FontAwesomeIcon)
-  .mount('#app');
+app.use(store).use(router).component("font-awesome-icon", FontAwesomeIcon).mount("#app");

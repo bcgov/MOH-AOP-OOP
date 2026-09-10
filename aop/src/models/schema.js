@@ -1,178 +1,160 @@
 export const schema = {
-  $id: 'AOPApplication.schema.json',
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  version: '1.0.0',
+  $id: "AOPApplication.schema.json",
+  $schema: "http://json-schema.org/draft-07/schema#",
+  version: "1.0.0",
   definitions: {
     UploadTypeType: {
-      type: 'string',
-      enum: [
-        'AOP',
-        'COAOP',
-        'OOPA'
-      ]
+      type: "string",
+      enum: ["AOP", "COAOP", "OOPA"],
     },
     CredentialsRequiredType: {
-      type: 'boolean',
+      type: "boolean",
     },
     FirstNameType: {
-      type: 'string',
+      type: "string",
     },
     LastNameType: {
-      type: 'string',
+      type: "string",
     },
     EmailAddressType: {
-      type: 'string',
+      type: "string",
     },
     PhoneNumberType: {
-      type: 'string',
-      pattern: '^([0-9]{10})$'
+      type: "string",
+      pattern: "^([0-9]{10})$",
     },
     OrganizationType: {
-      type: 'string',
+      type: "string",
     },
     FacilityType: {
-      type: 'string',
+      type: "string",
     },
     SubmissionTypeType: {
-      type: 'string',
+      type: "string",
     },
     PrimaryNumberType: {
-      type: 'string',
+      type: "string",
     },
     PrimaryLastNameType: {
-      type: 'string',
+      type: "string",
     },
     SecondaryNumberType: {
-      type: 'string',
+      type: "string",
     },
     SecondaryLastNameType: {
-      type: 'string',
+      type: "string",
     },
     CommentsType: {
-      type: 'string',
+      type: "string",
     },
     ContentType: {
-      type: 'string',
-      enum: [
-        'image/jpeg',
-        'application/pdf'
-      ]
+      type: "string",
+      enum: ["image/jpeg", "application/pdf"],
     },
     AttachmentUuidsType: {
-      type: 'array',
+      type: "array",
       items: {
-        type: 'string'
+        type: "string",
       },
-      minItems: 1
+      minItems: 1,
     },
     AssignmentOfPaymentType: {
-      type: 'object',
+      type: "object",
       properties: {
         uploadType: {
-          $ref: '#/definitions/UploadTypeType'
+          $ref: "#/definitions/UploadTypeType",
         },
         credentialsRequired: {
-          $ref: '#/definitions/CredentialsRequiredType'
+          $ref: "#/definitions/CredentialsRequiredType",
         },
         firstName: {
-          $ref: '#/definitions/FirstNameType'
+          $ref: "#/definitions/FirstNameType",
         },
         lastName: {
-          $ref: '#/definitions/LastNameType'
+          $ref: "#/definitions/LastNameType",
         },
         emailAddress: {
-          $ref: '#/definitions/EmailAddressType'
+          $ref: "#/definitions/EmailAddressType",
         },
         phoneNumber: {
-          $ref: '#/definitions/PhoneNumberType'
+          $ref: "#/definitions/PhoneNumberType",
         },
         organization: {
-          $ref: '#/definitions/OrganizationType'
+          $ref: "#/definitions/OrganizationType",
         },
         facility: {
-          $ref: '#/definitions/FacilityType'
+          $ref: "#/definitions/FacilityType",
         },
         submissionType: {
-          $ref: '#/definitions/SubmissionTypeType'
+          $ref: "#/definitions/SubmissionTypeType",
         },
         primaryNumber: {
-          $ref: '#/definitions/PrimaryNumberType'
+          $ref: "#/definitions/PrimaryNumberType",
         },
         primaryLastName: {
-          $ref: '#/definitions/PrimaryLastNameType'
+          $ref: "#/definitions/PrimaryLastNameType",
         },
         secondaryNumber: {
-          $ref: '#/definitions/SecondaryNumberType'
+          $ref: "#/definitions/SecondaryNumberType",
         },
         secondaryLastName: {
-          $ref: '#/definitions/SecondaryLastNameType'
+          $ref: "#/definitions/SecondaryLastNameType",
         },
         comments: {
-          $ref: '#/definitions/CommentsType'
-        }
+          $ref: "#/definitions/CommentsType",
+        },
       },
       required: [
-        'uploadType',
-        'credentialsRequired',
-        'firstName',
-        'lastName',
-        'emailAddress',
-        'phoneNumber',
-        'primaryNumber',
-        'primaryLastName'
-      ]
+        "uploadType",
+        "credentialsRequired",
+        "firstName",
+        "lastName",
+        "emailAddress",
+        "phoneNumber",
+        "primaryNumber",
+        "primaryLastName",
+      ],
     },
     AttachmentType: {
-      type: 'object',
+      type: "object",
       properties: {
         attachmentDocumentType: {
-          type: 'string',
-          enum: [
-            'AOPFORM',
-            'AOPCREDENTIAL'
-          ]
+          type: "string",
+          enum: ["AOPFORM", "AOPCREDENTIAL"],
         },
         attachmentUuid: {
-          type: 'string'
+          type: "string",
         },
         attachmentOrder: {
-          type: 'string'
+          type: "string",
         },
         description: {
-          type: 'string'
-        }
+          type: "string",
+        },
       },
-      required: [
-        'attachmentDocumentType',
-        'attachmentUuid'
-      ]
+      required: ["attachmentDocumentType", "attachmentUuid"],
     },
     AttachmentsType: {
-      type: 'array',
+      type: "array",
       items: {
         attachment: {
-          $ref: '#/definitions/AttachmentType'
-        }
-      }
-    }
+          $ref: "#/definitions/AttachmentType",
+        },
+      },
+    },
   },
-  title: 'Application',
-  type: 'object',
+  title: "Application",
+  type: "object",
   properties: {
     assignmentOfPayment: {
-      $ref: '#/definitions/AssignmentOfPaymentType'
+      $ref: "#/definitions/AssignmentOfPaymentType",
     },
     uuid: {
-      type: 'string'
+      type: "string",
     },
     attachments: {
-      $ref: '#/definitions/AttachmentsType'
-    }
+      $ref: "#/definitions/AttachmentsType",
+    },
   },
-  required: [
-    'assignmentOfPayment',
-    'uuid',
-    'attachments'
-  ]
+  required: ["assignmentOfPayment", "uuid", "attachments"],
 };
-

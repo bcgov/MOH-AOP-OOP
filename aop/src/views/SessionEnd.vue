@@ -1,25 +1,24 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1>Secure session ended</h1>
       <p>
-        You have successfully closed your secure session with the Diagnostic
-        Facilities upload tool.
+        You have successfully closed your secure session with the Diagnostic Facilities upload tool.
       </p>
       <p>You may close your browser now.</p>
     </main>
     <ContinueBar
-      :buttonLabel="'Back to log in'"
+      :button-label="'Back to log in'"
       @continue="navigateToSignIn"
     />
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import FooterComponent from "../components/FooterComponent";
+import HeaderComponent from "../components/HeaderComponent";
 import ContinueBar from "../components/ContinueBar";
 import { routes } from "../router/routes";
 import { scrollTo } from "../helpers/scroll";
@@ -28,8 +27,8 @@ import FocusHeaderMixin from "../mixins/FocusHeaderMixin";
 export default {
   name: "SessionEnd",
   components: {
-    Footer,
-    Header,
+    FooterComponent,
+    HeaderComponent,
     ContinueBar,
   },
   mixins: [FocusHeaderMixin],

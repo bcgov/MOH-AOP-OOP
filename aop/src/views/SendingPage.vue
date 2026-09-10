@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :heading="'Diagnostic Services - Secure Upload Tool'" />
+    <HeaderComponent :heading="'Diagnostic Services - Secure Upload Tool'" />
     <main class="container py-5 px-2">
       <h1 class="text-center">Sending application</h1>
       <div class="text-center">
@@ -12,13 +12,13 @@
         </div>
       </div>
     </main>
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import FooterComponent from "../components/FooterComponent";
+import HeaderComponent from "../components/HeaderComponent";
 import { routes } from "../router/routes";
 import { submitApplication } from "../services/submission-service";
 import { log } from "../services/logging-service";
@@ -28,10 +28,10 @@ import NoNameLogoutMixin from "../mixins/NoNameLogoutMixin";
 import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: "Sending",
+  name: "SendingPage",
   components: {
-    Footer,
-    Header,
+    FooterComponent,
+    HeaderComponent,
   },
   mixins: [FocusHeaderMixin, NoNameLogoutMixin],
   data: () => {
@@ -41,14 +41,10 @@ export default {
   },
   created() {
     submitApplication(this.$store.state)
-      .then(res => {
+      .then((res) => {
         if (res.data && res.data.returnCode === "success") {
           this.$store.commit(SET_API_RESPONSE, res.data.refNumber);
-          log(
-            { message: "Success", error: null },
-            res.data.uuid,
-            res.data.refNumber
-          );
+          log({ message: "Success", error: null }, res.data.uuid, res.data.refNumber);
           this.nextPage();
         } else if (res.data && res.data.returnCode === "failure") {
           if (res.data.dberrorMessage) {
@@ -74,7 +70,7 @@ export default {
           this.navigateToErrorPage();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         log({ message: "Error sending application", error: err });
         this.navigateToErrorPage();
       })

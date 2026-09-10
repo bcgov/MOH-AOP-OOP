@@ -6,17 +6,17 @@
 
 <script>
 import "@bcgov/bootstrap-v5-theme/css/bootstrap-theme.min.css";
-import 'common-lib-vue/dist/common-lib-vue.css';
+import "common-lib-vue/dist/common-lib-vue.css";
 import { v4 as uuidv4 } from "uuid";
-import { SET_UUID } from './store';
+import { SET_UUID } from "./store";
 import project from "/package.json";
 
 export default {
   name: "App",
   created() {
-    console.log('Canonical Version:', project.version);
+    console.log("Canonical Version:", project.version);
     this.$store.commit(SET_UUID, uuidv4());
-  }
+  },
 };
 </script>
 
@@ -42,7 +42,7 @@ input[type="radio"] {
 }
 
 .text-danger {
-  color: #D8292F !important;
+  color: #d8292f !important;
 }
 
 .bottom {
