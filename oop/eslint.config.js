@@ -1,3 +1,4 @@
+import globals from "globals";
 import js from "@eslint/js";
 import pluginCypress from "eslint-plugin-cypress";
 import compat from "eslint-plugin-compat";
@@ -5,6 +6,7 @@ import pluginVue from "eslint-plugin-vue";
 import vitest from "@vitest/eslint-plugin";
 
 export default [
+  { languageOptions: { globals: { ...globals.browser, ...globals.node } } }, //eslint formatting for Node vs browser properties
   js.configs.recommended, //eslint formatting for basic Javascript syntax
   pluginCypress.configs.globals, //eslint formatting for Cypress syntax
   ...pluginVue.configs["flat/recommended"], //eslint formatting for Vue components
