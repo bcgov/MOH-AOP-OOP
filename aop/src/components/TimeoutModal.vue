@@ -59,7 +59,7 @@ export default {
   props: {
     heading: {
       default: null,
-      type: String
+      type: String,
     },
   },
   emits: ["close"],

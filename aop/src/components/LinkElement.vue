@@ -18,12 +18,12 @@ export default {
   props: {
     url: {
       type: String,
-      default: null
+      default: null,
     },
     label: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 };
 </script>

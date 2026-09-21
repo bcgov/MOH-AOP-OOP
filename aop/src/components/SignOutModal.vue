@@ -56,7 +56,7 @@ export default {
     heading: {
       type: String,
       default: null,
-    }
+    },
   },
   emits: ["close"],
   data: () => {
