@@ -14,7 +14,11 @@
     "test:e2e:dev": "cypress open --e2e --config baseUrl=http://dev.my.gov.bc.ca/oop/ --env environment=dev",
     "test:e2e:test": "cypress open --e2e --config baseUrl=http://test.my.gov.bc.ca/oop/ --env environment=test",
     "lint": "eslint .",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "prepare": "node bin/check-husky.mjs",
+    "pre-commit": "lint-staged",
+    "pre-commit:lint": "eslint",
+    "pre-commit:prettier": "prettier --check --ignore-unknown"
   },
   "dependencies": {
     "@bcgov/bootstrap-v5-theme": "^1.0.1",
@@ -46,8 +50,16 @@
     "eslint-plugin-mocha": "^10.0.3",
     "eslint-plugin-vue": "^10.9.2",
     "jsdom": "^30.0.1",
+    "prettier": "^3.9.8",
     "start-server-and-test": "^3.0.11",
     "vite": "^8.2.1",
     "vitest": "^4.1.10"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not Opera > 0",
+    "not op_mini all"
+  ]
 }
