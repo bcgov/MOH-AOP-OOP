@@ -1,0 +1,3 @@
+lint-staged
+#uncomment the next line to test the pre-commit function without actually committing
+#exit 1
