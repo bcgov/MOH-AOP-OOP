@@ -784,7 +784,7 @@ export default {
     };
     if (this.isNewAddressKnown === "Y") {
       if (this.country === "Canada") {
-        (validations.addressLines = {
+        ((validations.addressLines = {
           addressLineOneValidator,
           addressLineOneSpecialCharacterValidator,
         }),
@@ -801,10 +801,12 @@ export default {
             required,
             canadaPostalCodeLengthValidator,
             nonBCPostalCodeValidator,
-          });
-        (validations.otherStreetAddress = {}), (validations.state = {}), (validations.zipCode = {});
+          }));
+        ((validations.otherStreetAddress = {}),
+          (validations.state = {}),
+          (validations.zipCode = {}));
       } else if (this.country === "United States") {
-        (validations.addressLines = {}),
+        ((validations.addressLines = {}),
           (validations.city = {
             specialCharacterWithCommaValidator,
             required,
@@ -821,10 +823,10 @@ export default {
           }),
           (validations.zipCode = {
             specialCharacterValidator,
-          });
+          }));
       } else {
         //any other country besides Canada and US
-        (validations.addressLines = {}),
+        ((validations.addressLines = {}),
           (validations.city = {
             specialCharacterWithCommaValidator,
             required,
@@ -839,7 +841,7 @@ export default {
           (validations.state = {}),
           (validations.zipCode = {
             specialCharacterValidator,
-          });
+          }));
       }
     } else if (this.isNewAddressKnown === "N" && this.country === "Canada") {
       validations.province = {

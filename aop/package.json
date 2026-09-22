@@ -16,7 +16,10 @@
     "test:unit": "vitest --coverage",
     "lint": "eslint .",
     "format": "prettier .  --write",
-    "prepare": "node ./cypress/support/create-secrets.js"
+    "prepare": "node bin/check-husky.mjs && node ./cypress/support/create-secrets.js",
+    "pre-commit": "lint-staged",
+    "pre-commit:lint": "eslint",
+    "pre-commit:prettier": "prettier --check --ignore-unknown"
   },
   "dependencies": {
     "@bcgov/bootstrap-v5-theme": "^1.0.1",
