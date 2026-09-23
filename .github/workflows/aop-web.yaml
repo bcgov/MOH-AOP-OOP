@@ -24,11 +24,14 @@ jobs:
     defaults:
       run:
         working-directory: ./aop
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x, 26.x]
     steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-node@main
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci
       - name: Unit tests
@@ -37,8 +40,6 @@ jobs:
         run: npm run test:e2e:headless
       - name: LINTing
         run: npm run lint
-      # - name: OpenAPI Schema
-      #   run: npm run test:schema
   build:
     runs-on: ubuntu-latest
     defaults:
@@ -47,7 +48,7 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: [22.x, 24.x, 26.x]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -64,7 +65,7 @@ jobs:
             ${{ runner.OS }}-
       - name: npm install and build
         run: |
-          npm i
+          npm ci
           npm run build --if-present
         env:
           CI: "true"
