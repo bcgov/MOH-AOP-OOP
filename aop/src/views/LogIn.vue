@@ -5,7 +5,16 @@
       :routes="stepRoutes"
       :current-path="$route.path"
     />
-    <main class="container py-5 px-2">
+    <main
+      v-if="authenticating"
+      class="container py-5 px-2"
+    >
+      <LoaderComponent page />
+    </main>
+    <main
+      v-else
+      class="container py-5 px-2"
+    >
       <h1>Ministry of Health - Diagnostic Services secure upload tool</h1>
       <p>This site is specifically for submitting the following forms:</p>
       <ul class="mt-3">
@@ -76,10 +85,13 @@ export default {
     FooterComponent,
   },
   mixins: [FocusHeaderMixin],
-  data: () => {
+  data() {
     return {
       stepRoutes,
       bcscRedirect: "",
+      // true while returning from BC Services Card with an auth code, so the log in
+      // content is not shown before the redirect to the next page
+      authenticating: !!(this.$route.query && this.$route.query.code),
     };
   },
   async created() {
@@ -130,6 +142,8 @@ export default {
               scrollTo(0);
             })
             .catch((e) => {
+              // let the user try again
+              this.authenticating = false;
               console.log(
                 {
                   message: `Error fetching BCSC PI with code ${code}`,
@@ -151,6 +165,10 @@ export default {
                 });
             });
         }
+      })
+      .catch((e) => {
+        this.authenticating = false;
+        throw e;
       })
       .finally(() => {
         this.$store.commit(SET_LOADING, false);
