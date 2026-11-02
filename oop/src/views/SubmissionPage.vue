@@ -66,20 +66,13 @@
             this page for your records.
           </li>
           <li>
-            Health Insurance BC will send you a letter following cancellation of MSP coverage.
-          </li>
-          <li>
-            Please contact
-            <a
-              href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc"
-              target="_blank"
-            >
-              Health Insurance BC
-            </a>
-            if you have any questions.
+            After we process your notification of a permanent move, 
+            we will end MSP coverage for you (and, if applicable, 
+            your spouse and children) according to the move date 
+            you provided. You will not receive notice unless your 
+            request is missing information.
           </li>
         </ul>
-
         <ReviewTableList class-name="mt-5 mb-5" />
       </div>
     </PageContent>
