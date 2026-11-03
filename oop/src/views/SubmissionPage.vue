@@ -72,6 +72,16 @@
             you provided. You will not receive notice unless your 
             request is missing information.
           </li>
+          <li>
+            Please contact
+            <a
+              href="https://www2.gov.bc.ca/gov/content/health/about-bc-s-health-care-system/partners/health-insurance-bc"
+              target="_blank"
+            >
+              Health Insurance BC
+            </a>
+            if you have any questions.
+          </li>
         </ul>
         <ReviewTableList class-name="mt-5 mb-5" />
       </div>
